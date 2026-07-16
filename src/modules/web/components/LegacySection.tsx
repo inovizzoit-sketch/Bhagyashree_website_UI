@@ -72,7 +72,7 @@ const legacyItems: LegacyItem[] = [
 
 export default function LegacySection() {
   return (
-    <section className="w-full bg-[#020520] py-10 lg:py-16 overflow-hidden border-t border-border-muted font-sans relative">
+    <section className="w-full bg-[#0d153b]/20 py-16 lg:py-24 overflow-hidden border-t border-white/5 font-sans relative">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         
         {/* Section Heading Header matching image style */}

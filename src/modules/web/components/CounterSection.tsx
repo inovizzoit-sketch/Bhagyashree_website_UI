@@ -48,7 +48,7 @@ export default function CounterSection() {
   }, []);
 
   return (
-    <section className="w-full bg-[#020520] py-8 md:py-12 border-t border-white/5 font-sans relative">
+    <section className="w-full bg-transparent py-8 md:py-10 font-sans relative">
       {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[500px] rounded-full bg-gold-solid/5 blur-[120px]" />

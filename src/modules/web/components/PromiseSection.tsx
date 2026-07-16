@@ -47,7 +47,7 @@ export default function PromiseSection() {
   };
 
   return (
-    <section className="w-full bg-[#020520] py-10 lg:py-16 relative overflow-hidden font-sans">
+    <section className="w-full bg-[#0d153b]/25 py-12 lg:py-20 border-y border-white/5 relative overflow-hidden font-sans">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         
         {/* Responsive Grid Split: Stacks on mobile, splits on large screens */}

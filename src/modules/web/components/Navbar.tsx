@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
+  const { openEnquiry } = useEnquiry();
 
-  // Fallback handlers if EnquiryContext is not wrapped/present yet
-  const openModal = () => alert("Enquiry modal triggered");
   const openDrawer = () => setIsOpen(!isOpen);
 
   return (
@@ -70,7 +70,7 @@ export default function Navbar() {
           <button
             className="hidden sm:inline-block rounded-full border border-white/20 bg-transparent px-6 lg:px-8 py-2 md:py-2.5 text-xs lg:text-sm font-semibold uppercase tracking-widest text-white transition-all hover:bg-white/10 hover:border-white font-sans"
             id="headerEnquireBtn"
-            onClick={() => openModal()}
+            onClick={() => openEnquiry()}
           >
             Contact Us
           </button>
@@ -142,14 +142,14 @@ export default function Navbar() {
                 </div>
 
                 <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/decoding-land" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                  <Link onClick={() => setIsOpen(false)} href="/blogs" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
                     Blogs
                   </Link>
                   <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>
 
                 <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/projects" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                  <Link onClick={() => setIsOpen(false)} href="/amenities" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
                     Amenities
                   </Link>
                   <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
@@ -167,7 +167,7 @@ export default function Navbar() {
             {/* Footer / Connect Details */}
             <div className="pt-8 flex flex-col gap-4">
               <button
-                onClick={() => { setIsOpen(false); openModal(); }}
+                onClick={() => { setIsOpen(false); openEnquiry(); }}
                 className="w-full text-center rounded-full bg-gold-solid py-4 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 Enquire Now

@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
 
 interface Property {
   id: string;
@@ -46,6 +47,7 @@ interface Project {
 export default function ProjectDetailsPage() {
   const params = useParams();
   const router = useRouter();
+  const { openEnquiry } = useEnquiry();
   const slug = params?.slug as string;
 
   const [project, setProject] = useState<Project | null>(null);
@@ -228,46 +230,56 @@ ${shareUrl}
           </div>
 
           {/* Actions Block */}
-          <div className="flex flex-col sm:flex-row gap-4 pt-2">
-            {project.brochureFile && (
-              <a
-                href={project.brochureFile}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 flex items-center justify-between px-5 py-4 bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/35 hover:border-gold-solid text-gold-solid rounded-xl text-xs font-bold tracking-wide transition-all duration-300 no-underline cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/2"
+          <div className="space-y-3 pt-2">
+            <div className="flex flex-col sm:flex-row gap-4">
+              {project.brochureFile && (
+                <a
+                  href={project.brochureFile}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex-1 flex items-center justify-between px-5 py-4 bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/35 hover:border-gold-solid text-gold-solid rounded-xl text-xs font-bold tracking-wide transition-all duration-300 no-underline cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/2"
+                >
+                  <div className="flex items-center gap-3">
+                    <svg className="w-4 h-4 text-gold-solid" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    <span>Download Brochure</span>
+                  </div>
+                  <span className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                </a>
+              )}
+
+              {/* Copy Details Share Action */}
+              <button
+                onClick={handleCopyDetails}
+                className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${
+                  copied
+                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                    : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
+                }`}
               >
                 <div className="flex items-center gap-3">
-                  <svg className="w-4 h-4 text-gold-solid" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  <span>Download Brochure</span>
+                  {copied ? (
+                    <svg className="w-4 h-4 text-emerald-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg className="w-4 h-4 text-text-gray-muted group-hover:text-gold-solid transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                    </svg>
+                  )}
+                  <span>{copied ? "Details Copied!" : "Copy Share Specs"}</span>
                 </div>
-                <span className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
-              </a>
-            )}
+                <span className="text-xs">➔</span>
+              </button>
+            </div>
 
-            {/* Copy Details Share Action */}
+            {/* Enquire Now Call to Action Button */}
             <button
-              onClick={handleCopyDetails}
-              className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${
-                copied
-                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                  : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
-              }`}
+              onClick={() => openEnquiry(project.name)}
+              className="w-full flex items-center justify-center gap-2.5 px-5 py-4 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold uppercase tracking-widest transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10"
             >
-              <div className="flex items-center gap-3">
-                {copied ? (
-                  <svg className="w-4 h-4 text-emerald-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                ) : (
-                  <svg className="w-4 h-4 text-text-gray-muted group-hover:text-gold-solid transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
-                  </svg>
-                )}
-                <span>{copied ? "Details Copied!" : "Copy Share Specs"}</span>
-              </div>
-              <span className="text-xs">➔</span>
+              <span>Enquire about this Project</span>
             </button>
           </div>
         </div>

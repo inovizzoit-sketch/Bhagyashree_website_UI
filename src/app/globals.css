@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #080d27;
+  --background: #003366;
   --foreground: #FFFFFF;
 
-  --dark-primary: #080d27;
-  --dark-secondary: #0d153b;
+  --dark-primary: #003366;
+  --dark-secondary: #002244;
   --gold-solid: #DDBD81;
   --gold-hover: #C5A267;
   --gold-dark: #AC8336;
-  --violet-footer: #030616;
+  --violet-footer: #001f3f;
   --text-white: #FFFFFF;
   --text-gray-light: #E4E4E7;
   --text-gray-muted: #8E90A2;
@@ -42,5 +42,24 @@ body {
   font-family: var(--font-plus-jakarta), sans-serif;
   font-size: 15px; /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
   line-height: 1.6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    border-color: rgba(221, 189, 129, 0.15);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(221, 189, 129, 0.03);
+  }
+  50% {
+    border-color: rgba(221, 189, 129, 0.5);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(221, 189, 129, 0.12);
+  }
+}
+
+.animate-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
 }
 

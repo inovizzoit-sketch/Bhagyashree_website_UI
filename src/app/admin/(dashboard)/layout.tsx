@@ -9,6 +9,8 @@ const navItems = [
   { label: "Dashboard", href: "/admin/dashboard", icon: "⊞" },
   { label: "Projects", href: "/admin/projects", icon: "◈" },
   { label: "Properties", href: "/admin/properties", icon: "⌂" },
+  { label: "Amenity Categories", href: "/admin/amenity-categories", icon: "✿" },
+  { label: "Amenities", href: "/admin/amenities", icon: "☘" },
   { label: "Settings", href: "/admin/settings", icon: "⚙" },
 ];
 

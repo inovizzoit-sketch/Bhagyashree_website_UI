@@ -89,7 +89,7 @@ export default function HomePage() {
       </section>
 
       {/* Immersive Gallery Section */}
-      <section className="w-full bg-dark-secondary py-12 md:py-16 border-t border-b border-border-muted">
+      <section className="w-full bg-[#0d153b]/10 py-16 md:py-24 border-y border-white/5">
         <div className="mx-auto max-w-7xl px-6 md:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-xs font-bold uppercase tracking-widest text-[#DDBD81]">Visual Experience</span>
