@@ -8,7 +8,7 @@ export default function AboutUsPage() {
         About Us
       </h1>
       <p className="mx-auto mt-4 max-w-xl text-sm text-[#8E90A2]">
-        Learn about Nandeeka's commitment to creating architectural milestones of design and comfort.
+        Learn about Nandeeka&apos;s commitment to creating architectural milestones of design and comfort.
       </p>
     </div>
   );

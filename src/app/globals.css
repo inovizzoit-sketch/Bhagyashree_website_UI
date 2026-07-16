@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020520;
+  --background: #080d27;
   --foreground: #FFFFFF;
 
-  --dark-primary: #020520;
-  --dark-secondary: #050c38;
+  --dark-primary: #080d27;
+  --dark-secondary: #0d153b;
   --gold-solid: #DDBD81;
   --gold-hover: #C5A267;
   --gold-dark: #AC8336;
-  --violet-footer: #010314;
+  --violet-footer: #030616;
   --text-white: #FFFFFF;
   --text-gray-light: #E4E4E7;
   --text-gray-muted: #8E90A2;
@@ -20,7 +20,7 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-figtree);
+  --font-sans: var(--font-plus-jakarta);
   --font-mono: var(--font-geist-mono);
 
   --color-dark-primary: var(--dark-primary);
@@ -39,7 +39,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-figtree), Arial, Helvetica, sans-serif;
+  font-family: var(--font-plus-jakarta), sans-serif;
   font-size: 15px; /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
   line-height: 1.6;
 }

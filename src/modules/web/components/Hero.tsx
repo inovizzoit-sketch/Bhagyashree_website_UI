@@ -42,6 +42,7 @@ declare global {
 function YouTubeHeroPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const playerRef = useRef<any>(null);
 
   useEffect(() => {

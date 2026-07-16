@@ -1,0 +1,463 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { API_BASE_URL } from "@/shared/lib/api-config";
+
+interface Property {
+  id: string;
+  title: string;
+  propertyType: string;
+  unitNumber?: string;
+  propertyImage?: string;
+  areaSqft?: string;
+  bedrooms?: number;
+  bathrooms?: number;
+  balconies?: number;
+  price?: string;
+  facing?: string;
+  floorNumber?: number;
+  status: string;
+  isActive: boolean;
+}
+
+interface Project {
+  id: string;
+  name: string;
+  slug: string;
+  projectType: string;
+  projectStatus: string;
+  shortDescription: string;
+  description: string;
+  location: string;
+  address: string;
+  city: string;
+  state: string;
+  pincode: string;
+  startingPrice: string;
+  pricePerSqft: string;
+  thumbnailImage?: string;
+  brochureFile?: string;
+  properties?: Property[];
+  isFeatured?: boolean;
+  isActive?: boolean;
+}
+
+export default function ProjectDetailsPage() {
+  const params = useParams();
+  const router = useRouter();
+  const slug = params?.slug as string;
+
+  const [project, setProject] = useState<Project | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const [copied, setCopied] = useState(false);
+
+  function getProfessionalDetailsText() {
+    if (!project) return "";
+    const priceVal = parseFloat(project.startingPrice);
+    const priceFormatted = !isNaN(priceVal)
+      ? priceVal >= 10000000
+        ? `₹${(priceVal / 10000000).toFixed(2)} Cr`
+        : `₹${(priceVal / 100000).toFixed(1)} Lakh`
+      : "N/A";
+    const pricePerSqftFormatted = parseFloat(project.pricePerSqft).toLocaleString();
+    const shareUrl = typeof window !== "undefined" ? window.location.href : "";
+    
+    return `🏢 *${project.name.toUpperCase()}*
+📍 Location: ${project.address ? project.address.trim() + ", " : ""}${project.location}, ${project.city}
+💰 Starting Price: ${priceFormatted}+
+📐 Pricing: ₹${pricePerSqftFormatted}/sqft
+✨ Status: ${project.projectStatus} (${project.projectType})
+
+*Overview:*
+${project.shortDescription}
+
+🔗 Explore Project Details & Inventory:
+${shareUrl}
+
+*Powered by Nandeeka Developments*`;
+  }
+
+  function handleCopyDetails() {
+    if (typeof window === "undefined") return;
+    navigator.clipboard.writeText(getProfessionalDetailsText());
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  useEffect(() => {
+    if (!slug) return;
+    let active = true;
+
+    if (STATIC_PROJECTS[slug]) {
+      const p = STATIC_PROJECTS[slug];
+      Promise.resolve().then(() => {
+        if (active) {
+          setProject(p);
+          setLoading(false);
+        }
+      });
+      return;
+    }
+
+    fetch(`${API_BASE_URL}/projects/${slug}`)
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load project details");
+        return res.json();
+      })
+      .then((data) => {
+        if (active) {
+          setProject(data);
+          setLoading(false);
+        }
+      })
+      .catch((err) => {
+        if (active) {
+          setError(err.message || "Failed to load project details");
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [slug]);
+
+  function formatPrice(priceStr?: string) {
+    if (!priceStr) return "N/A";
+    const val = parseFloat(priceStr);
+    if (isNaN(val)) return "N/A";
+    if (val >= 10000000) {
+      return `₹${(val / 10000000).toFixed(2)} Cr`;
+    }
+    if (val >= 100000) {
+      return `₹${(val / 100000).toFixed(1)} Lakh`;
+    }
+    return `₹${val.toLocaleString()}`;
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#020520] flex flex-col items-center justify-center space-y-4 py-32 text-slate-300">
+        <div className="w-10 h-10 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
+        <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading details...</p>
+      </div>
+    );
+  }
+
+  if (error || !project) {
+    return (
+      <div className="min-h-screen bg-[#020520] py-32 text-center px-6">
+        <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 space-y-4">
+          <span className="text-3xl">⚠️</span>
+          <h3 className="text-base font-bold text-white">Project Not Found</h3>
+          <p className="text-xs text-text-gray-muted">{error || "The development details could not be found."}</p>
+          <button
+            onClick={() => router.push("/projects")}
+            className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl cursor-pointer"
+          >
+            Back to Projects
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const activeProperties = project.properties?.filter((p) => p.isActive) || [];
+
+  return (
+    <div className="min-h-screen bg-[#020520] pb-32 relative overflow-hidden text-slate-350">
+      {/* Background Decorative Gradients */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-[80vh] left-0 w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />
+
+      {/* Navigation breadcrumbs */}
+      {/* <div className="mx-auto max-w-7xl px-6 md:px-8 pt-10 relative z-10">
+        <button
+          onClick={() => router.push("/projects")}
+          className="text-xs font-bold text-gold-solid hover:text-gold-hover flex items-center gap-1.5 transition-colors cursor-pointer bg-transparent border-0 outline-none"
+        >
+          ← Back to Portfolio
+        </button>
+      </div> */}
+
+      {/* Hero Split Layout */}
+      <div className="mx-auto max-w-7xl px-6 md:px-8 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start relative z-10">
+        {/* Left Column: Visual Media & Specs */}
+        <div className="lg:col-span-5 space-y-6">
+          <div className="rounded-2xl overflow-hidden border border-white/5 bg-[#050c38]/20 aspect-[16/10] relative shadow-2xl">
+            {project.thumbnailImage ? (
+              <img
+                src={project.thumbnailImage}
+                alt={project.name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-gradient-to-tr from-[#020520] to-[#050c38] flex items-center justify-center">
+                <span className="text-gold-solid/20 font-extrabold text-2xl uppercase tracking-widest font-mono">
+                  {project.projectType}
+                </span>
+              </div>
+            )}
+            <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
+                ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20"
+                : project.projectStatus === "ONGOING"
+                  ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                  : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+              }`}>
+              {project.projectStatus}
+            </span>
+          </div>
+
+          {/* Quick Stats Grid */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-[#050c38]/25 border border-white/5 rounded-xl p-4 backdrop-blur-sm shadow-xl">
+              <span className="text-[10px] text-text-gray-muted block uppercase tracking-wider mb-1">Starting Price</span>
+              <span className="text-gold-solid font-extrabold text-xl">
+                {formatPrice(project.startingPrice)}
+              </span>
+            </div>
+            <div className="bg-[#050c38]/25 border border-white/5 rounded-xl p-4 backdrop-blur-sm shadow-xl">
+              <span className="text-[10px] text-text-gray-muted block uppercase tracking-wider mb-1 font-medium">Price Per Sqft</span>
+              <span className="text-white font-extrabold text-xl">
+                ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
+              </span>
+            </div>
+          </div>
+
+          {/* Actions Block */}
+          <div className="flex flex-col sm:flex-row gap-4 pt-2">
+            {project.brochureFile && (
+              <a
+                href={project.brochureFile}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 flex items-center justify-between px-5 py-4 bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/35 hover:border-gold-solid text-gold-solid rounded-xl text-xs font-bold tracking-wide transition-all duration-300 no-underline cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/2"
+              >
+                <div className="flex items-center gap-3">
+                  <svg className="w-4 h-4 text-gold-solid" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  <span>Download Brochure</span>
+                </div>
+                <span className="text-xs transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+              </a>
+            )}
+
+            {/* Copy Details Share Action */}
+            <button
+              onClick={handleCopyDetails}
+              className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${
+                copied
+                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                  : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
+              }`}
+            >
+              <div className="flex items-center gap-3">
+                {copied ? (
+                  <svg className="w-4 h-4 text-emerald-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4 text-text-gray-muted group-hover:text-gold-solid transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                  </svg>
+                )}
+                <span>{copied ? "Details Copied!" : "Copy Share Specs"}</span>
+              </div>
+              <span className="text-xs">➔</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Right Column: Title, Address & Narrative */}
+        <div className="lg:col-span-7 space-y-6">
+          <div className="space-y-3.5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[9px] font-bold uppercase tracking-widest text-gold-solid">
+              {project.projectType} Development
+            </div>
+            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight">
+              {project.name}
+            </h1>
+            <p className="text-xs md:text-sm font-medium text-gold-solid flex items-start gap-1.5">
+              <span className="text-base mt-0.5">📍</span>
+              <span className="leading-relaxed font-light text-slate-200">
+                {project.address}, {project.location}, {project.city}, {project.state} - {project.pincode}
+              </span>
+            </p>
+          </div>
+
+          <div className="bg-[#050c38]/20 border border-white/5 rounded-2xl p-6 md:p-8 space-y-6 backdrop-blur-sm shadow-2xl">
+            <div>
+              <span className="text-[10px] text-gold-solid font-bold uppercase tracking-widest block mb-2 font-mono">Overview</span>
+              <p className="text-sm text-text-gray-light leading-relaxed font-light">
+                {project.shortDescription}
+              </p>
+            </div>
+            <div className="border-t border-white/5 pt-6">
+              <span className="text-[10px] text-text-gray-muted font-bold uppercase tracking-widest block mb-2 font-mono">Detailed Description</span>
+              <p className="text-sm text-[#8E90A2] leading-relaxed whitespace-pre-wrap font-light">
+                {project.description}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Properties Inventory Section */}
+      <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
+        <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-bold text-white font-sans">
+              Inventory & Available Units
+            </h2>
+            <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
+              Browse unit layouts, sizes, and pricing configurations available within {project.name}.
+            </p>
+          </div>
+          <span className="text-[10px] bg-gold-solid/5 border border-gold-solid/20 text-gold-solid font-bold uppercase px-3 py-1 rounded-full">
+            {activeProperties.length} Units Available
+          </span>
+        </div>
+
+        {activeProperties.length === 0 ? (
+          <div className="text-center py-20 border border-dashed border-white/5 rounded-3xl bg-[#050c38]/10 p-8">
+            <span className="text-3xl block mb-3 opacity-40">🏘️</span>
+            <h3 className="text-sm font-bold text-white">No listed units available</h3>
+            <p className="text-xs text-text-gray-muted mt-1">Specific plot layout configurations are coming soon. Contact sales for details.</p>
+          </div>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {activeProperties.map((prop) => (
+              <div
+                key={prop.id}
+                className="bg-[#050c38]/20 border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between hover:border-gold-solid/30 transition-all duration-300 group backdrop-blur-sm"
+              >
+                {/* Image Layout Preview */}
+                <div className="aspect-[16/10] bg-[#020520] relative overflow-hidden">
+                  {prop.propertyImage ? (
+                    <img
+                      src={prop.propertyImage}
+                      alt={prop.title}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-tr from-[#020520] to-[#050c38] flex flex-col items-center justify-center p-4 text-center">
+                      <span className="text-3xl mb-1 opacity-20">🏘️</span>
+                      <span className="text-[9px] uppercase font-bold tracking-widest text-gold-solid/40">
+                        {prop.propertyType}
+                      </span>
+                    </div>
+                  )}
+
+                  {/* Status Badge */}
+                  <span className={`absolute top-4 left-4 text-[8px] font-bold tracking-wider uppercase px-2.5 py-1 rounded border backdrop-blur-md ${prop.status === "AVAILABLE" || prop.status === "Available"
+                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25 shadow-sm"
+                      : prop.status === "SOLD" || prop.status === "Sold"
+                        ? "bg-red-500/10 text-red-400 border-red-500/25 shadow-sm"
+                        : "bg-amber-500/10 text-amber-400 border-amber-500/25 shadow-sm"
+                    }`}>
+                    {prop.status}
+                  </span>
+                </div>
+
+                {/* Details Wrapper */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-5">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[9px] font-bold text-gold-solid uppercase tracking-wider bg-gold-solid/5 border border-gold-solid/10 px-2 py-0.5 rounded">
+                        {prop.propertyType}
+                      </span>
+                      {prop.unitNumber && (
+                        <span className="text-[10px] text-text-gray-muted font-bold font-mono">
+                          Unit: {prop.unitNumber}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="font-bold text-white text-base truncate group-hover:text-gold-solid transition-colors duration-250">
+                      {prop.title}
+                    </h4>
+
+                    {/* Specs Details Grid */}
+                    <div className="grid grid-cols-2 gap-y-2 gap-x-3 pt-3 text-[11px] text-text-gray-muted border-t border-white/5 font-light">
+                      <div className="flex items-center gap-1.5">
+                        <span>📐</span> Size: <span className="text-white font-medium">{prop.areaSqft || "N/A"} sqft</span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <span>🧭</span> Facing: <span className="text-white font-medium">{prop.facing || "N/A"}</span>
+                      </div>
+                      {prop.bedrooms && (
+                        <div className="flex items-center gap-1.5">
+                          <span>🛌</span> Beds: <span className="text-white font-medium">{prop.bedrooms} BHK</span>
+                        </div>
+                      )}
+                      {prop.floorNumber !== null && prop.floorNumber !== undefined && (
+                        <div className="flex items-center gap-1.5">
+                          <span>🏢</span> Floor: <span className="text-white font-medium">{prop.floorNumber}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Price Row */}
+                  <div className="border-t border-white/5 pt-4 flex items-center justify-between">
+                    <span className="text-[9px] text-text-gray-muted uppercase tracking-wider font-semibold">Price Config</span>
+                    <span className="font-extrabold text-gold-solid text-base">
+                      {formatPrice(prop.price)}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+    </div>
+  );
+}
+
+const STATIC_PROJECTS: Record<string, Project> = {
+  "nandeeka-enclave": {
+    id: "static-enclave-id",
+    name: "Nandeeka Enclave",
+    slug: "nandeeka-enclave",
+    projectType: "VILLA",
+    projectStatus: "ONGOING",
+    shortDescription: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
+    description: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
+    location: "Rohaniya",
+    address: "Rohaniya",
+    city: "Varanasi",
+    state: "UP",
+    pincode: "221108",
+    startingPrice: "8500000",
+    pricePerSqft: "4500",
+    thumbnailImage: "/images/hero_brand.png",
+    isFeatured: true,
+    isActive: true,
+    properties: []
+  },
+  "nandeeka-heights": {
+    id: "static-heights-id",
+    name: "Nandeeka Heights",
+    slug: "nandeeka-heights",
+    projectType: "APARTMENT",
+    projectStatus: "ONGOING",
+    shortDescription: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
+    description: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
+    location: "Rohaniya",
+    address: "Rohaniya - DLW Road",
+    city: "Varanasi",
+    state: "UP",
+    pincode: "221108",
+    startingPrice: "12500000",
+    pricePerSqft: "6500",
+    thumbnailImage: "/images/hero_waterfront.png",
+    isFeatured: true,
+    isActive: true,
+    properties: []
+  }
+};

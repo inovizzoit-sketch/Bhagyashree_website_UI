@@ -29,62 +29,62 @@ export default function HomePage() {
         </div>
 
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {/* Card 1 */}
-          <div className="group overflow-hidden rounded-2xl border border-border-muted bg-dark-secondary transition-all hover:border-border-color">
+           {/* Card 1 */}
+          <Link href="/projects/nandeeka-purm" className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/30 transition-all shadow-xl block no-underline">
             <div className="aspect-[4/3] w-full relative overflow-hidden">
               <img
-                src="/images/hero_ayodhya.png"
-                alt="Ayodhya Sarayu"
+                src="https://pub-f1b7b8c7cd0c4f89ab6166efd6a0ff4b.r2.dev/1784182616610-rrl1qk.png"
+                alt="Nandeeka Puram"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-dark-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-[#020520]/25 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="p-6">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Luxury Residential</span>
-              <h3 className="mt-2 text-xl font-bold text-text-white font-sans">Ayodhya Sarayu</h3>
-              <p className="mt-2 text-sm text-text-gray-muted line-clamp-2">
-                Premium residences situated next to the holy river Sarayu, blend of spiritual energy and modern grandeur.
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Plot Development</span>
+              <h3 className="mt-2 text-xl font-bold text-white font-sans group-hover:text-gold-solid transition-colors">Nandeeka Puram</h3>
+              <p className="mt-2 text-sm text-[#8E90A2] line-clamp-2 font-light leading-relaxed">
+                Varanasi&apos;s premier plotting development featuring fully gated security, clear title assurances, and modern layouts.
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Card 2 */}
-          <div className="group overflow-hidden rounded-2xl border border-border-muted bg-dark-secondary transition-all hover:border-border-color">
+          <Link href="/projects/nandeeka-enclave" className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/30 transition-all shadow-xl block no-underline">
             <div className="aspect-[4/3] w-full relative overflow-hidden">
               <img
                 src="/images/hero_brand.png"
-                alt="The Sky Villas"
+                alt="Nandeeka Enclave"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-dark-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-[#020520]/25 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="p-6">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Penthouses</span>
-              <h3 className="mt-2 text-xl font-bold text-text-white font-sans">The Sky Villas</h3>
-              <p className="mt-2 text-sm text-text-gray-muted line-clamp-2">
-                Ultra-luxurious duplex high-rises offering panoramic skyline views and private infinity pools.
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Premium Residential</span>
+              <h3 className="mt-2 text-xl font-bold text-white font-sans group-hover:text-gold-solid transition-colors">Nandeeka Enclave</h3>
+              <p className="mt-2 text-sm text-[#8E90A2] line-clamp-2 font-light leading-relaxed">
+                An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Card 3 */}
-          <div className="group overflow-hidden rounded-2xl border border-border-muted bg-dark-secondary transition-all hover:border-border-color">
+          <Link href="/projects/nandeeka-heights" className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/30 transition-all shadow-xl block no-underline">
             <div className="aspect-[4/3] w-full relative overflow-hidden">
               <img
                 src="/images/hero_waterfront.png"
-                alt="Lumina Plaza"
+                alt="Nandeeka Heights"
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-dark-primary/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-[#020520]/25 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div className="p-6">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Commercial</span>
-              <h3 className="mt-2 text-xl font-bold text-text-white font-sans">Lumina Plaza</h3>
-              <p className="mt-2 text-sm text-text-gray-muted line-clamp-2">
-                State-of-the-art office spaces and retail avenues with smart-building automation integration.
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">Commercial Space</span>
+              <h3 className="mt-2 text-xl font-bold text-white font-sans group-hover:text-gold-solid transition-colors">Nandeeka Heights</h3>
+              <p className="mt-2 text-sm text-[#8E90A2] line-clamp-2 font-light leading-relaxed">
+                Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.
               </p>
             </div>
-          </div>
+          </Link>
         </div>
       </section>
 

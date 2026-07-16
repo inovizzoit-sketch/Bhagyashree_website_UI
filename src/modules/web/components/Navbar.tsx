@@ -149,8 +149,8 @@ export default function Navbar() {
                 </div>
 
                 <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/decoding-land" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
-                    News & Media
+                  <Link onClick={() => setIsOpen(false)} href="/projects" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                    Amenities
                   </Link>
                   <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
                 </div>
