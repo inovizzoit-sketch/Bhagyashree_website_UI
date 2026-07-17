@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { getProjects, getProjectByIdOrSlug, updateProject } from "../services/project.service";
+import { getProjects, getProjectByIdOrSlug, updateProject, deleteProject } from "../services/project.service";
 import { Project, ProjectProperty, ProjectType, ProjectStatus } from "../types";
 
 export default function ProjectsPage() {
@@ -37,6 +37,12 @@ export default function ProjectsPage() {
   const [editThumbnailName, setEditThumbnailName] = useState("");
   const [editBrochureName, setEditBrochureName] = useState("");
   const [updateSubmitting, setUpdateSubmitting] = useState(false);
+
+  // Delete State
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [confirmDeleteName, setConfirmDeleteName] = useState("");
+  const [deleteSubmitting, setDeleteSubmitting] = useState(false);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
 
   function startEditing() {
     if (!selectedProject) return;
@@ -103,6 +109,29 @@ export default function ProjectsPage() {
       setDetailError(msg || "Failed to update project");
     } finally {
       setUpdateSubmitting(false);
+    }
+  }
+
+  async function handleDeleteProject() {
+    if (!confirmDeleteId) return;
+    setDeleteSubmitting(true);
+    setDeleteError(null);
+    try {
+      await deleteProject(confirmDeleteId);
+      setConfirmDeleteId(null);
+      setConfirmDeleteName("");
+      // Close detail modal if the deleted project is currently open
+      if (selectedProject && selectedProject.id === confirmDeleteId) {
+        setSelectedProject(null);
+        setDetailError(null);
+        setIsEditing(false);
+      }
+      fetchProjects(false);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      setDeleteError(msg || "Failed to delete project");
+    } finally {
+      setDeleteSubmitting(false);
     }
   }
 
@@ -321,12 +350,20 @@ export default function ProjectsPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-right">
-                      <button
-                        onClick={() => handleViewProject(project.slug || project.id)}
-                        className="px-3.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-450 hover:text-indigo-350 border border-indigo-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
-                      >
-                        View Details
-                      </button>
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleViewProject(project.slug || project.id)}
+                          className="px-3.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-450 hover:text-indigo-350 border border-indigo-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => { setConfirmDeleteId(project.id); setConfirmDeleteName(project.name); setDeleteError(null); }}
+                          className="px-3.5 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -787,6 +824,12 @@ export default function ProjectsPage() {
                 ) : (
                   <>
                     <button
+                      onClick={() => { setConfirmDeleteId(selectedProject!.id); setConfirmDeleteName(selectedProject!.name); setDeleteError(null); }}
+                      className="px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150"
+                    >
+                      Delete Project
+                    </button>
+                    <button
                       onClick={startEditing}
                       className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150 shadow-md shadow-indigo-650/10"
                     >
@@ -803,6 +846,49 @@ export default function ProjectsPage() {
               </div>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* ── Delete Confirmation Modal ── */}
+      {confirmDeleteId && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="relative w-full max-w-md bg-[#13131a] border border-red-500/25 rounded-2xl shadow-2xl p-7 space-y-5 z-10">
+            {/* Icon */}
+            <div className="w-12 h-12 rounded-full bg-red-500/10 border border-red-500/25 flex items-center justify-center text-2xl mx-auto">
+              🗑️
+            </div>
+            <div className="text-center space-y-1.5">
+              <h3 className="text-base font-bold text-slate-100">Delete Project?</h3>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                Are you sure you want to permanently delete{" "}
+                <span className="text-white font-semibold">{confirmDeleteName}</span>?{" "}
+                This action <span className="text-red-400 font-semibold">cannot be undone</span>.
+              </p>
+            </div>
+
+            {deleteError && (
+              <p className="text-xs text-red-400 text-center bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                ⚠️ {deleteError}
+              </p>
+            )}
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => { setConfirmDeleteId(null); setConfirmDeleteName(""); setDeleteError(null); }}
+                disabled={deleteSubmitting}
+                className="flex-1 px-4 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleDeleteProject}
+                disabled={deleteSubmitting}
+                className="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 active:bg-red-800 text-white rounded-xl text-xs font-bold cursor-pointer transition-all duration-150 disabled:opacity-50"
+              >
+                {deleteSubmitting ? "Deleting..." : "Yes, Delete"}
+              </button>
+            </div>
           </div>
         </div>
       )}

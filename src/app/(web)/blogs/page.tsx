@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
+import SectionHeading from "@/shared/components/SectionHeading";
 
 interface BlogArticle {
   id: string;
@@ -71,18 +72,15 @@ export default function BlogsWebPage() {
 
       {/* Hero Header Banner */}
       <div className="relative pt-28 pb-16 md:pt-36 md:pb-20 z-10">
-        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[10px] font-bold uppercase tracking-widest text-gold-solid">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-solid animate-pulse"></span>
-            Asset Intelligence Blog
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Nandeeka <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark">Insights</span>
-          </h1>
+          <SectionHeading 
+            badge="Asset Intelligence Blog" 
+            plainText="Nandeeka" 
+            highlightText="Insights" 
+            align="center" 
+          />
           <p className="mx-auto max-w-2xl text-base md:text-lg text-text-gray-muted leading-relaxed font-light">
             Stay ahead with curated deep-dives into Varanasi&apos;s property trends, legal guidelines, and branded plotted land developments.
           </p>
-        </div>
       </div>
 
       <div className="mx-auto max-w-6xl px-6 md:px-8 relative z-10 space-y-16">

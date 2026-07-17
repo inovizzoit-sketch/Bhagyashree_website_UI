@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 
 interface EnquiryContextType {
@@ -23,14 +23,41 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [message, setMessage] = useState("");
+  const [city, setCity] = useState("");
+  const [agreed, setAgreed] = useState(true);
+
+  // Dynamic projects list from API
+  const [projectsList, setProjectsList] = useState<{ id: string; name: string }[]>([]);
+
+  useEffect(() => {
+    fetch(`${API_BASE_URL}/projects`)
+      .then((res) => {
+        if (!res.ok) throw new Error();
+        return res.json();
+      })
+      .then((data) => {
+        const activeProjects = data
+          .filter((p: { isActive: boolean }) => p.isActive)
+          .map((p: { id: string; name: string }) => ({ id: p.id, name: p.name }));
+        setProjectsList(activeProjects);
+      })
+      .catch(() => {
+        // Fallback static projects list if API call fails
+        setProjectsList([
+          { id: "1", name: "Nandeeka Enclave" },
+          { id: "2", name: "Nandeeka Heights" },
+          { id: "3", name: "Nandeeka Puram" },
+        ]);
+      });
+  }, []);
 
   const openEnquiry = (projName?: string) => {
     setProjectName(projName || "");
     setName("");
     setEmail("");
     setPhone("");
-    setMessage("");
+    setCity("");
+    setAgreed(true);
     setError(null);
     setSuccess(false);
     setIsOpen(true);
@@ -42,6 +69,10 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!agreed) {
+      setError("You must agree to be contacted to submit.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
 
@@ -49,12 +80,11 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       name,
       email,
       phone,
-      message: message || undefined,
+      message: `City: ${city}`,
       project: projectName || undefined,
     };
 
     try {
-      // Post to the backend enquiries endpoint
       const res = await fetch(`${API_BASE_URL}/enquiries`, {
         method: "POST",
         headers: {
@@ -64,12 +94,10 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       });
 
       if (!res.ok) {
-        // If backend fails/doesn't support it yet, fallback to local success mock
         throw new Error("Backend not available");
       }
       setSuccess(true);
     } catch (err) {
-      // Local success fallback for frontend-only mode
       console.log("Using frontend fallback success simulation:", payload);
       setSuccess(true);
     } finally {
@@ -83,39 +111,21 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
       {/* Modern Royal Blue Glassmorphic Enquiry Modal Popup */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in font-sans">
-          {/* Subtle Background Glow behind the modal */}
-          <div className="absolute w-[350px] h-[350px] rounded-full bg-gold-solid/10 blur-[100px] pointer-events-none" />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-sans">
           
-          <div className="relative w-full max-w-[420px] max-h-[90vh] overflow-y-auto bg-gradient-to-b from-[#0e163d]/90 to-[#080d27]/95 border border-white/10 rounded-2xl shadow-2xl animate-slide-up animate-border-glow scrollbar-none">
+          <div className="relative w-full max-w-[480px] max-h-[95vh] overflow-y-auto bg-[#0a0d24] border border-white/5 rounded-3xl shadow-2xl p-8 md:p-10 scrollbar-none flex flex-col justify-between">
             
-            {/* Top decorative gold line */}
-            <div className="h-[3px] w-full bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark" />
-
-            <header className="px-6 pt-6 pb-4 flex items-start justify-between relative">
-              <div className="space-y-1">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-gold-solid px-2 py-0.5 rounded-md bg-gold-solid/10 border border-gold-solid/20">
-                  Direct Enquiry
-                </span>
-                <h3 className="text-xl font-bold text-white tracking-tight pt-1">
-                  {projectName ? projectName : "Request Callback"}
-                </h3>
-                <p className="text-xs text-text-gray-muted leading-relaxed font-light">
-                  Let us assist you with premium layout plans and details.
-                </p>
-              </div>
-              <button
-                onClick={closeEnquiry}
-                className="w-8 h-8 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none active:scale-95"
-                title="Close"
-              >
-                ✕
-              </button>
-            </header>
+            {/* Close Button */}
+            <button
+              onClick={closeEnquiry}
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
+              title="Close"
+            >
+              ✕
+            </button>
 
             {success ? (
-              <div className="p-8 text-center space-y-5">
-                {/* Success Check Ring */}
+              <div className="py-8 text-center space-y-6">
                 <div className="relative w-16 h-16 mx-auto flex items-center justify-center">
                   <div className="absolute inset-0 rounded-full border border-emerald-500/30 animate-ping opacity-75" />
                   <div className="w-14 h-14 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full flex items-center justify-center text-3xl">
@@ -124,117 +134,163 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                 </div>
                 
                 <div className="space-y-2">
-                  <h4 className="text-lg font-bold text-white">Enquiry Received</h4>
-                  <p className="text-xs text-text-gray-muted leading-relaxed max-w-xs mx-auto font-light">
-                    Your details are verified. A dedicated advisor from **Nandeeka Enterprises** will call you within 15 minutes.
+                  <h4 className="text-xl font-bold text-white font-serif">Thank You</h4>
+                  <p className="text-xs text-[#8E90A2] leading-relaxed max-w-xs mx-auto font-light">
+                    Your details are verified. Our advisory expert will call you shortly.
                   </p>
                 </div>
                 
                 <button
                   onClick={closeEnquiry}
-                  className="w-full py-3 bg-gradient-to-r from-gold-solid to-gold-hover text-[#020520] rounded-xl text-xs font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/15"
+                  className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-[#020520] hover:bg-gold-hover transition-all cursor-pointer shadow-lg shadow-gold-solid/15"
                 >
                   Close Window
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="px-6 pb-6 pt-2 space-y-4">
-                {error && (
-                  <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs font-light">
-                    {error}
-                  </div>
-                )}
+              <div className="space-y-8">
+                {/* Header */}
+                <div className="space-y-2">
+                  <h3 className="text-2xl md:text-3xl font-serif text-white leading-tight font-medium">
+                    Just a few more details.
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#8E90A2] font-light">
+                    Our experts will call you shortly.
+                  </p>
+                </div>
 
-                {/* Name Input */}
-                <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-text-gray-muted block">
-                    Your Name
-                  </label>
-                  <div className="relative flex items-center bg-[#0d153b]/50 border border-white/5 hover:border-gold-solid/35 focus-within:border-gold-solid/80 rounded-xl overflow-hidden transition-all duration-300">
-                    <span className="pl-4 text-text-gray-muted text-xs select-none">👤</span>
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {error && (
+                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs font-light">
+                      {error}
+                    </div>
+                  )}
+
+                  {/* Project Selector Dropdown */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      Project
+                    </label>
+                    <select
+                      value={projectName}
+                      onChange={(e) => setProjectName(e.target.value)}
+                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 cursor-pointer rounded-none appearance-none"
+                      style={{
+                        backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%238E90A2' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
+                        backgroundPosition: 'right 0rem center',
+                        backgroundSize: '1.25em 1.25em',
+                        backgroundRepeat: 'no-repeat',
+                      }}
+                    >
+                      <option value="" disabled className="bg-[#0a0d24] text-white/50">Select a project</option>
+                      {projectsList.map((p) => (
+                        <option key={p.id} value={p.name} className="bg-[#0a0d24] text-white">
+                          {p.name}
+                        </option>
+                      ))}
+                      <option value="General Inquiry" className="bg-[#0a0d24] text-white">General Inquiry</option>
+                    </select>
+                  </div>
+
+                  {/* Name Input */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      Name
+                    </label>
                     <input
                       type="text"
                       required
-                      placeholder="Enter your full name"
+                      placeholder="Enter your name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                      className="w-full bg-transparent pl-3 pr-4 py-3.5 text-white text-sm outline-none placeholder:text-text-gray-muted/40 font-light"
+                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
                     />
                   </div>
-                </div>
 
-                {/* Contact grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Phone Input */}
+                  {/* Mobile Number Input */}
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-text-gray-muted block">
-                      Phone Number
+                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      Mobile Number
                     </label>
-                    <div className="relative flex items-center bg-[#0d153b]/50 border border-white/5 hover:border-gold-solid/35 focus-within:border-gold-solid/80 rounded-xl overflow-hidden transition-all duration-300">
-                      <span className="pl-4 text-text-gray-muted text-xs select-none">📞</span>
+                    <div className="flex items-center border-0 border-b border-white/20 focus-within:border-gold-solid/80 transition-colors">
+                      <div className="flex items-center gap-1 text-white text-sm py-2.5 pr-2 select-none font-medium">
+                        <span>+91</span>
+                        <span>🇮🇳</span>
+                        <span className="text-[9px] text-[#8E90A2] ml-0.5">▼</span>
+                      </div>
                       <input
                         type="tel"
                         required
-                        placeholder="e.g. +91 95196..."
+                        placeholder="Enter your mobile number"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        className="w-full bg-transparent pl-3 pr-4 py-3.5 text-white text-sm outline-none placeholder:text-text-gray-muted/40 font-light"
+                        className="w-full bg-transparent text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none"
                       />
                     </div>
+                  </div>
+
+                  {/* City Input */}
+                  <div className="space-y-1">
+                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      required
+                      placeholder="Enter your city"
+                      value={city}
+                      onChange={(e) => setCity(e.target.value)}
+                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                    />
                   </div>
 
                   {/* Email Input */}
                   <div className="space-y-1">
-                    <label className="text-[9px] font-bold uppercase tracking-widest text-text-gray-muted block">
-                      Email Address
+                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      Email ID
                     </label>
-                    <div className="relative flex items-center bg-[#0d153b]/50 border border-white/5 hover:border-gold-solid/35 focus-within:border-gold-solid/80 rounded-xl overflow-hidden transition-all duration-300">
-                      <span className="pl-4 text-text-gray-muted text-xs select-none">✉️</span>
-                      <input
-                        type="email"
-                        required
-                        placeholder="name@mail.com"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-transparent pl-3 pr-4 py-3.5 text-white text-sm outline-none placeholder:text-text-gray-muted/40 font-light"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Message Input */}
-                <div className="space-y-1">
-                  <label className="text-[9px] font-bold uppercase tracking-widest text-text-gray-muted block">
-                    Message / Custom Requirements
-                  </label>
-                  <div className="relative flex items-start bg-[#0d153b]/50 border border-white/5 hover:border-gold-solid/35 focus-within:border-gold-solid/80 rounded-xl overflow-hidden transition-all duration-300">
-                    <span className="pl-4 pt-3.5 text-text-gray-muted text-xs select-none">💬</span>
-                    <textarea
-                      rows={3}
-                      placeholder="Share details on budget, preferred size or unit specs..."
-                      value={message}
-                      onChange={(e) => setMessage(e.target.value)}
-                      className="w-full bg-transparent pl-3 pr-4 py-3.5 text-white text-sm outline-none placeholder:text-text-gray-muted/40 resize-none font-light leading-relaxed"
+                    <input
+                      type="email"
+                      required
+                      placeholder="Enter your email ID"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
                     />
                   </div>
-                </div>
 
-                {/* Button Action */}
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="w-full mt-2 py-3.5 bg-gradient-to-r from-gold-solid to-gold-hover disabled:opacity-50 text-[#020520] font-extrabold text-[10px] uppercase tracking-widest rounded-xl transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10 hover:shadow-gold-solid/20 flex items-center justify-center gap-2"
-                >
-                  {submitting ? (
-                    <>
-                      <div className="w-3.5 h-3.5 border-2 border-[#020520]/20 border-t-[#020520] rounded-full animate-spin" />
-                      <span>Sending Request...</span>
-                    </>
-                  ) : (
-                    <span>Request Callback ➔</span>
-                  )}
-                </button>
-              </form>
+                  {/* Agreement Checkbox */}
+                  <label className="flex items-start gap-3.5 cursor-pointer pt-2">
+                    <input
+                      type="checkbox"
+                      checked={agreed}
+                      onChange={(e) => setAgreed(e.target.checked)}
+                      className="w-4 h-4 mt-0.5 shrink-0 rounded bg-transparent border border-white/20 text-gold-solid focus:ring-0 checked:bg-gold-solid cursor-pointer"
+                    />
+                    <span className="text-[10px] md:text-xs text-[#8E90A2] leading-relaxed font-light select-none">
+                      I agree to be contacted by Nandeeka or its representative through SMS/ Email/ WhatsApp/ RCS or Call.
+                    </span>
+                  </label>
+
+                  {/* Action Button */}
+                  <div className="pt-4 flex justify-center">
+                    <button
+                      type="submit"
+                      disabled={submitting}
+                      className="w-full sm:w-auto rounded-full bg-gold-solid hover:bg-gold-hover px-10 py-4 text-xs font-bold uppercase tracking-widest text-[#020520] transition-all duration-300 disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_25px_rgba(221,189,129,0.3)] flex items-center justify-center gap-2 cursor-pointer"
+                    >
+                      {submitting ? (
+                        <>
+                          <div className="w-3.5 h-3.5 border-2 border-[#020520]/20 border-t-[#020520] rounded-full animate-spin" />
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <span>Submit Interest ➔</span>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
             )}
           </div>
         </div>
@@ -250,3 +306,4 @@ export function useEnquiry() {
   }
   return context;
 }
+

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import SectionHeading from "@/shared/components/SectionHeading";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
 
@@ -96,14 +97,13 @@ export default function AmenitiesWebPage() {
 
       {/* Header section */}
       <div className="relative pt-28 pb-10 md:pt-36 md:pb-12 z-10">
-        <div className="mx-auto max-w-4xl px-6 md:px-8 text-center space-y-6 animate-in fade-in slide-in-from-bottom duration-700">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[10px] font-bold uppercase tracking-widest text-gold-solid">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-solid animate-pulse"></span>
-            World-class standards
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Premium Lifestyle <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark">Amenities</span>
-          </h1>
+        <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
+          <SectionHeading 
+            badge="World-class standards" 
+            plainText="Premium Lifestyle" 
+            highlightText="Amenities" 
+            align="center" 
+          />
           <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Discover the structural perks, recreational facilities, and security configurations that set Nandeeka developments apart.
           </p>

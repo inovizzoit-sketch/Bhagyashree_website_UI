@@ -1,15 +1,177 @@
+"use client";
+
+import React from "react";
+import SectionHeading from "@/shared/components/SectionHeading";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
+
 export default function AboutUsPage() {
+  const { openEnquiry } = useEnquiry();
+
+  const values = [
+    {
+      title: "Absolute Transparency",
+      description: "We believe in 100% legal clarity. Every square foot of land we develop undergoes a strict 30-year title audit history check before any registration, backed by clear RERA approvals.",
+      icon: "⚖️"
+    },
+    {
+      title: "Strategic Locations",
+      description: "We handpick high-potential real estate corridors in Varanasi, primarily focusing on growth sectors like Rohaniya. We build where future value and infrastructure expansion are guaranteed.",
+      icon: "📍"
+    },
+    {
+      title: "Integrated Ecosystems",
+      description: "We do not just sell raw land. Every Nandeeka layout is designed as a secure, gated community with pre-installed modern utilities, asphalt roads, green avenues, and security protocols.",
+      icon: "🏡"
+    }
+  ];
+
+  const stats = [
+    { value: "30+", label: "Years Title Vetting Chain" },
+    { value: "100%", label: "Legally Safe & Vetted Plots" },
+    { value: "500+", label: "Happy Investors & Landowners" },
+    { value: "100+", label: "Acres Gated Development Projects" }
+  ];
+
   return (
-    <div className="mx-auto max-w-7xl px-6 md:px-8 py-20 text-center">
-      <span className="text-xs font-bold uppercase tracking-widest text-[#DDBD81]">
-        Our Story
-      </span>
-      <h1 className="mt-4 text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-        About Us
-      </h1>
-      <p className="mx-auto mt-4 max-w-xl text-sm text-[#8E90A2]">
-        Learn about Nandeeka&apos;s commitment to creating architectural milestones of design and comfort.
-      </p>
+    <div className="min-h-screen bg-[#020520] pb-32 overflow-hidden relative text-slate-350 font-sans">
+      {/* Decorative ambient background glows */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[20vh] -right-[200px] w-[600px] h-[600px] bg-gold-solid/3 rounded-full blur-[140px] pointer-events-none" />
+
+      {/* Hero Intro Header Section */}
+      <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 z-10">
+        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center space-y-6">
+          <SectionHeading
+            badge="Our Heritage"
+            plainText="Crafting Landmarks of"
+            highlightText="Trust"
+            align="center"
+          />
+          <p className="mx-auto max-w-2xl text-base md:text-lg text-text-gray-muted leading-relaxed font-light mt-4">
+            Nandeeka Enterprises was founded with a single mission: to revolutionize raw land acquisition in Uttar Pradesh by delivering secure, institutional, and fully developed branded layouts.
+          </p>
+        </div>
+      </div>
+
+      {/* Narrative Section - Split Columns */}
+      <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-28">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
+          <div className="space-y-6">
+            <h3 className="text-2xl sm:text-3xl font-serif text-white font-light tracking-tight leading-snug">
+              Redefining Plotted Land ownership in <span className="text-gold-solid font-medium italic">Varanasi</span>
+            </h3>
+            <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
+              For generations, investing in land was considered high-risk due to duplicate claims, boundary conflicts, and missing infrastructure. Nandeeka Enterprises stepped in to build a transparent legal pipeline.
+            </p>
+            <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
+              Headquartered in Varanasi, we focus on picking transit-oriented development hubs. By pre-installing high-quality utilities (asphalt drainage, street lights, and 24/7 security) before selling, we ensure that our customers buy assets that instantly start appreciating.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => openEnquiry()}
+                className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover active:scale-95 transition-all shadow-[0_4px_20px_rgba(221,189,129,0.25)]"
+              >
+                Meet Our Advisory Board
+              </button>
+            </div>
+          </div>
+
+          {/* Decorative Media Frame */}
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#050c38] to-[#0b0b0f] shadow-2xl p-8 flex flex-col justify-between group hover:border-gold-solid/30 transition-all duration-500">
+            <div className="absolute inset-0 bg-[#DDBD81]/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className="space-y-4 relative z-10">
+              <span className="text-3xl">🏛️</span>
+              <h4 className="text-lg font-bold text-white tracking-tight">Varanasi Corporate Headquarters</h4>
+              <p className="text-xs text-[#8E90A2] font-light leading-relaxed">
+                Located on the high-growth DLW Road corridor, our office hosts legal teams, survey planners, and relationship desks to handle your land acquisition queries.
+              </p>
+            </div>
+            <div className="border-t border-white/5 pt-4 text-[10px] uppercase font-bold tracking-wider text-gold-solid relative z-10">
+              Nandeeka Enterprises Pvt Ltd
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Interactive Stats Grid */}
+      <div className="w-full bg-[#050c38]/15 border-y border-white/5 py-12 mb-28 relative z-10 backdrop-blur-sm shadow-xl">
+        <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+          {stats.map((stat, idx) => (
+            <div key={idx} className="text-center space-y-1.5">
+              <span className="text-3xl sm:text-4xl font-extrabold text-gold-solid block tracking-tight">
+                {stat.value}
+              </span>
+              <span className="text-[10px] sm:text-xs text-[#8E90A2] uppercase tracking-wider block font-light">
+                {stat.label}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Core Values Section */}
+      <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-28">
+        <div className="text-center max-w-2xl mx-auto mb-16">
+          <SectionHeading
+            badge="Our Ethics"
+            plainText="Driven by"
+            highlightText="Principles"
+            align="center"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {values.map((val, idx) => (
+            <div
+              key={idx}
+              className="bg-[#050c38]/15 border border-white/5 hover:border-gold-solid/25 p-6 md:p-8 rounded-2xl shadow-xl transition-all duration-500 backdrop-blur-sm group flex flex-col justify-between"
+            >
+              <div className="space-y-4">
+                <span className="text-3xl block">{val.icon}</span>
+                <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-gold-solid transition-colors duration-300">
+                  {val.title}
+                </h3>
+                <p className="text-xs sm:text-sm text-[#8E90A2] font-light leading-relaxed">
+                  {val.description}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Call to Action Box */}
+      <div className="mx-auto max-w-5xl px-6 md:px-8 relative z-10">
+        <div className="bg-gradient-to-r from-[#0d153b] via-[#050c38] to-[#020520] border border-white/15 p-8 md:p-14 rounded-3xl text-center space-y-8 shadow-2xl relative overflow-hidden">
+          {/* Subtle inside gold glow */}
+          <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gold-solid/5 rounded-full blur-[80px] pointer-events-none" />
+          
+          <div className="space-y-3 max-w-2xl mx-auto">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-gold-solid">Ready to Invest?</span>
+            <h3 className="text-2xl md:text-4xl font-serif text-white font-light leading-tight">
+              Begin your secure land legacy <span className="font-medium italic text-gold-solid">today</span>
+            </h3>
+            <p className="text-xs md:text-sm text-text-gray-muted leading-relaxed font-light">
+              Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Varanasi.
+            </p>
+          </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <button
+              onClick={() => openEnquiry()}
+              className="w-full sm:w-auto rounded-full bg-gold-solid px-8 py-4 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(221,189,129,0.3)]"
+            >
+              Enquire Now
+            </button>
+            <a
+              href="tel:+919519662111"
+              className="w-full sm:w-auto text-center rounded-full border border-white/20 bg-transparent px-8 py-4 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/10 hover:border-white transition-all no-underline"
+            >
+              Call Consultant
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
+import SectionHeading from "@/shared/components/SectionHeading";
 
 interface Property {
   id: string;
@@ -20,6 +21,16 @@ interface Property {
   floorNumber?: number;
   status: string;
   isActive: boolean;
+}
+
+interface Amenity {
+  id: string;
+  categoryId: string;
+  name: string;
+  icon?: string;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Project {
@@ -40,6 +51,7 @@ interface Project {
   thumbnailImage?: string;
   brochureFile?: string;
   properties?: Property[];
+  amenities?: Amenity[];
   isFeatured?: boolean;
   isActive?: boolean;
 }
@@ -92,17 +104,6 @@ ${shareUrl}
   useEffect(() => {
     if (!slug) return;
     let active = true;
-
-    if (STATIC_PROJECTS[slug]) {
-      const p = STATIC_PROJECTS[slug];
-      Promise.resolve().then(() => {
-        if (active) {
-          setProject(p);
-          setLoading(false);
-        }
-      });
-      return;
-    }
 
     fetch(`${API_BASE_URL}/projects/${slug}`)
       .then((res) => {
@@ -287,12 +288,12 @@ ${shareUrl}
         {/* Right Column: Title, Address & Narrative */}
         <div className="lg:col-span-7 space-y-6">
           <div className="space-y-3.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[9px] font-bold uppercase tracking-widest text-gold-solid">
-              {project.projectType} Development
-            </div>
-            <h1 className="text-3xl md:text-5xl font-extrabold tracking-tight text-white font-sans leading-tight">
-              {project.name}
-            </h1>
+          <SectionHeading 
+            badge={`${project.projectType} Development`}
+            plainText={project.name.split(" ").slice(0, -1).join(" ")} 
+            highlightText={project.name.split(" ").slice(-1)[0]} 
+            className="!mb-4"
+          />
             <p className="text-xs md:text-sm font-medium text-gold-solid flex items-start gap-1.5">
               <span className="text-base mt-0.5">📍</span>
               <span className="leading-relaxed font-light text-slate-200">
@@ -317,6 +318,8 @@ ${shareUrl}
           </div>
         </div>
       </div>
+
+     
 
       {/* Properties Inventory Section */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
@@ -430,46 +433,3 @@ ${shareUrl}
     </div>
   );
 }
-
-const STATIC_PROJECTS: Record<string, Project> = {
-  "nandeeka-enclave": {
-    id: "static-enclave-id",
-    name: "Nandeeka Enclave",
-    slug: "nandeeka-enclave",
-    projectType: "VILLA",
-    projectStatus: "ONGOING",
-    shortDescription: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
-    description: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
-    location: "Rohaniya",
-    address: "Rohaniya",
-    city: "Varanasi",
-    state: "UP",
-    pincode: "221108",
-    startingPrice: "8500000",
-    pricePerSqft: "4500",
-    thumbnailImage: "/images/hero_brand.png",
-    isFeatured: true,
-    isActive: true,
-    properties: []
-  },
-  "nandeeka-heights": {
-    id: "static-heights-id",
-    name: "Nandeeka Heights",
-    slug: "nandeeka-heights",
-    projectType: "APARTMENT",
-    projectStatus: "ONGOING",
-    shortDescription: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
-    description: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
-    location: "Rohaniya",
-    address: "Rohaniya - DLW Road",
-    city: "Varanasi",
-    state: "UP",
-    pincode: "221108",
-    startingPrice: "12500000",
-    pricePerSqft: "6500",
-    thumbnailImage: "/images/hero_waterfront.png",
-    isFeatured: true,
-    isActive: true,
-    properties: []
-  }
-};

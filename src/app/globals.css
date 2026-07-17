@@ -4,7 +4,7 @@
   --background: #003366;
   --foreground: #FFFFFF;
 
-  --dark-primary: #003366;
+  --dark-primary: #020520;
   --dark-secondary: #002244;
   --gold-solid: #DDBD81;
   --gold-hover: #C5A267;
@@ -21,6 +21,7 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-plus-jakarta);
+  --font-serif: var(--font-serif);
   --font-mono: var(--font-geist-mono);
 
   --color-dark-primary: var(--dark-primary);

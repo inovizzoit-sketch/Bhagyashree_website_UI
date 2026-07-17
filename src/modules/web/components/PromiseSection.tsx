@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import SectionHeading from "@/shared/components/SectionHeading";
 
 // Slide promise object structure
 interface SlickCard {
@@ -55,9 +56,12 @@ export default function PromiseSection() {
           
           {/* Left Column Content */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-md mx-auto lg:mx-0">
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-white leading-tight">
-              Land Buying, Simplified
-            </h2>
+            <SectionHeading 
+              badge="Our Commitment"
+              plainText="Land Buying," 
+              highlightText="Simplified" 
+              className="!mb-6"
+            />
             <p className="mt-4 text-sm sm:text-base text-[#8E90A2] leading-relaxed">
               Because owning land should feel easy, not overwhelming.
             </p>

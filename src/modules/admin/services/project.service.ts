@@ -78,3 +78,20 @@ export async function updateProject(id: string, formData: FormData): Promise<Pro
 
   return response.json();
 }
+
+export async function deleteProject(id: string): Promise<void> {
+  const token = localStorage.getItem("admin_token");
+
+  const response = await fetch(`${API_BASE_URL}/projects/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    },
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || "Failed to delete project");
+  }
+}

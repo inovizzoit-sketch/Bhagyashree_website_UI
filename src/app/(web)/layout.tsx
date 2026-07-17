@@ -108,9 +108,10 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
             <span className="text-[10px] md:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">Quick Links</span>
             <nav className="flex flex-col gap-2 font-light">
               <Link href="/" className="hover:text-gold-solid transition-colors">Home</Link>
-              <Link href="/projects" className="hover:text-gold-solid transition-colors">Developments</Link>
+              <Link href="/projects" className="hover:text-gold-solid transition-colors">Projects</Link>
               <Link href="/decoding-land" className="hover:text-gold-solid transition-colors">Decoding Land</Link>
               <Link href="/about-us" className="hover:text-gold-solid transition-colors">About Us</Link>
+              <Link href="/governance" className="hover:text-gold-solid transition-colors">Governance</Link>
             </nav>
           </div>
 

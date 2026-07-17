@@ -114,53 +114,116 @@ export default function Navbar() {
 
               {/* Navigation Items (Matching Image Style) */}
               <nav className="flex flex-col">
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Home
-                  </Link>
-                </div>
+                  </span>
+                </Link>
                 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/projects" className="text-lg font-medium text-[#DDBD81] group-hover:text-white transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/projects" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/projects" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/projects" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Partner With Us
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/projects" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/decoding-land" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/decoding-land" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/decoding-land" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/decoding-land" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Decoding Land
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/decoding-land" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/about-us" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/about-us" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/about-us" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/about-us" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Sustainability & Impact
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/blogs" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/blogs" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/blogs" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/blogs" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Blogs
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/blogs" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/amenities" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/amenities" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/amenities" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/amenities" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Amenities
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/amenities" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
 
-                <div className="border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer">
-                  <Link onClick={() => setIsOpen(false)} href="/about-us" className="text-lg font-medium text-white group-hover:text-[#DDBD81] transition-all duration-300 group-hover:translate-x-2">
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/governance" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/governance" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/governance" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
                     Governance
-                  </Link>
-                  <span className="text-[#8E90A2] text-sm transition-transform duration-300 group-hover:translate-x-1">→</span>
-                </div>
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/governance" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
               </nav>
             </div>
 

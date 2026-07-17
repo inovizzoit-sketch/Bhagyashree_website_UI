@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import SectionHeading from "@/shared/components/SectionHeading";
 
 interface Project {
   id: string;
@@ -42,9 +43,7 @@ export default function ProjectsPage() {
       .then((data) => {
         if (active) {
           const activeProjects = data.filter((p: Project) => p.isActive);
-          const dbSlugs = activeProjects.map((p: Project) => p.slug);
-          const uniqueStatic = STATIC_PROJECTS.filter(sp => !dbSlugs.includes(sp.slug));
-          setProjects([...activeProjects, ...uniqueStatic]);
+          setProjects(activeProjects);
           setError(null);
           setLoading(false);
         }
@@ -52,7 +51,6 @@ export default function ProjectsPage() {
       .catch((err) => {
         if (active) {
           setError(err.message || "Failed to load projects");
-          setProjects(STATIC_PROJECTS);
           setLoading(false);
         }
       });
@@ -94,18 +92,15 @@ export default function ProjectsPage() {
 
       {/* Hero Header Banner */}
       <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 z-10">
-        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[10px] font-bold uppercase tracking-widest text-gold-solid">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-solid animate-pulse"></span>
-            Exquisite Developments
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white font-sans leading-tight">
-            Our Architectural <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark">Portfolio</span>
-          </h1>
+          <SectionHeading 
+            badge="Exquisite Developments" 
+            plainText="Our Architectural" 
+            highlightText="Portfolio" 
+            align="center" 
+          />
           <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Discover a curated collection of landmark premium residences, ultra-modern luxury apartments, and signature villa plotting projects designed for contemporary living.
           </p>
-        </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 space-y-12">
@@ -272,44 +267,3 @@ export default function ProjectsPage() {
     </div>
   );
 }
-
-const STATIC_PROJECTS: Project[] = [
-  {
-    id: "static-enclave-id",
-    name: "Nandeeka Enclave",
-    slug: "nandeeka-enclave",
-    projectType: "VILLA",
-    projectStatus: "ONGOING",
-    shortDescription: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
-    description: "An elite gated community layout offering residential villa plots with top-tier utility setups in Rohaniya.",
-    location: "Rohaniya",
-    address: "Rohaniya",
-    city: "Varanasi",
-    state: "UP",
-    pincode: "221108",
-    startingPrice: "8500000",
-    pricePerSqft: "4500",
-    thumbnailImage: "/images/hero_brand.png",
-    isFeatured: true,
-    isActive: true,
-  },
-  {
-    id: "static-heights-id",
-    name: "Nandeeka Heights",
-    slug: "nandeeka-heights",
-    projectType: "APARTMENT",
-    projectStatus: "ONGOING",
-    shortDescription: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
-    description: "Modern corporate towers and premium retail spaces at the most high-potential commercial growth corridor of Varanasi.",
-    location: "Rohaniya",
-    address: "Rohaniya - DLW Road",
-    city: "Varanasi",
-    state: "UP",
-    pincode: "221108",
-    startingPrice: "12500000",
-    pricePerSqft: "6500",
-    thumbnailImage: "/images/hero_waterfront.png",
-    isFeatured: true,
-    isActive: true,
-  }
-];

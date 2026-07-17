@@ -187,9 +187,9 @@ export default function Hero() {
             </div>
 
             {/* Main Brand Headline */}
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.1] mb-6 font-sans">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.05] mb-6 font-serif">
               Varanasi <br />
-              <span className="bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark bg-clip-text text-transparent display: inline-block">
+              <span className="bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark bg-clip-text text-transparent inline-block font-normal italic">
                 has Chosen You
               </span>
             </h1>

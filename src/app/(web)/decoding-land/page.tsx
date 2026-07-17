@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import SectionHeading from "@/shared/components/SectionHeading";
 
 interface FAQItem {
   question: string;
@@ -124,18 +125,15 @@ export default function DecodingLandPage() {
 
       {/* Hero Header Banner */}
       <div className="relative pt-28 pb-16 md:pt-36 md:pb-20 z-10">
-        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[10px] font-bold uppercase tracking-widest text-gold-solid">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold-solid animate-pulse"></span>
-            Asset Intelligence Blog
-          </div>
-          <h1 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-tight">
-            Decoding <span className="text-transparent bg-clip-text bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark">Land</span>
-          </h1>
+          <SectionHeading 
+            badge="Asset Intelligence Blog" 
+            plainText="Decoding" 
+            highlightText="Land" 
+            align="center" 
+          />
           <p className="mx-auto max-w-2xl text-base md:text-lg text-text-gray-muted leading-relaxed font-light">
             Demystifying land acquisitions. Learn why branded plotted land is the ultimate hedge against inflation and how we guarantee legal safety, security, and wealth generation.
           </p>
-        </div>
       </div>
 
       <div className="mx-auto max-w-6xl px-6 md:px-8 relative z-10 space-y-24">
@@ -155,17 +153,11 @@ export default function DecodingLandPage() {
 
         {/* Premium Blog Section */}
         <div className="space-y-10">
-          <div className="text-center md:text-left space-y-2">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid block">
-              Trending Insights
-            </span>
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
-              Land Investment & Finance Digest
-            </h2>
-            <p className="text-xs text-text-gray-muted leading-relaxed font-light">
-              Stay ahead with curated deep-dives into Varanasi&apos;s property trends and asset compliance.
-            </p>
-          </div>
+          <SectionHeading 
+            badge="Trending Insights" 
+            plainText="Land Investment &" 
+            highlightText="Finance Digest" 
+          />
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {articles.map((article) => (
@@ -213,14 +205,12 @@ export default function DecodingLandPage() {
 
         {/* Traditional Plotted vs Nandeeka Branded Land */}
         <div className="space-y-8">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
-              Making The Difference
-            </h2>
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-mono">
-              Traditional Unorganized Plots vs. Nandeeka Branded Ecosystem
-            </p>
-          </div>
+          <SectionHeading 
+            badge="Comparison Audit" 
+            plainText="Making The" 
+            highlightText="Difference" 
+            align="center" 
+          />
 
           <div className="overflow-hidden border border-white/5 rounded-2xl bg-[#0d153b]/15 shadow-2xl backdrop-blur-sm">
             <div className="overflow-x-auto">
@@ -254,14 +244,14 @@ export default function DecodingLandPage() {
 
         {/* Due Diligence Checklist */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
-          <div className="lg:col-span-6 space-y-5">
-            <span className="text-xs font-bold uppercase tracking-widest text-gold-solid">
-              Risk Management
-            </span>
-            <h2 className="text-2xl md:text-4xl font-extrabold text-white tracking-tight">
-              Our 5-Fold Legal Due Diligence
-            </h2>
-            <p className="text-base text-text-gray-muted leading-relaxed font-light">
+          <div className="lg:col-span-6">
+            <SectionHeading 
+              badge="Risk Management" 
+              plainText="Our 5-Fold Legal" 
+              highlightText="Due Diligence" 
+              className="!mb-6"
+            />
+            <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
               We perform rigorous legal vetting and infrastructure planning before any land development starts. Nandeeka covers the compliance checklist so you can invest with absolute peace of mind.
             </p>
           </div>
@@ -287,14 +277,13 @@ export default function DecodingLandPage() {
 
         {/* FAQ Accordions */}
         <div className="space-y-8 max-w-4xl mx-auto">
-          <div className="text-center space-y-2">
-            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
-              Frequently Asked Legalities
-            </h2>
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-mono">
-              Navigating Rules, Taxes, and Registration Compliance
-            </p>
-          </div>
+          <SectionHeading 
+            badge="F.A.Q." 
+            plainText="Frequently Asked" 
+            highlightText="Legalities" 
+            align="center" 
+            className="!mb-6"
+          />
 
           <div className="space-y-3">
             {faqs.map((faq, idx) => (
