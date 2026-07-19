@@ -3,6 +3,7 @@
 import type { Metadata } from "next";
 import Navbar from "@/modules/web/components/Navbar";
 import Link from "next/link";
+import AnnouncementPopup from "@/modules/web/components/AnnouncementPopup";
 
 export const metadata: Metadata = {
   title: "Nandeeka — Timeless Luxury Spaces",
@@ -16,6 +17,9 @@ export default function WebLayout({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen flex-col text-text-white antialiased" style={{ background: 'var(--background)' }}>
       {/* Dynamic Header & Navigation */}
       <Navbar />
+
+      {/* Scroll Triggered Announcement Popup */}
+      <AnnouncementPopup />
 
       {/* Main Content Layout */}
       <main className="flex-1">{children}</main>

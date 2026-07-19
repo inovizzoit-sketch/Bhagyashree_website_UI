@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { Blog } from "../types";
 import {
-  Blog,
   getBlogs,
   createBlog,
   updateBlog,

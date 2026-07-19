@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Testimonial } from "../types";
+import { Announcement } from "../types";
 import {
-  getTestimonials,
-  createTestimonial,
-  updateTestimonial,
-  deleteTestimonial,
-} from "../services/testimonial.service";
+  getAnnouncements,
+  createAnnouncement,
+  updateAnnouncement,
+  deleteAnnouncement,
+} from "../services/announcement.service";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 
-export default function TestimonialsPage() {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+export default function AnnouncementsPage() {
+  const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,13 +22,14 @@ export default function TestimonialsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form Fields
-  const [name, setName] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [company, setCompany] = useState("");
-  const [rating, setRating] = useState(5);
-  const [message, setMessage] = useState("");
-  const [avatar, setAvatar] = useState("");
-  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+  const [link, setLink] = useState("");
+  const [isActive, setIsActive] = useState(true);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
 
   useEffect(() => {
     loadData();
@@ -38,10 +39,10 @@ export default function TestimonialsPage() {
     setLoading(true);
     setError(null);
     try {
-      const data = await getTestimonials();
-      setTestimonials(data);
+      const data = await getAnnouncements();
+      setAnnouncements(data);
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to load testimonials";
+      const msg = err instanceof Error ? err.message : "Failed to load announcements";
       setError(msg);
     } finally {
       setLoading(false);
@@ -50,26 +51,28 @@ export default function TestimonialsPage() {
 
   function handleOpenCreate() {
     setEditingId(null);
-    setName("");
-    setDesignation("");
-    setCompany("");
-    setRating(5);
-    setMessage("");
-    setAvatar("");
-    setAvatarFile(null);
+    setTitle("");
+    setContent("");
+    setLink("");
+    setIsActive(true);
+    setStartDate("");
+    setEndDate("");
+    setImageUrl("");
+    setMediaFile(null);
     setValidationErrors([]);
     setModalOpen(true);
   }
 
-  function handleOpenEdit(t: Testimonial) {
-    setEditingId(t.id);
-    setName(t.name);
-    setDesignation(t.designation || "");
-    setCompany(t.company || "");
-    setRating(t.rating);
-    setMessage(t.message);
-    setAvatar(t.avatar || "");
-    setAvatarFile(null);
+  function handleOpenEdit(ann: Announcement) {
+    setEditingId(ann.id);
+    setTitle(ann.title);
+    setContent(ann.content);
+    setLink(ann.link || "");
+    setIsActive(ann.isActive);
+    setStartDate(ann.startDate ? new Date(ann.startDate).toISOString().slice(0, 16) : "");
+    setEndDate(ann.endDate ? new Date(ann.endDate).toISOString().slice(0, 16) : "");
+    setImageUrl(ann.imageUrl || "");
+    setMediaFile(null);
     setValidationErrors([]);
     setModalOpen(true);
   }
@@ -80,26 +83,27 @@ export default function TestimonialsPage() {
     setValidationErrors([]);
 
     const formData = new FormData();
-    formData.append("name", name);
-    formData.append("designation", designation);
-    formData.append("company", company);
-    formData.append("rating", String(rating));
-    formData.append("message", message);
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("link", link);
+    formData.append("isActive", String(isActive));
+    if (startDate) formData.append("startDate", new Date(startDate).toISOString());
+    if (endDate) formData.append("endDate", new Date(endDate).toISOString());
 
-    if (avatarFile) {
-      formData.append("avatar", avatarFile);
+    if (mediaFile) {
+      formData.append("image", mediaFile); // Note: backend interceptor uses field name 'image'
     }
 
     try {
       if (editingId) {
-        await updateTestimonial(editingId, formData);
+        await updateAnnouncement(editingId, formData);
       } else {
-        await createTestimonial(formData);
+        await createAnnouncement(formData);
       }
       setModalOpen(false);
       loadData();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to save testimonial";
+      const msg = err instanceof Error ? err.message : "Failed to save announcement";
       setValidationErrors([msg]);
     } finally {
       setSubmitting(false);
@@ -107,27 +111,38 @@ export default function TestimonialsPage() {
   }
 
   async function handleDelete(id: string, name: string) {
-    if (!window.confirm(`Are you sure you want to delete the testimonial from "${name}"?`)) {
+    if (!window.confirm(`Are you sure you want to delete the announcement "${name}"?`)) {
       return;
     }
     try {
-      await deleteTestimonial(id);
+      await deleteAnnouncement(id);
       loadData();
     } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : "Failed to delete testimonial";
+      const msg = err instanceof Error ? err.message : "Failed to delete announcement";
       alert(msg);
     }
   }
+
+  const isVideo = (url?: string) => {
+    if (!url) return false;
+    const cleanUrl = url.split("?")[0].split("#")[0].toLowerCase();
+    return (
+      cleanUrl.endsWith(".mp4") ||
+      cleanUrl.endsWith(".webm") ||
+      cleanUrl.endsWith(".ogg") ||
+      cleanUrl.endsWith(".mov")
+    );
+  };
 
   return (
     <div className="space-y-6 font-sans">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-slate-100 tracking-tight">
-            Client Testimonials
+            Announcements
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Manage feedback from clients, investors, and homeowners.
+            Manage promotional highlights, updates, and site popups.
           </p>
         </div>
 
@@ -135,7 +150,7 @@ export default function TestimonialsPage() {
           onClick={handleOpenCreate}
           className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-sm font-semibold tracking-wide transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10 self-start sm:self-auto"
         >
-          + Add Testimonial
+          + Add Announcement
         </button>
       </div>
 
@@ -149,15 +164,15 @@ export default function TestimonialsPage() {
         <div className="flex flex-col items-center justify-center py-20 space-y-3">
           <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
           <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold">
-            Loading Testimonials...
+            Loading Announcements...
           </p>
         </div>
-      ) : testimonials.length === 0 ? (
+      ) : announcements.length === 0 ? (
         <div className="border border-[#1e1e2e] bg-[#13131a] rounded-2xl p-12 text-center space-y-4">
-          <span className="text-4xl block">★</span>
-          <h3 className="text-lg font-bold text-slate-200">No Testimonials Found</h3>
+          <span className="text-4xl block">📢</span>
+          <h3 className="text-lg font-bold text-slate-200">No Announcements Found</h3>
           <p className="text-sm text-slate-400 max-w-sm mx-auto">
-            No testimonials exist yet. Click the button above to add client feedback.
+            No announcements exist yet. Click the button above to add your first update.
           </p>
         </div>
       ) : (
@@ -166,59 +181,63 @@ export default function TestimonialsPage() {
             <table className="w-full text-left border-collapse text-sm">
               <thead>
                 <tr className="border-b border-[#1e1e2e] bg-[#181824] text-slate-400 font-semibold tracking-wider text-xs uppercase">
-                  <th className="px-6 py-4">Client</th>
-                  <th className="px-6 py-4">Role & Company</th>
-                  <th className="px-6 py-4">Rating</th>
-                  <th className="px-6 py-4">Message</th>
+                  <th className="px-6 py-4">Preview</th>
+                  <th className="px-6 py-4">Title</th>
+                  <th className="px-6 py-4">Status</th>
+                  <th className="px-6 py-4">Timeline</th>
                   <th className="px-6 py-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#1e1e2e] text-slate-300">
-                {testimonials.map((t) => (
-                  <tr key={t.id} className="hover:bg-[#181824]/50 transition-colors">
+                {announcements.map((ann) => (
+                  <tr key={ann.id} className="hover:bg-[#181824]/50 transition-colors">
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center shrink-0">
-                          {t.avatar ? (
-                            <img
-                              src={t.avatar.startsWith("http") || t.avatar.startsWith("https") ? t.avatar : `${API_BASE_URL.replace("/api/v1", "")}${t.avatar}`}
-                              alt={t.name}
-                              className="w-full h-full object-cover"
-                            />
+                      <div className="w-16 h-12 rounded-lg overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center shrink-0">
+                        {ann.imageUrl ? (
+                          isVideo(ann.imageUrl) ? (
+                            <video src={ann.imageUrl} className="w-full h-full object-cover" muted />
                           ) : (
-                            <span className="text-slate-500 font-bold text-sm uppercase">
-                              {t.name.slice(0, 2)}
-                            </span>
-                          )}
-                        </div>
-                        <div className="font-bold text-slate-200">{t.name}</div>
+                            <img src={ann.imageUrl} alt={ann.title} className="w-full h-full object-cover" />
+                          )
+                        ) : (
+                          <span className="text-slate-600 text-xs">No media</span>
+                        )}
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="text-slate-200 font-medium">{t.designation || "Client"}</div>
-                      <div className="text-xs text-slate-400">{t.company || "N/A"}</div>
+                      <div className="font-bold text-slate-200">{ann.title}</div>
+                      <div className="text-xs text-slate-400 max-w-xs truncate">{ann.content}</div>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex gap-0.5 text-amber-400">
-                        {Array.from({ length: 5 }).map((_, i) => (
-                          <span key={i} className="text-base">
-                            {i < t.rating ? "★" : "☆"}
-                          </span>
-                        ))}
-                      </div>
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold ${
+                          ann.isActive
+                            ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
+                            : "bg-rose-500/10 text-rose-400 border border-rose-500/20"
+                        }`}
+                      >
+                        {ann.isActive ? "Active" : "Inactive"}
+                      </span>
                     </td>
-                    <td className="px-6 py-4 max-w-sm truncate">
-                      <span className="text-slate-400">{t.message}</span>
+                    <td className="px-6 py-4 text-xs text-slate-400">
+                      {ann.startDate || ann.endDate ? (
+                        <>
+                          <div>Start: {ann.startDate ? new Date(ann.startDate).toLocaleDateString() : "Immediate"}</div>
+                          <div>End: {ann.endDate ? new Date(ann.endDate).toLocaleDateString() : "Forever"}</div>
+                        </>
+                      ) : (
+                        <span>Always Active</span>
+                      )}
                     </td>
                     <td className="px-6 py-4 text-right space-x-2">
                       <button
-                        onClick={() => handleOpenEdit(t)}
+                        onClick={() => handleOpenEdit(ann)}
                         className="px-3 py-1.5 bg-[#181824] hover:bg-indigo-500/10 border border-[#1e1e2e] hover:border-indigo-500/30 text-xs font-bold text-slate-300 hover:text-indigo-400 rounded-lg transition-colors cursor-pointer"
                       >
                         Edit
                       </button>
                       <button
-                        onClick={() => handleDelete(t.id, t.name)}
+                        onClick={() => handleDelete(ann.id, ann.title)}
                         className="px-3 py-1.5 bg-[#181824] hover:bg-red-500/10 border border-[#1e1e2e] hover:border-red-500/30 text-xs font-bold text-slate-300 hover:text-red-400 rounded-lg transition-colors cursor-pointer"
                       >
                         Delete
@@ -238,7 +257,7 @@ export default function TestimonialsPage() {
           <div className="relative w-full max-w-lg bg-[#13131a] border border-[#1e1e2e] rounded-2xl shadow-2xl overflow-hidden animate-slide-up">
             <header className="px-6 py-5 border-b border-[#1e1e2e] flex items-center justify-between">
               <h3 className="text-lg font-bold text-slate-100">
-                {editingId ? "Modify Testimonial" : "Add Testimonial"}
+                {editingId ? "Modify Announcement" : "Add Announcement"}
               </h3>
               <button
                 onClick={() => setModalOpen(false)}
@@ -248,7 +267,7 @@ export default function TestimonialsPage() {
               </button>
             </header>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSubmit} className="p-6 space-y-4 max-h-[80vh] overflow-y-auto">
               {validationErrors.length > 0 && (
                 <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs space-y-1">
                   {validationErrors.map((err, i) => (
@@ -257,35 +276,59 @@ export default function TestimonialsPage() {
                 </div>
               )}
 
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Announcement Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Phase 2 Booking Open"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                  Announcement Message
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  placeholder="Details of the announcement..."
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors resize-none"
+                />
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Client Name
+                    External Link (Optional)
                   </label>
                   <input
-                    type="text"
-                    required
-                    placeholder="e.g. John Doe"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    type="url"
+                    placeholder="https://example.com"
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}
                     className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Rating (1 - 5)
+                    Status
                   </label>
                   <select
-                    value={rating}
-                    onChange={(e) => setRating(Number(e.target.value))}
+                    value={String(isActive)}
+                    onChange={(e) => setIsActive(e.target.value === "true")}
                     className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
                   >
-                    <option value={5}>5 Stars ★★★★★</option>
-                    <option value={4}>4 Stars ★★★★☆</option>
-                    <option value={3}>3 Stars ★★★☆☆</option>
-                    <option value={2}>2 Stars ★★☆☆☆</option>
-                    <option value={1}>1 Star ★☆☆☆☆</option>
+                    <option value="true">Active (Show Popup)</option>
+                    <option value="false">Inactive</option>
                   </select>
                 </div>
               </div>
@@ -293,26 +336,24 @@ export default function TestimonialsPage() {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Designation
+                    Start Date (Optional)
                   </label>
                   <input
-                    type="text"
-                    placeholder="e.g. Software Engineer"
-                    value={designation}
-                    onChange={(e) => setDesignation(e.target.value)}
+                    type="datetime-local"
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
                     className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
 
                 <div className="space-y-1">
                   <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Company
+                    End Date (Optional)
                   </label>
                   <input
-                    type="text"
-                    placeholder="e.g. Google"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
+                    type="datetime-local"
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
                     className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
@@ -320,37 +361,23 @@ export default function TestimonialsPage() {
 
               <div className="space-y-1">
                 <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Testimonial Message
+                  Media Attachment (Image or Video)
                 </label>
-                <textarea
-                  required
-                  rows={4}
-                  placeholder="This is an amazing service! Highly recommended."
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors resize-none"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Avatar / Client Photo
-                </label>
-                {avatar && !avatarFile && (
-                  <div className="mb-2 relative w-14 h-14 rounded-full overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center">
-                    <img
-                      src={avatar.startsWith("http") || avatar.startsWith("https") ? avatar : `${API_BASE_URL.replace("/api/v1", "")}${avatar}`}
-                      alt="Avatar Preview"
-                      className="w-full h-full object-cover"
-                    />
+                {imageUrl && !mediaFile && (
+                  <div className="mb-2 relative w-20 h-16 rounded-lg overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center">
+                    {isVideo(imageUrl) ? (
+                      <video src={imageUrl} className="w-full h-full object-cover" muted />
+                    ) : (
+                      <img src={imageUrl} alt="Announcement Preview" className="w-full h-full object-cover" />
+                    )}
                   </div>
                 )}
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*,video/*"
                   onChange={(e) => {
                     const file = e.target.files?.[0] || null;
-                    setAvatarFile(file);
+                    setMediaFile(file);
                   }}
                   className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
                 />
@@ -369,7 +396,7 @@ export default function TestimonialsPage() {
                   disabled={submitting}
                   className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10"
                 >
-                  {submitting ? "Saving..." : "Save Testimonial"}
+                  {submitting ? "Saving..." : "Save Announcement"}
                 </button>
               </footer>
             </form>

@@ -113,17 +113,17 @@ export default function FeaturedProjectsSection() {
       {!loading && !error && projects.length > 0 && (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
-            <Link 
+             <Link 
               key={project.id} 
               href={`/projects/${project.slug}`} 
-              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/30 transition-all shadow-xl block no-underline"
+              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/45 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_25px_rgba(221,189,129,0.08)] block no-underline"
             >
               <div className="aspect-[4/3] w-full relative overflow-hidden bg-background">
                 {project.thumbnailImage ? (
                   <img
                     src={project.thumbnailImage}
                     alt={project.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                 ) : (
                   <div className="w-full h-full bg-gradient-to-tr from-background to-dark-secondary/50 flex items-center justify-center">
@@ -147,7 +147,7 @@ export default function FeaturedProjectsSection() {
               </div>
               <div className="p-6">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
-                  {project.projectType} Development • {project.location}, {project.city}
+                  Featured Development
                 </span>
                 <h3 className="mt-2 text-xl font-bold text-white font-sans group-hover:text-gold-solid transition-colors">
                   {project.name}
@@ -164,11 +164,11 @@ export default function FeaturedProjectsSection() {
                       {formatPrice(project.startingPrice)}
                     </span>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right bg-white/[0.03] border border-white/5 hover:border-gold-solid/20 px-3 py-1.5 rounded-xl transition-all">
                     <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
                       Price Per Sqft
                     </span>
-                    <span className="text-xs font-semibold text-white">
+                    <span className="text-xs font-bold text-gold-solid">
                       ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
                     </span>
                   </div>

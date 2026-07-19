@@ -14,6 +14,7 @@ const navItems = [
   { label: "Blogs", href: "/admin/blogs", icon: "✍" },
   { label: "Testimonials", href: "/admin/testimonials", icon: "★" },
   { label: "Gallery", href: "/admin/gallery", icon: "🖼" },
+  { label: "Announcements", href: "/admin/announcements", icon: "📢" },
   { label: "Settings", href: "/admin/settings", icon: "⚙" },
 ];
 

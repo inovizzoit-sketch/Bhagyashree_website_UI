@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 // CountUp configuration data structure
 interface StatItem {
@@ -19,8 +19,30 @@ const statsData: StatItem[] = [
 
 export default function CounterSection() {
   const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isVisible) return;
+
     const duration = 2000; // Animation duration in milliseconds
     const frameRate = 1000 / 60; // 60 FPS
     const totalFrames = Math.round(duration / frameRate);
@@ -45,10 +67,10 @@ export default function CounterSection() {
     }, frameRate);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [isVisible]);
 
   return (
-    <section className="w-full bg-transparent py-8 md:py-10 font-sans relative">
+    <section ref={sectionRef} className="w-full bg-transparent py-8 md:py-10 font-sans relative">
       {/* Background Glow */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[500px] rounded-full bg-gold-solid/5 blur-[120px]" />
