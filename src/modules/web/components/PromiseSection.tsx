@@ -26,6 +26,14 @@ const slickCards: SlickCard[] = [
     title: "Expert Support",
     description: "No back-and-forth, no unclear answers, expert guidance that keeps you stress-free.",
   },
+  {
+    title: "Transparent Pricing",
+    description: "No hidden charges, administration fees, or surprise costs. What you see is what you pay.",
+  },
+  {
+    title: "Secure Transactions",
+    description: "Every payment, document transfer, and agreement is processed with absolute security and transparency.",
+  },
 ];
 
 export default function PromiseSection() {
@@ -67,19 +75,19 @@ export default function PromiseSection() {
             </p>
           </div>
 
-          {/* Right Column Content: Custom Slick Track Carousel */}
-          <div className="relative w-full max-w-2xl mx-auto overflow-hidden">
+          {/* Right Column Content: Custom Slick Track Carousel (Vertical Top to Bottom) */}
+          <div className="relative w-full max-w-2xl mx-auto overflow-hidden h-[382px]">
             <div 
-              className="flex transition-transform duration-700 ease-out"
-              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
+              className="flex flex-col transition-transform duration-700 ease-out h-full"
+              style={{ transform: `translateY(-${activeIndex * 100}%)` }}
             >
               {slickCards.map((card, idx) => (
-                <div key={idx} className="w-full min-w-full px-2">
+                <div key={idx} className="w-full min-h-full h-full px-2 py-0.5 box-border">
                   {/* Outer border wrapper */}
                   <div className="bg-gradient-to-b from-white/0 to-white/30 p-[1px] rounded-2xl h-full">
                     
-                    {/* Inner Content Card (To matches image: deep purple/dark gradient with curved base background) */}
-                    <div className="bg-gradient-to-t to-[#2B153F] from-[#0A0310] via-[#2B153F] flex flex-col items-center justify-between gap-10 px-6 pt-10 pb-6 relative rounded-2xl h-[380px] overflow-hidden">
+                    {/* Inner Content Card (Matches the site's deep blue/dark theme with curved base background) */}
+                    <div className="bg-gradient-to-t to-dark-primary/40 via-dark-secondary/80 from-[#060633] flex flex-col items-center justify-between gap-10 px-6 pt-10 pb-6 relative rounded-2xl h-full overflow-hidden">
                       
                       {/* Decorative Base Vector Curve Background */}
                       <div className="absolute left-0 right-0 bottom-0 h-16 w-full opacity-60 z-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none" />

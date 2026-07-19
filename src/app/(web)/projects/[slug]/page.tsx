@@ -78,7 +78,7 @@ export default function ProjectDetailsPage() {
       : "N/A";
     const pricePerSqftFormatted = parseFloat(project.pricePerSqft).toLocaleString();
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
-    
+
     return `🏢 *${project.name.toUpperCase()}*
 📍 Location: ${project.address ? project.address.trim() + ", " : ""}${project.location}, ${project.city}
 💰 Starting Price: ${priceFormatted}+
@@ -171,7 +171,7 @@ ${shareUrl}
   const activeProperties = project.properties?.filter((p) => p.isActive) || [];
 
   return (
-    <div className="min-h-screen bg-[#020520] pb-32 relative overflow-hidden text-slate-350">
+    <div className="min-h-screen pb-32 relative overflow-hidden text-slate-350">
       {/* Background Decorative Gradients */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-[80vh] left-0 w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />
@@ -205,10 +205,10 @@ ${shareUrl}
               </div>
             )}
             <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-                ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20"
-                : project.projectStatus === "ONGOING"
-                  ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                  : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+              ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20"
+              : project.projectStatus === "ONGOING"
+                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                : "bg-blue-500/10 text-blue-400 border-blue-500/20"
               }`}>
               {project.projectStatus}
             </span>
@@ -222,9 +222,10 @@ ${shareUrl}
                 {formatPrice(project.startingPrice)}
               </span>
             </div>
-            <div className="bg-[#050c38]/25 border border-white/5 rounded-xl p-4 backdrop-blur-sm shadow-xl">
-              <span className="text-[10px] text-text-gray-muted block uppercase tracking-wider mb-1 font-medium">Price Per Sqft</span>
-              <span className="text-white font-extrabold text-xl">
+            <div className="bg-gold-solid/5 border border-gold-solid/30 rounded-xl p-4 backdrop-blur-sm shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-12 h-12 bg-gold-solid/10 rounded-full blur-md pointer-events-none" />
+              <span className="text-[10px] text-gold-solid block uppercase tracking-wider mb-1 font-bold">Price Per Sqft</span>
+              <span className="text-white font-extrabold text-xl tracking-tight">
                 ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
               </span>
             </div>
@@ -253,11 +254,10 @@ ${shareUrl}
               {/* Copy Details Share Action */}
               <button
                 onClick={handleCopyDetails}
-                className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${
-                  copied
+                className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${copied
                     ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
                     : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
-                }`}
+                  }`}
               >
                 <div className="flex items-center gap-3">
                   {copied ? (
@@ -288,12 +288,12 @@ ${shareUrl}
         {/* Right Column: Title, Address & Narrative */}
         <div className="lg:col-span-7 space-y-6">
           <div className="space-y-3.5">
-          <SectionHeading 
-            badge={`${project.projectType} Development`}
-            plainText={project.name.split(" ").slice(0, -1).join(" ")} 
-            highlightText={project.name.split(" ").slice(-1)[0]} 
-            className="!mb-4"
-          />
+            <SectionHeading
+              badge={`${project.projectType} Development`}
+              plainText={project.name.split(" ").slice(0, -1).join(" ")}
+              highlightText={project.name.split(" ").slice(-1)[0]}
+              className="!mb-4"
+            />
             <p className="text-xs md:text-sm font-medium text-gold-solid flex items-start gap-1.5">
               <span className="text-base mt-0.5">📍</span>
               <span className="leading-relaxed font-light text-slate-200">
@@ -319,7 +319,7 @@ ${shareUrl}
         </div>
       </div>
 
-     
+
 
       {/* Properties Inventory Section */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
@@ -369,10 +369,10 @@ ${shareUrl}
 
                   {/* Status Badge */}
                   <span className={`absolute top-4 left-4 text-[8px] font-bold tracking-wider uppercase px-2.5 py-1 rounded border backdrop-blur-md ${prop.status === "AVAILABLE" || prop.status === "Available"
-                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25 shadow-sm"
-                      : prop.status === "SOLD" || prop.status === "Sold"
-                        ? "bg-red-500/10 text-red-400 border-red-500/25 shadow-sm"
-                        : "bg-amber-500/10 text-amber-400 border-amber-500/25 shadow-sm"
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25 shadow-sm"
+                    : prop.status === "SOLD" || prop.status === "Sold"
+                      ? "bg-red-500/10 text-red-400 border-red-500/25 shadow-sm"
+                      : "bg-amber-500/10 text-amber-400 border-amber-500/25 shadow-sm"
                     }`}>
                     {prop.status}
                   </span>
@@ -413,15 +413,33 @@ ${shareUrl}
                           <span>🏢</span> Floor: <span className="text-white font-medium">{prop.floorNumber}</span>
                         </div>
                       )}
+                      {prop.price && prop.areaSqft && !isNaN(parseFloat(prop.price)) && !isNaN(parseFloat(prop.areaSqft)) && parseFloat(prop.areaSqft) > 0 ? (
+                        <div className="flex items-center gap-1.5 col-span-2 text-gold-solid font-bold mt-1">
+                          <span>🏷️</span> Price Rate: <span className="text-white font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{Math.round(parseFloat(prop.price) / parseFloat(prop.areaSqft)).toLocaleString()}/sqft</span>
+                        </div>
+                      ) : project.pricePerSqft ? (
+                        <div className="flex items-center gap-1.5 col-span-2 text-gold-solid font-bold mt-1">
+                          <span>🏷️</span> Est. Rate: <span className="text-white font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft</span>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
 
                   {/* Price Row */}
-                  <div className="border-t border-white/5 pt-4 flex items-center justify-between">
-                    <span className="text-[9px] text-text-gray-muted uppercase tracking-wider font-semibold">Price Config</span>
-                    <span className="font-extrabold text-gold-solid text-base">
-                      {formatPrice(prop.price)}
-                    </span>
+                  <div className="border-t border-white/5 pt-4 flex items-center justify-between gap-2">
+                    <div className="flex flex-col">
+                      <span className="text-[9px] text-text-gray-muted uppercase tracking-wider font-semibold">Pricing</span>
+                      <span className="font-extrabold text-white text-base">
+                        {formatPrice(prop.price)}
+                      </span>
+                    </div>
+                    
+                    <button
+                      onClick={() => openEnquiry(`Booking Enquiry for ${project.name}: ${prop.title} (Unit ${prop.unitNumber || "N/A"})`)}
+                      className="px-4 py-2 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-[0.97] hover:shadow-lg hover:shadow-gold-solid/20"
+                    >
+                      Book Now
+                    </button>
                   </div>
                 </div>
               </div>

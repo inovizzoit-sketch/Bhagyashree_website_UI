@@ -11,6 +11,9 @@ const navItems = [
   { label: "Properties", href: "/admin/properties", icon: "⌂" },
   { label: "Amenity Categories", href: "/admin/amenity-categories", icon: "✿" },
   { label: "Amenities", href: "/admin/amenities", icon: "☘" },
+  { label: "Blogs", href: "/admin/blogs", icon: "✍" },
+  { label: "Testimonials", href: "/admin/testimonials", icon: "★" },
+  { label: "Gallery", href: "/admin/gallery", icon: "🖼" },
   { label: "Settings", href: "/admin/settings", icon: "⚙" },
 ];
 
@@ -61,11 +64,10 @@ export default function AdminLayout({
               <Link
                 key={item.href}
                 href={item.href}
-                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg no-underline text-sm font-medium transition-all duration-150 ${
-                  isActive
+                className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg no-underline text-sm font-medium transition-all duration-150 ${isActive
                     ? "bg-indigo-500/15 text-indigo-200"
                     : "text-slate-400 hover:bg-indigo-500/10 hover:text-indigo-200"
-                }`}
+                  }`}
               >
                 <span className="text-base w-5 text-center">{item.icon}</span>
                 <span>{item.label}</span>

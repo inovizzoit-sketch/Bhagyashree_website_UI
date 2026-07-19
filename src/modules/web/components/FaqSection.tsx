@@ -35,7 +35,7 @@ export default function FaqSection() {
   ];
 
   return (
-    <section className="w-full py-10 md:py-14 bg-[#020520]">
+    <section className="w-full py-10 md:py-14 bg-background">
       <div className="mx-auto max-w-4xl px-6 md:px-8">
         <SectionHeading
           badge="F.A.Q."

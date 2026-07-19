@@ -2,6 +2,16 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
+
+declare global {
+  interface Window {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    YT: any;
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
 
 interface YTPlayerReadyEvent {
   target: {
@@ -17,26 +27,6 @@ interface YTStateChangeEvent {
   target: {
     playVideo: () => void;
   };
-}
-
-declare global {
-  interface Window {
-    YT: {
-      Player: new (
-        id: string,
-        config: {
-          events: {
-            onReady: (event: YTPlayerReadyEvent) => void;
-            onStateChange: (event: YTStateChangeEvent) => void;
-          };
-        }
-      ) => void;
-      PlayerState: {
-        ENDED: number;
-      };
-    };
-    onYouTubeIframeAPIReady?: () => void;
-  }
 }
 
 function YouTubeHeroPlayer() {
@@ -104,7 +94,7 @@ function YouTubeHeroPlayer() {
   };
 
   return (
-    <div className="relative w-full aspect-video rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+    <div className="relative w-full aspect-video rounded-3xl overflow-hidden border border-white/10 shadow-2xl group/player">
       {/* Wrapper with deep crop to hide controls and channel name watermark */}
       <div className="absolute top-[-30%] left-[-30%] w-[160%] h-[160%]">
         <iframe
@@ -157,53 +147,74 @@ function YouTubeHeroPlayer() {
 }
 
 export default function Hero() {
-  const openModal = (config?: { type: string; project: string }) => {
-    alert(`Enquire modal triggered for ${config?.project || "General Portfolio"}`);
-  };
+  const { openEnquiry } = useEnquiry();
 
   return (
-    // Main background section with padding, overflow safety, and top navigation clearance.
-    <section className="relative w-full bg-[#020520] py-16 md:py-24 lg:py-32 overflow-hidden">
-      {/* Background ambient lighting blobs */}
+    <section className="relative w-full py-16 md:py-24 lg:py-32 overflow-hidden bg-background">
+      {/* Premium Luxury Grid Pattern Overlays */}
+      <div 
+        className="absolute inset-0 opacity-15 pointer-events-none" 
+        style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+          backgroundSize: '32px 32px'
+        }}
+      />
+
+      {/* Ambient background glows */}
       <div className="absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute -top-[30%] -left-[10%] h-[400px] md:h-[600px] w-[400px] md:w-[600px] rounded-full bg-gold-solid/5 blur-[100px] md:blur-[150px]" />
-        <div className="absolute bottom-[10%] right-[5%] h-[300px] md:h-[500px] w-[300px] md:w-[500px] rounded-full bg-dark-secondary/60 blur-[90px] md:blur-[130px]" />
+        <div className="absolute -top-[30%] -left-[10%] h-[400px] md:h-[600px] w-[400px] md:w-[600px] rounded-full bg-gold-solid/10 blur-[120px]" />
+        <div className="absolute bottom-[10%] right-[5%] h-[300px] md:h-[500px] w-[300px] md:w-[500px] rounded-full bg-dark-secondary/80 blur-[130px]" />
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 md:px-8">
-        {/* Responsive Grid: Stacks on Mobile & Tablet (grid-cols-1), Splits on Desktop (lg:grid-cols-[1fr_1.3fr]) */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.3fr] gap-10 md:gap-16 items-center">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1.2fr] gap-12 lg:gap-16 items-center">
           
           {/* Left Column: Brand Description Panel */}
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-2xl mx-auto lg:mx-0 animate-in fade-in slide-in-from-left duration-700">
             
-            {/* Subtitle location badge (displays flex alignment dynamically) */}
-            <div className="inline-flex items-center gap-2 rounded-full border border-gold-solid/20 bg-gold-solid/5 px-4 py-2 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#DDBD81] mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-              Ganges Waterfront Plots
+            {/* Live Counter/Urgency Notification Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full border border-gold-solid/30 bg-gold-solid/5 px-4 py-2 text-[10px] sm:text-xs font-bold uppercase tracking-widest text-[#DDBD81] mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Ganges Waterfront Plots • 12 Units Left
             </div>
 
             {/* Main Brand Headline */}
             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-light tracking-tight text-white leading-[1.05] mb-6 font-serif">
-              Varanasi <br />
+              Kashi <br />
               <span className="bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark bg-clip-text text-transparent inline-block font-normal italic">
                 has Chosen You
               </span>
             </h1>
 
             {/* Subtext description */}
-            <p className="text-sm sm:text-base text-text-gray-light leading-relaxed mb-8 max-w-md lg:max-w-none">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed mb-6 max-w-md lg:max-w-none font-light">
               Own premium gated villa land plots on the banks of the holy Ganga in Banaras. Just minutes away from the divine Kashi Vishwanath Corridor.
             </p>
 
-            {/* CTA action buttons (adjusts from full-width column to row spacing based on viewport) */}
+            {/* Trust Highlights Checklist */}
+            <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-8 text-xs font-medium text-slate-400 font-sans tracking-wide">
+              <div className="flex items-center gap-1.5">
+                <span className="text-gold-solid">✓</span> RERA Approved
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-gold-solid">✓</span> 100% Vetted Titles
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-gold-solid">✓</span> Gated Layout Security
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-gold-solid">✓</span> 30ft Wide Roads
+              </div>
+            </div>
+
+            {/* CTA action buttons */}
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:max-w-md lg:max-w-none">
               <button
-                className="w-full sm:w-auto rounded-full bg-gold-solid px-8 py-4 text-xs font-bold uppercase tracking-widest text-dark-primary transition-all hover:bg-gold-hover hover:scale-105 active:scale-95 shadow-[0_4px_20px_rgba(221,189,129,0.25)]"
-                onClick={() => openModal({ type: "enquire", project: "Varanasi Banaras" })}
+                className="w-full sm:w-auto rounded-full bg-gold-solid hover:bg-gold-hover px-8 py-4 text-xs font-bold uppercase tracking-widest text-[#020520] transition-all hover:scale-105 active:scale-95 shadow-[0_4px_25px_rgba(221,189,129,0.3)] animate-pulse"
+                onClick={() => openEnquiry("Ganges Waterfront Plots (Varanasi Banaras)")}
               >
                 Enquire Now
               </button>
@@ -216,7 +227,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* Right Column: Immersive YouTube Player container (stacks cleanly below text on mobile/tablets) */}
+          {/* Right Column: Video Container */}
           <div className="w-full max-w-2xl mx-auto lg:max-w-none flex items-center justify-center animate-in fade-in slide-in-from-right duration-700">
             <YouTubeHeroPlayer />
           </div>

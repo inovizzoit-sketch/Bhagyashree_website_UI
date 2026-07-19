@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function WebLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="flex min-h-screen flex-col bg-dark-primary text-text-white antialiased">
+    <div className="flex min-h-screen flex-col text-text-white antialiased" style={{ background: 'var(--background)' }}>
       {/* Dynamic Header & Navigation */}
       <Navbar />
 

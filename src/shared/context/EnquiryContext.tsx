@@ -113,7 +113,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-sans">
           
-          <div className="relative w-full max-w-[480px] max-h-[95vh] overflow-y-auto bg-[#0a0d24] border border-white/5 rounded-3xl shadow-2xl p-8 md:p-10 scrollbar-none flex flex-col justify-between">
+          <div className="relative w-full max-w-[480px] max-h-[95vh] overflow-y-auto bg-gradient-to-br from-dark-secondary to-background border border-white/5 rounded-3xl shadow-2xl p-8 md:p-10 scrollbar-none flex flex-col justify-between">
             
             {/* Close Button */}
             <button
@@ -142,7 +142,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                 
                 <button
                   onClick={closeEnquiry}
-                  className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-[#020520] hover:bg-gold-hover transition-all cursor-pointer shadow-lg shadow-gold-solid/15"
+                  className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-background hover:bg-gold-hover transition-all cursor-pointer shadow-lg shadow-gold-solid/15"
                 >
                   Close Window
                 </button>
@@ -277,11 +277,11 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full sm:w-auto rounded-full bg-gold-solid hover:bg-gold-hover px-10 py-4 text-xs font-bold uppercase tracking-widest text-[#020520] transition-all duration-300 disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_25px_rgba(221,189,129,0.3)] flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full sm:w-auto rounded-full bg-gold-solid hover:bg-gold-hover px-10 py-4 text-xs font-bold uppercase tracking-widest text-background transition-all duration-300 disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_25px_rgba(221,189,129,0.3)] flex items-center justify-center gap-2 cursor-pointer"
                     >
                       {submitting ? (
                         <>
-                          <div className="w-3.5 h-3.5 border-2 border-[#020520]/20 border-t-[#020520] rounded-full animate-spin" />
+                          <div className="w-3.5 h-3.5 border-2 border-background/20 border-t-background rounded-full animate-spin" />
                           <span>Submitting...</span>
                         </>
                       ) : (

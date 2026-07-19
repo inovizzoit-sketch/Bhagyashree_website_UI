@@ -85,22 +85,22 @@ export default function ProjectsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020520] pb-32 overflow-hidden relative">
+    <div className="min-h-screen pb-32 overflow-hidden relative">
       {/* Decorative Background Glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[40vh] -left-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Header Banner */}
       <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 z-10">
-          <SectionHeading 
-            badge="Exquisite Developments" 
-            plainText="Our Architectural" 
-            highlightText="Portfolio" 
-            align="center" 
-          />
-          <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Discover a curated collection of landmark premium residences, ultra-modern luxury apartments, and signature villa plotting projects designed for contemporary living.
-          </p>
+        <SectionHeading
+          badge="Exquisite Developments"
+          plainText="Our Architectural"
+          highlightText="Portfolio"
+          align="center"
+        />
+        <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+          Discover a curated collection of landmark premium residences, ultra-modern luxury apartments, and signature villa plotting projects designed for contemporary living.
+        </p>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 space-y-12">
@@ -110,11 +110,10 @@ export default function ProjectsPage() {
             <button
               key={tab.value}
               onClick={() => setActiveFilter(tab.value)}
-              className={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer border ${
-                activeFilter === tab.value
+              className={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer border ${activeFilter === tab.value
                   ? "bg-gold-solid text-[#020520] border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
                   : "bg-[#050c38]/40 border-white/5 text-text-gray-muted hover:text-white hover:border-gold-solid/30"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -181,21 +180,20 @@ export default function ProjectsPage() {
                       </span>
                     </div>
                   )}
-                  
+
                   {/* Glass Backdrop Gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#020520]/80 via-transparent to-transparent opacity-60" />
 
                   {/* Status Badge */}
-                  <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${
-                    project.projectStatus === "COMPLETED"
+                  <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
                       ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
                       : project.projectStatus === "ONGOING"
-                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                      : "bg-blue-500/10 text-blue-400 border-blue-500/20"
-                  }`}>
+                        ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                        : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                    }`}>
                     {project.projectStatus}
                   </span>
-                  
+
                   {/* Project Type Badge */}
                   <span className="absolute top-4 right-4 text-[9px] font-bold tracking-wider uppercase bg-[#020520]/80 text-gold-solid border border-gold-solid/25 px-2.5 py-1 rounded-md backdrop-blur-md">
                     {project.projectType}

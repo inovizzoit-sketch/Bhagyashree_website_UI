@@ -90,7 +90,7 @@ export default function AmenitiesWebPage() {
     : amenities.filter(am => am.category?.slug === activeTab);
 
   return (
-    <div className="min-h-screen bg-[#080d27] pb-32 overflow-hidden relative font-sans">
+    <div className="min-h-screen bg-background pb-32 overflow-hidden relative font-sans">
       {/* Background Decorative Gradients */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
@@ -125,7 +125,7 @@ export default function AmenitiesWebPage() {
             </p>
             <button
               onClick={() => openEnquiry("Amenities Details")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-background font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Enquire Directly
             </button>
@@ -139,7 +139,7 @@ export default function AmenitiesWebPage() {
             </p>
             <button
               onClick={() => openEnquiry("Amenities Enquiry")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-background font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Enquire Details
             </button>
@@ -153,7 +153,7 @@ export default function AmenitiesWebPage() {
                   onClick={() => setActiveTab("all")}
                   className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-95 ${
                     activeTab === "all"
-                      ? "bg-gold-solid text-[#020520] shadow-lg shadow-gold-solid/15"
+                      ? "bg-gold-solid text-background shadow-lg shadow-gold-solid/15"
                       : "text-text-gray-muted hover:text-white hover:bg-white/5"
                   }`}
                 >
@@ -165,7 +165,7 @@ export default function AmenitiesWebPage() {
                     onClick={() => setActiveTab(cat.category.slug)}
                     className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-95 ${
                       activeTab === cat.category.slug
-                        ? "bg-gold-solid text-[#020520] shadow-lg shadow-gold-solid/15"
+                        ? "bg-gold-solid text-background shadow-lg shadow-gold-solid/15"
                         : "text-text-gray-muted hover:text-white hover:bg-white/5"
                     }`}
                   >
@@ -202,7 +202,7 @@ export default function AmenitiesWebPage() {
                     )}
                     
                     {/* Premium Dark Gradient Shading matching the reference */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#020520] via-[#020520]/20 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
                     
                     {/* Amenity Info Tag Footer matching reference spacing and style */}
                     <div className="absolute bottom-6 left-6 right-6">

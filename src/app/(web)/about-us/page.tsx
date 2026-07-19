@@ -33,7 +33,7 @@ export default function AboutUsPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#020520] pb-32 overflow-hidden relative text-slate-350 font-sans">
+    <div className="min-h-screen pb-32 overflow-hidden relative text-slate-355 font-sans">
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-[20vh] -right-[200px] w-[600px] h-[600px] bg-gold-solid/3 rounded-full blur-[140px] pointer-events-none" />

@@ -118,7 +118,7 @@ export default function DecodingLandPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#080d27] pb-32 overflow-hidden relative text-slate-300 font-sans">
+    <div className="min-h-screen bg-background pb-32 overflow-hidden relative text-slate-300 font-sans">
       {/* Visual background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[60vh] -right-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
@@ -168,13 +168,13 @@ export default function DecodingLandPage() {
               >
                 <div className="space-y-4">
                   {/* Image container */}
-                  <div className="aspect-[16/10] overflow-hidden relative bg-[#080d27]">
+                  <div className="aspect-[16/10] overflow-hidden relative bg-background">
                     <img
                       src={article.image}
                       alt={article.title}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className="absolute top-4 left-4 bg-gold-solid text-[#020520] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">
+                    <div className="absolute top-4 left-4 bg-gold-solid text-background text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">
                       {article.category}
                     </div>
                   </div>
@@ -320,7 +320,7 @@ export default function DecodingLandPage() {
             <div className="h-1.5 w-full bg-gradient-to-r from-gold-solid to-gold-hover" />
 
             {/* Header / Cover container */}
-            <div className="relative aspect-[21/9] w-full bg-[#080d27] shrink-0">
+            <div className="relative aspect-[21/9] w-full bg-background shrink-0">
               <img
                 src={selectedBlog.image}
                 alt={selectedBlog.title}
@@ -329,7 +329,7 @@ export default function DecodingLandPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#0e163d] to-transparent" />
               <button
                 onClick={() => setSelectedBlog(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-[#020520] transition-colors flex items-center justify-center cursor-pointer outline-none"
+                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-background transition-colors flex items-center justify-center cursor-pointer outline-none"
               >
                 ✕
               </button>
@@ -356,10 +356,10 @@ export default function DecodingLandPage() {
               ))}
             </div>
 
-            <div className="p-6 border-t border-white/5 bg-[#080d27]/40 flex justify-end shrink-0">
+            <div className="p-6 border-t border-white/5 bg-background/40 flex justify-end shrink-0">
               <button
                 onClick={() => setSelectedBlog(null)}
-                className="px-6 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl transition-all cursor-pointer"
+                className="px-6 py-2.5 bg-gold-solid hover:bg-gold-hover text-background font-bold text-xs rounded-xl transition-all cursor-pointer"
               >
                 Close Article
               </button>

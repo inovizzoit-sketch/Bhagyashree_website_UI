@@ -1,10 +1,11 @@
 @import "tailwindcss";
 
 :root {
-  --background: #003366;
+  /* --background: rgba(116, 13, 13, 0.965); */
+  --background: linear-gradient(90deg,rgba(7, 32, 61, 1) 0%, rgb(6, 6, 51) 100%);
   --foreground: #FFFFFF;
 
-  --dark-primary: #020520;
+  --dark-primary: #0a146f;
   --dark-secondary: #002244;
   --gold-solid: #DDBD81;
   --gold-hover: #C5A267;

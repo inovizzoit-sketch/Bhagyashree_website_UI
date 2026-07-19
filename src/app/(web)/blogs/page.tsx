@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
 import SectionHeading from "@/shared/components/SectionHeading";
+import { API_BASE_URL } from "@/shared/lib/api-config";
 
 interface BlogArticle {
   id: string;
@@ -17,9 +18,11 @@ interface BlogArticle {
 
 export default function BlogsWebPage() {
   const [selectedBlog, setSelectedBlog] = useState<BlogArticle | null>(null);
+  const [articles, setArticles] = useState<BlogArticle[]>([]);
+  const [loading, setLoading] = useState(true);
   const { openEnquiry } = useEnquiry();
 
-  const articles: BlogArticle[] = [
+  const staticArticles: BlogArticle[] = [
     {
       id: "varanasi-renaissance",
       title: "The Varanasi Renaissance: Why Rohania is Plotted Land's Next Goldmine",
@@ -64,8 +67,52 @@ export default function BlogsWebPage() {
     }
   ];
 
+  useEffect(() => {
+    async function loadBlogs() {
+      try {
+        const res = await fetch(`${API_BASE_URL}/blog`);
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        if (Array.isArray(data) && data.length > 0) {
+          const mapped: BlogArticle[] = data.map((b: any) => {
+            const readTimeMinutes = Math.max(2, Math.ceil((b.description || "").split(/\s+/).length / 200));
+            const imageUrl = b.blogImage
+              ? (b.blogImage.startsWith("http") || b.blogImage.startsWith("https")
+                ? b.blogImage
+                : `${API_BASE_URL.replace("/api/v1", "")}${b.blogImage}`)
+              : "/images/hero_brand.png";
+
+            return {
+              id: b.id,
+              title: b.title,
+              category: "Market Insights",
+              date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              }),
+              readTime: `${readTimeMinutes} min read`,
+              image: imageUrl,
+              excerpt: b.description ? (b.description.length > 150 ? b.description.slice(0, 150) + "..." : b.description) : "",
+              content: (b.description || "").split(/\r?\n/).filter((line: string) => line.trim().length > 0),
+            };
+          });
+          setArticles(mapped);
+        } else {
+          setArticles(staticArticles);
+        }
+      } catch (err) {
+        console.error("Error loading API blogs, falling back to static ones:", err);
+        setArticles(staticArticles);
+      } finally {
+        setLoading(false);
+      }
+    }
+    loadBlogs();
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#080d27] pb-32 overflow-hidden relative text-slate-300 font-sans">
+    <div className="min-h-screen pb-32 overflow-hidden relative text-slate-300 font-sans">
       {/* Visual background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[60vh] -right-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
@@ -85,46 +132,59 @@ export default function BlogsWebPage() {
 
       <div className="mx-auto max-w-6xl px-6 md:px-8 relative z-10 space-y-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {articles.map((article) => (
-            <div
-              key={article.id}
-              onClick={() => setSelectedBlog(article)}
-              className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#0d153b]/15 hover:border-gold-solid/35 transition-all duration-300 shadow-xl cursor-pointer"
-            >
-              <div className="space-y-4">
-                {/* Image container */}
-                <div className="aspect-[16/10] overflow-hidden relative bg-[#080d27]">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute top-4 left-4 bg-gold-solid text-[#020520] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">
-                    {article.category}
+          {loading ? (
+            <div className="flex flex-col items-center justify-center py-20 space-y-3 col-span-full">
+              <div className="w-8 h-8 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
+              <p className="text-xs text-gold-solid/60 uppercase tracking-widest font-semibold">
+                Loading Articles...
+              </p>
+            </div>
+          ) : articles.length === 0 ? (
+            <div className="text-center py-20 col-span-full text-slate-400">
+              No articles found.
+            </div>
+          ) : (
+            articles.map((article) => (
+              <div
+                key={article.id}
+                onClick={() => setSelectedBlog(article)}
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#0d153b]/15 hover:border-gold-solid/35 transition-all duration-300 shadow-xl cursor-pointer"
+              >
+                <div className="space-y-4">
+                  {/* Image container */}
+                  <div className="aspect-[16/10] overflow-hidden relative bg-[#080d27]">
+                    <img
+                      src={article.image}
+                      alt={article.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                    <div className="absolute top-4 left-4 bg-gold-solid text-[#020520] text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded">
+                      {article.category}
+                    </div>
+                  </div>
+
+                  {/* Text contents */}
+                  <div className="px-6 space-y-2">
+                    <span className="text-[10px] text-text-gray-muted font-mono">
+                      {article.date} • {article.readTime}
+                    </span>
+                    <h3 className="text-base font-bold text-white group-hover:text-gold-solid transition-colors duration-300 leading-snug line-clamp-2">
+                      {article.title}
+                    </h3>
+                    <p className="text-xs text-text-gray-muted font-light leading-relaxed line-clamp-3">
+                      {article.excerpt}
+                    </p>
                   </div>
                 </div>
 
-                {/* Text contents */}
-                <div className="px-6 space-y-2">
-                  <span className="text-[10px] text-text-gray-muted font-mono">
-                    {article.date} • {article.readTime}
+                <div className="px-6 pb-6 pt-4 mt-auto">
+                  <span className="text-xs font-semibold text-gold-solid group-hover:text-white transition-colors flex items-center gap-1.5">
+                    Read Full Article ➔
                   </span>
-                  <h3 className="text-base font-bold text-white group-hover:text-gold-solid transition-colors duration-300 leading-snug line-clamp-2">
-                    {article.title}
-                  </h3>
-                  <p className="text-xs text-text-gray-muted font-light leading-relaxed line-clamp-3">
-                    {article.excerpt}
-                  </p>
                 </div>
               </div>
-
-              <div className="px-6 pb-6 pt-4 mt-auto">
-                <span className="text-xs font-semibold text-gold-solid group-hover:text-white transition-colors flex items-center gap-1.5">
-                  Read Full Article ➔
-                </span>
-              </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 

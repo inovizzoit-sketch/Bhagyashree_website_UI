@@ -76,7 +76,7 @@ const legacyItems: LegacyItem[] = [
 
 export default function LegacySection() {
   return (
-    <section className="w-full bg-[#030623] py-14 lg:py-20 overflow-hidden border-t border-white/5 font-sans relative">
+    <section className="w-full bg-background py-14 lg:py-20 overflow-hidden border-t border-white/5 font-sans relative">
       {/* Visual background glows */}
       <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-gold-solid/3 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-0 right-10 w-[400px] h-[400px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />
@@ -98,7 +98,7 @@ export default function LegacySection() {
               style={{ animationDelay: `${idx * 150}ms` }}
             >
               {/* Floating Icon Base Pedestal Vector matching image */}
-              <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-white/[0.02] to-[#0a0d2a] border border-white/5 rounded-2xl flex items-center justify-center mb-6 overflow-hidden hover:border-gold-solid/25 transition-all duration-500 shadow-xl">
+              <div className="relative w-full aspect-[16/10] bg-gradient-to-b from-white/[0.02] to-background border border-white/5 rounded-2xl flex items-center justify-center mb-6 overflow-hidden hover:border-gold-solid/25 transition-all duration-500 shadow-xl">
                 {/* Subtle internal gold gradient glow */}
                 <div className="absolute inset-0 bg-gradient-to-tr from-gold-solid/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="relative z-10 transition-transform duration-500 group-hover:scale-110">

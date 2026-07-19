@@ -13,7 +13,7 @@ export default function Navbar() {
   const openDrawer = () => setIsOpen(!isOpen);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#020520]">
+    <header className="sticky top-0 z-50 w-full" style={{ background: 'var(--background)' }}>
       <div className="mx-auto flex max-w-7xl h-16 md:h-20 items-center justify-between px-6 md:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center transition-opacity hover:opacity-90" id="headerLogo">
@@ -64,6 +64,16 @@ export default function Navbar() {
             >
               About Us
             </Link>
+            {/* <Link 
+              href="/gallery" 
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+                pathname === "/gallery" 
+                  ? "text-[#DDBD81] after:w-full" 
+                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+              }`}
+            >
+              Gallery
+            </Link> */}
           </nav>
 
           {/* Contact Us CTA (Border Button) */}
@@ -95,8 +105,8 @@ export default function Navbar() {
 
           {/* Sidebar Panel */}
           <div 
-            className="relative w-full max-w-md h-full bg-[#0d0d17] border-l border-border-muted p-8 flex flex-col justify-between overflow-y-auto shadow-2xl font-sans"
-            style={{ animation: 'sidebarSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+            className="relative w-full max-w-md h-full border-l border-border-muted p-8 flex flex-col justify-between overflow-y-auto shadow-2xl font-sans"
+            style={{ background: 'var(--background)', animation: 'sidebarSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
           >
             <div>
               {/* Header Close Button */}
@@ -207,6 +217,22 @@ export default function Navbar() {
                     Amenities
                   </span>
                   <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/amenities" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
+
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/gallery" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/gallery" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/gallery" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    Gallery
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/gallery" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
                 </Link>
 
                 <Link 
