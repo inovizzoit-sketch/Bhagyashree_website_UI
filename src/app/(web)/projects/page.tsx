@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import SectionHeading from "@/shared/components/SectionHeading";
+import AmenityIcon from "@/shared/components/AmenityIcon";
 
 interface Project {
   id: string;
@@ -24,6 +25,11 @@ interface Project {
   brochureFile?: string;
   isFeatured: boolean;
   isActive: boolean;
+  amenities?: {
+    id: string;
+    name: string;
+    icon?: string;
+  }[];
 }
 
 export default function ProjectsPage() {
@@ -214,6 +220,28 @@ export default function ProjectsPage() {
                     <p className="text-xs text-text-gray-muted leading-relaxed line-clamp-3 font-light">
                       {project.shortDescription || project.description}
                     </p>
+
+                    {/* Amenities Badges */}
+                    {/* {project.amenities && project.amenities.length > 0 && (
+                      <div className="pt-1 flex flex-wrap items-center gap-1.5">
+                        {project.amenities.slice(0, 3).map((am) => (
+                          <span
+                            key={am.id}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-[10px] font-medium text-slate-200"
+                          >
+                            <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-[#DDBD81] shrink-0" />
+                            <span className="truncate max-w-[80px]">
+                              {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://")) ? "Amenity" : am.name}
+                            </span>
+                          </span>
+                        ))}
+                        {project.amenities.length > 3 && (
+                          <span className="text-[9px] font-bold text-[#DDBD81] font-mono px-1">
+                            +{project.amenities.length - 3}
+                          </span>
+                        )}
+                      </div>
+                    )} */}
                   </div>
 
                   {/* Info Row & Price */}

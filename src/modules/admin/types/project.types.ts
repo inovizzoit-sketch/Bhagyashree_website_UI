@@ -23,6 +23,12 @@ export interface Project {
   brochureUrl?: string;
   brochureFile?: string;
   properties?: ProjectProperty[];
+  amenities?: {
+    id: string;
+    name: string;
+    icon?: string;
+    category?: { id: string; name: string };
+  }[];
   createdAt: string;
   updatedAt: string;
 }

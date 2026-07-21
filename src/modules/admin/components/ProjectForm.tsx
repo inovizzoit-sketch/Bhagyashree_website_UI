@@ -1,50 +1,95 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { createProject } from "../services/project.service";
-import { ProjectType, ProjectStatus } from "../types";
+import { createProject, updateProject } from "../services/project.service";
+import { getAmenities, Amenity } from "../services/amenity.service";
+import { Project, ProjectType, ProjectStatus } from "../types";
 
-export default function ProjectForm() {
+interface ProjectFormProps {
+  project?: Project;
+}
+
+export default function ProjectForm({ project }: ProjectFormProps) {
   const router = useRouter();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form State
-  const [name, setName] = useState("");
-  const [slug, setSlug] = useState("");
-  const [projectType, setProjectType] = useState<ProjectType>("APARTMENT");
-  const [projectStatus, setProjectStatus] = useState<ProjectStatus>("ONGOING");
-  const [shortDescription, setShortDescription] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [address, setAddress] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [startingPrice, setStartingPrice] = useState("");
-  const [pricePerSqft, setPricePerSqft] = useState("");
-  const [isFeatured, setIsFeatured] = useState(false);
-  const [isActive, setIsActive] = useState(true);
+  // Available amenities from backend
+  const [allAmenities, setAllAmenities] = useState<Amenity[]>([]);
+  const [loadingAmenities, setLoadingAmenities] = useState(true);
+
+  // Form State (Pre-filled if project is passed)
+  const [name, setName] = useState(project?.name || "");
+  const [slug, setSlug] = useState(project?.slug || "");
+  const [projectType, setProjectType] = useState<ProjectType>(
+    project?.projectType || "APARTMENT"
+  );
+  const [projectStatus, setProjectStatus] = useState<ProjectStatus>(
+    project?.projectStatus || "ONGOING"
+  );
+  const [shortDescription, setShortDescription] = useState(
+    project?.shortDescription || ""
+  );
+  const [description, setDescription] = useState(project?.description || "");
+  const [location, setLocation] = useState(project?.location || "");
+  const [address, setAddress] = useState(project?.address || "");
+  const [city, setCity] = useState(project?.city || "");
+  const [state, setState] = useState(project?.state || "");
+  const [pincode, setPincode] = useState(project?.pincode || "");
+  const [startingPrice, setStartingPrice] = useState(
+    project?.startingPrice ? String(project.startingPrice) : ""
+  );
+  const [pricePerSqft, setPricePerSqft] = useState(
+    project?.pricePerSqft ? String(project.pricePerSqft) : ""
+  );
+  const [isFeatured, setIsFeatured] = useState(project?.isFeatured ?? false);
+  const [isActive, setIsActive] = useState(project?.isActive ?? true);
+
+  // Selected Amenity IDs
+  const [selectedAmenityIds, setSelectedAmenityIds] = useState<string[]>(
+    project?.amenities?.map((a) => a.id) || []
+  );
 
   // File states
   const [thumbnailImage, setThumbnailImage] = useState<File | null>(null);
   const [brochureFile, setBrochureFile] = useState<File | null>(null);
 
-  // File name helper states for display
-  const [thumbnailName, setThumbnailName] = useState("");
-  const [brochureName, setBrochureName] = useState("");
+  // File name display helpers
+  const [thumbnailName, setThumbnailName] = useState(
+    project?.thumbnailUrl || project?.thumbnailImage ? "Existing Image Attached" : ""
+  );
+  const [brochureName, setBrochureName] = useState(
+    project?.brochureUrl || project?.brochureFile ? "Existing PDF Attached" : ""
+  );
+
+  useEffect(() => {
+    loadAmenities();
+  }, []);
+
+  async function loadAmenities() {
+    try {
+      setLoadingAmenities(true);
+      const data = await getAmenities();
+      setAllAmenities(data);
+    } catch (err: any) {
+      console.error("Failed to load amenities:", err);
+    } finally {
+      setLoadingAmenities(false);
+    }
+  }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     setName(val);
-    // Simple auto-slugification
-    setSlug(
-      val
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-")
-        .replace(/(^-|-$)+/g, "")
-    );
+    if (!project) {
+      setSlug(
+        val
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/(^-|-$)+/g, "")
+      );
+    }
   };
 
   const handleFileChange = (
@@ -61,6 +106,14 @@ export default function ProjectForm() {
         setBrochureName(file.name);
       }
     }
+  };
+
+  const handleAmenityToggle = (amenityId: string) => {
+    setSelectedAmenityIds((prev) =>
+      prev.includes(amenityId)
+        ? prev.filter((id) => id !== amenityId)
+        : [...prev, amenityId]
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,6 +139,9 @@ export default function ProjectForm() {
       formData.append("isFeatured", String(isFeatured));
       formData.append("isActive", String(isActive));
 
+      // Append selected amenity IDs as JSON string array
+      formData.append("amenityIds", JSON.stringify(selectedAmenityIds));
+
       if (thumbnailImage) {
         formData.append("thumbnailImage", thumbnailImage);
       }
@@ -93,15 +149,28 @@ export default function ProjectForm() {
         formData.append("brochureFile", brochureFile);
       }
 
-      await createProject(formData);
+      if (project) {
+        await updateProject(project.id, formData);
+      } else {
+        await createProject(formData);
+      }
+
       router.push("/admin/projects");
     } catch (err: unknown) {
       console.error(err);
       const msg = err instanceof Error ? err.message : String(err);
-      setError(msg || "Failed to create project");
+      setError(msg || "Failed to save project");
       setSubmitting(false);
     }
   };
+
+  // Group amenities by category
+  const amenitiesByCategory = allAmenities.reduce((acc, amenity) => {
+    const catName = amenity.category?.name || "General Amenities";
+    if (!acc[catName]) acc[catName] = [];
+    acc[catName].push(amenity);
+    return acc;
+  }, {} as Record<string, Amenity[]>);
 
   return (
     <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-8 pb-12">
@@ -338,7 +407,7 @@ export default function ProjectForm() {
           {/* Thumbnail */}
           <div className="space-y-2">
             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
-              Thumbnail Image <span className="text-red-400">*</span>
+              Thumbnail Image {!project && <span className="text-red-400">*</span>}
             </label>
             <div className="flex items-center justify-center w-full">
               <label className="flex flex-col items-center justify-center w-full h-32 border border-dashed border-[#1e1e2e] hover:border-indigo-500 rounded-xl cursor-pointer bg-[#0b0b0f] hover:bg-[#13131a]/30 transition-all">
@@ -352,7 +421,7 @@ export default function ProjectForm() {
                 <input
                   type="file"
                   accept="image/*"
-                  required
+                  required={!project}
                   onChange={(e) => handleFileChange(e, "thumbnail")}
                   className="hidden"
                 />
@@ -386,10 +455,88 @@ export default function ProjectForm() {
         </div>
       </div>
 
+      {/* AMENITIES SELECTION SECTION */}
+      <div className="bg-[#13131a] border border-[#1e1e2e] rounded-2xl p-6 md:p-8 space-y-6">
+        <div className="flex items-center justify-between border-b border-[#1e1e2e] pb-3">
+          <div>
+            <h3 className="text-base font-bold text-slate-100">
+              6. Select Project Amenities
+            </h3>
+            <p className="text-xs text-slate-400 mt-0.5">
+              Check all amenities available in this property development.
+            </p>
+          </div>
+          <span className="text-xs font-semibold text-indigo-400 bg-indigo-500/10 px-2.5 py-1 rounded-full border border-indigo-500/20">
+            {selectedAmenityIds.length} Selected
+          </span>
+        </div>
+
+        {loadingAmenities ? (
+          <div className="py-8 text-center text-xs text-slate-500">
+            Loading available amenities from database...
+          </div>
+        ) : allAmenities.length === 0 ? (
+          <div className="py-6 text-center text-xs text-slate-500 border border-dashed border-[#1e1e2e] rounded-xl">
+            No amenities found in master table. Go to Admin &gt; Amenities to add offerings.
+          </div>
+        ) : (
+          <div className="space-y-6">
+            {Object.entries(amenitiesByCategory).map(([categoryName, amenities]) => (
+              <div key={categoryName} className="space-y-3">
+                <h4 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">
+                  {categoryName}
+                </h4>
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                  {amenities.map((amenity) => {
+                    const isSelected = selectedAmenityIds.includes(amenity.id);
+                    return (
+                      <label
+                        key={amenity.id}
+                        onClick={() => handleAmenityToggle(amenity.id)}
+                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                          isSelected
+                            ? "bg-indigo-600/15 border-indigo-500/50 text-indigo-200"
+                            : "bg-[#0b0b0f] border-[#1e1e2e] text-slate-400 hover:border-slate-700"
+                        }`}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => {}} // Controlled by wrapper click
+                          className="w-4 h-4 rounded bg-[#13131a] border-slate-700 text-indigo-600 focus:ring-0 cursor-pointer"
+                        />
+                        <div className="flex items-center gap-2 truncate">
+                          {amenity.icon && (
+                            amenity.icon.startsWith("http") || amenity.icon.startsWith("/") ? (
+                              <img
+                                src={amenity.icon}
+                                alt={amenity.name}
+                                className="w-5 h-5 object-contain shrink-0 rounded"
+                              />
+                            ) : (
+                              <span className="text-base shrink-0">{amenity.icon}</span>
+                            )
+                          )}
+                          <span className="text-xs font-medium truncate">
+                            {amenity.name && (amenity.name.startsWith("http://") || amenity.name.startsWith("https://"))
+                              ? "Amenity Offering"
+                              : amenity.name}
+                          </span>
+                        </div>
+                      </label>
+                    );
+                  })}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
       {/* Visibility Status */}
       <div className="bg-[#13131a] border border-[#1e1e2e] rounded-2xl p-6 md:p-8 space-y-6">
         <h3 className="text-base font-bold text-slate-100 border-b border-[#1e1e2e] pb-3">
-          6. Visibility Status
+          7. Visibility Status
         </h3>
         <div className="flex flex-wrap gap-12">
           {/* Featured */}
@@ -442,10 +589,10 @@ export default function ProjectForm() {
         >
           {submitting ? (
             <>
-              <span className="animate-spin text-xs">⏳</span> Creating...
+              <span className="animate-spin text-xs">⏳</span> Saving...
             </>
           ) : (
-            "Create Project"
+            project ? "Update Project" : "Create Project"
           )}
         </button>
       </div>

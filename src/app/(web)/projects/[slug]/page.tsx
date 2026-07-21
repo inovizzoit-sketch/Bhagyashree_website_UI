@@ -5,6 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
 import SectionHeading from "@/shared/components/SectionHeading";
+import AmenityIcon from "@/shared/components/AmenityIcon";
 
 interface Property {
   id: string;
@@ -25,12 +26,16 @@ interface Property {
 
 interface Amenity {
   id: string;
-  categoryId: string;
+  categoryId?: string;
   name: string;
   icon?: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+  category?: {
+    id: string;
+    name: string;
+  };
+  isActive?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface Project {
@@ -53,7 +58,33 @@ interface Project {
   properties?: Property[];
   amenities?: Amenity[];
   isFeatured?: boolean;
-  isActive?: boolean;
+}
+
+function getAmenityIcon(name: string, icon?: string): string {
+  if (icon && !icon.startsWith("http") && !icon.startsWith("/")) {
+    return icon;
+  }
+  const lower = (name || "").toLowerCase();
+  if (lower.includes("pool") || lower.includes("swim")) return "🏊‍♂️";
+  if (lower.includes("gym") || lower.includes("fit") || lower.includes("workout")) return "🏋️‍♂️";
+  if (lower.includes("park") || lower.includes("garden") || lower.includes("lawn")) return "🌳";
+  if (lower.includes("play") || lower.includes("kid") || lower.includes("child")) return "🛝";
+  if (lower.includes("security") || lower.includes("cctv") || lower.includes("guard")) return "🛡️";
+  if (lower.includes("park") || lower.includes("car") || lower.includes("garage")) return "🚗";
+  if (lower.includes("club") || lower.includes("hall") || lower.includes("lounge")) return "🏛️";
+  if (lower.includes("court") || lower.includes("tennis") || lower.includes("badminton") || lower.includes("sport")) return "🎾";
+  if (lower.includes("power") || lower.includes("generator") || lower.includes("backup")) return "⚡";
+  if (lower.includes("water") || lower.includes("tank") || lower.includes("borewell")) return "💧";
+  if (lower.includes("lift") || lower.includes("elevator")) return "🛗";
+  if (lower.includes("spa") || lower.includes("sauna") || lower.includes("jacuzzi")) return "🧖‍♀️";
+  if (lower.includes("wifi") || lower.includes("internet")) return "📶";
+  if (lower.includes("fire") || lower.includes("safety")) return "🧯";
+  if (lower.includes("store") || lower.includes("shop") || lower.includes("mart")) return "🛒";
+  if (lower.includes("yoga") || lower.includes("meditation")) return "🧘‍♀️";
+  if (lower.includes("run") || lower.includes("jog") || lower.includes("track")) return "🏃‍♂️";
+  if (lower.includes("game") || lower.includes("billiard") || lower.includes("table")) return "🎮";
+  if (lower.includes("theatre") || lower.includes("cinema") || lower.includes("movie")) return "🎬";
+  return "✨";
 }
 
 export default function ProjectDetailsPage() {
@@ -79,19 +110,20 @@ export default function ProjectDetailsPage() {
     const pricePerSqftFormatted = parseFloat(project.pricePerSqft).toLocaleString();
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
-    return `🏢 *${project.name.toUpperCase()}*
-📍 Location: ${project.address ? project.address.trim() + ", " : ""}${project.location}, ${project.city}
-💰 Starting Price: ${priceFormatted}+
-📐 Pricing: ₹${pricePerSqftFormatted}/sqft
-✨ Status: ${project.projectStatus} (${project.projectType})
+    return `*PROPERTY SPECIFICATIONS: ${project.name.toUpperCase()}*
 
-*Overview:*
+• Location: ${project.address ? project.address.trim() + ", " : ""}${project.location}, ${project.city}
+• Starting Price: ${priceFormatted}+
+• Rate: ₹${pricePerSqftFormatted}/sqft
+• Status: ${project.projectStatus} (${project.projectType})
+
+Overview:
 ${project.shortDescription}
 
-🔗 Explore Project Details & Inventory:
+Explore Details & Inventory:
 ${shareUrl}
 
-*Powered by Nandeeka Developments*`;
+-- Nandeeka Developments --`;
   }
 
   function handleCopyDetails() {
@@ -269,9 +301,23 @@ ${shareUrl}
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                     </svg>
                   )}
-                  <span>{copied ? "Details Copied!" : "Copy Share Specs"}</span>
+                  <span>{copied ? "Details Copied!" : "Copy Specs"}</span>
                 </div>
                 <span className="text-xs">➔</span>
+              </button>
+
+              {/* WhatsApp Direct Share Action */}
+              <button
+                onClick={() => {
+                  window.open(`https://wa.me/?text=${encodeURIComponent(getProfessionalDetailsText())}`, "_blank");
+                }}
+                className="flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border bg-emerald-600/15 hover:bg-emerald-600/25 border-emerald-500/30 text-emerald-400 hover:text-emerald-300"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-sm">💬</span>
+                  <span>Share on WhatsApp</span>
+                </div>
+                <span className="text-xs">↗</span>
               </button>
             </div>
 
@@ -315,11 +361,104 @@ ${shareUrl}
                 {project.description}
               </p>
             </div>
+
+            {/* Key Amenities & Facilities Section */}
+            {project.amenities && project.amenities.length > 0 && (
+              <div className="border-t border-white/10 pt-6 space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs text-[#DDBD81]">★</span>
+                    <span className="text-[11px] text-[#DDBD81] font-bold uppercase tracking-widest font-mono">
+                      Key Amenities & Facilities
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-mono font-semibold text-[#DDBD81] bg-[#DDBD81]/10 border border-[#DDBD81]/25 px-2.5 py-0.5 rounded-full">
+                    {project.amenities.length} Offerings
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                  {project.amenities.map((am) => {
+                    const cleanName = am.name && (am.name.startsWith("http://") || am.name.startsWith("https://"))
+                      ? "Amenity Offering"
+                      : am.name;
+                    const displayIcon = getAmenityIcon(cleanName, am.icon);
+
+                    return (
+                      <div
+                        key={am.id}
+                        className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10 hover:border-[#DDBD81]/50 hover:bg-gradient-to-r hover:from-[#DDBD81]/10 hover:to-white/[0.04] transition-all duration-300 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_25px_rgba(221,189,129,0.12)] hover:-translate-y-0.5"
+                      >
+                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DDBD81]/20 to-[#DDBD81]/5 border border-[#DDBD81]/30 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 group-hover:border-[#DDBD81]/60 transition-all duration-300">
+                          <AmenityIcon name={cleanName} icon={am.icon} className="w-5 h-5 text-[#DDBD81]" />
+                        </div>
+                        <div className="flex flex-col min-w-0">
+                          <span className="text-xs font-semibold text-slate-100 group-hover:text-[#DDBD81] transition-colors truncate">
+                            {cleanName}
+                          </span>
+                          {am.category?.name && (
+                            <span className="text-[9px] text-slate-400 font-mono tracking-wider truncate">
+                              {am.category.name}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
 
+
+      {/* Amenities & Facilities Section */}
+      {/* {project.amenities && project.amenities.length > 0 && (
+        <div className="mx-auto max-w-7xl px-6 md:px-8 mt-16 space-y-8 relative z-10">
+          <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-bold text-white font-sans">
+                Project Amenities & Facilities
+              </h2>
+              <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
+                World-class features and lifestyle offerings integrated within {project.name}.
+              </p>
+            </div>
+            <span className="text-[10px] bg-gold-solid/5 border border-gold-solid/20 text-gold-solid font-bold uppercase px-3 py-1 rounded-full">
+              {project.amenities.length} Offerings Available
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {project.amenities.map((am) => (
+              <div
+                key={am.id}
+                className="bg-[#050c38]/20 border border-white/5 hover:border-gold-solid/30 rounded-2xl p-4 flex flex-col items-center justify-center text-center space-y-2 backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1"
+              >
+                <div className="w-12 h-12 rounded-xl bg-gold-solid/10 border border-gold-solid/20 flex items-center justify-center text-xl text-gold-solid group-hover:bg-gold-solid group-hover:text-background transition-colors duration-300 overflow-hidden">
+                  {am.icon && (am.icon.startsWith("http") || am.icon.startsWith("/")) ? (
+                    <img src={am.icon} alt={am.name} className="w-7 h-7 object-contain" />
+                  ) : (
+                    am.icon || "✨"
+                  )}
+                </div>
+                <h4 className="font-bold text-white text-xs truncate max-w-full">
+                  {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://"))
+                    ? "Amenity Offering"
+                    : am.name}
+                </h4>
+                {am.category?.name && (
+                  <span className="text-[9px] text-text-gray-muted font-mono uppercase tracking-wider block">
+                    {am.category.name}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )} */}
 
       {/* Properties Inventory Section */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">

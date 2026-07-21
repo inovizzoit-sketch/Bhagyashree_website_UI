@@ -3,10 +3,12 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getDashboardData } from "../services/dashboard.service";
+import { getPopupStats, PopupStats } from "../services/popup.service";
 import { DashboardResponse } from "../types";
 
 export default function DashboardPage() {
   const [data, setData] = useState<DashboardResponse | null>(null);
+  const [popupStats, setPopupStats] = useState<PopupStats | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,8 +18,15 @@ export default function DashboardPage() {
         setLoading(true);
       }
       setError(null);
-      const res = await getDashboardData();
+      const [res, popRes] = await Promise.all([
+        getDashboardData(),
+        getPopupStats().catch((err) => {
+          console.error("Failed to load popup stats:", err);
+          return null;
+        }),
+      ]);
       setData(res);
+      setPopupStats(popRes);
     } catch (err: unknown) {
       console.error(err);
       const msg = err instanceof Error ? err.message : String(err);
@@ -29,10 +38,17 @@ export default function DashboardPage() {
 
   useEffect(() => {
     let active = true;
-    getDashboardData().then(
-      (res) => {
+    Promise.all([
+      getDashboardData(),
+      getPopupStats().catch((err) => {
+        console.error("Failed to load popup stats:", err);
+        return null;
+      }),
+    ]).then(
+      ([res, popRes]) => {
         if (active) {
           setData(res);
+          setPopupStats(popRes);
           setLoading(false);
         }
       },
@@ -177,6 +193,69 @@ export default function DashboardPage() {
         </div>
       </div>
 
+      {/* Popup Analytics Cards */}
+      {popupStats && (
+        <div className="space-y-4">
+          <div className="flex justify-between items-center pt-4">
+            <div>
+              <h2 className="text-lg font-bold text-slate-100">Popup & Lead Management</h2>
+              <p className="text-xs text-slate-400 mt-0.5">Performance statistics for active popup notifications and lead capture.</p>
+            </div>
+            <Link
+              href="/admin/popup"
+              className="text-xs text-indigo-400 hover:text-indigo-300 font-semibold transition-colors duration-150"
+            >
+              Manage Popups →
+            </Link>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="group bg-[#13131a] hover:bg-[#151520] border border-[#1e1e2e] hover:border-violet-500/30 rounded-2xl p-6 transition-all duration-300 shadow-md">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Popups</span>
+                <span className="text-violet-400 text-lg">📢</span>
+              </div>
+              <div className="mt-4">
+                <span className="text-3xl font-bold text-slate-100">{popupStats.totalPopups}</span>
+              </div>
+            </div>
+
+            <div className="group bg-[#13131a] hover:bg-[#151520] border border-[#1e1e2e] hover:border-emerald-500/30 rounded-2xl p-6 transition-all duration-300 shadow-md">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Popups</span>
+                <span className="text-emerald-400 text-lg">⚡</span>
+              </div>
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-3xl font-bold text-slate-100">{popupStats.activePopups}</span>
+                <span className="text-xs text-emerald-400">Live now</span>
+              </div>
+            </div>
+
+            <div className="group bg-[#13131a] hover:bg-[#151520] border border-[#1e1e2e] hover:border-amber-500/30 rounded-2xl p-6 transition-all duration-300 shadow-md">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Impressions</span>
+                <span className="text-amber-400 text-lg">👁</span>
+              </div>
+              <div className="mt-4">
+                <span className="text-3xl font-bold text-slate-100">{popupStats.totalViews.toLocaleString()}</span>
+              </div>
+            </div>
+
+            {/* <div className="group bg-[#13131a] hover:bg-[#151520] border border-[#1e1e2e] hover:border-rose-500/30 rounded-2xl p-6 transition-all duration-300 shadow-md">
+              <div className="flex justify-between items-center">
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Captured Leads</span>
+                <span className="text-rose-450 text-lg">👥</span>
+              </div>
+              <div className="mt-4 flex items-baseline gap-2">
+                <span className="text-3xl font-bold text-slate-100">{popupStats.totalLeads ?? 0}</span>
+                <Link href="/admin/leads" className="text-xs text-rose-400 hover:underline">
+                  View
+                </Link>
+              </div>
+            </div> */}
+          </div>
+        </div>
+      )}
+
       {/* Recent Properties Section */}
       <div className="bg-[#13131a] border border-[#1e1e2e] rounded-2xl overflow-hidden shadow-sm">
         <div className="px-6 py-5 border-b border-[#1e1e2e] flex items-center justify-between">
@@ -223,7 +302,7 @@ export default function DashboardPage() {
                 </div>
                 <div className="mt-3 sm:mt-0 flex items-center gap-4">
                   {prop.price !== undefined && (
-                    <span className="text-sm font-semibold text-slate-300">${prop.price.toLocaleString()}</span>
+                    <span className="text-sm font-semibold text-slate-300">₹{prop.price.toLocaleString()}</span>
                   )}
                   {prop.status && (
                     <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase border ${
