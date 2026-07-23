@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createPopup, updatePopup, getPopupById } from "../services/popup.service";
+import { API_BASE_URL } from "@/shared/lib/api-config";
 
 interface PopupFormPageProps {
   id?: string;
@@ -36,10 +37,84 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
   const [priority, setPriority] = useState(0);
   const [deviceType, setDeviceType] = useState("ALL");
   const [targetType, setTargetType] = useState("ALL_PAGES");
-  const [targetPages, setTargetPages] = useState("");
+  const [selectedPages, setSelectedPages] = useState<string[]>([]);
+  const [availablePages, setAvailablePages] = useState<{ name: string; pathname: string }[]>([
+    { name: "Home (/) - /", pathname: "/" },
+    { name: "About Us (/about-us) - /about-us", pathname: "/about-us" },
+    { name: "Amenities (/amenities) - /amenities", pathname: "/amenities" },
+    { name: "Blogs (/blogs) - /blogs", pathname: "/blogs" },
+    { name: "Decoding Land (/decoding-land) - /decoding-land", pathname: "/decoding-land" },
+    { name: "Gallery (/gallery) - /gallery", pathname: "/gallery" },
+    { name: "Governance (/governance) - /governance", pathname: "/governance" },
+    { name: "Projects (/projects) - /projects", pathname: "/projects" },
+    { name: "Contact (/contact) - /contact", pathname: "/contact" },
+  ]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [isActive, setIsActive] = useState(true);
+
+  // Fetch available website pages dynamically from the CMS
+  useEffect(() => {
+    Promise.allSettled([
+      fetch(`${API_BASE_URL}/projects`).then((r) => (r.ok ? r.json() : [])),
+      fetch(`${API_BASE_URL}/blog`).then((r) => (r.ok ? r.json() : [])),
+      fetch(`${API_BASE_URL}/gallery/category?status=true`).then((r) => (r.ok ? r.json() : [])),
+    ]).then(([projectsRes, blogsRes, galleryRes]) => {
+      const dynamicPages: { name: string; pathname: string }[] = [];
+
+      if (projectsRes.status === "fulfilled" && Array.isArray(projectsRes.value)) {
+        projectsRes.value.forEach((proj: any) => {
+          if (proj.slug) {
+            dynamicPages.push({
+              name: `Project: ${proj.name} (/projects/${proj.slug})`,
+              pathname: `/projects/${proj.slug}`,
+            });
+          }
+        });
+      }
+
+      if (blogsRes.status === "fulfilled" && Array.isArray(blogsRes.value)) {
+        blogsRes.value.forEach((blog: any) => {
+          if (blog.slug) {
+            dynamicPages.push({
+              name: `Blog: ${blog.title} (/blogs/${blog.slug})`,
+              pathname: `/blogs/${blog.slug}`,
+            });
+          }
+        });
+      }
+
+      if (galleryRes.status === "fulfilled" && Array.isArray(galleryRes.value)) {
+        galleryRes.value.forEach((cat: any) => {
+          if (cat.slug) {
+            dynamicPages.push({
+              name: `Gallery Category: ${cat.name} (/gallery/${cat.slug})`,
+              pathname: `/gallery/${cat.slug}`,
+            });
+          }
+        });
+      }
+
+      setAvailablePages((prev) => {
+        const staticOnly = prev.filter(
+          (p) =>
+            !p.pathname.startsWith("/projects/") &&
+            !p.pathname.startsWith("/blogs/") &&
+            !p.pathname.startsWith("/gallery/")
+        );
+        return [...staticOnly, ...dynamicPages];
+      });
+    });
+  }, []);
+
+  // Clear selected pages automatically if Target Type is All Pages
+  useEffect(() => {
+    if (targetType === "ALL_PAGES") {
+      setSelectedPages([]);
+    }
+  }, [targetType]);
 
   useEffect(() => {
     if (isEdit && id) {
@@ -64,7 +139,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
           setPriority(popup.priority || 0);
           setDeviceType(popup.deviceType);
           setTargetType(popup.targetType);
-          setTargetPages(popup.targetPages ? popup.targetPages.join(", ") : "");
+          setSelectedPages(popup.targetPages || []);
           setStartDate(popup.startDate ? popup.startDate.split("T")[0] : "");
           setEndDate(popup.endDate ? popup.endDate.split("T")[0] : "");
           setIsActive(popup.isActive);
@@ -99,6 +174,11 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
       return;
     }
 
+    if (targetType === "SPECIFIC_PAGES" && selectedPages.length === 0) {
+      setError("Please select at least one target page.");
+      return;
+    }
+
     try {
       setSubmitting(true);
       setError(null);
@@ -125,11 +205,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
       formData.append("deviceType", deviceType);
       formData.append("targetType", targetType);
       
-      const pagesArray = targetPages
-        .split(",")
-        .map((p) => p.trim())
-        .filter((p) => p.length > 0);
-      formData.append("targetPages", JSON.stringify(pagesArray));
+      formData.append("targetPages", JSON.stringify(selectedPages));
 
       if (startDate) {
         formData.append("startDate", new Date(startDate).toISOString());
@@ -153,6 +229,12 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
       setSubmitting(false);
     }
   }
+
+  const filteredPages = availablePages.filter(
+    (page) =>
+      page.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      page.pathname.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -442,15 +524,103 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
             </div>
 
             {targetType === "SPECIFIC_PAGES" && (
-              <div className="flex flex-col gap-2">
-                <label className="text-xs font-semibold text-slate-350">Target Page Pathnames (Comma-separated)</label>
-                <input
-                  type="text"
-                  value={targetPages}
-                  onChange={(e) => setTargetPages(e.target.value)}
-                  placeholder="/blog, /projects/villas"
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
-                />
+              <div className="flex flex-col gap-2 sm:col-span-2 relative">
+                <label className="text-xs font-semibold text-slate-350">Target Pages *</label>
+                
+                {/* Search / Dropdown Toggle Button */}
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() => setDropdownOpen(!dropdownOpen)}
+                    className="w-full bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200 flex items-center justify-between cursor-pointer text-left"
+                  >
+                    <span className="text-slate-400">
+                      {selectedPages.length === 0 ? "Select pages..." : `${selectedPages.length} pages selected`}
+                    </span>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      strokeWidth={2}
+                      stroke="currentColor"
+                      className={`w-4 h-4 text-slate-450 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                    </svg>
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {dropdownOpen && (
+                    <div className="absolute left-0 right-0 mt-2 bg-[#171721] border border-[#1e1e2e] rounded-xl shadow-2xl z-30 max-h-80 flex flex-col overflow-hidden">
+                      {/* Search Bar */}
+                      <div className="p-3 border-b border-[#1e1e2e]">
+                        <input
+                          type="text"
+                          placeholder="Search pages..."
+                          value={searchTerm}
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="w-full bg-[#101017] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-3 py-2 text-xs text-slate-200"
+                        />
+                      </div>
+                      
+                      {/* Options List */}
+                      <div className="overflow-y-auto flex-1 max-h-56 p-2 space-y-1">
+                        {filteredPages.length === 0 ? (
+                          <div className="text-xs text-slate-500 text-center py-4">No pages found.</div>
+                        ) : (
+                          filteredPages.map((pageOpt) => {
+                            const isChecked = selectedPages.includes(pageOpt.pathname);
+                            return (
+                              <label
+                                key={pageOpt.pathname}
+                                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 cursor-pointer text-xs text-slate-350 transition-colors select-none"
+                              >
+                                <input
+                                  type="checkbox"
+                                  checked={isChecked}
+                                  onChange={() => {
+                                    if (isChecked) {
+                                      setSelectedPages(selectedPages.filter((p) => p !== pageOpt.pathname));
+                                    } else {
+                                      setSelectedPages([...selectedPages, pageOpt.pathname]);
+                                    }
+                                  }}
+                                  className="w-4 h-4 rounded text-indigo-500 bg-[#101017] border-[#1e1e2e] focus:ring-indigo-500"
+                                />
+                                <span className="flex-1 truncate">{pageOpt.name}</span>
+                              </label>
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Removable Chips */}
+                {selectedPages.length > 0 && (
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {selectedPages.map((pathname) => {
+                      const foundPage = availablePages.find((p) => p.pathname === pathname);
+                      const displayName = foundPage ? foundPage.name.split(" (")[0] : pathname;
+                      return (
+                        <div
+                          key={pathname}
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/35 text-indigo-300 text-xs font-semibold"
+                        >
+                          <span className="truncate max-w-[200px]">{displayName}</span>
+                          <button
+                            type="button"
+                            onClick={() => setSelectedPages(selectedPages.filter((p) => p !== pathname))}
+                            className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-indigo-500/20 text-indigo-400 hover:text-white transition-colors cursor-pointer border-none text-[10px]"
+                          >
+                            ✕
+                          </button>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             )}
           </div>

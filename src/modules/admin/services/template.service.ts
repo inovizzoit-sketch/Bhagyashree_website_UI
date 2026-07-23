@@ -11,7 +11,11 @@ import {
 
 function getAuthHeader(): Record<string, string> {
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("accessToken");
+    const token =
+      localStorage.getItem("admin_token") ||
+      localStorage.getItem("accessToken") ||
+      localStorage.getItem("access_token") ||
+      localStorage.getItem("token");
     if (token) {
       return { Authorization: `Bearer ${token}` };
     }

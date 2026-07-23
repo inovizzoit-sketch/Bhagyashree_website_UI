@@ -2,6 +2,8 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import { Form } from "@/modules/admin/types/form.types";
+import { getPublicFormBySlug, submitPublicForm } from "@/modules/admin/services/form.service";
 
 interface EnquiryContextType {
   isOpen: boolean;
@@ -19,17 +21,16 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Form Fields
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("");
+  // Dynamic Form Schema from Form Builder API
+  const [dynamicForm, setDynamicForm] = useState<Form | null>(null);
+  const [formData, setFormData] = useState<Record<string, any>>({});
   const [agreed, setAgreed] = useState(true);
 
   // Dynamic projects list from API
   const [projectsList, setProjectsList] = useState<{ id: string; name: string }[]>([]);
 
   useEffect(() => {
+    // 1. Load Projects List
     fetch(`${API_BASE_URL}/projects`)
       .then((res) => {
         if (!res.ok) throw new Error();
@@ -42,21 +43,30 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
         setProjectsList(activeProjects);
       })
       .catch(() => {
-        // Fallback static projects list if API call fails
         setProjectsList([
           { id: "1", name: "Nandeeka Enclave" },
           { id: "2", name: "Nandeeka Heights" },
           { id: "3", name: "Nandeeka Puram" },
         ]);
       });
+
+    // 2. Fetch Dynamic Form Schema from API (inquiry-form)
+    getPublicFormBySlug("inquiry-form")
+      .then((form) => {
+        if (form && form.fields) {
+          setDynamicForm(form);
+        }
+      })
+      .catch(() => {
+        // Form builder fallback
+      });
   }, []);
 
   const openEnquiry = (projName?: string) => {
     setProjectName(projName || "");
-    setName("");
-    setEmail("");
-    setPhone("");
-    setCity("");
+    setFormData({
+      project: projName || "",
+    });
     setAgreed(true);
     setError(null);
     setSuccess(false);
@@ -65,6 +75,10 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
   const closeEnquiry = () => {
     setIsOpen(false);
+  };
+
+  const handleInputChange = (fieldName: string, value: any) => {
+    setFormData((prev) => ({ ...prev, [fieldName]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -76,29 +90,32 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
     setSubmitting(true);
     setError(null);
 
-    const payload = {
-      name,
-      email,
-      phone,
-      message: `City: ${city}`,
-      project: projectName || undefined,
+    const pageSource = typeof window !== "undefined" ? window.location.pathname : "";
+    const submissionPayload = {
+      ...formData,
+      project: projectName || formData.project || "General Project Inquiry",
     };
 
     try {
-      const res = await fetch(`${API_BASE_URL}/enquiries`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) {
-        throw new Error("Backend not available");
-      }
+      // Submit dynamically to Form Builder backend API
+      const slugToSubmit = dynamicForm?.slug || "inquiry-form";
+      await submitPublicForm(slugToSubmit, submissionPayload, pageSource);
       setSuccess(true);
-    } catch (err) {
-      console.log("Using frontend fallback success simulation:", payload);
+    } catch {
+      // Fallback submit to /enquiries
+      try {
+        await fetch(`${API_BASE_URL}/enquiries`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: formData.name || formData["Full Name"] || "Anonymous",
+            email: formData.email || formData["Email ID"] || "",
+            phone: formData.phone || formData["Phone Number"] || "",
+            message: JSON.stringify(submissionPayload),
+            project: projectName || "General Project Inquiry",
+          }),
+        });
+      } catch {}
       setSuccess(true);
     } finally {
       setSubmitting(false);
@@ -109,7 +126,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
     <EnquiryContext.Provider value={{ isOpen, projectName, openEnquiry, closeEnquiry }}>
       {children}
 
-      {/* Modern Royal Blue Glassmorphic Enquiry Modal Popup */}
+      {/* Modern Royal Blue Glassmorphic Dynamic Enquiry Modal Popup */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-sans">
           
@@ -149,13 +166,13 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
               </div>
             ) : (
               <div className="space-y-8">
-                {/* Header */}
+                {/* Dynamic Header */}
                 <div className="space-y-2">
                   <h3 className="text-2xl md:text-3xl font-serif text-white leading-tight font-medium">
-                    Just a few more details.
+                    {dynamicForm?.name || "Just a few more details."}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#8E90A2] font-light">
-                    Our experts will call you shortly.
+                    {dynamicForm?.description || "Our experts will call you shortly."}
                   </p>
                 </div>
 
@@ -173,7 +190,10 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                     </label>
                     <select
                       value={projectName}
-                      onChange={(e) => setProjectName(e.target.value)}
+                      onChange={(e) => {
+                        setProjectName(e.target.value);
+                        handleInputChange("project", e.target.value);
+                      }}
                       className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 cursor-pointer rounded-none appearance-none"
                       style={{
                         backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%238E90A2' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
@@ -192,72 +212,129 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                     </select>
                   </div>
 
-                  {/* Name Input */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
-                      Name
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your name"
-                      value={name}
-                      onChange={(e) => setName(e.target.value)}
-                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
-                    />
-                  </div>
+                  {/* DYNAMIC FORM FIELDS RENDERED FROM BACKEND SCHEMA */}
+                  {dynamicForm && dynamicForm.fields && dynamicForm.fields.length > 0 ? (
+                    dynamicForm.fields.map((field: any) => {
+                      const key = field.name || field.label;
+                      return (
+                        <div key={field.id || key} className="space-y-1">
+                          <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                            {field.label} {field.required && <span className="text-gold-solid">*</span>}
+                          </label>
 
-                  {/* Mobile Number Input */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
-                      Mobile Number
-                    </label>
-                    <div className="flex items-center border-0 border-b border-white/20 focus-within:border-gold-solid/80 transition-colors">
-                      <div className="flex items-center gap-1 text-white text-sm py-2.5 pr-2 select-none font-medium">
-                        <span>+91</span>
-                        <span>🇮🇳</span>
-                        <span className="text-[9px] text-[#8E90A2] ml-0.5">▼</span>
+                          {field.type === "TEXTAREA" || field.type === "textarea" ? (
+                            <textarea
+                              rows={3}
+                              required={field.required}
+                              placeholder={field.placeholder || "Enter details..."}
+                              value={formData[key] || ""}
+                              onChange={(e) => handleInputChange(key, e.target.value)}
+                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors resize-none"
+                            />
+                          ) : field.type === "SELECT" || field.type === "select" ? (
+                            <select
+                              required={field.required}
+                              value={formData[key] || ""}
+                              onChange={(e) => handleInputChange(key, e.target.value)}
+                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 cursor-pointer rounded-none appearance-none"
+                            >
+                              <option value="" disabled className="bg-[#0a0d24] text-white/50">
+                                {field.placeholder || "Select option..."}
+                              </option>
+                              {field.options?.map((opt: string) => (
+                                <option key={opt} value={opt} className="bg-[#0a0d24] text-white">
+                                  {opt}
+                                </option>
+                              ))}
+                            </select>
+                          ) : (
+                            <input
+                              type={
+                                field.type === "EMAIL" || field.type === "email"
+                                  ? "email"
+                                  : field.type === "PHONE" || field.type === "phone"
+                                  ? "tel"
+                                  : field.type === "NUMBER" || field.type === "number"
+                                  ? "number"
+                                  : field.type === "DATE" || field.type === "date"
+                                  ? "date"
+                                  : "text"
+                              }
+                              required={field.required}
+                              placeholder={field.placeholder || `Enter ${field.label}`}
+                              value={formData[key] || ""}
+                              onChange={(e) => handleInputChange(key, e.target.value)}
+                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                            />
+                          )}
+                        </div>
+                      );
+                    })
+                  ) : (
+                    /* Fallback Fields if API is Loading */
+                    <>
+                      <div className="space-y-1">
+                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          required
+                          placeholder="e.g. John Doe"
+                          value={formData.name || ""}
+                          onChange={(e) => handleInputChange("name", e.target.value)}
+                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                        />
                       </div>
-                      <input
-                        type="tel"
-                        required
-                        placeholder="Enter your mobile number"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        className="w-full bg-transparent text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none"
-                      />
-                    </div>
-                  </div>
 
-                  {/* City Input */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
-                      City
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Enter your city"
-                      value={city}
-                      onChange={(e) => setCity(e.target.value)}
-                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
-                    />
-                  </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                          Mobile Number *
+                        </label>
+                        <div className="flex items-center border-0 border-b border-white/20 focus-within:border-gold-solid/80 transition-colors">
+                          <div className="flex items-center gap-1 text-white text-sm py-2.5 pr-2 select-none font-medium">
+                            <span>+91</span>
+                            <span>🇮🇳</span>
+                          </div>
+                          <input
+                            type="tel"
+                            required
+                            placeholder="Enter mobile number"
+                            value={formData.phone || ""}
+                            onChange={(e) => handleInputChange("phone", e.target.value)}
+                            className="w-full bg-transparent text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none"
+                          />
+                        </div>
+                      </div>
 
-                  {/* Email Input */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
-                      Email ID
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="Enter your email ID"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
-                    />
-                  </div>
+                      <div className="space-y-1">
+                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                          Email ID *
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          placeholder="john@example.com"
+                          value={formData.email || ""}
+                          onChange={(e) => handleInputChange("email", e.target.value)}
+                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                        />
+                      </div>
+
+                      <div className="space-y-1">
+                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                          Message / Requirements
+                        </label>
+                        <textarea
+                          rows={2}
+                          placeholder="Write message..."
+                          value={formData.message || ""}
+                          onChange={(e) => handleInputChange("message", e.target.value)}
+                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors resize-none"
+                        />
+                      </div>
+                    </>
+                  )}
 
                   {/* Agreement Checkbox */}
                   <label className="flex items-start gap-3.5 cursor-pointer pt-2">
@@ -285,7 +362,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                           <span>Submitting...</span>
                         </>
                       ) : (
-                        <span>Submit Interest ➔</span>
+                        <span>{dynamicForm?.submitButtonText || "Submit Interest ➔"}</span>
                       )}
                     </button>
                   </div>
@@ -306,4 +383,3 @@ export function useEnquiry() {
   }
   return context;
 }
-

@@ -174,3 +174,47 @@ Implement analytics and lead system.
 
 Do not generate everything at once.
 First create the complete architecture and Prisma schema, then continue module by module.
+
+Phase 6:
+Improve the Popup Management "Target Page" selection.
+
+Currently, the admin enters Target Page Pathnames as comma-separated text, which can lead to invalid or incorrect URLs.
+
+Required Changes:
+
+Replace the text input with a multi-select dropdown.
+The dropdown should display all available website pages dynamically (fetched from the CMS or predefined route configuration).
+Admin can select one or multiple pages.
+Store only the selected page pathnames (e.g., /, /about, /projects, /contact).
+Prevent manual typing of URLs to avoid invalid or non-existent routes.
+Include a search option in the dropdown for websites with many pages.
+Display selected pages as removable chips/tags.
+If a page is deleted from the CMS, it should no longer appear in the dropdown.
+Validate that at least one page is selected when Target Type = Specific Pages.
+If Target Type = All Pages, disable and clear the page selector automatically.
+
+Example UI
+
+Target Type
+○ All Pages
+○ Specific Pages
+
+Target Pages
+[▼ Select Pages]
+
+☑ Home (/)
+☑ About (/about)
+☑ Projects (/projects)
+☐ Gallery (/gallery)
+☐ Contact (/contact)
+
+Selected:
+[Home ✕] [Projects ✕]
+
+Benefits:
+
+Prevents invalid URLs.
+Eliminates typing mistakes.
+Ensures popups are shown only on existing website pages.
+Improves admin usability and data consistency.
+Makes future maintenance easier since pages are selected from a managed list rather than entered manually.
