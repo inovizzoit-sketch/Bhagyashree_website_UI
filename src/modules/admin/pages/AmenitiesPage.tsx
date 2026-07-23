@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Modal from "@/shared/components/Modal";
 import {
   Amenity,
   getAmenities,
@@ -138,7 +139,7 @@ export default function AmenitiesPage() {
 
         <button
           onClick={handleOpenCreate}
-          className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-sm font-semibold tracking-wide transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10 self-start sm:self-auto"
+          className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold tracking-wide transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10 self-start sm:self-auto"
         >
           + Add Amenity
         </button>
@@ -186,7 +187,7 @@ export default function AmenitiesPage() {
                     </td>
                     <td className="px-6 py-4">
                       {am.category ? (
-                        <span className="px-2.5 py-1 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-lg text-xs font-semibold">
+                        <span className="px-2.5 py-1 bg-gold-solid/10 border border-gold-solid/20 text-gold-solid rounded-lg text-xs font-semibold">
                           {am.category.name}
                         </span>
                       ) : (
@@ -220,7 +221,7 @@ export default function AmenitiesPage() {
                     <td className="px-6 py-4 text-right space-x-2">
                       <button
                         onClick={() => handleOpenEdit(am)}
-                        className="px-3 py-1.5 bg-[#181824] hover:bg-indigo-500/10 border border-[#1e1e2e] hover:border-indigo-500/30 text-xs font-bold text-slate-300 hover:text-indigo-400 rounded-lg transition-colors cursor-pointer"
+                        className="px-3 py-1.5 bg-[#181824] hover:bg-gold-solid/10 border border-[#1e1e2e] hover:border-gold-solid/30 text-xs font-bold text-slate-300 hover:text-gold-solid rounded-lg transition-colors cursor-pointer"
                       >
                         Edit
                       </button>
@@ -240,121 +241,111 @@ export default function AmenitiesPage() {
       )}
 
       {/* modal create/edit popup */}
-      {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-md bg-[#13131a] border border-[#1e1e2e] rounded-2xl shadow-2xl overflow-hidden animate-slide-up">
-            <header className="px-6 py-5 border-b border-[#1e1e2e] flex items-center justify-between">
-              <h3 className="text-lg font-bold text-slate-100">
-                {editingId ? "Modify Amenity" : "Add Amenity"}
-              </h3>
-              <button
-                onClick={() => setModalOpen(false)}
-                className="text-slate-400 hover:text-white transition-colors cursor-pointer bg-transparent border-0 outline-none text-xl"
-              >
-                ✕
-              </button>
-            </header>
+      <Modal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        title={editingId ? "Modify Amenity" : "Add Amenity"}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={() => setModalOpen(false)}
+              className="px-4 py-2 bg-[#181824] hover:bg-[#1e1e2e] border border-[#1e1e2e] text-slate-300 rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              form="amenity-form"
+              disabled={submitting}
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover disabled:opacity-50 text-[#020520] rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10"
+            >
+              {submitting ? "Saving..." : "Save Amenity"}
+            </button>
+          </>
+        }
+      >
+        <form id="amenity-form" onSubmit={handleSubmit} className="space-y-4">
+          {validationErrors.length > 0 && (
+            <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs space-y-1">
+              {validationErrors.map((err, i) => (
+                <div key={i}>• {err}</div>
+              ))}
+            </div>
+          )}
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
-              {validationErrors.length > 0 && (
-                <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs space-y-1">
-                  {validationErrors.map((err, i) => (
-                    <div key={i}>• {err}</div>
-                  ))}
-                </div>
-              )}
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Amenity Name
-                </label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Swimming Pool"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
-                />
-              </div>
-
-              <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Category Classification
-                </label>
-                <select
-                  required
-                  value={categoryId}
-                  onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
-                >
-                  <option value="" disabled>Select Category...</option>
-                  {categories.map((cat) => (
-                    <option key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-               <div className="space-y-1">
-                <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Image/Icon File
-                </label>
-                {icon && !iconFile && (
-                  <div className="mb-2 relative w-16 h-16 rounded-lg overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center">
-                    <img
-                      src={icon.startsWith("http") ? icon : `${API_BASE_URL.replace("/api/v1", "")}${icon}`}
-                      alt="Icon Preview"
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                )}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0] || null;
-                    setIconFile(file);
-                  }}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
-                />
-              </div>
-
-              <div className="space-y-1 py-2">
-                <label className="flex items-center gap-2.5 cursor-pointer select-none">
-                  <input
-                    type="checkbox"
-                    checked={isActive}
-                    onChange={(e) => setIsActive(e.target.checked)}
-                    className="w-4 h-4 rounded bg-[#181824] border border-[#1e1e2e] accent-indigo-500 cursor-pointer"
-                  />
-                  <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                    Active Status
-                  </span>
-                </label>
-              </div>
-
-              <footer className="pt-4 border-t border-[#1e1e2e] flex items-center justify-end gap-3">
-                <button
-                  type="button"
-                  onClick={() => setModalOpen(false)}
-                  className="px-4 py-2 bg-[#181824] hover:bg-[#1e1e2e] border border-[#1e1e2e] text-slate-300 rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submitting}
-                  className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10"
-                >
-                  {submitting ? "Saving..." : "Save Amenity"}
-                </button>
-              </footer>
-            </form>
+          <div className="space-y-1">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Amenity Name
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="e.g. Swimming Pool"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
+            />
           </div>
-        </div>
-      )}
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Category Classification
+            </label>
+            <select
+              required
+              value={categoryId}
+              onChange={(e) => setCategoryId(e.target.value)}
+              className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
+            >
+              <option value="" disabled>Select Category...</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold uppercase tracking-wider text-slate-400">
+              Image/Icon File
+            </label>
+            {icon && !iconFile && (
+              <div className="mb-2 relative w-16 h-16 rounded-lg overflow-hidden border border-[#1e1e2e] bg-[#181824] flex items-center justify-center">
+                <img
+                  src={icon.startsWith("http") ? icon : `${API_BASE_URL.replace("/api/v1", "")}${icon}`}
+                  alt="Icon Preview"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            )}
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                const file = e.target.files?.[0] || null;
+                setIconFile(file);
+              }}
+              className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
+            />
+          </div>
+
+          <div className="space-y-1 py-2">
+            <label className="flex items-center gap-2.5 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={isActive}
+                onChange={(e) => setIsActive(e.target.checked)}
+                className="w-4 h-4 rounded bg-[#181824] border border-[#1e1e2e] accent-indigo-500 cursor-pointer"
+              />
+              <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
+                Active Status
+              </span>
+            </label>
+          </div>
+        </form>
+      </Modal>
     </div>
   );
 }

@@ -51,7 +51,7 @@ export default function DecodingLandPage() {
       category: "Land Economics",
       date: "July 12, 2026",
       readTime: "5 min read",
-      image: "/images/clubhouse.png",
+      image: "/images/About.jpeg",
       excerpt: "Why institutional security, legal clearances, and immediate road access make branded land layouts outperform traditional unorganized plots by 3x.",
       content: [
         "For decades, plotted land purchase was considered high-risk due to duplicate registrations, boundary overlaps, and encroachment threats. Branded land developers have changed the paradigm by offering institutional security.",
@@ -319,24 +319,16 @@ export default function DecodingLandPage() {
             {/* Top decorative line */}
             <div className="h-1.5 w-full bg-gradient-to-r from-gold-solid to-gold-hover" />
 
-            {/* Header / Cover container */}
-            <div className="relative aspect-[21/9] w-full bg-background shrink-0">
-              <img
-                src={selectedBlog.image}
-                alt={selectedBlog.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e163d] to-transparent" />
-              <button
-                onClick={() => setSelectedBlog(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-background transition-colors flex items-center justify-center cursor-pointer outline-none"
-              >
-                ✕
-              </button>
-            </div>
+            {/* Close button */}
+            <button
+              onClick={() => setSelectedBlog(null)}
+              className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-background transition-colors flex items-center justify-center cursor-pointer outline-none"
+            >
+              ✕
+            </button>
 
             {/* Content area */}
-            <div className="p-8 overflow-y-auto space-y-4 leading-relaxed text-sm text-text-gray-light font-light scrollbar-thin">
+            <div className="p-8 pt-12 overflow-y-auto space-y-4 leading-relaxed text-sm text-text-gray-light font-light scrollbar-thin">
               <div className="space-y-1.5">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gold-solid bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded inline-block">
                   {selectedBlog.category}

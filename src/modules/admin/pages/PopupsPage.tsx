@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getPopups, deletePopup, createPopup, getPopupById, PopupItem } from "../services/popup.service";
+import Modal from "@/shared/components/Modal";
 
 export default function PopupsPage() {
   const [popups, setPopups] = useState<PopupItem[]>([]);
@@ -105,7 +106,7 @@ export default function PopupsPage() {
         
         <Link
           href="/admin/popup/create"
-          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold transition-all duration-150 cursor-pointer shadow-md no-underline border-none"
+          className="flex items-center justify-center gap-2 px-4 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer shadow-md no-underline border-none"
         >
           ➕ New Popup Campaign
         </Link>
@@ -137,8 +138,8 @@ export default function PopupsPage() {
       <div className="bg-[#13131a] border border-[#1e1e2e] rounded-2xl overflow-hidden shadow-sm">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-20">
-            <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-            <p className="text-xs text-slate-450 mt-4">Loading campaigns...</p>
+            <div className="w-8 h-8 border-4 border-gold-solid border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-xs text-slate-455 mt-4">Loading campaigns...</p>
           </div>
         ) : popups.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -181,13 +182,13 @@ export default function PopupsPage() {
                     <td className="px-6 py-4 text-xs font-mono">{popup.triggerType}</td>
                     <td className="px-6 py-4 text-center font-mono text-xs">{popup.impressions}</td>
                     <td className="px-6 py-4 text-center font-mono text-xs">{popup.clicks}</td>
-                    <td className="px-6 py-4 text-center font-semibold text-xs text-indigo-400">
+                    <td className="px-6 py-4 text-center font-semibold text-xs text-gold-solid">
                       {calculateCTR(popup.clicks, popup.impressions)}
                     </td>
                     <td className="px-6 py-4 text-right space-x-2">
                       <button
                         onClick={() => setDetailsPopup(popup)}
-                        className="px-2.5 py-1 bg-indigo-500/15 hover:bg-indigo-500/30 text-indigo-300 rounded text-xs border-none cursor-pointer"
+                        className="px-2.5 py-1 bg-gold-solid/10 hover:bg-gold-solid/20 text-gold-solid rounded text-xs border-none cursor-pointer"
                       >
                         👁 Details
                       </button>
@@ -200,7 +201,7 @@ export default function PopupsPage() {
                       </button>
                       <Link
                         href={`/admin/popup/edit/${popup.id}`}
-                        className="no-underline px-2.5 py-1 bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 rounded text-xs border-none cursor-pointer"
+                        className="no-underline px-2.5 py-1 bg-gold-solid/10 hover:bg-gold-solid/20 text-gold-solid rounded text-xs border-none cursor-pointer"
                       >
                         ✏️ Edit
                       </Link>
@@ -243,41 +244,55 @@ export default function PopupsPage() {
         )}
       </div>
 
-      {/* Details View Modal */}
-      {detailsPopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-          <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#13131a] border border-[#1e1e2e] rounded-2xl shadow-2xl p-6 sm:p-8 space-y-6">
-            
-            {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-[#1e1e2e] pb-4">
-              <div>
-                <div className="flex items-center gap-2">
-                  <h2 className="text-xl font-bold text-slate-100">{detailsPopup.title}</h2>
-                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                    detailsPopup.isActive
-                      ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                      : "bg-slate-800 text-slate-500 border border-slate-700"
-                  }`}>
-                    {detailsPopup.isActive ? "Active" : "Inactive"}
-                  </span>
-                </div>
-                <p className="text-xs text-slate-400 font-mono mt-1">Slug: {detailsPopup.slug} | ID: {detailsPopup.id}</p>
-              </div>
-
-              <button
-                onClick={() => setDetailsPopup(null)}
-                className="w-8 h-8 rounded-full bg-[#171721] hover:bg-[#20202e] text-slate-400 hover:text-white flex items-center justify-center transition-colors border border-[#1e1e2e] cursor-pointer"
+      {/* Immersive Details Modal */}
+      <Modal
+        isOpen={Boolean(detailsPopup)}
+        onClose={() => setDetailsPopup(null)}
+        maxWidth="max-w-4xl"
+        title={
+          detailsPopup ? (
+            <div className="flex items-center gap-3">
+              <span>{detailsPopup.title}</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                detailsPopup.isActive
+                  ? "bg-emerald-500/10 border-emerald-500/20 text-emerald-400"
+                  : "bg-slate-800 border-slate-700 text-slate-500"
+              }`}>
+                {detailsPopup.isActive ? "Active" : "Inactive"}
+              </span>
+            </div>
+          ) : (
+            "Campaign Details"
+          )
+        }
+        footer={
+          detailsPopup ? (
+            <div className="flex items-center justify-between w-full">
+              <Link
+                href={`/admin/popup/edit/${detailsPopup.id}`}
+                className="px-4 py-2 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold no-underline transition-colors"
               >
-                ✕
+                ✏️ Edit Campaign
+              </Link>
+              <button
+                type="button"
+                onClick={() => setDetailsPopup(null)}
+                className="px-4 py-2 bg-[#181824] hover:bg-[#1e1e2e] border border-[#1e1e2e] text-slate-350 rounded-xl text-xs font-semibold transition-colors cursor-pointer"
+              >
+                Close Window
               </button>
             </div>
-
+          ) : null
+        }
+      >
+        {detailsPopup && (
+          <div className="space-y-6 text-slate-300">
             {/* Content Specifications */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               
               {/* Left Column: Properties & Telemetry */}
               <div className="space-y-4">
-                <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Campaign Overview</h4>
+                <h4 className="text-xs font-semibold text-gold-solid uppercase tracking-wider">Campaign Overview</h4>
                 <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-4 space-y-2 text-xs">
                   <div className="flex justify-between"><span className="text-slate-400">Popup Type:</span> <span className="font-mono text-slate-200">{detailsPopup.popupType}</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">Priority Level:</span> <span className="font-mono text-slate-200">{detailsPopup.priority}</span></div>
@@ -287,7 +302,7 @@ export default function PopupsPage() {
                   <div className="flex justify-between"><span className="text-slate-400">Device Target:</span> <span className="font-mono text-slate-200">{detailsPopup.deviceType}</span></div>
                 </div>
 
-                <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Telemetry & Engagement</h4>
+                <h4 className="text-xs font-semibold text-gold-solid uppercase tracking-wider">Telemetry & Engagement</h4>
                 <div className="grid grid-cols-3 gap-3">
                   <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-3 text-center">
                     <span className="text-[10px] text-slate-400 uppercase block">Views</span>
@@ -295,7 +310,7 @@ export default function PopupsPage() {
                   </div>
                   <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-3 text-center">
                     <span className="text-[10px] text-slate-400 uppercase block">Clicks</span>
-                    <span className="text-base font-bold text-indigo-400">{detailsPopup.clicks}</span>
+                    <span className="text-base font-bold text-gold-solid">{detailsPopup.clicks}</span>
                   </div>
                   <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-3 text-center">
                     <span className="text-[10px] text-slate-400 uppercase block">CTR Rate</span>
@@ -306,7 +321,7 @@ export default function PopupsPage() {
 
               {/* Right Column: Targeting & Schedule */}
               <div className="space-y-4">
-                <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Page Targeting Rules</h4>
+                <h4 className="text-xs font-semibold text-gold-solid uppercase tracking-wider">Page Targeting Rules</h4>
                 <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-4 space-y-2 text-xs">
                   <div className="flex justify-between"><span className="text-slate-400">Target Type:</span> <span className="font-mono text-slate-200">{detailsPopup.targetType}</span></div>
                   {detailsPopup.targetType === "SPECIFIC_PAGES" && (
@@ -315,7 +330,7 @@ export default function PopupsPage() {
                       {detailsPopup.targetPages && detailsPopup.targetPages.length > 0 ? (
                         <div className="flex flex-wrap gap-1">
                           {detailsPopup.targetPages.map((path, idx) => (
-                            <span key={idx} className="px-2 py-0.5 bg-indigo-500/15 text-indigo-300 rounded text-[11px] font-mono border border-indigo-500/20">
+                            <span key={idx} className="px-2 py-0.5 bg-gold-solid/15 text-gold-solid rounded text-[11px] font-mono border border-gold-solid/20">
                               {path}
                             </span>
                           ))}
@@ -327,7 +342,7 @@ export default function PopupsPage() {
                   )}
                 </div>
 
-                <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Active Date Schedule</h4>
+                <h4 className="text-xs font-semibold text-gold-solid uppercase tracking-wider">Active Date Schedule</h4>
                 <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-4 space-y-2 text-xs">
                   <div className="flex justify-between"><span className="text-slate-400">Start Date:</span> <span className="font-mono text-slate-200">{detailsPopup.startDate ? new Date(detailsPopup.startDate).toLocaleDateString() : "Immediate (No start date)"}</span></div>
                   <div className="flex justify-between"><span className="text-slate-400">End Date:</span> <span className="font-mono text-slate-200">{detailsPopup.endDate ? new Date(detailsPopup.endDate).toLocaleDateString() : "Permanent (No end date)"}</span></div>
@@ -337,7 +352,7 @@ export default function PopupsPage() {
 
             {/* Visual Copywriting Preview Section */}
             <div className="space-y-3 pt-2 border-t border-[#1e1e2e]">
-              <h4 className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">Visual & Content Preview</h4>
+              <h4 className="text-xs font-semibold text-gold-solid uppercase tracking-wider">Visual & Content Preview</h4>
               <div className="bg-[#171721] border border-[#1e1e2e] rounded-xl p-4 space-y-3">
                 {detailsPopup.heading && <h3 className="text-lg font-semibold text-slate-100">{detailsPopup.heading}</h3>}
                 {detailsPopup.subHeading && <h4 className="text-xs font-medium text-amber-400">{detailsPopup.subHeading}</h4>}
@@ -353,7 +368,7 @@ export default function PopupsPage() {
                 {detailsPopup.buttonText && (
                   <div className="pt-2 flex items-center gap-2">
                     <span className="text-xs text-slate-400">CTA Action:</span>
-                    <a href={detailsPopup.buttonLink || "#"} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white rounded text-xs font-semibold no-underline">
+                    <a href={detailsPopup.buttonLink || "#"} target="_blank" rel="noopener noreferrer" className="px-3 py-1 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded text-xs font-bold no-underline">
                       {detailsPopup.buttonText} ↗
                     </a>
                   </div>
@@ -362,32 +377,16 @@ export default function PopupsPage() {
                 {detailsPopup.htmlContent && (
                   <div className="pt-2">
                     <span className="text-[10px] text-slate-400 block mb-1">Custom HTML Content:</span>
-                    <pre className="p-3 bg-[#13131a] rounded text-[11px] font-mono text-indigo-300 overflow-x-auto border border-[#1e1e2e] max-h-32">
+                    <pre className="p-3 bg-[#13131a] rounded text-[11px] font-mono text-gold-solid overflow-x-auto border border-[#1e1e2e] max-h-32">
                       {detailsPopup.htmlContent}
                     </pre>
                   </div>
                 )}
               </div>
             </div>
-
-            {/* Modal Actions */}
-            <div className="flex items-center justify-between border-t border-[#1e1e2e] pt-4">
-              <Link
-                href={`/admin/popup/edit/${detailsPopup.id}`}
-                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg text-xs font-semibold no-underline transition-colors"
-              >
-                ✏️ Edit Campaign
-              </Link>
-              <button
-                onClick={() => setDetailsPopup(null)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition-colors cursor-pointer border-none"
-              >
-                Close Window
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+        )}
+      </Modal>
     </div>
   );
 }

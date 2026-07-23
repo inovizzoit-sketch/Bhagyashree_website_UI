@@ -92,18 +92,12 @@ export default function AboutUsPage() {
           </div>
 
           {/* Decorative Media Frame */}
-          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 bg-gradient-to-br from-[#050c38] to-[#0b0b0f] shadow-2xl p-8 flex flex-col justify-between group hover:border-gold-solid/30 transition-all duration-500">
-            <div className="absolute inset-0 bg-[#DDBD81]/2 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-            <div className="space-y-4 relative z-10">
-              <span className="text-3xl">🏛️</span>
-              <h4 className="text-lg font-bold text-white tracking-tight">Varanasi Corporate Headquarters</h4>
-              <p className="text-xs text-[#8E90A2] font-light leading-relaxed">
-                Located on the high-growth DLW Road corridor, our office hosts legal teams, survey planners, and relationship desks to handle your land acquisition queries.
-              </p>
-            </div>
-            <div className="border-t border-white/5 pt-4 text-[10px] uppercase font-bold tracking-wider text-gold-solid relative z-10">
-              Nandeeka Enterprises Pvt Ltd
-            </div>
+          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+            <img 
+              src="/images/About.jpeg" 
+              alt="About Nandeeka" 
+              className="w-full h-full object-cover"
+            />
           </div>
         </div>
       </div>

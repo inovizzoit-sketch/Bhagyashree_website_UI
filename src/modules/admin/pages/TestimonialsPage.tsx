@@ -133,7 +133,7 @@ export default function TestimonialsPage() {
 
         <button
           onClick={handleOpenCreate}
-          className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 text-white rounded-xl text-sm font-semibold tracking-wide transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10 self-start sm:self-auto"
+          className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold tracking-wide transition-all cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10 self-start sm:self-auto"
         >
           + Add Testimonial
         </button>
@@ -147,7 +147,7 @@ export default function TestimonialsPage() {
 
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-3">
-          <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
           <p className="text-xs text-slate-400 uppercase tracking-widest font-semibold">
             Loading Testimonials...
           </p>
@@ -213,7 +213,7 @@ export default function TestimonialsPage() {
                     <td className="px-6 py-4 text-right space-x-2">
                       <button
                         onClick={() => handleOpenEdit(t)}
-                        className="px-3 py-1.5 bg-[#181824] hover:bg-indigo-500/10 border border-[#1e1e2e] hover:border-indigo-500/30 text-xs font-bold text-slate-300 hover:text-indigo-400 rounded-lg transition-colors cursor-pointer"
+                        className="px-3 py-1.5 bg-[#181824] hover:bg-gold-solid/10 border border-[#1e1e2e] hover:border-gold-solid/30 text-xs font-bold text-slate-300 hover:text-gold-solid rounded-lg transition-colors cursor-pointer"
                       >
                         Edit
                       </button>
@@ -268,7 +268,7 @@ export default function TestimonialsPage() {
                     placeholder="e.g. John Doe"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
 
@@ -279,7 +279,7 @@ export default function TestimonialsPage() {
                   <select
                     value={rating}
                     onChange={(e) => setRating(Number(e.target.value))}
-                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
+                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
                   >
                     <option value={5}>5 Stars ★★★★★</option>
                     <option value={4}>4 Stars ★★★★☆</option>
@@ -300,7 +300,7 @@ export default function TestimonialsPage() {
                     placeholder="e.g. Software Engineer"
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
 
@@ -313,7 +313,7 @@ export default function TestimonialsPage() {
                     placeholder="e.g. Google"
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
-                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors"
+                    className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors"
                   />
                 </div>
               </div>
@@ -328,7 +328,7 @@ export default function TestimonialsPage() {
                   placeholder="This is an amazing service! Highly recommended."
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors resize-none"
                 />
               </div>
 
@@ -352,7 +352,7 @@ export default function TestimonialsPage() {
                     const file = e.target.files?.[0] || null;
                     setAvatarFile(file);
                   }}
-                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-indigo-500 rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
+                  className="w-full px-4 py-3 bg-[#181824] border border-[#1e1e2e] hover:border-[#3F404D] focus:border-gold-solid rounded-xl text-slate-200 text-sm outline-none transition-colors cursor-pointer"
                 />
               </div>
 
@@ -367,7 +367,7 @@ export default function TestimonialsPage() {
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2.5 bg-indigo-500 hover:bg-indigo-600 disabled:opacity-50 text-white rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer active:scale-[0.98] shadow-lg shadow-indigo-500/10"
+                  className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover disabled:opacity-50 text-[#020520] rounded-xl text-xs font-bold tracking-wide transition-colors cursor-pointer active:scale-[0.98] shadow-lg shadow-gold-solid/10"
                 >
                   {submitting ? "Saving..." : "Save Testimonial"}
                 </button>

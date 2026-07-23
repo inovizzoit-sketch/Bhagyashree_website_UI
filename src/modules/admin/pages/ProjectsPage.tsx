@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Modal from "@/shared/components/Modal";
 import { getProjects, getProjectByIdOrSlug, updateProject, deleteProject } from "../services/project.service";
 import { Project, ProjectProperty, ProjectType, ProjectStatus } from "../types";
 
@@ -135,6 +136,41 @@ export default function ProjectsPage() {
     }
   }
 
+  async function handleEditProject(idOrSlug: string) {
+    try {
+      setDetailLoading(true);
+      setDetailError(null);
+      const data = await getProjectByIdOrSlug(idOrSlug);
+      setSelectedProject(data);
+      setEditName(data.name || "");
+      setEditSlug(data.slug || "");
+      setEditProjectType(data.projectType || "APARTMENT");
+      setEditProjectStatus(data.projectStatus || "UPCOMING");
+      setEditShortDescription(data.shortDescription || "");
+      setEditDescription(data.description || "");
+      setEditLocation(data.location || "");
+      setEditAddress(data.address || "");
+      setEditCity(data.city || "");
+      setEditState(data.state || "");
+      setEditPincode(data.pincode || "");
+      setEditStartingPrice(String(data.startingPrice || 0));
+      setEditPricePerSqft(String(data.pricePerSqft || 0));
+      setEditThumbnailFile(null);
+      setEditBrochureFile(null);
+      setEditThumbnailName("");
+      setEditBrochureName("");
+      setEditIsActive(data.isActive || false);
+      setEditIsFeatured(data.isFeatured || false);
+      setIsEditing(true);
+    } catch (err: unknown) {
+      console.error(err);
+      const msg = err instanceof Error ? err.message : String(err);
+      setDetailError(msg || "Failed to load project details");
+    } finally {
+      setDetailLoading(false);
+    }
+  }
+
   async function handleViewProject(idOrSlug: string) {
     try {
       setDetailLoading(true);
@@ -217,7 +253,7 @@ export default function ProjectsPage() {
         <p className="text-slate-400 text-sm max-w-md mb-6">{error}</p>
         <button
           onClick={() => fetchProjects(true)}
-          className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-lg text-sm font-semibold transition-all duration-150 cursor-pointer shadow-lg shadow-indigo-650/20"
+          className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-lg text-sm font-bold transition-all duration-150 cursor-pointer shadow-lg shadow-gold-solid/20"
         >
           Try Again
         </button>
@@ -239,7 +275,7 @@ export default function ProjectsPage() {
         </div>
         <Link
           href="/admin/projects/new"
-          className="flex items-center gap-2 px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-sm font-semibold transition-all duration-150 shadow-md shadow-indigo-655/15 cursor-pointer no-underline"
+          className="flex items-center gap-2 px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold transition-all duration-150 shadow-md shadow-gold-solid/15 cursor-pointer no-underline"
         >
           <span>+</span> Add Project
         </Link>
@@ -258,7 +294,7 @@ export default function ProjectsPage() {
             </p>
             <Link
               href="/admin/projects/new"
-              className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-xs font-semibold transition-all duration-150 shadow-md shadow-indigo-650/10 no-underline"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold transition-all duration-150 shadow-md shadow-gold-solid/10 no-underline"
             >
               + Create New Project
             </Link>
@@ -353,9 +389,15 @@ export default function ProjectsPage() {
                       <div className="flex items-center justify-end gap-2">
                         <button
                           onClick={() => handleViewProject(project.slug || project.id)}
-                          className="px-3.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-450 hover:text-indigo-350 border border-indigo-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
+                          className="px-3.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-455 hover:text-indigo-350 border border-indigo-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
                         >
                           View Details
+                        </button>
+                        <button
+                          onClick={() => handleEditProject(project.slug || project.id)}
+                          className="px-3.5 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
+                        >
+                          Edit
                         </button>
                         <button
                           onClick={() => { setConfirmDeleteId(project.id); setConfirmDeleteName(project.name); setDeleteError(null); }}
@@ -374,50 +416,77 @@ export default function ProjectsPage() {
       </div>
 
       {/* ── Immersive Project Details Modal ── */}
-      {(selectedProject || detailLoading || detailError) && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 md:p-6 transition-all duration-300">
-          {/* Backdrop Closer */}
-          <div className="absolute inset-0" onClick={() => { setSelectedProject(null); setDetailError(null); setIsEditing(false); }} />
-
-          {/* Modal Container */}
-          <div className="relative w-full max-w-5xl bg-[#13131a] border border-[#1e1e2e] h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden z-10 animate-fade-in">
-            
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e2e] bg-[#171722]/50">
-              <div>
-                <h2 className="text-xl font-bold text-slate-100 flex items-center gap-3">
-                  {selectedProject ? selectedProject.name : "Project Details"}
-                  {selectedProject && (
-                    <span className="text-[10px] font-bold bg-indigo-500/20 text-indigo-400 px-2 py-0.5 rounded border border-indigo-500/25 uppercase">
-                      {selectedProject.projectType}
-                    </span>
-                  )}
-                  {selectedProject && (
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                      selectedProject.projectStatus === "COMPLETED"
-                        ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/25"
-                        : selectedProject.projectStatus === "ONGOING"
-                        ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
-                        : "bg-blue-500/10 text-blue-400 border-blue-500/25"
-                    }`}>
-                      {selectedProject.projectStatus}
-                    </span>
-                  )}
-                </h2>
-                {selectedProject && (
-                  <p className="text-[11px] text-slate-500 mt-0.5">Slug: /{selectedProject.slug}</p>
-                )}
-              </div>
-              <button
-                onClick={() => { setSelectedProject(null); setDetailError(null); setIsEditing(false); }}
-                className="w-8 h-8 rounded-full bg-[#1c1c27] border border-[#1e1e2e] text-slate-400 hover:text-slate-200 flex items-center justify-center cursor-pointer transition-colors"
-              >
-                ✕
-              </button>
+      <Modal
+        isOpen={Boolean(selectedProject || detailLoading || detailError)}
+        onClose={() => { setSelectedProject(null); setDetailError(null); setIsEditing(false); }}
+        maxWidth="max-w-5xl"
+        title={
+          selectedProject ? (
+            <div className="flex items-center gap-3">
+              <span>{selectedProject.name}</span>
+              <span className="text-[10px] font-bold bg-gold-solid/20 text-gold-solid px-2 py-0.5 rounded border border-gold-solid/25 uppercase">
+                {selectedProject.projectType}
+              </span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
+                selectedProject.projectStatus === "COMPLETED"
+                  ? "bg-emerald-500/10 text-emerald-455 border-emerald-500/25"
+                  : selectedProject.projectStatus === "ONGOING"
+                  ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
+                  : "bg-blue-500/10 text-blue-400 border-blue-500/25"
+              }`}>
+                {selectedProject.projectStatus}
+              </span>
             </div>
-
-            {/* Modal Content */}
-            <div className="flex-1 overflow-y-auto p-6 md:p-8 text-slate-300">
+          ) : (
+            "Project Details"
+          )
+        }
+        footer={
+          isEditing ? (
+            <>
+              <button
+                type="button"
+                onClick={() => { setIsEditing(false); setDetailError(null); }}
+                className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="edit-project-form"
+                disabled={updateSubmitting}
+                className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold cursor-pointer disabled:opacity-50 transition-all duration-150 shadow-md shadow-gold-solid/10"
+              >
+                {updateSubmitting ? "Saving..." : "Save Changes"}
+              </button>
+            </>
+          ) : selectedProject ? (
+            <>
+              <button
+                type="button"
+                onClick={() => { setConfirmDeleteId(selectedProject.id); setConfirmDeleteName(selectedProject.name); setDeleteError(null); }}
+                className="px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150"
+              >
+                Delete Project
+              </button>
+              {/* <button
+                type="button"
+                onClick={startEditing}
+                className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold cursor-pointer transition-all duration-150 shadow-md shadow-gold-solid/10"
+              >
+                Edit Project
+              </button> */}
+              <button
+                type="button"
+                onClick={() => { setSelectedProject(null); setDetailError(null); }}
+                className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
+              >
+                Close View
+              </button>
+            </>
+          ) : null
+        }
+      >
               {detailLoading ? (
                 <div className="h-full flex flex-col items-center justify-center space-y-4">
                   <span className="animate-spin text-3xl text-indigo-500">⏳</span>
@@ -789,66 +858,10 @@ export default function ProjectsPage() {
                         )}
                       </div>
                     </div>
-
                   </div>
                 )
               ) : null}
-            </div>
-
-            {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-[#1e1e2e] bg-[#171722]/30 flex justify-between items-center">
-              <div>
-                {detailError && (
-                  <span className="text-xs text-red-400">⚠️ {detailError}</span>
-                )}
-              </div>
-              <div className="flex gap-3">
-                {isEditing ? (
-                  <>
-                    <button
-                      type="button"
-                      onClick={() => { setIsEditing(false); setDetailError(null); }}
-                      className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      form="edit-project-form"
-                      disabled={updateSubmitting}
-                      className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-750 text-white rounded-xl text-xs font-semibold cursor-pointer disabled:opacity-50 transition-all duration-150 shadow-md shadow-indigo-650/10"
-                    >
-                      {updateSubmitting ? "Saving..." : "Save Changes"}
-                    </button>
-                  </>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => { setConfirmDeleteId(selectedProject!.id); setConfirmDeleteName(selectedProject!.name); setDeleteError(null); }}
-                      className="px-5 py-2.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150"
-                    >
-                      Delete Project
-                    </button>
-                    <button
-                      onClick={startEditing}
-                      className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-xs font-semibold cursor-pointer transition-all duration-150 shadow-md shadow-indigo-650/10"
-                    >
-                      Edit Project
-                    </button>
-                    <button
-                      onClick={() => { setSelectedProject(null); setDetailError(null); }}
-                      className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
-                    >
-                      Close View
-                    </button>
-                  </>
-                )}
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
+      </Modal>
 
       {/* ── Delete Confirmation Modal ── */}
       {confirmDeleteId && (

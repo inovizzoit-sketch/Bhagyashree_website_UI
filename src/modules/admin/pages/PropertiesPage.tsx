@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Modal from "@/shared/components/Modal";
 import { getProperties, createProperty, updateProperty, deleteProperty, Property } from "../services/property.service";
 import { getProjects } from "../services/project.service";
 import { Project } from "../types";
@@ -213,7 +214,7 @@ export default function PropertiesPage() {
         <p className="text-slate-400 text-sm max-w-md mb-6">{error}</p>
         <button
           onClick={() => fetchPropertiesList(selectedProjectFilter)}
-          className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-lg text-sm font-semibold transition-all duration-150 cursor-pointer shadow-lg shadow-indigo-650/20"
+          className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-lg text-sm font-bold transition-all duration-150 cursor-pointer shadow-lg shadow-gold-solid/20"
         >
           Try Again
         </button>
@@ -235,7 +236,7 @@ export default function PropertiesPage() {
         </div>
         <button
           onClick={openCreateModal}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-sm font-semibold transition-all duration-150 shadow-md shadow-indigo-655/15 cursor-pointer no-underline self-start md:self-auto"
+          className="flex items-center justify-center gap-2 px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold transition-all duration-150 shadow-md shadow-gold-solid/15 cursor-pointer no-underline self-start md:self-auto"
         >
           <span>+</span> Add Property
         </button>
@@ -247,10 +248,10 @@ export default function PropertiesPage() {
           <label className="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Filter by Project</label>
           <select
             value={selectedProjectFilter}
-            onChange={handleFilterChange}
-            className="bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-200 text-xs outline-none transition-colors"
+            onChange={(e) => setSelectedProjectFilter(e.target.value)}
+            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-xl px-3.5 py-2.5 text-xs text-slate-200 outline-none transition-colors cursor-pointer"
           >
-            <option value="">All Projects</option>
+            <option value="ALL">All Projects</option>
             {projects.map((proj) => (
               <option key={proj.id} value={proj.id}>
                 {proj.name}
@@ -273,7 +274,7 @@ export default function PropertiesPage() {
             </p>
             <button
               onClick={openCreateModal}
-              className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-755 text-white rounded-xl text-xs font-semibold transition-all duration-150 shadow-md shadow-indigo-650/10"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold transition-all duration-150 shadow-md shadow-gold-solid/10"
             >
               + Add Property Unit
             </button>
@@ -385,32 +386,46 @@ export default function PropertiesPage() {
       </div>
 
       {/* ── Immersive Property Modal (Create / Edit) ── */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 md:p-6 transition-all duration-300">
-          {/* Backdrop Closer */}
-          <div className="absolute inset-0" onClick={() => setIsModalOpen(false)} />
-
-          {/* Modal Container */}
-          <div className="relative w-full max-w-4xl bg-[#13131a] border border-[#1e1e2e] h-[85vh] rounded-2xl flex flex-col shadow-2xl overflow-hidden z-10 animate-fade-in text-slate-300">
-            
-            {/* Modal Header */}
-            <div className="flex items-center justify-between px-6 py-4 border-b border-[#1e1e2e] bg-[#171722]/50">
-              <div>
-                <h2 className="text-xl font-bold text-slate-100">
-                  {modalMode === "create" ? "Add New Property Listing" : "Edit Property Listing"}
-                </h2>
-                <p className="text-xs text-slate-500 mt-0.5">Setup unit configurations, layout stats, and images.</p>
-              </div>
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        maxWidth="max-w-4xl"
+        title={
+          <div>
+            <h2 className="text-xl font-bold text-slate-100">
+              {modalMode === "create" ? "Add New Property Listing" : "Edit Property Listing"}
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5 font-normal">Setup unit configurations, layout stats, and images.</p>
+          </div>
+        }
+        footer={
+          <>
+            <div>
+              {modalError && (
+                <span className="text-xs text-red-400">⚠️ {modalError}</span>
+              )}
+            </div>
+            <div className="flex gap-3">
               <button
+                type="button"
                 onClick={() => setIsModalOpen(false)}
-                className="w-8 h-8 rounded-full bg-[#1c1c27] border border-[#1e1e2e] text-slate-400 hover:text-slate-200 flex items-center justify-center cursor-pointer transition-colors"
+                className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
               >
-                ✕
+                Cancel
+              </button>
+              <button
+                type="submit"
+                form="property-modal-form"
+                disabled={modalSubmitting}
+                className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold cursor-pointer disabled:opacity-50 transition-all duration-150 shadow-md shadow-gold-solid/10"
+              >
+                {modalSubmitting ? "Saving..." : "Save Property"}
               </button>
             </div>
-
-            {/* Modal Form Content */}
-            <form id="property-modal-form" onSubmit={handleFormSubmit} className="flex-1 overflow-y-auto p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          </>
+        }
+      >
+        <form id="property-modal-form" onSubmit={handleFormSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Column: Core fields */}
               <div className="lg:col-span-6 space-y-5">
@@ -607,38 +622,8 @@ export default function PropertiesPage() {
                 </div>
 
               </div>
-
-            </form>
-
-            {/* Modal Footer */}
-            <div className="px-6 py-4 border-t border-[#1e1e2e] bg-[#171722]/30 flex justify-between items-center">
-              <div>
-                {modalError && (
-                  <span className="text-xs text-red-400">⚠️ {modalError}</span>
-                )}
-              </div>
-              <div className="flex gap-3">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-5 py-2.5 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 hover:text-slate-100 border border-[#1e1e2e] rounded-xl text-xs font-semibold cursor-pointer transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  form="property-modal-form"
-                  disabled={modalSubmitting}
-                  className="px-5 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-750 text-white rounded-xl text-xs font-semibold cursor-pointer disabled:opacity-50 transition-all duration-150 shadow-md shadow-indigo-650/10"
-                >
-                  {modalSubmitting ? "Saving..." : "Save Property"}
-                </button>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      )}
+          </form>
+      </Modal>
 
     </div>
   );

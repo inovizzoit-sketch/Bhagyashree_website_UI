@@ -148,7 +148,7 @@ export default function GalleryPage() {
               setEditingItem(null);
               setUploadModalOpen(true);
             }}
-            className="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold tracking-wide transition-all cursor-pointer shadow-lg shadow-indigo-600/15"
+            className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold tracking-wide transition-all cursor-pointer shadow-lg shadow-gold-solid/10"
           >
             ➕ Upload Gallery Media
           </button>
@@ -170,7 +170,7 @@ export default function GalleryPage() {
           }}
           className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
             selectedCategoryId === ""
-              ? "bg-indigo-600 text-white shadow-sm"
+              ? "bg-gold-solid text-[#020520] font-bold shadow-sm shadow-gold-solid/10"
               : "bg-[#13131a] hover:bg-[#171721] border border-[#1e1e2e] text-slate-400"
           }`}
         >
@@ -186,7 +186,7 @@ export default function GalleryPage() {
             }}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
               selectedCategoryId === cat.id
-                ? "bg-indigo-600 text-white shadow-sm"
+                ? "bg-gold-solid text-[#020520] font-bold shadow-sm shadow-gold-solid/10"
                 : "bg-[#13131a] hover:bg-[#171721] border border-[#1e1e2e] text-slate-400"
             }`}
           >
@@ -218,7 +218,7 @@ export default function GalleryPage() {
               setSelectedMediaType(e.target.value);
               setPage(1);
             }}
-            className="px-3 py-1.5 bg-[#171721] border border-[#1e1e2e] rounded-xl text-xs text-slate-300 focus:outline-none focus:border-indigo-500"
+            className="px-3 py-1.5 bg-[#171721] border border-[#1e1e2e] rounded-xl text-xs text-slate-300 focus:outline-none focus:border-gold-solid"
           >
             <option value="">All Formats</option>
             <option value="IMAGE">Images</option>
@@ -246,7 +246,7 @@ export default function GalleryPage() {
       {/* Main Grid View */}
       {loading ? (
         <div className="flex flex-col items-center justify-center py-20 space-y-3">
-          <div className="w-8 h-8 border-2 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
+          <div className="w-8 h-8 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
           <p className="text-xs text-slate-500 tracking-wider uppercase font-semibold">Loading gallery items...</p>
         </div>
       ) : items.length === 0 ? (
@@ -261,7 +261,7 @@ export default function GalleryPage() {
               setEditingItem(null);
               setUploadModalOpen(true);
             }}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-semibold transition-all cursor-pointer shadow-md"
+            className="px-4 py-2 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold transition-all cursor-pointer shadow-md shadow-gold-solid/10"
           >
             Upload Media Files
           </button>
@@ -272,7 +272,7 @@ export default function GalleryPage() {
             <div
               key={item.id}
               className={`group relative bg-[#13131a] rounded-2xl overflow-hidden border transition-all flex flex-col ${
-                item.status ? "border-[#1e1e2e] hover:border-indigo-500/40" : "border-slate-800 opacity-60"
+                item.status ? "border-[#1e1e2e] hover:border-gold-solid/40" : "border-slate-800 opacity-60"
               }`}
             >
               {/* Media Thumbnail Container */}
@@ -291,7 +291,7 @@ export default function GalleryPage() {
                 )}
 
                 {/* Category Badge */}
-                <span className="absolute top-3 left-3 text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-indigo-300 border border-indigo-500/30">
+                <span className="absolute top-3 left-3 text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-black/60 backdrop-blur-md text-gold-solid border border-gold-solid/30">
                   {item.category?.name || "General"}
                 </span>
 
@@ -373,7 +373,7 @@ export default function GalleryPage() {
                             setEditingItem(item);
                             setUploadModalOpen(true);
                           }}
-                          className="px-2.5 py-1 bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 text-xs rounded transition-colors cursor-pointer"
+                          className="px-2.5 py-1 bg-gold-solid/10 hover:bg-gold-solid/20 text-gold-solid text-xs rounded transition-colors cursor-pointer"
                         >
                           ✏️ Edit
                         </button>

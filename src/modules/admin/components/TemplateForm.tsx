@@ -208,7 +208,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
             <button
               type="button"
               onClick={() => setTestModalOpen(true)}
-              className="px-4 py-2 bg-[#171721] hover:bg-[#20202e] border border-[#1e1e2e] text-indigo-400 text-xs font-semibold rounded-xl transition-all cursor-pointer"
+              className="px-4 py-2 bg-[#171721] hover:bg-[#20202e] border border-[#1e1e2e] text-gold-solid text-xs font-semibold rounded-xl transition-all cursor-pointer"
             >
               🧪 Test Execution
             </button>
@@ -219,7 +219,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
               type="button"
               onClick={() => handleTabChange("edit")}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                activeTab === "edit" ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-200"
+                activeTab === "edit" ? "bg-gold-solid text-[#020520] font-bold" : "text-slate-400 hover:text-slate-200"
               }`}
             >
               ✏️ Editor
@@ -228,7 +228,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
               type="button"
               onClick={() => handleTabChange("preview")}
               className={`px-3 py-1.5 rounded-lg transition-colors cursor-pointer ${
-                activeTab === "preview" ? "bg-indigo-600 text-white" : "text-slate-400 hover:text-slate-200"
+                activeTab === "preview" ? "bg-gold-solid text-[#020520] font-bold" : "text-slate-400 hover:text-slate-200"
               }`}
             >
               👁 Live Preview
@@ -256,7 +256,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                   placeholder="e.g. Lead Welcome Email"
                   value={name}
                   onChange={handleNameChange}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
 
@@ -270,7 +270,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                   placeholder="e.g. lead-welcome-email"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
 
@@ -281,7 +281,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as TemplateType)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 >
                   <option value="EMAIL">📧 Email Template</option>
                   <option value="WHATSAPP">💬 WhatsApp Template</option>
@@ -300,7 +300,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 <select
                   value={eventType}
                   onChange={(e) => setEventType(e.target.value as EventType)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 >
                   <option value="NONE">None (Manual Only)</option>
                   <option value="LEAD_CREATED">Trigger on: Lead Created</option>
@@ -320,7 +320,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 <select
                   value={categoryId}
                   onChange={(e) => setCategoryId(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 >
                   <option value="">Unassigned Category</option>
                   {categories.map((cat) => (
@@ -338,7 +338,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value as TemplateStatus)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 >
                   <option value="ACTIVE">Active</option>
                   <option value="INACTIVE">Inactive</option>
@@ -364,7 +364,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                   placeholder="e.g. Welcome to {{company_name}}, {{name}}!"
                   value={subject}
                   onChange={(e) => setSubject(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
             )}
@@ -380,7 +380,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                     key={v.key}
                     type="button"
                     onClick={() => insertVariable(v.key)}
-                    className="px-2.5 py-1 bg-indigo-600/15 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/25 rounded-md text-xs font-mono font-medium transition-all cursor-pointer hover:scale-105 active:scale-95"
+                    className="px-2.5 py-1 bg-gold-solid/10 hover:bg-gold-solid/20 text-gold-solid border border-gold-solid/25 rounded-md text-xs font-mono font-medium transition-all cursor-pointer hover:scale-105 active:scale-95"
                     title={v.label}
                   >
                     + {v.key}
@@ -399,7 +399,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 placeholder="Hello {{name}}, thank you for inquiring about {{project_name}}..."
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-xl px-4 py-3 text-slate-150 text-sm outline-none transition-colors font-mono leading-relaxed resize-none"
+                className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-xl px-4 py-3 text-slate-150 text-sm outline-none transition-colors font-mono leading-relaxed resize-none"
               />
             </div>
 
@@ -412,7 +412,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 placeholder="Internal memo on when this template is sent..."
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
               />
             </div>
           </div>
@@ -427,7 +427,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 Simulated rendering with placeholder variables substituted.
               </p>
             </div>
-            <span className="text-xs font-semibold px-2.5 py-1 rounded bg-indigo-500/20 text-indigo-400 border border-indigo-500/30">
+            <span className="text-xs font-semibold px-2.5 py-1 rounded bg-gold-solid/20 text-gold-solid border border-gold-solid/30">
               Channel: {type}
             </span>
           </div>
@@ -440,7 +440,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
             <div className="space-y-4">
               {renderedSubject && (
                 <div className="p-4 bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl space-y-1">
-                  <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block font-mono">
+                  <span className="text-[10px] font-bold text-gold-solid uppercase tracking-wider block font-mono">
                     Subject Line
                   </span>
                   <p className="text-sm font-semibold text-slate-100">{renderedSubject}</p>
@@ -448,7 +448,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
               )}
 
               <div className="p-6 bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl space-y-2 min-h-[200px]">
-                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block font-mono border-b border-[#1e1e2e] pb-2">
+                <span className="text-[10px] font-bold text-gold-solid uppercase tracking-wider block font-mono border-b border-[#1e1e2e] pb-2">
                   Body Content
                 </span>
                 <p className="text-sm text-slate-200 whitespace-pre-wrap font-sans leading-relaxed pt-2">
@@ -472,7 +472,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
         <button
           type="submit"
           disabled={submitting}
-          className="px-6 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-750 text-white rounded-xl text-sm font-semibold transition-all duration-150 disabled:opacity-50 cursor-pointer shadow-lg shadow-indigo-650/15 flex items-center gap-2"
+          className="px-6 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold transition-all duration-150 disabled:opacity-50 cursor-pointer shadow-lg shadow-gold-solid/10 flex items-center gap-2"
         >
           {submitting ? (
             <>
@@ -511,7 +511,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                   required
                   value={testRecipient}
                   onChange={(e) => setTestRecipient(e.target.value)}
-                  className="w-full px-3 py-2 bg-[#0b0b0f] border border-[#1e1e2e] rounded-lg text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
+                  className="w-full px-3 py-2 bg-[#0b0b0f] border border-[#1e1e2e] rounded-lg text-sm text-slate-200 focus:outline-none focus:border-gold-solid"
                 />
               </div>
 
@@ -526,7 +526,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
                 <button
                   type="submit"
                   disabled={testLoading}
-                  className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg cursor-pointer"
+                  className="px-4 py-2 bg-gold-solid hover:bg-gold-hover text-[#020520] text-xs font-bold rounded-lg cursor-pointer"
                 >
                   {testLoading ? "Sending Test..." : "Run Test Simulation"}
                 </button>

@@ -167,11 +167,10 @@ export default function TemplatesPage() {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer whitespace-nowrap border ${
-                activeTab === tab.value
+              className={`px-4 py-2 text-xs font-semibold rounded-xl transition-all cursor-pointer whitespace-nowrap border ${activeTab === tab.value
                   ? "bg-gold-solid/15 border-gold-solid/40 text-gold-solid"
                   : "bg-[#13131a] border-[#1e1e2e] text-slate-400 hover:text-slate-200"
-              }`}
+                }`}
             >
               {tab.label}
             </button>
@@ -234,7 +233,7 @@ export default function TemplatesPage() {
                   <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-lg border ${getTypeBadgeClass(tpl.type)}`}>
                     {getTypeIcon(tpl.type)}
                   </span>
-                  
+
                   {/* Status Toggle Switch */}
                   {(() => {
                     const isActive = Boolean(tpl.status === true || tpl.status === "ACTIVE");

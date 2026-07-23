@@ -187,7 +187,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
           <button
             type="button"
             onClick={() => setPreviewOpen(true)}
-            className="px-4 py-2 bg-[#171721] hover:bg-[#20202e] border border-[#1e1e2e] text-indigo-400 text-xs font-semibold rounded-xl transition-all cursor-pointer flex items-center gap-2"
+            className="px-4 py-2 bg-[#171721] hover:bg-[#20202e] border border-[#1e1e2e] text-gold-solid text-xs font-semibold rounded-xl transition-all cursor-pointer flex items-center gap-2"
           >
             👁 Live Preview
           </button>
@@ -213,7 +213,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                   placeholder="e.g. Contact Us Form"
                   value={name}
                   onChange={handleNameChange}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
 
@@ -227,7 +227,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                   placeholder="e.g. contact-us-form"
                   value={slug}
                   onChange={(e) => setSlug(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
 
@@ -238,7 +238,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                 <select
                   value={type}
                   onChange={(e) => setType(e.target.value as FormType)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 >
                   <option value="CONTACT">Contact Form</option>
                   <option value="LEAD_INQUIRY">Lead Inquiry Form</option>
@@ -257,7 +257,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                   placeholder="e.g. Submit Request"
                   value={submitButtonText}
                   onChange={(e) => setSubmitButtonText(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
 
@@ -270,7 +270,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                   placeholder="Short introductory text displayed above the form..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
+                  className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-gold-solid rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
                 />
               </div>
             </div>
@@ -295,7 +295,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                 >
                   <div className="flex items-center justify-between border-b border-[#1e1e2e]/60 pb-3">
                     <div className="flex items-center gap-3">
-                      <span className="w-6 h-6 rounded-full bg-indigo-500/10 text-indigo-400 text-xs font-mono font-bold flex items-center justify-center border border-indigo-500/20">
+                      <span className="w-6 h-6 rounded-full bg-gold-solid/10 text-gold-solid text-xs font-mono font-bold flex items-center justify-center border border-gold-solid/20">
                         {index + 1}
                       </span>
                       <span className="text-xs font-mono uppercase tracking-wider text-slate-400 bg-[#13131a] px-2 py-0.5 rounded border border-[#1e1e2e]">
@@ -343,7 +343,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                         required
                         value={field.label}
                         onChange={(e) => updateField(index, { label: e.target.value })}
-                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-gold-solid"
                       />
                     </div>
 
@@ -356,7 +356,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                         required
                         value={field.name}
                         onChange={(e) => updateField(index, { name: e.target.value })}
-                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-indigo-500"
+                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 font-mono focus:outline-none focus:border-gold-solid"
                       />
                     </div>
 
@@ -368,7 +368,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                         type="text"
                         value={field.placeholder || ""}
                         onChange={(e) => updateField(index, { placeholder: e.target.value })}
-                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-gold-solid"
                       />
                     </div>
 
@@ -378,7 +378,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                           type="checkbox"
                           checked={field.required ?? false}
                           onChange={(e) => updateField(index, { required: e.target.checked })}
-                          className="w-4 h-4 text-indigo-600 bg-[#13131a] border-[#1e1e2e] rounded"
+                          className="w-4 h-4 text-gold-solid bg-[#13131a] border-[#1e1e2e] rounded cursor-pointer accent-gold-solid"
                         />
                         <span className="text-xs text-slate-300 font-semibold">
                           Required Field
@@ -405,7 +405,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                               .filter(Boolean),
                           })
                         }
-                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-indigo-500"
+                        className="w-full bg-[#13131a] border border-[#1e1e2e] rounded-lg px-3 py-1.5 text-xs text-slate-200 focus:outline-none focus:border-gold-solid"
                       />
                     </div>
                   )}
@@ -430,7 +430,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
                 key={ft.type}
                 type="button"
                 onClick={() => addField(ft.type)}
-                className="flex items-center gap-3 p-3 bg-[#0b0b0f] hover:bg-[#181824] border border-[#1e1e2e] hover:border-indigo-500/50 rounded-xl text-xs text-slate-300 font-medium transition-all text-left cursor-pointer group"
+                className="flex items-center gap-3 p-3 bg-[#0b0b0f] hover:bg-[#181824] border border-[#1e1e2e] hover:border-gold-solid/50 rounded-xl text-xs text-slate-300 font-medium transition-all text-left cursor-pointer group"
               >
                 <span className="text-base group-hover:scale-110 transition-transform">
                   {ft.icon}
@@ -454,7 +454,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
         <button
           type="submit"
           disabled={submitting}
-          className="px-6 py-2.5 bg-indigo-650 hover:bg-indigo-550 active:bg-indigo-750 text-white rounded-xl text-sm font-semibold transition-all duration-150 disabled:opacity-50 cursor-pointer shadow-lg shadow-indigo-650/15 flex items-center gap-2"
+          className="px-6 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-sm font-bold transition-all duration-150 disabled:opacity-50 cursor-pointer shadow-lg shadow-gold-solid/10 flex items-center gap-2"
         >
           {submitting ? (
             <>
@@ -522,7 +522,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
               <button
                 type="button"
                 disabled
-                className="w-full py-3 bg-indigo-650 text-white font-bold text-xs rounded-xl uppercase tracking-wider opacity-70 mt-4"
+                className="w-full py-3 bg-gold-solid text-[#020520] font-bold text-xs rounded-xl uppercase tracking-wider opacity-70 mt-4"
               >
                 {submitButtonText || "Submit"}
               </button>

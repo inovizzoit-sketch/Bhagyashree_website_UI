@@ -120,9 +120,9 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
     if (isEdit && id) {
       getPopupById(id)
         .then((popup) => {
-          setTitle(popup.title);
-          setSlug(popup.slug);
-          setPopupType(popup.popupType);
+          setTitle(popup.title || "");
+          setSlug(popup.slug || "");
+          setPopupType(popup.popupType || "ANNOUNCEMENT");
           setHeading(popup.heading || "");
           setSubHeading(popup.subHeading || "");
           setDescription(popup.description || "");
@@ -133,16 +133,16 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
           setButtonText(popup.buttonText || "");
           setButtonLink(popup.buttonLink || "");
           setHtmlContent(popup.htmlContent || "");
-          setTriggerType(popup.triggerType);
+          setTriggerType(popup.triggerType || "ON_PAGE_LOAD");
           setShowAfterSeconds(popup.showAfterSeconds || 0);
-          setFrequency(popup.frequency);
+          setFrequency(popup.frequency || "ONCE");
           setPriority(popup.priority || 0);
-          setDeviceType(popup.deviceType);
-          setTargetType(popup.targetType);
-          setSelectedPages(popup.targetPages || []);
-          setStartDate(popup.startDate ? popup.startDate.split("T")[0] : "");
-          setEndDate(popup.endDate ? popup.endDate.split("T")[0] : "");
-          setIsActive(popup.isActive);
+          setDeviceType(popup.deviceType || "ALL");
+          setTargetType(popup.targetType || "ALL_PAGES");
+          setSelectedPages(Array.isArray(popup.targetPages) ? popup.targetPages : []);
+          setStartDate(popup.startDate && typeof popup.startDate === "string" ? popup.startDate.split("T")[0] : "");
+          setEndDate(popup.endDate && typeof popup.endDate === "string" ? popup.endDate.split("T")[0] : "");
+          setIsActive(!!popup.isActive);
           setLoading(false);
         })
         .catch((err) => {
@@ -239,8 +239,8 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center py-40">
-        <div className="w-8 h-8 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-xs text-slate-450 mt-4">Loading form details...</p>
+        <div className="w-8 h-8 border-4 border-gold-solid border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-xs text-slate-455 mt-4">Loading form details...</p>
       </div>
     );
   }
@@ -276,7 +276,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
         
         {/* Core Config Section */}
         <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-indigo-400 border-b border-[#1e1e2e] pb-2">1. Campaign Configuration</h3>
+          <h3 className="text-sm font-semibold text-gold-solid border-b border-[#1e1e2e] pb-2">1. Campaign Configuration</h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
@@ -287,7 +287,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 value={title}
                 onChange={handleTitleChange}
                 placeholder="e.g. Summer Sale Announcement"
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
             
@@ -299,7 +299,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 value={slug}
                 onChange={(e) => setSlug(e.target.value.toLowerCase())}
                 placeholder="summer-sale-announcement"
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
 
@@ -308,7 +308,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
               <select
                 value={popupType}
                 onChange={(e) => setPopupType(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               >
                 <option value="ANNOUNCEMENT">Announcement</option>
                 <option value="PROMOTION">Promotion / Banner</option>
@@ -326,7 +326,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 type="number"
                 value={priority}
                 onChange={(e) => setPriority(parseInt(e.target.value, 10) || 0)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
           </div>
@@ -334,7 +334,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
 
         {/* Content Section based on type */}
         <div className="space-y-4 pt-4">
-          <h3 className="text-sm font-semibold text-indigo-400 border-b border-[#1e1e2e] pb-2">2. Visual & Copywriting Content</h3>
+          <h3 className="text-sm font-semibold text-gold-solid border-b border-[#1e1e2e] pb-2">2. Visual & Copywriting Content</h3>
           
           {popupType !== "CUSTOM_HTML" && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -345,7 +345,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                   value={heading}
                   onChange={(e) => setHeading(e.target.value)}
                   placeholder="e.g. Mega Sale Up to 40% Off!"
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                  className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
                 />
               </div>
 
@@ -356,10 +356,9 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                   value={subHeading}
                   onChange={(e) => setSubHeading(e.target.value)}
                   placeholder="Limited time inventory only."
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                  className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
                 />
               </div>
-
               <div className="flex flex-col gap-2 sm:col-span-2">
                 <label className="text-xs font-semibold text-slate-350">Description Content</label>
                 <textarea
@@ -367,7 +366,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="Describe your offer or notification here..."
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200 resize-y"
+                  className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200 resize-y"
                 />
               </div>
             </div>
@@ -407,7 +406,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 value={videoUrl}
                 onChange={(e) => setVideoUrl(e.target.value)}
                 placeholder="https://www.youtube.com/embed/..."
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
           )}
@@ -421,7 +420,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 value={htmlContent}
                 onChange={(e) => setHtmlContent(e.target.value)}
                 placeholder="<div style='color: red;'>Hello World</div>"
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm font-mono text-indigo-200 resize-y"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm font-mono text-gold-solid resize-y"
               />
             </div>
           )}
@@ -436,7 +435,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                   value={buttonText}
                   onChange={(e) => setButtonText(e.target.value)}
                   placeholder="e.g. Learn More"
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                  className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
                 />
               </div>
 
@@ -447,7 +446,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                   value={buttonLink}
                   onChange={(e) => setButtonLink(e.target.value)}
                   placeholder="https://mysite.com/deals"
-                  className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                  className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
                 />
               </div>
             </div>
@@ -456,7 +455,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
 
         {/* Triggers, Limits & Scheduling Section */}
         <div className="space-y-4 pt-4">
-          <h3 className="text-sm font-semibold text-indigo-400 border-b border-[#1e1e2e] pb-2">3. Triggers & Behavioral Rules</h3>
+          <h3 className="text-sm font-semibold text-gold-solid border-b border-[#1e1e2e] pb-2">3. Triggers & Behavioral Rules</h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
@@ -464,7 +463,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
               <select
                 value={triggerType}
                 onChange={(e) => setTriggerType(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               >
                 <option value="ON_PAGE_LOAD">On Page Load</option>
                 <option value="AFTER_X_SECONDS">After Delay (Seconds)</option>
@@ -480,7 +479,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 type="number"
                 value={showAfterSeconds}
                 onChange={(e) => setShowAfterSeconds(parseInt(e.target.value, 10) || 0)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
 
@@ -489,7 +488,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
               <select
                 value={frequency}
                 onChange={(e) => setFrequency(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               >
                 <option value="ONCE">Once per user</option>
                 <option value="EVERY_SESSION">Once per session</option>
@@ -503,7 +502,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
               <select
                 value={deviceType}
                 onChange={(e) => setDeviceType(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               >
                 <option value="ALL">All Devices</option>
                 <option value="DESKTOP">Desktop Only</option>
@@ -516,7 +515,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
               <select
                 value={targetType}
                 onChange={(e) => setTargetType(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               >
                 <option value="ALL_PAGES">Global (All Pages)</option>
                 <option value="SPECIFIC_PAGES">Specific Pages Only</option>
@@ -529,12 +528,13 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 
                 {/* Search / Dropdown Toggle Button */}
                 <div className="relative">
+                  {/* Search / Dropdown Toggle Button */}
                   <button
                     type="button"
                     onClick={() => setDropdownOpen(!dropdownOpen)}
-                    className="w-full bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200 flex items-center justify-between cursor-pointer text-left"
+                    className={`w-full bg-[#171721] border ${dropdownOpen ? "border-gold-solid shadow-lg shadow-gold-solid/5" : "border-[#1e1e2e]"} hover:border-[#2a2a3e] outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200 flex items-center justify-between cursor-pointer text-left transition-all duration-250`}
                   >
-                    <span className="text-slate-400">
+                    <span className={selectedPages.length === 0 ? "text-slate-500" : "text-slate-250 font-medium"}>
                       {selectedPages.length === 0 ? "Select pages..." : `${selectedPages.length} pages selected`}
                     </span>
                     <svg
@@ -543,37 +543,55 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                       viewBox="0 0 24 24"
                       strokeWidth={2}
                       stroke="currentColor"
-                      className={`w-4 h-4 text-slate-450 transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
+                      className={`w-4 h-4 text-slate-450 transition-transform duration-250 ${dropdownOpen ? "rotate-180 text-gold-solid" : ""}`}
                     >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
                     </svg>
                   </button>
 
-                  {/* Dropdown Menu */}
+                  {/* Backdrop for closing dropdown when clicking outside */}
                   {dropdownOpen && (
-                    <div className="absolute left-0 right-0 mt-2 bg-[#171721] border border-[#1e1e2e] rounded-xl shadow-2xl z-30 max-h-80 flex flex-col overflow-hidden">
-                      {/* Search Bar */}
-                      <div className="p-3 border-b border-[#1e1e2e]">
+                    <div 
+                      className="fixed inset-0 z-20 cursor-default"
+                      onClick={() => setDropdownOpen(false)}
+                    />
+                  )}
+
+                  {/* Dropdown Menu Overlay */}
+                  {dropdownOpen && (
+                    <div className="absolute left-0 right-0 mt-2 bg-[#171721]/95 backdrop-blur-md border border-[#2d2d3f] rounded-xl shadow-2xl z-30 max-h-80 flex flex-col overflow-hidden animate-fade-in">
+                      {/* Search Bar Container */}
+                      <div className="p-3 border-b border-[#1e1e2e] flex items-center gap-2">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          strokeWidth={2.5}
+                          stroke="currentColor"
+                          className="w-4 h-4 text-slate-500"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.637 10.637z" />
+                        </svg>
                         <input
                           type="text"
-                          placeholder="Search pages..."
+                          placeholder="Search available pages..."
                           value={searchTerm}
                           onChange={(e) => setSearchTerm(e.target.value)}
-                          className="w-full bg-[#101017] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-3 py-2 text-xs text-slate-200"
+                          className="w-full bg-[#101017] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 transition-colors"
                         />
                       </div>
                       
-                      {/* Options List */}
-                      <div className="overflow-y-auto flex-1 max-h-56 p-2 space-y-1">
+                      {/* Options Scroll List */}
+                      <div className="overflow-y-auto flex-1 max-h-56 p-2 space-y-0.5">
                         {filteredPages.length === 0 ? (
-                          <div className="text-xs text-slate-500 text-center py-4">No pages found.</div>
+                          <div className="text-xs text-slate-500 text-center py-6">No matching pages found.</div>
                         ) : (
                           filteredPages.map((pageOpt) => {
                             const isChecked = selectedPages.includes(pageOpt.pathname);
                             return (
                               <label
                                 key={pageOpt.pathname}
-                                className="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-white/5 cursor-pointer text-xs text-slate-350 transition-colors select-none"
+                                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg cursor-pointer text-xs transition-colors select-none ${isChecked ? "bg-gold-solid/10 text-gold-solid" : "text-slate-350 hover:bg-white/5 hover:text-slate-200"}`}
                               >
                                 <input
                                   type="checkbox"
@@ -585,9 +603,9 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                                       setSelectedPages([...selectedPages, pageOpt.pathname]);
                                     }
                                   }}
-                                  className="w-4 h-4 rounded text-indigo-500 bg-[#101017] border-[#1e1e2e] focus:ring-indigo-500"
+                                  className="w-4 h-4 rounded text-gold-solid bg-[#101017] border-[#1e1e2e] focus:ring-gold-solid focus:ring-offset-0 cursor-pointer accent-gold-solid"
                                 />
-                                <span className="flex-1 truncate">{pageOpt.name}</span>
+                                <span className="flex-1 truncate font-medium">{pageOpt.name}</span>
                               </label>
                             );
                           })
@@ -606,13 +624,13 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                       return (
                         <div
                           key={pathname}
-                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-indigo-500/15 border border-indigo-500/35 text-indigo-300 text-xs font-semibold"
+                          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold-solid/15 border border-gold-solid/35 text-gold-solid text-xs font-semibold"
                         >
                           <span className="truncate max-w-[200px]">{displayName}</span>
                           <button
                             type="button"
                             onClick={() => setSelectedPages(selectedPages.filter((p) => p !== pathname))}
-                            className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-indigo-500/20 text-indigo-400 hover:text-white transition-colors cursor-pointer border-none text-[10px]"
+                            className="w-4 h-4 rounded-full flex items-center justify-center hover:bg-gold-solid/20 text-gold-solid hover:text-white transition-colors cursor-pointer border-none text-[10px]"
                           >
                             ✕
                           </button>
@@ -628,7 +646,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
 
         {/* Scheduling Details */}
         <div className="space-y-4 pt-4">
-          <h3 className="text-sm font-semibold text-indigo-400 border-b border-[#1e1e2e] pb-2">4. Date Ranges & Visibility</h3>
+          <h3 className="text-sm font-semibold text-gold-solid border-b border-[#1e1e2e] pb-2">4. Date Ranges & Visibility</h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="flex flex-col gap-2">
@@ -637,7 +655,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
 
@@ -647,7 +665,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="bg-[#171721] border border-[#1e1e2e] focus:border-indigo-500 outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
+                className="bg-[#171721] border border-[#1e1e2e] focus:border-gold-solid outline-none rounded-lg px-4 py-2.5 text-sm text-slate-200"
               />
             </div>
 
@@ -657,7 +675,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
                 id="isActive"
                 checked={isActive}
                 onChange={(e) => setIsActive(e.target.checked)}
-                className="w-4 h-4 rounded text-indigo-500 bg-[#171721] border-[#1e1e2e] focus:ring-indigo-500"
+                className="w-4 h-4 rounded text-gold-solid bg-[#171721] border-[#1e1e2e] focus:ring-gold-solid cursor-pointer accent-gold-solid"
               />
               <label htmlFor="isActive" className="text-sm font-semibold text-slate-200 cursor-pointer">
                 Campaign is Active (Check to enable on client side instantly)
@@ -677,7 +695,7 @@ export default function PopupFormPage({ id }: PopupFormPageProps) {
           <button
             type="submit"
             disabled={submitting}
-            className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-500 disabled:bg-indigo-800 disabled:text-slate-500 text-white rounded-lg text-sm font-semibold transition-all duration-150 cursor-pointer border-none shadow-md"
+            className="px-6 py-2.5 bg-gold-solid hover:bg-gold-hover disabled:bg-slate-800 disabled:text-slate-500 text-[#020520] rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer border-none shadow-md"
           >
             {submitting ? "Saving..." : isEdit ? "Update Campaign" : "Publish Campaign"}
           </button>
