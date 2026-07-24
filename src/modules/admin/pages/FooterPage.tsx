@@ -296,8 +296,8 @@ export default function FooterPage() {
   };
 
   return (
-    <div className="space-y-6 font-sans">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="space-y-4 font-sans">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
         <div>
           <h1 className="text-2xl md:text-3xl font-extrabold text-slate-100 tracking-tight">
             Footer Management
@@ -309,10 +309,10 @@ export default function FooterPage() {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-[#1e1e2e] gap-6">
+      <div className="flex border-b border-[#1e1e2e] gap-4">
         <button
           onClick={() => { setActiveTab("settings"); setError(null); setSuccessMsg(null); }}
-          className={`pb-3 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "settings"
+          className={`pb-2.5 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "settings"
               ? "border-gold-solid text-gold-solid"
               : "border-transparent text-slate-400 hover:text-slate-200"
             }`}
@@ -321,7 +321,7 @@ export default function FooterPage() {
         </button>
         <button
           onClick={() => { setActiveTab("links"); setError(null); setSuccessMsg(null); }}
-          className={`pb-3 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "links"
+          className={`pb-2.5 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "links"
               ? "border-gold-solid text-gold-solid"
               : "border-transparent text-slate-400 hover:text-slate-200"
             }`}
@@ -330,7 +330,7 @@ export default function FooterPage() {
         </button>
         <button
           onClick={() => { setActiveTab("socials"); setError(null); setSuccessMsg(null); }}
-          className={`pb-3 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "socials"
+          className={`pb-2.5 text-sm font-semibold tracking-wide transition-colors cursor-pointer border-b-2 bg-transparent border-none ${activeTab === "socials"
               ? "border-gold-solid text-gold-solid"
               : "border-transparent text-slate-400 hover:text-slate-200"
             }`}
@@ -362,12 +362,12 @@ export default function FooterPage() {
         <>
           {/* TAB 1: SETTINGS */}
           {activeTab === "settings" && (
-            <form onSubmit={handleUpdateSettings} className="space-y-6">
-              <fieldset disabled={!isEditing} className="border-0 p-0 m-0 space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <form onSubmit={handleUpdateSettings} className="space-y-4">
+              <fieldset disabled={!isEditing} className="border-0 p-0 m-0 space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
                 {/* Branding Card */}
-                <div className="p-6 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-4 shadow-xl">
+                <div className="p-4 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-3 shadow-xl">
                   <h3 className="text-lg font-bold text-slate-200 border-b border-[#1e1e2e] pb-2">Branding</h3>
 
                   <div className="space-y-1">
@@ -428,7 +428,7 @@ export default function FooterPage() {
                 </div>
 
                 {/* Contact Card */}
-                <div className="p-6 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-4 shadow-xl">
+                <div className="p-4 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-3 shadow-xl">
                   <h3 className="text-lg font-bold text-slate-200 border-b border-[#1e1e2e] pb-2">Contact Details</h3>
 
                   <div className="space-y-1">
@@ -477,7 +477,7 @@ export default function FooterPage() {
                 </div>
 
                 {/* Policies & URLs Card */}
-                <div className="p-6 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-4 shadow-xl">
+                <div className="p-4 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-3 shadow-xl">
                   <h3 className="text-lg font-bold text-slate-200 border-b border-[#1e1e2e] pb-2">Policy Configurations</h3>
 
                   <div className="space-y-1">
@@ -517,7 +517,7 @@ export default function FooterPage() {
                 </div>
 
                 {/* Theme Customizer Card */}
-                <div className="p-6 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-4 shadow-xl">
+                <div className="p-4 border border-[#1e1e2e] bg-[#13131a] rounded-2xl space-y-3 shadow-xl">
                   <h3 className="text-lg font-bold text-slate-200 border-b border-[#1e1e2e] pb-2">Custom Color Palette</h3>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -581,7 +581,7 @@ export default function FooterPage() {
               </fieldset>
 
               {/* Submit panel */}
-              <div className="flex justify-end pt-4 gap-3">
+              <div className="flex justify-end pt-3 gap-3">
                 {!isEditing ? (
                   <button
                     type="button"
@@ -762,18 +762,18 @@ export default function FooterPage() {
             </div>
           )}
           {/* Live UI Preview Section */}
-          <div className="mt-12 space-y-4">
-            <div className="border-t border-[#1e1e2e] pt-8">
+          <div className="mt-8 space-y-3">
+            <div className="border-t border-[#1e1e2e] pt-6">
               <h3 className="text-lg font-bold text-slate-200">Live Footer Preview</h3>
               <p className="text-xs text-slate-400">This is how the footer will appear on the live website (showing pending form changes).</p>
             </div>
 
             <div className="border border-[#1e1e2e] bg-[#09090d] rounded-2xl overflow-hidden shadow-2xl">
               <footer
-                className="border-t border-white/5 py-12 text-[12px] md:text-xs text-slate-400"
+                className="border-t border-white/5 py-8 text-[12px] md:text-xs text-slate-400"
                 style={{ backgroundColor: backgroundColor || "#010314", color: textColor || undefined }}
               >
-                <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+                <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 md:grid-cols-12 gap-6">
                   {/* Column 1: Brand Info */}
                   <div className="md:col-span-6 space-y-4">
                     <div className="flex items-center">
@@ -920,7 +920,7 @@ export default function FooterPage() {
               </button>
             </header>
 
-            <form onSubmit={handleLinkSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleLinkSubmit} className="p-4 space-y-3">
               <div className="space-y-1">
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Link Title</label>
                 <input
@@ -1019,7 +1019,7 @@ export default function FooterPage() {
               </button>
             </header>
 
-            <form onSubmit={handleSocialSubmit} className="p-6 space-y-4">
+            <form onSubmit={handleSocialSubmit} className="p-4 space-y-3">
               <div className="space-y-1">
                 <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">Platform Name</label>
                 <input
