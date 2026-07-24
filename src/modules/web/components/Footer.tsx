@@ -1,100 +1,310 @@
+"use client";
+
 // src/modules/web/components/Footer.tsx
 
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import { API_BASE_URL } from "@/shared/lib/api-config";
+
+interface FooterSettings {
+  logoUrl?: string;
+  bottomLogoUrl?: string;
+  companyName: string;
+  description?: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+  copyrightText?: string;
+  privacyPolicyUrl?: string;
+  termsOfServiceUrl?: string;
+  backgroundColor?: string;
+  textColor?: string;
+  accentColor?: string;
+  isActive: boolean;
+}
+
+interface FooterLink {
+  id: string;
+  title: string;
+  url: string;
+  openInNewTab: boolean;
+  sortOrder: number;
+  isActive: boolean;
+}
+
+interface FooterSocial {
+  id: string;
+  platform: string;
+  url: string;
+  icon?: string;
+  sortOrder: number;
+  isActive: boolean;
+}
+
+// Fallback hardcoded data in case API fails or is loading
+const defaultSettings: FooterSettings = {
+  companyName: "Nandeeka Enterprises",
+  description: "Nandeeka Enterprises is a trusted real estate company based in Rohania, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
+  address: "2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108",
+  phone: "+91 95196 62111",
+  email: "info@nandeekaenterprises.com",
+  copyrightText: "Nandeeka Enterprises. All rights reserved.",
+  privacyPolicyUrl: "",
+  termsOfServiceUrl: "",
+  isActive: true,
+};
+
+const defaultLinks: FooterLink[] = [
+  { id: "1", title: "Home", url: "/", openInNewTab: false, sortOrder: 1, isActive: true },
+  { id: "2", title: "Projects", url: "/projects", openInNewTab: false, sortOrder: 2, isActive: true },
+  { id: "3", title: "Decoding Land", url: "/decoding-land", openInNewTab: false, sortOrder: 3, isActive: true },
+  { id: "4", title: "About Us", url: "/about-us", openInNewTab: false, sortOrder: 4, isActive: true },
+  { id: "5", title: "Governance", url: "/governance", openInNewTab: false, sortOrder: 5, isActive: true },
+];
+
+const defaultSocials: FooterSocial[] = [
+  { id: "1", platform: "Facebook", url: "https://www.facebook.com/NandeekaEnterprisesPvtLtd", icon: "facebook", sortOrder: 1, isActive: true },
+  { id: "2", platform: "Instagram", url: "https://www.instagram.com/nandeekaenterprisespvtltd_", icon: "instagram", sortOrder: 2, isActive: true },
+  { id: "3", platform: "X", url: "https://x.com/nandeekaepvtltd", icon: "x", sortOrder: 3, isActive: true },
+  { id: "4", platform: "LinkedIn", url: "https://www.linkedin.com/company/nandeeka-enterprises-pvt-ltd", icon: "linkedin", sortOrder: 4, isActive: true },
+  { id: "5", platform: "YouTube", url: "https://www.youtube.com/@NandeekaEnterprisesPvtLtd-b5z", icon: "youtube", sortOrder: 5, isActive: true },
+];
 
 export default function Footer() {
+  const [settings, setSettings] = useState<FooterSettings>(defaultSettings);
+  const [links, setLinks] = useState<FooterLink[]>(defaultLinks);
+  const [socials, setSocials] = useState<FooterSocial[]>(defaultSocials);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch(`${API_BASE_URL}/footer`)
+      .then((r) => {
+        if (!r.ok) throw new Error("Failed to load footer");
+        return r.json();
+      })
+      .then((data) => {
+        if (active && data) {
+          if (data.settings && data.settings.isActive !== false) {
+            setSettings(data.settings);
+          }
+          if (Array.isArray(data.links) && data.links.length > 0) {
+            setLinks(data.links);
+          }
+          if (Array.isArray(data.socials) && data.socials.length > 0) {
+            setSocials(data.socials);
+          }
+        }
+      })
+      .catch((err) => {
+        console.warn("Using default static footer config:", err.message);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const getSocialConfig = (platform: string, iconKey?: string) => {
+    const key = (iconKey || platform || "").toLowerCase();
+
+    if (key.includes("facebook")) {
+      return {
+        title: "Facebook",
+        borderColor: "border-[#1877F2]/30",
+        bgColor: "bg-[#1877F2]/10 hover:bg-[#1877F2]/20 hover:border-[#1877F2]",
+        textColor: "text-[#1877F2]",
+        shadowColor: "shadow-[#1877F2]/5",
+        svg: (
+          <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
+          </svg>
+        )
+      };
+    }
+
+    if (key.includes("instagram")) {
+      return {
+        title: "Instagram",
+        borderColor: "border-[#E1306C]/30",
+        bgColor: "bg-[#E1306C]/10 hover:bg-[#E1306C]/20 hover:border-[#E1306C]",
+        textColor: "text-[#E1306C]",
+        shadowColor: "shadow-[#E1306C]/5",
+        svg: (
+          <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+          </svg>
+        )
+      };
+    }
+
+    if (key.includes("twitter") || key === "x") {
+      return {
+        title: "X (Twitter)",
+        borderColor: "border-white/20",
+        bgColor: "bg-white/10 hover:bg-white/20 hover:border-white",
+        textColor: "text-white",
+        shadowColor: "",
+        svg: (
+          <svg className="w-3.5 h-3.5 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+          </svg>
+        )
+      };
+    }
+
+    if (key.includes("linkedin")) {
+      return {
+        title: "LinkedIn",
+        borderColor: "border-[#0A66C2]/30",
+        bgColor: "bg-[#0A66C2]/10 hover:bg-[#0A66C2]/20 hover:border-[#0A66C2]",
+        textColor: "text-[#0A66C2]",
+        shadowColor: "shadow-[#0A66C2]/5",
+        svg: (
+          <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
+          </svg>
+        )
+      };
+    }
+
+    if (key.includes("youtube")) {
+      return {
+        title: "YouTube",
+        borderColor: "border-[#FF0000]/30",
+        bgColor: "bg-[#FF0000]/10 hover:bg-[#FF0000]/20 hover:border-[#FF0000]",
+        textColor: "text-[#FF0000]",
+        shadowColor: "shadow-[#FF0000]/5",
+        svg: (
+          <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        )
+      };
+    }
+
+    return {
+      title: platform,
+      borderColor: "border-white/20",
+      bgColor: "bg-white/10 hover:bg-white/20 hover:border-white",
+      textColor: "text-white",
+      shadowColor: "",
+      svg: (
+        <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="2" y1="12" x2="22" y2="12" />
+          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        </svg>
+      )
+    };
+  };
+
+  const formatUrl = (url: string) => {
+    if (!url) return "/";
+    const trimmed = url.trim();
+
+    // Check if it's already a full protocol URL or local path
+    if (
+      trimmed.startsWith("/") ||
+      trimmed.startsWith("#") ||
+      trimmed.startsWith("http://") ||
+      trimmed.startsWith("https://") ||
+      trimmed.startsWith("mailto:") ||
+      trimmed.startsWith("tel:")
+    ) {
+      return trimmed;
+    }
+
+    // Check if it looks like an external host (e.g. google.com, localhost:3000)
+    if (trimmed.includes(".") || trimmed.includes("localhost:") || trimmed === "localhost") {
+      return `http://${trimmed}`;
+    }
+
+    // Default to relative local path
+    return `/${trimmed}`;
+  };
+
+  const footerBgColor = settings.backgroundColor || "#010314";
+
   return (
-    <footer className="border-t border-white/5 bg-[#010314] py-16 text-[13px] md:text-sm text-text-gray-muted mt-auto z-10 relative">
+    <footer 
+      className="border-t border-white/5 py-16 text-[13px] md:text-sm text-text-gray-muted mt-auto z-10 relative" 
+      style={{ backgroundColor: footerBgColor, color: settings.textColor || undefined }}
+    >
       <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
         {/* Column 1: Brand Info */}
         <div className="md:col-span-6 space-y-4">
           <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
-            <img src="/logo.png" alt="Nandeeka Logo" className="h-8 md:h-10 w-auto object-contain" />
+            <img 
+              src={settings.logoUrl || "/logo.png"} 
+              alt={`${settings.companyName} Logo`} 
+              className="h-8 md:h-10 w-auto object-contain" 
+            />
           </Link>
-          <p className="text-[13px] md:text-sm text-text-gray-muted leading-relaxed font-light max-w-md">
-            Nandeeka Enterprises is a trusted real estate company based in Rohania, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.
-          </p>
+          {settings.description && (
+            <p className="text-[13px] md:text-sm text-text-gray-muted leading-relaxed font-light max-w-md">
+              {settings.description}
+            </p>
+          )}
 
           {/* Social Links Row */}
-          <div className="flex items-center gap-3 pt-2">
-            {/* Facebook */}
-            <a
-              href="https://www.facebook.com/NandeekaEnterprisesPvtLtd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-8 h-8 rounded-full border border-[#1877F2]/30 bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 hover:border-[#1877F2] flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md shadow-[#1877F2]/5"
-              title="Facebook"
-            >
-              <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
-              </svg>
-            </a>
-
-            {/* Instagram */}
-            <a
-              href="https://www.instagram.com/nandeekaenterprisespvtltd_"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-8 h-8 rounded-full border border-[#E1306C]/30 bg-[#E1306C]/10 text-[#E1306C] hover:bg-[#E1306C]/20 hover:border-[#E1306C] flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md shadow-[#E1306C]/5"
-              title="Instagram"
-            >
-              <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
-              </svg>
-            </a>
-
-            {/* X / Twitter */}
-            <a
-              href="https://x.com/nandeekaepvtltd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-8 h-8 rounded-full border border-white/20 bg-white/10 text-white hover:bg-white/20 hover:border-white flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md"
-              title="X (Twitter)"
-            >
-              <svg className="w-3.5 h-3.5 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
-              </svg>
-            </a>
-
-            {/* LinkedIn */}
-            <a
-              href="https://www.linkedin.com/company/nandeeka-enterprises-pvt-ltd"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-8 h-8 rounded-full border border-[#0A66C2]/30 bg-[#0A66C2]/10 text-[#0A66C2] hover:bg-[#0A66C2]/20 hover:border-[#0A66C2] flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md shadow-[#0A66C2]/5"
-              title="LinkedIn"
-            >
-              <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-              </svg>
-            </a>
-
-            {/* YouTube */}
-            <a
-              href="https://www.youtube.com/@NandeekaEnterprisesPvtLtd-b5z"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group w-8 h-8 rounded-full border border-[#FF0000]/30 bg-[#FF0000]/10 text-[#FF0000] hover:bg-[#FF0000]/20 hover:border-[#FF0000] flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md shadow-[#FF0000]/5"
-              title="YouTube"
-            >
-              <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.11C19.518 3.545 12 3.545 12 3.545s-7.518 0-9.388.507a3.003 3.003 0 0 0-2.11 2.11C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.11c1.87.508 9.388.508 9.388.508s7.518 0 9.388-.508a3.003 3.003 0 0 0 2.11-2.11C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
-          </div>
+          {socials.length > 0 && (
+            <div className="flex items-center gap-3 pt-2">
+              {socials.map((social) => {
+                const config = getSocialConfig(social.platform, social.icon);
+                return (
+                  <a
+                    key={social.id}
+                    href={formatUrl(social.url)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group w-8 h-8 rounded-full border ${config.borderColor} ${config.bgColor} ${config.textColor} flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md ${config.shadowColor}`}
+                    title={config.title}
+                  >
+                    {config.svg}
+                  </a>
+                );
+              })}
+            </div>
+          )}
         </div>
 
         {/* Column 2: Navigation Links */}
         <div className="md:col-span-2 space-y-3.5">
           <span className="text-[10px] md:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">Quick Links</span>
           <nav className="flex flex-col gap-2 font-light">
-            <Link href="/" className="hover:text-gold-solid transition-colors">Home</Link>
-            <Link href="/projects" className="hover:text-gold-solid transition-colors">Projects</Link>
-            <Link href="/decoding-land" className="hover:text-gold-solid transition-colors">Decoding Land</Link>
-            <Link href="/about-us" className="hover:text-gold-solid transition-colors">About Us</Link>
-            <Link href="/governance" className="hover:text-gold-solid transition-colors">Governance</Link>
+            {links.map((link) => {
+              const formattedUrl = formatUrl(link.url);
+              const isExternal = formattedUrl.startsWith("http://") || formattedUrl.startsWith("https://");
+              
+              if (isExternal) {
+                return (
+                  <a
+                    key={link.id}
+                    href={formattedUrl}
+                    target={link.openInNewTab ? "_blank" : undefined}
+                    rel={link.openInNewTab ? "noopener noreferrer" : undefined}
+                    className="hover:text-gold-solid transition-colors"
+                  >
+                    {link.title}
+                  </a>
+                );
+              }
+              
+              return (
+                <Link
+                  key={link.id}
+                  href={formattedUrl}
+                  target={link.openInNewTab ? "_blank" : undefined}
+                  rel={link.openInNewTab ? "noopener noreferrer" : undefined}
+                  className="hover:text-gold-solid transition-colors"
+                >
+                  {link.title}
+                </Link>
+              );
+            })}
           </nav>
         </div>
 
@@ -102,30 +312,48 @@ export default function Footer() {
         <div className="md:col-span-4 space-y-4">
           <span className="text-[10px] md:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">Contact Details</span>
           <div className="space-y-3 font-light">
-            <div className="flex items-start gap-2.5">
-              <span className="text-gold-solid mt-0.5">📍</span>
-              <span className="leading-relaxed">
-                2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108
-              </span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <span className="text-gold-solid">📞</span>
-              <a href="tel:+919519662111" className="hover:text-gold-solid transition-colors">+91 95196 62111</a>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <span className="text-gold-solid">✉️</span>
-              <a href="mailto:info@nandeekaenterprises.com" className="hover:text-gold-solid transition-colors">info@nandeekaenterprises.com</a>
-            </div>
+            {settings.address && (
+              <div className="flex items-start gap-2.5">
+                <span className="text-gold-solid mt-0.5">📍</span>
+                <span className="leading-relaxed">
+                  {settings.address}
+                </span>
+              </div>
+            )}
+            {settings.phone && (
+              <div className="flex items-center gap-2.5">
+                <span className="text-gold-solid">📞</span>
+                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-gold-solid transition-colors">
+                  {settings.phone}
+                </a>
+              </div>
+            )}
+            {settings.email && (
+              <div className="flex items-center gap-2.5">
+                <span className="text-gold-solid">✉️</span>
+                <a href={`mailto:${settings.email}`} className="hover:text-gold-solid transition-colors">
+                  {settings.email}
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-[13px]">
-        <p>© {new Date().getFullYear()} Nandeeka Enterprises. All rights reserved.</p>
-        <p className="flex gap-6 font-light">
-          <span className="hover:text-gold-solid cursor-pointer transition-colors">Privacy Policy</span>
-          <span className="hover:text-gold-solid cursor-pointer transition-colors">Terms of Service</span>
-        </p>
+        <p>© {new Date().getFullYear()} {settings.companyName || "Nandeeka Enterprises"}. All rights reserved.</p>
+        {/* <p className="flex gap-6 font-light">
+          {settings.privacyPolicyUrl ? (
+            <Link href={settings.privacyPolicyUrl} className="hover:text-gold-solid transition-colors">Privacy Policy</Link>
+          ) : (
+            <span className="hover:text-gold-solid cursor-pointer transition-colors">Privacy Policy</span>
+          )}
+          {settings.termsOfServiceUrl ? (
+            <Link href={settings.termsOfServiceUrl} className="hover:text-gold-solid transition-colors">Terms of Service</Link>
+          ) : (
+            <span className="hover:text-gold-solid cursor-pointer transition-colors">Terms of Service</span>
+          )}
+        </p> */}
       </div>
     </footer>
   );
