@@ -105,7 +105,7 @@ export default function AmenitiesWebPage() {
             align="center" 
           />
           <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Discover the structural perks, recreational facilities, and security configurations that set Nandeeka developments apart.
+            Discover the structural perks, recreational facilities, and security configurations that set NANDEEKA ENTERPRISES apart.
           </p>
         </div>
       </div>

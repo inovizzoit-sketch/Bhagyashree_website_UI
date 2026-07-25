@@ -41,10 +41,10 @@ export default function AboutUsPage() {
   ];
 
   const stats = [
-    { value: "30+", label: "Years Title Vetting Chain" },
-    { value: "100%", label: "Legally Safe & Vetted Plots" },
-    { value: "500+", label: "Happy Investors & Landowners" },
-    { value: "100+", label: "Acres Gated Development Projects" }
+    { value: "5 Mn Sq Ft", label: "Land" },
+    { value: "650+", label: "Customers" },
+    { value: "16 Mn Sq.Ft.", label: "Under Development" },
+    { value: "2", label: "Locations in Greater Varanasi" }
   ];
 
   return (

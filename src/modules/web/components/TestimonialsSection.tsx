@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
       designation: "Real Estate Investor",
       company: "Mehta Holdings",
       rating: 5,
-      message: "Nandeeka developments delivered exactly what they promised. The appreciation on the plots is exceptional.",
+      message: "NANDEEKA ENTERPRISES delivered exactly what they promised. The appreciation on the plots is exceptional.",
     },
     {
       id: "fallback-3",

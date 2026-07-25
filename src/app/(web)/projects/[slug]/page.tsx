@@ -123,7 +123,7 @@ ${project.shortDescription}
 Explore Details & Inventory:
 ${shareUrl}
 
--- Nandeeka Developments --`;
+-- NANDEEKA ENTERPRISES --`;
   }
 
   function handleCopyDetails() {

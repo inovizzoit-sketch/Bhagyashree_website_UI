@@ -13,29 +13,47 @@ export default function FaqSection() {
 
   const faqs: FAQItem[] = [
     {
-      question: "Are the plots offered by Nandeeka Developments RERA-approved and ready for investment?",
-      answer: "Yes, all eligible plots are RERA-approved, come with completely clear land titles, and have complete infrastructure development (paved roads, drainage, water, and electricity). They are ready for both long-term investment and future construction.",
+      question: "Are the plots offered by NANDEEKA ENTERPRISES VDA approved and ready for investment?",
+      answer: "Yes, all plots are applied for VDA approval, come with clear land titles and have complete infrastructure (paved roads, drainage, water, and electricity). They are ready for both long-term investment and future construction.",
     },
     {
       question: "What kind of support does Nandeeka Enterprises offer to NRI buyers?",
       answer: "Nandeeka offers comprehensive end-to-end support for NRI buyers, including virtual site tours, secure digital transaction pathways, remote legal documentation assistance, and dedicated relationship managers to guide you through registration and mutation.",
     },
     {
-      question: "What makes Nandeeka Developments different from other real estate or land developers?",
+      question: "What makes NANDEEKA ENTERPRISES different from other real estate or land developers?",
       answer: "Unlike unorganized land sellers, Nandeeka provides institutional security, pre-built high-quality utilities, clear boundary layout demarcations, and fully gated layouts. We sell peace of mind alongside prime properties.",
     },
     {
-      question: "How does Nandeeka Developments deliver long-term value to land investors?",
+      question: "How does NANDEEKA ENTERPRISES deliver long-term value to land investors?",
       answer: "By strategically selecting high-growth transit corridors (such as Varanasi's ring roads and DLW expansions) and adding premium amenities (clubhouses, wellness parks, security), we secure rapid capital appreciation that outperforms raw, unorganized land.",
     },
     {
-      question: "How does Nandeeka Developments ensure legally secure and transparent land transactions?",
+      question: "How does NANDEEKA ENTERPRISES ensure legally secure and transparent land transactions?",
       answer: "Every parcel is backed by a 30-year clear title registry history, non-agricultural (NA) conversion certificates, and complete municipal clearance documentation that is fully shared with buyers before purchase.",
     },
   ];
 
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map((faq) => ({
+      "@type": "Question",
+      "name": faq.question,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.answer
+      }
+    }))
+  };
+
   return (
     <section className="w-full py-10 md:py-14 bg-background">
+      {/* FAQ Schema Markup for AEO */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
       <div className="mx-auto max-w-4xl px-6 md:px-8">
         <SectionHeading
           badge="F.A.Q."

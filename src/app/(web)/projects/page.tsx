@@ -117,8 +117,8 @@ export default function ProjectsPage() {
               key={tab.value}
               onClick={() => setActiveFilter(tab.value)}
               className={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer border ${activeFilter === tab.value
-                  ? "bg-gold-solid text-[#020520] border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
-                  : "bg-[#050c38]/40 border-white/5 text-text-gray-muted hover:text-white hover:border-gold-solid/30"
+                ? "bg-gold-solid text-[#020520] border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
+                : "bg-[#050c38]/40 border-white/5 text-text-gray-muted hover:text-white hover:border-gold-solid/30"
                 }`}
             >
               {tab.label}
@@ -192,10 +192,10 @@ export default function ProjectsPage() {
 
                   {/* Status Badge */}
                   <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-                      ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
-                      : project.projectStatus === "ONGOING"
-                        ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                        : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                    : project.projectStatus === "ONGOING"
+                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
+                      : "bg-blue-500/10 text-blue-400 border-blue-500/20"
                     }`}>
                     {project.projectStatus}
                   </span>

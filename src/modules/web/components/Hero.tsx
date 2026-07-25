@@ -197,7 +197,7 @@ export default function Hero() {
             {/* Trust Highlights Checklist */}
             <div className="grid grid-cols-2 gap-x-6 gap-y-2 mb-8 text-xs font-medium text-slate-400 font-sans tracking-wide">
               <div className="flex items-center gap-1.5">
-                <span className="text-gold-solid">✓</span> RERA Approved
+                <span className="text-gold-solid">✓</span> VDA Applied
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="text-gold-solid">✓</span> 100% Vetted Titles

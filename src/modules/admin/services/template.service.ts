@@ -160,7 +160,7 @@ export async function previewTemplate(data: TemplatePreviewRequest): Promise<Tem
       project_name: "Nandeeka Imperial Heights",
       project_location: "Banjara Hills, Hyderabad",
       sales_person: "Ananya Roy",
-      company_name: "Nandeeka Developments",
+      company_name: "NANDEEKA ENTERPRISES",
       site_visit_date: "25th July 2026",
       current_date: "21st July 2026",
     };

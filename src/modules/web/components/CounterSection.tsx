@@ -11,10 +11,10 @@ interface StatItem {
 }
 
 const statsData: StatItem[] = [
-  { target: 13, suffix: " Mn", label: "sq. ft. of land", subLabel: "sold" },
-  { target: 6500, suffix: "+", label: "land owners", subLabel: "worldwide" },
-  { target: 25, suffix: " Mn", label: "sq. ft. under", subLabel: "development" },
-  { target: 16, suffix: "", label: "locations across", subLabel: "India" },
+  { target: 5, suffix: " Mn Sq Ft", label: "Land", subLabel: "" },
+  { target: 650, suffix: "+", label: "Customers", subLabel: "" },
+  { target: 16, suffix: " Mn Sq.Ft.", label: "Under", subLabel: "Development" },
+  { target: 2, suffix: "", label: "Locations in", subLabel: "Greater Varanasi" },
 ];
 
 export default function CounterSection() {
