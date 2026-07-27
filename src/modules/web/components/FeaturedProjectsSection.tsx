@@ -80,11 +80,11 @@ export default function FeaturedProjectsSection() {
   return (
     <section className="mx-auto w-full max-w-7xl px-6 md:px-8">
       <div className="flex items-end justify-between mb-12 gap-4">
-        <SectionHeading 
-          badge="Selected Works" 
-          plainText="Featured" 
-          highlightText="Developments" 
-          className="!mb-0" 
+        <SectionHeading
+          badge="Selected Works"
+          plainText="Featured"
+          highlightText="Developments"
+          className="!mb-0"
         />
         <Link href="/projects" className="text-xs sm:text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors shrink-0 pb-1">
           View All Projects →
@@ -119,9 +119,9 @@ export default function FeaturedProjectsSection() {
       {!loading && !error && projects.length > 0 && (
         <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:pb-0">
           {projects.map((project) => (
-             <Link 
-              key={project.id} 
-              href={`/projects/${project.slug}`} 
+            <Link
+              key={project.id}
+              href={`/projects/${project.slug}`}
               className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/45 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_25px_rgba(221,189,129,0.08)] block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
             >
               <div className="aspect-[4/3] w-full relative overflow-hidden bg-background">
@@ -139,15 +139,14 @@ export default function FeaturedProjectsSection() {
                   </div>
                 )}
                 <div className="absolute inset-0 bg-background/25 opacity-0 group-hover:opacity-100 transition-opacity" />
-                
+
                 {/* Status Badge */}
-                <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${
-                  project.projectStatus === "COMPLETED"
+                <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
                     ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/25"
                     : project.projectStatus === "ONGOING"
-                    ? "bg-amber-500/10 text-amber-400 border-amber-500/25"
-                    : "bg-blue-500/10 text-blue-400 border-blue-500/25"
-                }`}>
+                      ? "bg-amber-500/10 text-amber-400 border-amber-500/25"
+                      : "bg-blue-500/10 text-blue-400 border-blue-500/25"
+                  }`}>
                   {project.projectStatus}
                 </span>
               </div>

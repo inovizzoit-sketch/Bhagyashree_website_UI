@@ -74,6 +74,16 @@ export default function Navbar() {
             >
               Gallery
             </Link>
+            <Link 
+              href="/cmd" 
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+                pathname === "/cmd" 
+                  ? "text-[#DDBD81] after:w-full" 
+                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+              }`}
+            >
+              CMD
+            </Link>
           </nav>
 
           {/* Contact Us CTA (Border Button) */}
@@ -233,6 +243,22 @@ export default function Navbar() {
                     Gallery
                   </span>
                   <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/gallery" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
+
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/cmd" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/cmd" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    CMD
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/cmd" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
                 </Link>
 
                 <Link 

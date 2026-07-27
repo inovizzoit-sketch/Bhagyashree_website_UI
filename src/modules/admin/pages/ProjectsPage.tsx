@@ -343,13 +343,12 @@ export default function ProjectsPage() {
                           {project.projectType}
                         </span>
                         <span
-                          className={`text-[10px] font-bold px-2 py-0.5 rounded border self-start ${
-                            project.projectStatus === "COMPLETED"
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded border self-start ${project.projectStatus === "COMPLETED"
                               ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25"
                               : project.projectStatus === "ONGOING"
-                              ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
-                              : "bg-blue-500/10 text-blue-400 border-blue-500/25"
-                          }`}
+                                ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
+                                : "bg-blue-500/10 text-blue-400 border-blue-500/25"
+                            }`}
                         >
                           {project.projectStatus}
                         </span>
@@ -427,13 +426,12 @@ export default function ProjectsPage() {
               <span className="text-[10px] font-bold bg-gold-solid/20 text-gold-solid px-2 py-0.5 rounded border border-gold-solid/25 uppercase">
                 {selectedProject.projectType}
               </span>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${
-                selectedProject.projectStatus === "COMPLETED"
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${selectedProject.projectStatus === "COMPLETED"
                   ? "bg-emerald-500/10 text-emerald-455 border-emerald-500/25"
                   : selectedProject.projectStatus === "ONGOING"
-                  ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
-                  : "bg-blue-500/10 text-blue-400 border-blue-500/25"
-              }`}>
+                    ? "bg-amber-500/10 text-amber-405 border-amber-500/25"
+                    : "bg-blue-500/10 text-blue-400 border-blue-500/25"
+                }`}>
                 {selectedProject.projectStatus}
               </span>
             </div>
@@ -486,380 +484,379 @@ export default function ProjectsPage() {
           ) : null
         }
       >
-              {detailLoading ? (
-                <div className="h-full flex flex-col items-center justify-center space-y-4">
-                  <span className="animate-spin text-3xl text-indigo-500">⏳</span>
-                  <p className="text-sm text-slate-405">Loading project details...</p>
+        {detailLoading ? (
+          <div className="h-full flex flex-col items-center justify-center space-y-4">
+            <span className="animate-spin text-3xl text-indigo-500">⏳</span>
+            <p className="text-sm text-slate-405">Loading project details...</p>
+          </div>
+        ) : detailError ? (
+          <div className="h-full flex flex-col items-center justify-center space-y-4 text-center">
+            <span className="text-3xl text-red-500">⚠️</span>
+            <h4 className="text-base font-bold text-slate-100">Error Occurred</h4>
+            <p className="text-xs text-slate-400 max-w-sm">{detailError}</p>
+            <button
+              onClick={() => { setSelectedProject(null); setDetailError(null); setIsEditing(false); }}
+              className="px-4 py-2 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 rounded-xl text-xs font-semibold cursor-pointer"
+            >
+              Close
+            </button>
+          </div>
+        ) : selectedProject ? (
+          isEditing ? (
+            <form id="edit-project-form" onSubmit={handleUpdateSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: Inputs */}
+              <div className="lg:col-span-6 space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Name</label>
+                  <input
+                    type="text"
+                    required
+                    value={editName}
+                    onChange={(e) => {
+                      setEditName(e.target.value);
+                      setEditSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
+                    }}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                  />
                 </div>
-              ) : detailError ? (
-                <div className="h-full flex flex-col items-center justify-center space-y-4 text-center">
-                  <span className="text-3xl text-red-500">⚠️</span>
-                  <h4 className="text-base font-bold text-slate-100">Error Occurred</h4>
-                  <p className="text-xs text-slate-400 max-w-sm">{detailError}</p>
-                  <button
-                    onClick={() => { setSelectedProject(null); setDetailError(null); setIsEditing(false); }}
-                    className="px-4 py-2 bg-[#1c1c27] hover:bg-[#252535] text-slate-300 rounded-xl text-xs font-semibold cursor-pointer"
-                  >
-                    Close
-                  </button>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Slug (URL Keyword)</label>
+                  <input
+                    type="text"
+                    required
+                    value={editSlug}
+                    onChange={(e) => setEditSlug(e.target.value)}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                  />
                 </div>
-              ) : selectedProject ? (
-                isEditing ? (
-                  <form id="edit-project-form" onSubmit={handleUpdateSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    {/* Left Column: Inputs */}
-                    <div className="lg:col-span-6 space-y-5">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Name</label>
-                        <input
-                          type="text"
-                          required
-                          value={editName}
-                          onChange={(e) => {
-                            setEditName(e.target.value);
-                            setEditSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, ""));
-                          }}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                        />
-                      </div>
 
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Slug (URL Keyword)</label>
-                        <input
-                          type="text"
-                          required
-                          value={editSlug}
-                          onChange={(e) => setEditSlug(e.target.value)}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                        />
-                      </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Type</label>
+                    <select
+                      value={editProjectType}
+                      onChange={(e) => setEditProjectType(e.target.value as ProjectType)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    >
+                      <option value="APARTMENT">Apartment</option>
+                      <option value="VILLA">Villa</option>
+                      <option value="PLOT">Plot</option>
+                      <option value="COMMERCIAL">Commercial</option>
+                    </select>
+                  </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Type</label>
-                          <select
-                            value={editProjectType}
-                            onChange={(e) => setEditProjectType(e.target.value as ProjectType)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          >
-                            <option value="APARTMENT">Apartment</option>
-                            <option value="VILLA">Villa</option>
-                            <option value="PLOT">Plot</option>
-                            <option value="COMMERCIAL">Commercial</option>
-                          </select>
-                        </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Status</label>
+                    <select
+                      value={editProjectStatus}
+                      onChange={(e) => setEditProjectStatus(e.target.value as ProjectStatus)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    >
+                      <option value="ONGOING">Ongoing</option>
+                      <option value="COMPLETED">Completed</option>
+                      <option value="UPCOMING">Upcoming</option>
+                    </select>
+                  </div>
+                </div>
 
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Project Status</label>
-                          <select
-                            value={editProjectStatus}
-                            onChange={(e) => setEditProjectStatus(e.target.value as ProjectStatus)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          >
-                            <option value="ONGOING">Ongoing</option>
-                            <option value="COMPLETED">Completed</option>
-                            <option value="UPCOMING">Upcoming</option>
-                          </select>
-                        </div>
-                      </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Starting Price (INR)</label>
+                    <input
+                      type="number"
+                      required
+                      value={editStartingPrice}
+                      onChange={(e) => setEditStartingPrice(e.target.value)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    />
+                  </div>
 
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Starting Price (INR)</label>
-                          <input
-                            type="number"
-                            required
-                            value={editStartingPrice}
-                            onChange={(e) => setEditStartingPrice(e.target.value)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          />
-                        </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Price per Sqft (INR)</label>
+                    <input
+                      type="number"
+                      required
+                      value={editPricePerSqft}
+                      onChange={(e) => setEditPricePerSqft(e.target.value)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    />
+                  </div>
+                </div>
 
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Price per Sqft (INR)</label>
-                          <input
-                            type="number"
-                            required
-                            value={editPricePerSqft}
-                            onChange={(e) => setEditPricePerSqft(e.target.value)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          />
-                        </div>
-                      </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Location / Area</label>
+                  <input
+                    type="text"
+                    required
+                    value={editLocation}
+                    onChange={(e) => setEditLocation(e.target.value)}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                  />
+                </div>
 
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Location / Area</label>
-                        <input
-                          type="text"
-                          required
-                          value={editLocation}
-                          onChange={(e) => setEditLocation(e.target.value)}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                        />
-                      </div>
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Full Address</label>
+                  <input
+                    type="text"
+                    required
+                    value={editAddress}
+                    onChange={(e) => setEditAddress(e.target.value)}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                  />
+                </div>
 
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Full Address</label>
-                        <input
-                          type="text"
-                          required
-                          value={editAddress}
-                          onChange={(e) => setEditAddress(e.target.value)}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                        />
-                      </div>
+                <div className="grid grid-cols-3 gap-3">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">City</label>
+                    <input
+                      type="text"
+                      required
+                      value={editCity}
+                      onChange={(e) => setEditCity(e.target.value)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">State</label>
+                    <input
+                      type="text"
+                      required
+                      value={editState}
+                      onChange={(e) => setEditState(e.target.value)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    />
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Pincode</label>
+                    <input
+                      type="text"
+                      required
+                      value={editPincode}
+                      onChange={(e) => setEditPincode(e.target.value)}
+                      className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                    />
+                  </div>
+                </div>
+              </div>
 
-                      <div className="grid grid-cols-3 gap-3">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">City</label>
-                          <input
-                            type="text"
-                            required
-                            value={editCity}
-                            onChange={(e) => setEditCity(e.target.value)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">State</label>
-                          <input
-                            type="text"
-                            required
-                            value={editState}
-                            onChange={(e) => setEditState(e.target.value)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          />
-                        </div>
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Pincode</label>
-                          <input
-                            type="text"
-                            required
-                            value={editPincode}
-                            onChange={(e) => setEditPincode(e.target.value)}
-                            className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                          />
-                        </div>
-                      </div>
+              {/* Right Column: Descriptions & Files */}
+              <div className="lg:col-span-6 space-y-5">
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Short Description</label>
+                  <input
+                    type="text"
+                    required
+                    value={editShortDescription}
+                    onChange={(e) => setEditShortDescription(e.target.value)}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Detailed Description</label>
+                  <textarea
+                    rows={4}
+                    required
+                    value={editDescription}
+                    onChange={(e) => setEditDescription(e.target.value)}
+                    className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors resize-none"
+                  />
+                </div>
+
+                {/* File Upload fields */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Change Thumbnail</label>
+                    <label className="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#1e1e2e] hover:border-indigo-500 rounded-xl cursor-pointer bg-[#0b0b0f] hover:bg-[#13131a]/30 transition-all">
+                      <span className="text-lg">🖼️</span>
+                      <span className="text-[10px] text-slate-400 font-semibold truncate max-w-full px-2">
+                        {editThumbnailName || "Upload Image"}
+                      </span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            setEditThumbnailFile(e.target.files[0]);
+                            setEditThumbnailName(e.target.files[0].name);
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Change Brochure PDF</label>
+                    <label className="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#1e1e2e] hover:border-indigo-500 rounded-xl cursor-pointer bg-[#0b0b0f] hover:bg-[#13131a]/30 transition-all">
+                      <span className="text-lg">📄</span>
+                      <span className="text-[10px] text-slate-400 font-semibold truncate max-w-full px-2">
+                        {editBrochureName || "Upload PDF"}
+                      </span>
+                      <input
+                        type="file"
+                        accept="application/pdf"
+                        className="hidden"
+                        onChange={(e) => {
+                          if (e.target.files && e.target.files[0]) {
+                            setEditBrochureFile(e.target.files[0]);
+                            setEditBrochureName(e.target.files[0].name);
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* Visibility Status Checks */}
+                <div className="flex gap-8 bg-[#0b0b0f] border border-[#1e1e2e] p-4 rounded-xl">
+                  <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editIsFeatured}
+                      onChange={(e) => setEditIsFeatured(e.target.checked)}
+                      className="w-4 h-4 rounded bg-[#13131a] border border-[#1e1e2e] text-indigo-500 focus:ring-0 cursor-pointer"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-semibold text-slate-200">Featured</span>
+                      <span className="text-[9px] text-slate-500">Show on homepage</span>
                     </div>
+                  </label>
 
-                    {/* Right Column: Descriptions & Files */}
-                    <div className="lg:col-span-6 space-y-5">
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Short Description</label>
-                        <input
-                          type="text"
-                          required
-                          value={editShortDescription}
-                          onChange={(e) => setEditShortDescription(e.target.value)}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors"
-                        />
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Detailed Description</label>
-                        <textarea
-                          rows={4}
-                          required
-                          value={editDescription}
-                          onChange={(e) => setEditDescription(e.target.value)}
-                          className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-3 py-2 text-slate-150 text-xs outline-none transition-colors resize-none"
-                        />
-                      </div>
-
-                      {/* File Upload fields */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Change Thumbnail</label>
-                          <label className="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#1e1e2e] hover:border-indigo-500 rounded-xl cursor-pointer bg-[#0b0b0f] hover:bg-[#13131a]/30 transition-all">
-                            <span className="text-lg">🖼️</span>
-                            <span className="text-[10px] text-slate-400 font-semibold truncate max-w-full px-2">
-                              {editThumbnailName || "Upload Image"}
-                            </span>
-                            <input
-                              type="file"
-                              accept="image/*"
-                              className="hidden"
-                              onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                  setEditThumbnailFile(e.target.files[0]);
-                                  setEditThumbnailName(e.target.files[0].name);
-                                }
-                              }}
-                            />
-                          </label>
-                        </div>
-
-                        <div className="space-y-1.5">
-                          <label className="text-[10px] font-bold text-slate-450 uppercase tracking-wider">Change Brochure PDF</label>
-                          <label className="flex flex-col items-center justify-center w-full h-24 border border-dashed border-[#1e1e2e] hover:border-indigo-500 rounded-xl cursor-pointer bg-[#0b0b0f] hover:bg-[#13131a]/30 transition-all">
-                            <span className="text-lg">📄</span>
-                            <span className="text-[10px] text-slate-400 font-semibold truncate max-w-full px-2">
-                              {editBrochureName || "Upload PDF"}
-                            </span>
-                            <input
-                              type="file"
-                              accept="application/pdf"
-                              className="hidden"
-                              onChange={(e) => {
-                                if (e.target.files && e.target.files[0]) {
-                                  setEditBrochureFile(e.target.files[0]);
-                                  setEditBrochureName(e.target.files[0].name);
-                                }
-                              }}
-                            />
-                          </label>
-                        </div>
-                      </div>
-
-                      {/* Visibility Status Checks */}
-                      <div className="flex gap-8 bg-[#0b0b0f] border border-[#1e1e2e] p-4 rounded-xl">
-                        <label className="flex items-center gap-2.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={editIsFeatured}
-                            onChange={(e) => setEditIsFeatured(e.target.checked)}
-                            className="w-4 h-4 rounded bg-[#13131a] border border-[#1e1e2e] text-indigo-500 focus:ring-0 cursor-pointer"
-                          />
-                          <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-slate-200">Featured</span>
-                            <span className="text-[9px] text-slate-500">Show on homepage</span>
-                          </div>
-                        </label>
-
-                        <label className="flex items-center gap-2.5 cursor-pointer">
-                          <input
-                            type="checkbox"
-                            checked={editIsActive}
-                            onChange={(e) => setEditIsActive(e.target.checked)}
-                            className="w-4 h-4 rounded bg-[#13131a] border border-[#1e1e2e] text-indigo-500 focus:ring-0 cursor-pointer"
-                          />
-                          <div className="flex flex-col">
-                            <span className="text-xs font-semibold text-slate-200">Active</span>
-                            <span className="text-[9px] text-slate-555">Published to public</span>
-                          </div>
-                        </label>
-                      </div>
+                  <label className="flex items-center gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={editIsActive}
+                      onChange={(e) => setEditIsActive(e.target.checked)}
+                      className="w-4 h-4 rounded bg-[#13131a] border border-[#1e1e2e] text-indigo-500 focus:ring-0 cursor-pointer"
+                    />
+                    <div className="flex flex-col">
+                      <span className="text-xs font-semibold text-slate-200">Active</span>
+                      <span className="text-[9px] text-slate-555">Published to public</span>
                     </div>
-                  </form>
-                ) : (
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                    
-                    {/* Left Column - Media & Quick Stats */}
-                    <div className="lg:col-span-5 space-y-6">
-                      {/* Thumbnail */}
-                      {(selectedProject.thumbnailUrl || selectedProject.thumbnailImage) && (
-                        <div className="rounded-xl overflow-hidden border border-[#1e1e2e] bg-[#0b0b0f] aspect-[16/10] relative shadow-sm">
-                          <img
-                            src={selectedProject.thumbnailUrl || selectedProject.thumbnailImage}
-                            alt={selectedProject.name}
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                      )}
+                  </label>
+                </div>
+              </div>
+            </form>
+          ) : (
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-                      {/* Stats Grid */}
-                      <div className="grid grid-cols-2 gap-4">
-                        <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4">
-                          <span className="text-[10px] text-slate-550 block uppercase tracking-wider mb-0.5">Starting Price</span>
-                          <span className="text-slate-200 font-extrabold text-sm">
-                            ₹{(selectedProject.startingPrice / 100000).toFixed(1)} Lakhs+
-                          </span>
-                        </div>
-                        <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4">
-                          <span className="text-[10px] text-slate-550 block uppercase tracking-wider mb-0.5">Price Per Sqft</span>
-                          <span className="text-slate-200 font-extrabold text-sm">
-                            ₹{selectedProject.pricePerSqft}/sqft
-                          </span>
-                        </div>
-                      </div>
+              {/* Left Column - Media & Quick Stats */}
+              <div className="lg:col-span-5 space-y-6">
+                {/* Thumbnail */}
+                {(selectedProject.thumbnailUrl || selectedProject.thumbnailImage) && (
+                  <div className="rounded-xl overflow-hidden border border-[#1e1e2e] bg-[#0b0b0f] aspect-[16/10] relative shadow-sm">
+                    <img
+                      src={selectedProject.thumbnailUrl || selectedProject.thumbnailImage}
+                      alt={selectedProject.name}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                )}
 
-                      {/* Location Card */}
-                      <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4 space-y-3">
-                        <div>
-                          <span className="text-[10px] text-slate-555 block uppercase tracking-wider mb-0.5">Location Area</span>
-                          <span className="text-xs text-slate-200 font-medium">{selectedProject.location}</span>
-                        </div>
-                        <div className="border-t border-[#1e1e2e]/50 pt-2.5">
-                          <span className="text-[10px] text-slate-555 block uppercase tracking-wider mb-0.5">Full Address</span>
-                          <span className="text-xs text-slate-300">{selectedProject.address}</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2 border-t border-[#1e1e2e]/50 pt-2.5 text-xs">
-                          <div>
-                            <span className="text-[10px] text-slate-555 block uppercase tracking-wider">City</span>
-                            <span className="text-slate-300">{selectedProject.city}</span>
-                          </div>
-                          <div>
-                            <span className="text-[10px] text-slate-555 block uppercase tracking-wider">Pincode</span>
-                            <span className="text-slate-300">{selectedProject.pincode}</span>
-                          </div>
-                        </div>
-                      </div>
+                {/* Stats Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4">
+                    <span className="text-[10px] text-slate-550 block uppercase tracking-wider mb-0.5">Starting Price</span>
+                    <span className="text-slate-200 font-extrabold text-sm">
+                      ₹{(selectedProject.startingPrice / 100000).toFixed(1)} Lakhs+
+                    </span>
+                  </div>
+                  <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4">
+                    <span className="text-[10px] text-slate-550 block uppercase tracking-wider mb-0.5">Price Per Sqft</span>
+                    <span className="text-slate-200 font-extrabold text-sm">
+                      ₹{selectedProject.pricePerSqft}/sqft
+                    </span>
+                  </div>
+                </div>
 
-                      {/* Brochure Attachment */}
-                      {(selectedProject.brochureUrl || selectedProject.brochureFile) && (
-                        <a
-                          href={selectedProject.brochureUrl || selectedProject.brochureFile}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center justify-between p-3.5 bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/25 text-indigo-400 hover:text-indigo-300 rounded-xl text-xs font-semibold transition-all duration-150 no-underline cursor-pointer"
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <span className="text-base">📄</span>
-                            <span>Download Project Brochure</span>
-                          </div>
-                          <span className="text-sm">↗</span>
-                        </a>
-                      )}
+                {/* Location Card */}
+                <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4 space-y-3">
+                  <div>
+                    <span className="text-[10px] text-slate-555 block uppercase tracking-wider mb-0.5">Location Area</span>
+                    <span className="text-xs text-slate-200 font-medium">{selectedProject.location}</span>
+                  </div>
+                  <div className="border-t border-[#1e1e2e]/50 pt-2.5">
+                    <span className="text-[10px] text-slate-555 block uppercase tracking-wider mb-0.5">Full Address</span>
+                    <span className="text-xs text-slate-300">{selectedProject.address}</span>
+                  </div>
+                  <div className="grid grid-cols-2 gap-2 border-t border-[#1e1e2e]/50 pt-2.5 text-xs">
+                    <div>
+                      <span className="text-[10px] text-slate-555 block uppercase tracking-wider">City</span>
+                      <span className="text-slate-300">{selectedProject.city}</span>
                     </div>
-
-                    {/* Right Column - Descriptions & Properties */}
-                    <div className="lg:col-span-7 space-y-6">
-                      {/* Description Card */}
-                      <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-5 space-y-4">
-                        <div>
-                          <span className="text-[10px] text-slate-550 font-bold uppercase tracking-wider block mb-1">Short Description</span>
-                          <p className="text-xs text-slate-350 leading-relaxed">{selectedProject.shortDescription}</p>
-                        </div>
-                        <div className="border-t border-[#1e1e2e]/50 pt-4">
-                          <span className="text-[10px] text-slate-555 font-bold uppercase tracking-wider block mb-1">Detailed Description</span>
-                          <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">{selectedProject.description}</p>
-                        </div>
-                      </div>
-
-                      {/* Associated Properties Grid */}
-                      <div className="space-y-3">
-                        <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Associated Properties</h4>
-                        {selectedProject.properties && selectedProject.properties.length > 0 ? (
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                            {selectedProject.properties.map((prop: ProjectProperty) => (
-                              <div
-                                key={prop.id}
-                                className="p-4 bg-[#0b0b0f] border border-[#1e1e2e] hover:border-slate-800 rounded-xl flex flex-col justify-between gap-3 transition-colors"
-                              >
-                                <div>
-                                  <span className="font-bold text-slate-200 block text-xs truncate">{prop.title}</span>
-                                  <span className="text-[10px] text-slate-500">Type: {prop.type || "Unit"}</span>
-                                </div>
-                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded border self-start ${
-                                  prop.status === "ACTIVE"
-                                    ? "bg-emerald-500/10 text-emerald-455 border-emerald-500/25"
-                                    : "bg-slate-550/10 text-slate-400 border-slate-550/25"
-                                }`}>
-                                  {prop.status}
-                                </span>
-                              </div>
-                            ))}
-                          </div>
-                        ) : (
-                          <div className="text-center py-8 border border-dashed border-[#1e1e2e] rounded-xl text-xs text-slate-500">
-                            No listed properties inside this project yet.
-                          </div>
-                        )}
-                      </div>
+                    <div>
+                      <span className="text-[10px] text-slate-555 block uppercase tracking-wider">Pincode</span>
+                      <span className="text-slate-300">{selectedProject.pincode}</span>
                     </div>
                   </div>
-                )
-              ) : null}
+                </div>
+
+                {/* Brochure Attachment */}
+                {(selectedProject.brochureUrl || selectedProject.brochureFile) && (
+                  <a
+                    href={selectedProject.brochureUrl || selectedProject.brochureFile}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-between p-3.5 bg-indigo-500/10 hover:bg-indigo-500/15 border border-indigo-500/25 text-indigo-400 hover:text-indigo-300 rounded-xl text-xs font-semibold transition-all duration-150 no-underline cursor-pointer"
+                  >
+                    <div className="flex items-center gap-2.5">
+                      <span className="text-base">📄</span>
+                      <span>Download Project Brochure</span>
+                    </div>
+                    <span className="text-sm">↗</span>
+                  </a>
+                )}
+              </div>
+
+              {/* Right Column - Descriptions & Properties */}
+              <div className="lg:col-span-7 space-y-6">
+                {/* Description Card */}
+                <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-5 space-y-4">
+                  <div>
+                    <span className="text-[10px] text-slate-550 font-bold uppercase tracking-wider block mb-1">Short Description</span>
+                    <p className="text-xs text-slate-350 leading-relaxed">{selectedProject.shortDescription}</p>
+                  </div>
+                  <div className="border-t border-[#1e1e2e]/50 pt-4">
+                    <span className="text-[10px] text-slate-555 font-bold uppercase tracking-wider block mb-1">Detailed Description</span>
+                    <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">{selectedProject.description}</p>
+                  </div>
+                </div>
+
+                {/* Associated Properties Grid */}
+                <div className="space-y-3">
+                  <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Associated Properties</h4>
+                  {selectedProject.properties && selectedProject.properties.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {selectedProject.properties.map((prop: ProjectProperty) => (
+                        <div
+                          key={prop.id}
+                          className="p-4 bg-[#0b0b0f] border border-[#1e1e2e] hover:border-slate-800 rounded-xl flex flex-col justify-between gap-3 transition-colors"
+                        >
+                          <div>
+                            <span className="font-bold text-slate-200 block text-xs truncate">{prop.title}</span>
+                            <span className="text-[10px] text-slate-500">Type: {prop.type || "Unit"}</span>
+                          </div>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded border self-start ${prop.status === "ACTIVE"
+                              ? "bg-emerald-500/10 text-emerald-455 border-emerald-500/25"
+                              : "bg-slate-550/10 text-slate-400 border-slate-550/25"
+                            }`}>
+                            {prop.status}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 border border-dashed border-[#1e1e2e] rounded-xl text-xs text-slate-500">
+                      No listed properties inside this project yet.
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          )
+        ) : null}
       </Modal>
 
       {/* ── Delete Confirmation Modal ── */}

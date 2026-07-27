@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
@@ -98,6 +98,24 @@ export default function ProjectDetailsPage() {
   const [error, setError] = useState<string | null>(null);
 
   const [copied, setCopied] = useState(false);
+  const [isDescExpanded, setIsDescExpanded] = useState(false);
+  const descRef = useRef<HTMLParagraphElement>(null);
+  const descContainerRef = useRef<HTMLDivElement>(null);
+  const [showToggle, setShowToggle] = useState(false);
+
+  const handleToggleDescription = () => {
+    if (isDescExpanded && descContainerRef.current) {
+      const rect = descContainerRef.current.getBoundingClientRect();
+      const navbarHeight = 80;
+      if (rect.top < navbarHeight) {
+        window.scrollTo({
+          top: window.scrollY + rect.top - navbarHeight - 16,
+          behavior: "smooth"
+        });
+      }
+    }
+    setIsDescExpanded((prev) => !prev);
+  };
 
   function getProfessionalDetailsText() {
     if (!project) return "";
@@ -160,6 +178,12 @@ ${shareUrl}
     };
   }, [slug]);
 
+  useEffect(() => {
+    if (project?.description) {
+      setShowToggle(project.description.length > 300);
+    }
+  }, [project?.description]);
+
   function formatPrice(priceStr?: string) {
     if (!priceStr) return "N/A";
     const val = parseFloat(priceStr);
@@ -203,7 +227,7 @@ ${shareUrl}
   const activeProperties = project.properties?.filter((p) => p.isActive) || [];
 
   return (
-    <div className="min-h-screen pb-32 relative overflow-hidden text-slate-350">
+    <div className="min-h-screen pb-32 relative overflow-x-clip text-slate-350">
       {/* Background Decorative Gradients */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-[80vh] left-0 w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />
@@ -221,7 +245,7 @@ ${shareUrl}
       {/* Hero Split Layout */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start relative z-10">
         {/* Left Column: Visual Media & Specs */}
-        <div className="lg:col-span-5 space-y-6">
+        <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-32">
           <div className="rounded-2xl overflow-hidden border border-white/5 bg-[#050c38]/20 aspect-[16/10] relative shadow-2xl">
             {project.thumbnailImage ? (
               <img
@@ -287,8 +311,8 @@ ${shareUrl}
               <button
                 onClick={handleCopyDetails}
                 className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${copied
-                    ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                    : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
+                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                  : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
                   }`}
               >
                 <div className="flex items-center gap-3">
@@ -311,7 +335,7 @@ ${shareUrl}
                 onClick={() => {
                   window.open(`https://wa.me/?text=${encodeURIComponent(getProfessionalDetailsText())}`, "_blank");
                 }}
-                className="flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border bg-emerald-600/15 hover:bg-emerald-600/25 border-emerald-500/30 text-emerald-400 hover:text-emerald-300"
+                className="flex-1 md:hidden flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border bg-emerald-600/15 hover:bg-emerald-600/25 border-emerald-500/30 text-emerald-400 hover:text-emerald-300"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-sm">💬</span>
@@ -355,11 +379,31 @@ ${shareUrl}
                 {project.shortDescription}
               </p>
             </div>
-            <div className="border-t border-white/5 pt-6">
+            <div ref={descContainerRef} className="border-t border-white/5 pt-6">
               <span className="text-[10px] text-text-gray-muted font-bold uppercase tracking-widest block mb-2 font-mono">Detailed Description</span>
-              <p className="text-sm text-[#8E90A2] leading-relaxed whitespace-pre-wrap font-light">
-                {project.description}
-              </p>
+              <div className="relative">
+                <p 
+                  ref={descRef}
+                  className={`text-sm text-[#8E90A2] leading-relaxed whitespace-pre-wrap font-light overflow-hidden ${
+                    showToggle && !isDescExpanded ? "max-h-36" : "max-h-none"
+                  }`}
+                >
+                  {project.description}
+                </p>
+                {showToggle && !isDescExpanded && (
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#030623] to-transparent pointer-events-none" />
+                )}
+              </div>
+              
+              {showToggle && (
+                <button
+                  type="button"
+                  onClick={handleToggleDescription}
+                  className="mt-3 text-xs font-bold text-gold-solid hover:text-gold-hover transition-colors flex items-center gap-1 cursor-pointer bg-transparent border-0 outline-none p-0"
+                >
+                  {isDescExpanded ? "Read Less ▲" : "Read More ▼"}
+                </button>
+              )}
             </div>
 
             {/* Key Amenities & Facilities Section */}
@@ -412,8 +456,6 @@ ${shareUrl}
         </div>
       </div>
 
-
-
       {/* Amenities & Facilities Section */}
       {/* {project.amenities && project.amenities.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 mt-16 space-y-8 relative z-10">
@@ -461,28 +503,22 @@ ${shareUrl}
       )} */}
 
       {/* Properties Inventory Section */}
-      <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
-        <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-          <div>
-            <h2 className="text-2xl font-bold text-white font-sans">
-              Inventory & Available Units
-            </h2>
-            <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
-              Browse unit layouts, sizes, and pricing configurations available within {project.name}.
-            </p>
+      {activeProperties.length > 0 && (
+        <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
+          <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <h2 className="text-2xl font-bold text-white font-sans">
+                Inventory & Available Units
+              </h2>
+              <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
+                Browse unit layouts, sizes, and pricing configurations available within {project.name}.
+              </p>
+            </div>
+            <span className="text-[10px] bg-gold-solid/5 border border-gold-solid/20 text-gold-solid font-bold uppercase px-3 py-1 rounded-full">
+              {activeProperties.length} Units Available
+            </span>
           </div>
-          <span className="text-[10px] bg-gold-solid/5 border border-gold-solid/20 text-gold-solid font-bold uppercase px-3 py-1 rounded-full">
-            {activeProperties.length} Units Available
-          </span>
-        </div>
 
-        {activeProperties.length === 0 ? (
-          <div className="text-center py-20 border border-dashed border-white/5 rounded-3xl bg-[#050c38]/10 p-8">
-            <span className="text-3xl block mb-3 opacity-40">🏘️</span>
-            <h3 className="text-sm font-bold text-white">No listed units available</h3>
-            <p className="text-xs text-text-gray-muted mt-1">Specific plot layout configurations are coming soon. Contact sales for details.</p>
-          </div>
-        ) : (
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {activeProperties.map((prop) => (
               <div
@@ -508,10 +544,10 @@ ${shareUrl}
 
                   {/* Status Badge */}
                   <span className={`absolute top-4 left-4 text-[8px] font-bold tracking-wider uppercase px-2.5 py-1 rounded border backdrop-blur-md ${prop.status === "AVAILABLE" || prop.status === "Available"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/25 shadow-sm"
+                    ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20 shadow-sm"
                     : prop.status === "SOLD" || prop.status === "Sold"
-                      ? "bg-red-500/10 text-red-400 border-red-500/25 shadow-sm"
-                      : "bg-amber-500/10 text-amber-400 border-amber-500/25 shadow-sm"
+                      ? "bg-red-500/10 text-red-400 border-red-500/20 shadow-sm"
+                      : "bg-amber-500/10 text-amber-400 border-emerald-500/20 shadow-sm"
                     }`}>
                     {prop.status}
                   </span>
@@ -572,7 +608,7 @@ ${shareUrl}
                         {formatPrice(prop.price)}
                       </span>
                     </div>
-                    
+
                     <button
                       onClick={() => openEnquiry(`Booking Enquiry for ${project.name}: ${prop.title} (Unit ${prop.unitNumber || "N/A"})`)}
                       className="px-4 py-2 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-[0.97] hover:shadow-lg hover:shadow-gold-solid/20"
@@ -584,9 +620,8 @@ ${shareUrl}
               </div>
             ))}
           </div>
-        )}
-      </div>
-
+        </div>
+      )}
     </div>
   );
 }
