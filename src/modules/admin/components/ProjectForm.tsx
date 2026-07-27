@@ -67,6 +67,12 @@ export default function ProjectForm({ project }: ProjectFormProps) {
     loadAmenities();
   }, []);
 
+  useEffect(() => {
+    if (project?.amenities) {
+      setSelectedAmenityIds(project.amenities.map((a) => a.id));
+    }
+  }, [project]);
+
   async function loadAmenities() {
     try {
       setLoadingAmenities(true);
@@ -486,14 +492,13 @@ export default function ProjectForm({ project }: ProjectFormProps) {
                 <h4 className="text-xs font-bold text-indigo-300 uppercase tracking-wider">
                   {categoryName}
                 </h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                <div className="flex overflow-x-auto gap-3 pb-3 no-scrollbar sm:grid sm:grid-cols-3 md:grid-cols-4 sm:pb-0">
                   {amenities.map((amenity) => {
                     const isSelected = selectedAmenityIds.includes(amenity.id);
                     return (
                       <label
                         key={amenity.id}
-                        onClick={() => handleAmenityToggle(amenity.id)}
-                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer ${
+                        className={`flex items-center gap-3 p-3 rounded-xl border transition-all cursor-pointer shrink-0 w-[150px] sm:w-auto sm:shrink ${
                           isSelected
                             ? "bg-indigo-600/15 border-indigo-500/50 text-indigo-200"
                             : "bg-[#0b0b0f] border-[#1e1e2e] text-slate-400 hover:border-slate-700"
@@ -502,7 +507,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
                         <input
                           type="checkbox"
                           checked={isSelected}
-                          onChange={() => {}} // Controlled by wrapper click
+                          onChange={() => handleAmenityToggle(amenity.id)}
                           className="w-4 h-4 rounded bg-[#13131a] border-slate-700 text-indigo-600 focus:ring-0 cursor-pointer"
                         />
                         <div className="flex items-center gap-2 truncate">

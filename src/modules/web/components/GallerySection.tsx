@@ -14,33 +14,64 @@ interface GalleryItem {
 const GALLERY_ITEMS: GalleryItem[] = [
   {
     imageSrc: "/images/clubhouse.png",
-    alt: "Elite Clubhouse",
-    tag: "Amenity",
-    title: "Elite Clubhouse",
+    alt: "Nandeeka Puram",
+    tag: "Clubhouse",
+    title: "Nandeeka Puram",
   },
   {
     imageSrc: "/images/wellness.png",
-    alt: "Wellness Center",
-    tag: "Health",
-    title: "Wellness Center",
+    alt: "Wellness center",
+    tag: "Health & Spa",
+    title: "Wellness center",
     translateY: true,
   },
   {
-    imageSrc: "/images/spiritual_club.png",
-    alt: "Spiritual Lounge",
-    tag: "Recreation",
-    title: "Spiritual Lounge",
+    imageSrc: "/images/lord_shiva_temple.png",
+    alt: "Lord Shiva Temple",
+    tag: "Spiritual",
+    title: "Lord Shiva Temple",
   },
   {
-    imageSrc: "/images/amenity_saryu.png",
-    alt: "Sarayu Deck",
-    tag: "Nature",
-    title: "Sarayu Deck",
+    imageSrc: "/images/sports_cluster.png",
+    alt: "Sports Cluster",
+    tag: "Sports",
+    title: "Sports Cluster",
+    translateY: true,
+  },
+  {
+    imageSrc: "/images/open_gymnasium.png",
+    alt: "Open gymnasium",
+    tag: "Fitness",
+    title: "Open gymnasium",
+  },
+  {
+    imageSrc: "/images/ev_charging_station.png",
+    alt: "Ev charging station",
+    tag: "Utility",
+    title: "Ev charging station",
     translateY: true,
   },
 ];
 
 export default function GallerySection() {
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const intervalId = setInterval(() => {
+      const maxScrollLeft = el.scrollWidth - el.clientWidth;
+      if (el.scrollLeft >= maxScrollLeft - 10) {
+        el.scrollTo({ left: 0, behavior: "smooth" });
+      } else {
+        el.scrollBy({ left: 300, behavior: "smooth" });
+      }
+    }, 3500);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
   return (
     <section className="w-full bg-[#0d153b]/10 py-16 md:py-24 border-y border-white/5">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
@@ -55,13 +86,14 @@ export default function GallerySection() {
           A glance into the state-of-the-art architectures, wellness setups, and elite clubhouses designed for modern comfort.
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div 
+          ref={scrollRef}
+          className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory no-scrollbar scroll-smooth"
+        >
           {GALLERY_ITEMS.map((item, idx) => (
             <div
               key={idx}
-              className={`group relative aspect-[4/5] overflow-hidden rounded-2xl border border-border-muted ${
-                item.translateY ? "lg:translate-y-4" : ""
-              }`}
+              className="group relative aspect-square w-[260px] sm:w-[320px] shrink-0 overflow-hidden rounded-2xl border border-border-muted snap-start"
             >
               <img
                 src={item.imageSrc}

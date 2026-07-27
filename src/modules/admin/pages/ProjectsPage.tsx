@@ -393,12 +393,12 @@ export default function ProjectsPage() {
                         >
                           View Details
                         </button>
-                        <button
-                          onClick={() => handleEditProject(project.slug || project.id)}
-                          className="px-3.5 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
+                        <Link
+                          href={`/admin/projects/edit/${project.id}`}
+                          className="px-3.5 py-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 hover:text-amber-300 border border-amber-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer no-underline flex items-center"
                         >
                           Edit
-                        </button>
+                        </Link>
                         <button
                           onClick={() => { setConfirmDeleteId(project.id); setConfirmDeleteName(project.name); setDeleteError(null); }}
                           className="px-3.5 py-1.5 bg-red-500/10 hover:bg-red-500/20 text-red-400 hover:text-red-300 border border-red-500/20 rounded-xl text-xs font-semibold transition-all duration-150 cursor-pointer"
@@ -469,13 +469,12 @@ export default function ProjectsPage() {
               >
                 Delete Project
               </button>
-              {/* <button
-                type="button"
-                onClick={startEditing}
-                className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold cursor-pointer transition-all duration-150 shadow-md shadow-gold-solid/10"
+              <Link
+                href={`/admin/projects/edit/${selectedProject.id}`}
+                className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] rounded-xl text-xs font-bold cursor-pointer transition-all duration-150 shadow-md shadow-gold-solid/10 no-underline text-center flex items-center justify-center"
               >
                 Edit Project
-              </button> */}
+              </Link>
               <button
                 type="button"
                 onClick={() => { setSelectedProject(null); setDetailError(null); }}

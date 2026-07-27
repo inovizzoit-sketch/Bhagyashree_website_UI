@@ -79,14 +79,14 @@ export default function FeaturedProjectsSection() {
 
   return (
     <section className="mx-auto w-full max-w-7xl px-6 md:px-8">
-      <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div className="flex items-end justify-between mb-12 gap-4">
         <SectionHeading 
           badge="Selected Works" 
           plainText="Featured" 
           highlightText="Developments" 
           className="!mb-0" 
         />
-        <Link href="/projects" className="mt-4 md:mt-0 text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors">
+        <Link href="/projects" className="text-xs sm:text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors shrink-0 pb-1">
           View All Projects →
         </Link>
       </div>
@@ -117,12 +117,12 @@ export default function FeaturedProjectsSection() {
       )}
 
       {!loading && !error && projects.length > 0 && (
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="flex overflow-x-auto gap-6 pb-6 snap-x snap-mandatory no-scrollbar md:grid md:grid-cols-2 lg:grid-cols-3 md:pb-0">
           {projects.map((project) => (
              <Link 
               key={project.id} 
               href={`/projects/${project.slug}`} 
-              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/45 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_25px_rgba(221,189,129,0.08)] block no-underline"
+              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/45 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_25px_rgba(221,189,129,0.08)] block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
             >
               <div className="aspect-[4/3] w-full relative overflow-hidden bg-background">
                 {project.thumbnailImage ? (

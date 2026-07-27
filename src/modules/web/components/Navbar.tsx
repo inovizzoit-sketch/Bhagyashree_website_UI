@@ -64,7 +64,7 @@ export default function Navbar() {
             >
               About Us
             </Link>
-            {/* <Link 
+            <Link 
               href="/gallery" 
               className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
                 pathname === "/gallery" 
@@ -73,7 +73,7 @@ export default function Navbar() {
               }`}
             >
               Gallery
-            </Link> */}
+            </Link>
           </nav>
 
           {/* Contact Us CTA (Border Button) */}

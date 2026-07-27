@@ -2,7 +2,7 @@
 
 :root {
   /* --background: rgba(116, 13, 13, 0.965); */
-  --background: linear-gradient(90deg,rgba(7, 32, 61, 1) 0%, rgb(6, 6, 51) 100%);
+  --background: linear-gradient(90deg, rgba(7, 32, 61, 1) 0%, rgb(6, 6, 51) 100%);
   --foreground: #FFFFFF;
 
   --dark-primary: #0a146f;
@@ -42,7 +42,8 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-plus-jakarta), sans-serif;
-  font-size: 15px; /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
+  font-size: 15px;
+  /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
   line-height: 1.6;
 }
 
@@ -51,10 +52,13 @@ html {
 }
 
 @keyframes borderGlow {
-  0%, 100% {
+
+  0%,
+  100% {
     border-color: rgba(221, 189, 129, 0.15);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(221, 189, 129, 0.03);
   }
+
   50% {
     border-color: rgba(221, 189, 129, 0.5);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(221, 189, 129, 0.12);
@@ -65,4 +69,312 @@ html {
   animation: borderGlow 3s ease-in-out infinite;
 }
 
+/* Admin panel light theme overrides */
+.admin-theme-light {
+  background-color: #f5f2eb !important;
+  color: #0f172a !important;
 
+  /* Overrides for background colors */
+  &.bg-\[\#0f0f14\],
+  & .bg-\[\#0f0f14\],
+  & .bg-\[\#0b0b0f\],
+  & .bg-slate-900 {
+    background-color: #f5f2eb !important;
+  }
+
+  & .bg-\[\#13131a\],
+  & .bg-\[\#1a1a24\],
+  & .bg-slate-800 {
+    background-color: #faf8f0 !important;
+  }
+
+  /* Sidebar items / nav links */
+  & aside {
+    background-color: #faf8f0 !important;
+    border-right-color: #cbd5e1 !important;
+  }
+
+  & header {
+    background-color: #faf8f0 !important;
+    border-bottom-color: #cbd5e1 !important;
+  }
+
+  & .hover\:bg-indigo-500\/10:hover {
+    background-color: #f5f2eb !important;
+  }
+
+  & .bg-indigo-500\/15 {
+    background-color: #e0e7ff !important;
+    color: #4f46e5 !important;
+  }
+
+  /* Overrides for text colors */
+  &.text-slate-200,
+  & .text-slate-100,
+  & .text-slate-200,
+  & .text-white {
+    color: #0f172a !important;
+  }
+
+  & .text-slate-300 {
+    color: #334155 !important;
+  }
+
+  & .text-slate-400,
+  & .text-slate-500 {
+    color: #475569 !important;
+  }
+
+  & .text-indigo-200,
+  & .text-indigo-300,
+  & .text-indigo-400 {
+    color: #4f46e5 !important;
+  }
+
+  & .bg-indigo-500\/10 {
+    background-color: #eef2ff !important;
+    color: #4f46e5 !important;
+    border-color: #c7d2fe !important;
+  }
+
+  /* Overrides for borders */
+  & .border-\[\#1e1e2e\],
+  & .border-\[\#3F404D\],
+  & .border-slate-800,
+  & .border-slate-700 {
+    border-color: #cbd5e1 !important;
+  }
+
+  /* Tables */
+  & table {
+    background-color: #faf8f0 !important;
+  }
+
+  & thead th {
+    background-color: #f5f2eb !important;
+    color: #475569 !important;
+    border-bottom-color: #cbd5e1 !important;
+  }
+
+  & tbody tr {
+    border-bottom-color: #cbd5e1 !important;
+
+    &:hover {
+      background-color: #f5f2eb !important;
+    }
+  }
+
+  /* Inputs, Textareas, and Selects */
+  & input:not([type="checkbox"]):not([type="radio"]),
+  & textarea,
+  & select {
+    background-color: #faf8f0 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+
+    &::placeholder {
+      color: #94a3b8 !important;
+    }
+
+    &:focus {
+      border-color: #6366f1 !important;
+      box-shadow: 0 0 0 1px #6366f1 !important;
+    }
+  }
+
+  /* Checkboxes */
+  & input[type="checkbox"] {
+    background-color: #faf8f0 !important;
+    border-color: #cbd5e1 !important;
+
+    &:checked {
+      background-color: #4f46e5 !important;
+      border-color: #4f46e5 !important;
+    }
+  }
+
+  /* Custom component adjustments */
+  & .bg-\[\#1e1e2e\] {
+    background-color: #faf8f0 !important;
+  }
+
+  /* Secondary Buttons & Action Boxes */
+  & .bg-\[\#181824\],
+  & .bg-\[\#171721\],
+  & .bg-\[\#20202e\],
+  & .bg-slate-800 {
+    background-color: #f5f2eb !important;
+    color: #334155 !important;
+    border-color: #cbd5e1 !important;
+  }
+
+  & .bg-\[\#181824\]:hover,
+  & .bg-\[\#171721\]:hover,
+  & .bg-slate-850:hover,
+  & .bg-slate-800:hover,
+  & .hover\:bg-\[\#1e1e2e\]:hover,
+  & .hover\:bg-\[\#20202e\]:hover,
+  & .hover\:bg-slate-800:hover {
+    background-color: #e9e4d9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+  }
+}
+
+/* Admin panel dark theme overrides (Premium Dark Style) */
+.admin-theme-dark {
+  background-color: #0b0b0f !important;
+  color: #f1f5f9 !important;
+
+  /* Overrides for background colors */
+  &.bg-\[\#0f0f14\],
+  & .bg-\[\#0f0f14\],
+  & .bg-\[\#0b0b0f\],
+  & .bg-slate-900 {
+    background-color: #0b0b0f !important;
+  }
+
+  & .bg-\[\#13131a\],
+  & .bg-\[\#1a1a24\],
+  & .bg-slate-800 {
+    background-color: #121218 !important;
+  }
+
+  /* Sidebar items / nav links */
+  & aside {
+    background-color: #121218 !important;
+    border-right-color: #1e1e2e !important;
+  }
+
+  & header {
+    background-color: #121218 !important;
+    border-bottom-color: #1e1e2e !important;
+  }
+
+  & .hover\:bg-indigo-500\/10:hover {
+    background-color: rgba(99, 102, 241, 0.08) !important;
+  }
+
+  & .bg-indigo-500\/15 {
+    background-color: rgba(99, 102, 241, 0.15) !important;
+    color: #a5b4fc !important;
+  }
+
+  /* Overrides for text colors */
+  &.text-slate-200,
+  & .text-slate-100,
+  & .text-slate-200,
+  & .text-white {
+    color: #f8fafc !important;
+  }
+
+  & .text-slate-300 {
+    color: #cbd5e1 !important;
+  }
+
+  & .text-slate-400,
+  & .text-slate-500 {
+    color: #94a3b8 !important;
+  }
+
+  & .text-indigo-200,
+  & .text-indigo-300,
+  & .text-indigo-400 {
+    color: #818cf8 !important;
+  }
+
+  /* Overrides for borders */
+  & .border-\[\#1e1e2e\],
+  & .border-\[\#3F404D\],
+  & .border-slate-800,
+  & .border-slate-700 {
+    border-color: #1e1e2e !important;
+  }
+
+  /* Tables */
+  & table {
+    background-color: #121218 !important;
+  }
+
+  & thead th {
+    background-color: #0b0b0f !important;
+    color: #94a3b8 !important;
+    border-bottom-color: #1e1e2e !important;
+  }
+
+  & tbody tr {
+    border-bottom-color: #1e1e2e !important;
+
+    &:hover {
+      background-color: #181824 !important;
+    }
+  }
+
+  /* Inputs, Textareas, and Selects */
+  & input:not([type="checkbox"]):not([type="radio"]),
+  & textarea,
+  & select {
+    background-color: #181824 !important;
+    border-color: #2e2e42 !important;
+    color: #f8fafc !important;
+
+    &::placeholder {
+      color: #64748b !important;
+    }
+
+    &:focus {
+      border-color: #6366f1 !important;
+      box-shadow: 0 0 0 1px #6366f1 !important;
+    }
+  }
+
+  /* Checkboxes */
+  & input[type="checkbox"] {
+    background-color: #181824 !important;
+    border-color: #2e2e42 !important;
+
+    &:checked {
+      background-color: #6366f1 !important;
+      border-color: #6366f1 !important;
+    }
+  }
+
+  /* Custom component adjustments */
+  & .bg-\[\#1e1e2e\] {
+    background-color: #181824 !important;
+  }
+
+  /* Secondary Buttons & Action Boxes */
+  & .bg-\[\#181824\],
+  & .bg-\[\#171721\],
+  & .bg-\[\#20202e\],
+  & .bg-slate-800 {
+    background-color: #181824 !important;
+    color: #cbd5e1 !important;
+    border-color: #2e2e42 !important;
+  }
+
+  & .bg-\[\#181824\]:hover,
+  & .bg-\[\#171721\]:hover,
+  & .bg-slate-850:hover,
+  & .bg-slate-800:hover,
+  & .hover\:bg-\[\#1e1e2e\]:hover,
+  & .hover\:bg-\[\#20202e\]:hover,
+  & .hover\:bg-slate-800:hover {
+    background-color: #232333 !important;
+    color: #f8fafc !important;
+    border-color: #3f3f5a !important;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
