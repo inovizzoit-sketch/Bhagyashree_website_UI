@@ -97,14 +97,15 @@ export default function ProjectsPage() {
       <div className="absolute top-[40vh] -left-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Header Banner */}
-      <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 z-10">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
         <SectionHeading
           badge="Exquisite Developments"
           plainText="Our Architectural"
           highlightText="Portfolio"
           align="center"
+          className="!mb-4"
         />
-        <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+        <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
           Discover a curated collection of landmark premium residences, ultra-modern luxury apartments, and signature villa plotting projects designed for contemporary living.
         </p>
       </div>

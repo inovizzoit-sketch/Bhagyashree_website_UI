@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createProject, updateProject } from "../services/project.service";
 import { getAmenities, Amenity } from "../services/amenity.service";
 import { Project, ProjectType, ProjectStatus } from "../types";
+import RichTextEditor from "../../../shared/components/RichTextEditor";
 
 interface ProjectFormProps {
   project?: Project;
@@ -124,8 +125,17 @@ export default function ProjectForm({ project }: ProjectFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitting(true);
     setError(null);
+
+    // Validate description is not empty
+    const isDescriptionEmpty = !description || description.replace(/<[^>]*>/g, "").trim() === "";
+    if (isDescriptionEmpty) {
+      setError("Full Description is required and cannot be empty.");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+
+    setSubmitting(true);
 
     try {
       const formData = new FormData();
@@ -392,13 +402,10 @@ export default function ProjectForm({ project }: ProjectFormProps) {
             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
               Full Description <span className="text-red-400">*</span>
             </label>
-            <textarea
-              rows={5}
-              required
-              placeholder="Detailed description of the project amenities, benefits..."
+            <RichTextEditor
               value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors resize-none"
+              onChange={setDescription}
+              placeholder="Detailed description of the project amenities, benefits..."
             />
           </div>
         </div>

@@ -65,15 +65,16 @@ export default function GalleryWebPage() {
       <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header section */}
-      <div className="relative pt-28 pb-10 md:pt-36 md:pb-12 z-10">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
         <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
           <SectionHeading
             badge="Visual Showcase"
             plainText="Gallery &"
             highlightText="Lifestyle"
             align="center"
+            className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Explore our curated collections of state-of-the-art architectures, wellness setups, and elite clubhouses designed for modern comfort.
           </p>
         </div>

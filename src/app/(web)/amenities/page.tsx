@@ -56,7 +56,9 @@ export default function AmenitiesWebPage() {
     };
   }, []);
 
-  // Group amenities by category name
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
+
+  // Group amenities by category
   const groupedAmenities: Record<string, { category: AmenityCategory; list: Amenity[] }> = {};
 
   amenities.forEach((am) => {
@@ -84,10 +86,9 @@ export default function AmenitiesWebPage() {
     (a, b) => a.category.sortOrder - b.category.sortOrder
   );
 
-  // Filter amenities by active tab slug
-  const displayedAmenities = activeTab === "all"
-    ? amenities
-    : amenities.filter(am => am.category?.slug === activeTab);
+  const selectedCategoryData = selectedCategorySlug 
+    ? sortedCategories.find(cat => cat.category.slug === selectedCategorySlug)
+    : null;
 
   return (
     <div className="min-h-screen bg-background pb-32 overflow-hidden relative font-sans">
@@ -96,16 +97,20 @@ export default function AmenitiesWebPage() {
       <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header section */}
-      <div className="relative pt-28 pb-10 md:pt-36 md:pb-12 z-10">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
         <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
-          <SectionHeading 
-            badge="World-class standards" 
-            plainText="Premium Lifestyle" 
-            highlightText="Amenities" 
-            align="center" 
+          <SectionHeading
+            badge="World-class standards"
+            plainText={selectedCategoryData ? selectedCategoryData.category.name : "Premium Lifestyle"}
+            highlightText={selectedCategoryData ? "Album" : "Amenities"}
+            align="center"
+            className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Discover the structural perks, recreational facilities, and security configurations that set NANDEEKA ENTERPRISES apart.
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+            {selectedCategoryData 
+              ? (selectedCategoryData.category.description || "Explore curated premium offerings in this category.") 
+              : "Discover the structural perks, recreational facilities, and security configurations that set NANDEEKA ENTERPRISES apart."
+            }
           </p>
         </div>
       </div>
@@ -114,7 +119,7 @@ export default function AmenitiesWebPage() {
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
             <div className="w-10 h-10 border-2 border-gold-solid/25 border-t-gold-solid rounded-full animate-spin" />
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading amenities list...</p>
+            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading Amenities...</p>
           </div>
         ) : error && amenities.length === 0 ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
@@ -144,78 +149,109 @@ export default function AmenitiesWebPage() {
               Enquire Details
             </button>
           </div>
-        ) : (
-          <div className="space-y-12">
-            {/* Category Selector Tabs */}
-            <div className="flex justify-center px-4">
-              <div className="bg-[#0d153b]/40 border border-white/5 backdrop-blur-md rounded-2xl p-1.5 flex flex-wrap gap-1.5 justify-center max-w-4xl shadow-2xl">
-                <button
-                  onClick={() => setActiveTab("all")}
-                  className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-95 ${
-                    activeTab === "all"
-                      ? "bg-gold-solid text-background shadow-lg shadow-gold-solid/15"
-                      : "text-text-gray-muted hover:text-white hover:bg-white/5"
-                  }`}
+        ) : !selectedCategorySlug ? (
+          /* ALBUM COVER GRID (Default View) */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
+            {sortedCategories.map((cat) => {
+              // Get cover image from first amenity that has an image
+              const coverItem = cat.list.find((am) => am.icon && (am.icon.startsWith("http") || am.icon.startsWith("/")));
+              const coverUrl = coverItem?.icon 
+                ? (coverItem.icon.startsWith("http") ? coverItem.icon : `${API_BASE_URL.replace("/api/v1", "")}${coverItem.icon}`)
+                : "/placeholder-gallery.jpg";
+
+              const totalAmenities = cat.list.length;
+
+              return (
+                <div
+                  key={cat.category.id}
+                  onClick={() => setSelectedCategorySlug(cat.category.slug)}
+                  className="group relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/10 cursor-pointer border border-white/5 hover:border-gold-solid/35 block"
                 >
-                  All Features
-                </button>
-                {sortedCategories.map((cat) => (
-                  <button
-                    key={cat.category.id}
-                    onClick={() => setActiveTab(cat.category.slug)}
-                    className={`px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer active:scale-95 ${
-                      activeTab === cat.category.slug
-                        ? "bg-gold-solid text-background shadow-lg shadow-gold-solid/15"
-                        : "text-text-gray-muted hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    {cat.category.name}
-                  </button>
-                ))}
-              </div>
+                  {/* Background Cover Image */}
+                  <img
+                    src={coverUrl}
+                    alt={cat.category.name}
+                    loading="lazy"
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+
+                  {/* Dark Elegant Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-black/25 opacity-85 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
+
+                  {/* Top Stats Tag */}
+                  <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full pointer-events-none">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
+                      {totalAmenities} {totalAmenities === 1 ? "Amenity" : "Amenities"}
+                    </span>
+                  </div>
+
+                  {/* Info Tag Footer */}
+                  <div className="absolute bottom-6 left-6 right-6 pointer-events-none transition-transform duration-300 group-hover:translate-y-[-2px]">
+                    <h4 className="text-xl font-bold text-white tracking-tight leading-snug">
+                      {cat.category.name}
+                    </h4>
+                    {cat.category.description && (
+                      <p className="text-xs text-text-gray-muted font-light mt-1.5 line-clamp-2 leading-relaxed">
+                        {cat.category.description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        ) : (
+          /* INSIDE AN ALBUM (Show specific category amenities) */
+          <div className="space-y-8 pt-2">
+            {/* Back Navigation Bar */}
+            <div className="flex justify-start">
+              <button
+                onClick={() => setSelectedCategorySlug(null)}
+                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-gold-solid hover:text-white bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/25 transition-all cursor-pointer active:scale-95"
+              >
+                ← Back to Albums
+              </button>
             </div>
 
-            {/* Immersive Gallery Card Horizontal Row (Line by Line) */}
-            <div className="pt-6 animate-in fade-in slide-in-from-bottom duration-700">
-              <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-none snap-x snap-mandatory -mx-6 px-6 md:mx-0 md:px-0">
-                {displayedAmenities.map((am) => (
-                  <div
-                    key={am.id}
-                    className="group relative w-[280px] sm:w-[320px] aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer shrink-0 snap-start"
-                    onClick={() => openEnquiry(`${am.name} (${am.category?.name || "Amenity"})`)}
-                  >
-                    {/* Background Visual Image Overlay */}
-                    {am.icon ? (
-                      <img
-                        src={
-                          am.icon.startsWith("http")
-                            ? am.icon
-                            : `${API_BASE_URL.replace("/api/v1", "")}${am.icon}`
-                        }
-                        alt={am.name}
-                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 h-full w-full bg-[#0d153b]/40 flex items-center justify-center">
-                        <span className="text-3xl opacity-20">✽</span>
-                      </div>
-                    )}
-                    
-                    {/* Premium Dark Gradient Shading matching the reference */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
-                    
-                    {/* Amenity Info Tag Footer matching reference spacing and style */}
-                    <div className="absolute bottom-6 left-6 right-6">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid block">
-                        {am.category?.name || "Premium Feature"}
-                      </span>
-                      <h4 className="text-xl font-bold text-white tracking-tight mt-1.5 leading-snug">
-                        {am.name}
-                      </h4>
+            {/* Grid display of amenities belonging to this category */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
+              {selectedCategoryData?.list.map((am) => (
+                <div
+                  key={am.id}
+                  className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer border border-white/5"
+                  onClick={() => openEnquiry(`${am.name} (${selectedCategoryData.category.name})`)}
+                >
+                  {/* Background Visual Image Overlay */}
+                  {am.icon ? (
+                    <img
+                      src={
+                        am.icon.startsWith("http")
+                          ? am.icon
+                          : `${API_BASE_URL.replace("/api/v1", "")}${am.icon}`
+                      }
+                      alt={am.name}
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 h-full w-full bg-[#0d153b]/40 flex items-center justify-center">
+                      <span className="text-3xl opacity-20">✽</span>
                     </div>
+                  )}
+
+                  {/* Dark shading */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
+
+                  {/* Info Tag Footer */}
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid block">
+                      {selectedCategoryData.category.name}
+                    </span>
+                    <h4 className="text-lg font-bold text-white tracking-tight mt-1.5 leading-snug">
+                      {am.name}
+                    </h4>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         )}

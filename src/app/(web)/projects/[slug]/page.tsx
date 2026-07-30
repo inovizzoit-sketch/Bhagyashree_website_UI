@@ -180,7 +180,8 @@ ${shareUrl}
 
   useEffect(() => {
     if (project?.description) {
-      setShowToggle(project.description.length > 300);
+      const textOnly = project.description.replace(/<[^>]*>/g, "");
+      setShowToggle(textOnly.length > 300);
     }
   }, [project?.description]);
 
@@ -382,14 +383,13 @@ ${shareUrl}
             <div ref={descContainerRef} className="border-t border-white/5 pt-6">
               <span className="text-[10px] text-text-gray-muted font-bold uppercase tracking-widest block mb-2 font-mono">Detailed Description</span>
               <div className="relative">
-                <p 
+                <div 
                   ref={descRef}
-                  className={`text-sm text-[#8E90A2] leading-relaxed whitespace-pre-wrap font-light overflow-hidden ${
+                  className={`text-sm text-[#8E90A2] leading-relaxed overflow-hidden rich-text-renderer ${
                     showToggle && !isDescExpanded ? "max-h-36" : "max-h-none"
                   }`}
-                >
-                  {project.description}
-                </p>
+                  dangerouslySetInnerHTML={{ __html: project.description }}
+                />
                 {showToggle && !isDescExpanded && (
                   <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#030623] to-transparent pointer-events-none" />
                 )}

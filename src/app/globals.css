@@ -378,3 +378,85 @@ html {
   -ms-overflow-style: none !important;
   scrollbar-width: none !important;
 }
+
+/* Rich Text / WYSIWYG Editor rendering styles */
+.rich-text-renderer, .rich-text-content {
+  h1 { font-size: 1.875rem; font-weight: 800; color: #ffffff; margin-top: 1.5rem; margin-bottom: 0.75rem; }
+  h2 { font-size: 1.5rem; font-weight: 700; color: #ffffff; margin-top: 1.25rem; margin-bottom: 0.5rem; }
+  h3 { font-size: 1.25rem; font-weight: 600; color: #ffffff; margin-top: 1rem; margin-bottom: 0.5rem; }
+  h4 { font-size: 1.125rem; font-weight: 600; color: #ffffff; margin-top: 0.75rem; margin-bottom: 0.25rem; }
+  h5 { font-size: 1rem; font-weight: 600; color: #ffffff; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+  h6 { font-size: 0.875rem; font-weight: 600; color: #ffffff; margin-top: 0.5rem; margin-bottom: 0.25rem; }
+
+  p { margin-bottom: 1rem; line-height: 1.7; }
+  p:last-child { margin-bottom: 0; }
+
+  ul { list-style-type: disc !important; padding-left: 1.5rem !important; margin-bottom: 1rem !important; display: block !important; }
+  ol { list-style-type: decimal !important; padding-left: 1.5rem !important; margin-bottom: 1rem !important; display: block !important; }
+  li { margin-bottom: 0.25rem !important; display: list-item !important; }
+
+  blockquote {
+    border-left: 4px solid #6366f1 !important;
+    padding-left: 1rem !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    font-style: italic !important;
+    color: #cbd5e1 !important;
+  }
+
+  a {
+    color: #6366f1 !important;
+    text-decoration: underline !important;
+    transition: color 0.15s ease !important;
+    &:hover {
+      color: #818cf8 !important;
+    }
+  }
+
+  pre {
+    background-color: #1e1e2e !important;
+    padding: 1rem !important;
+    border-radius: 0.5rem !important;
+    overflow-x: auto !important;
+    margin-top: 1rem !important;
+    margin-bottom: 1rem !important;
+    border: 1px solid #2e2e42 !important;
+  }
+  code {
+    font-family: monospace !important;
+    font-size: 0.875rem !important;
+    color: #a855f7 !important;
+    background-color: rgba(168, 85, 247, 0.1) !important;
+    padding: 0.125rem 0.25rem !important;
+    border-radius: 0.25rem !important;
+  }
+  pre code {
+    color: #f8fafc !important;
+    background-color: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  hr {
+    border: 0 !important;
+    border-top: 1px solid #1e1e2e !important;
+    margin-top: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  /* Text Alignments from TipTap style rules */
+  p[style*="text-align: center"], h1[style*="text-align: center"], h2[style*="text-align: center"], h3[style*="text-align: center"], h4[style*="text-align: center"], h5[style*="text-align: center"], h6[style*="text-align: center"] {
+    text-align: center !important;
+  }
+  p[style*="text-align: right"], h1[style*="text-align: right"], h2[style*="text-align: right"], h3[style*="text-align: right"], h4[style*="text-align: right"], h5[style*="text-align: right"], h6[style*="text-align: right"] {
+    text-align: right !important;
+  }
+  p[style*="text-align: justify"], h1[style*="text-align: justify"], h2[style*="text-align: justify"], h3[style*="text-align: justify"], h4[style*="text-align: justify"], h5[style*="text-align: justify"], h6[style*="text-align: justify"] {
+    text-align: justify !important;
+  }
+  p[style*="text-align: left"], h1[style*="text-align: left"], h2[style*="text-align: left"], h3[style*="text-align: left"], h4[style*="text-align: left"], h5[style*="text-align: left"], h6[style*="text-align: left"] {
+    text-align: left !important;
+  }
+}

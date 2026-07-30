@@ -54,15 +54,16 @@ export default function AboutUsPage() {
       <div className="absolute bottom-[20vh] -right-[200px] w-[600px] h-[600px] bg-gold-solid/3 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Intro Header Section */}
-      <div className="relative pt-28 pb-16 md:pt-36 md:pb-24 z-10">
-        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center space-y-6">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
+        <div className="mx-auto max-w-5xl px-6 md:px-8 text-center">
           <SectionHeading
             badge="Our Heritage"
             plainText="Crafting Landmarks of"
             highlightText="Trust"
             align="center"
+            className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-base md:text-lg text-text-gray-muted leading-relaxed font-light mt-4">
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Nandeeka Enterprises was founded with a single mission: to revolutionize raw land acquisition in Uttar Pradesh by delivering secure, institutional, and fully developed branded layouts.
           </p>
         </div>

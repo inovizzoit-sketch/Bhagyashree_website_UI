@@ -54,16 +54,42 @@ export default function Navbar() {
             >
               Decoding Land
             </Link>
-            <Link 
-              href="/about-us" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
-                pathname === "/about-us" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
-              }`}
-            >
-              About Us
-            </Link>
+            <div className="relative group py-1">
+              <button 
+                className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 flex items-center gap-1 cursor-pointer bg-transparent border-0 outline-none p-0 ${
+                  pathname === "/about-us" || pathname === "/cmd"
+                    ? "text-[#DDBD81]" 
+                    : "text-[#8E90A2] hover:text-white"
+                }`}
+              >
+                <span>About</span>
+                <span className="text-[8px] transition-transform duration-300 group-hover:rotate-180">▼</span>
+              </button>
+              
+              {/* Dropdown Options */}
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 rounded-xl bg-[#0a113a]/95 backdrop-blur-md border border-white/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 flex flex-col gap-1">
+                <Link
+                  href="/about-us"
+                  className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
+                    pathname === "/about-us"
+                      ? "bg-gold-solid/10 text-[#DDBD81]"
+                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  About Us
+                </Link>
+                <Link
+                  href="/cmd"
+                  className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
+                    pathname === "/cmd"
+                      ? "bg-gold-solid/10 text-[#DDBD81]"
+                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                  }`}
+                >
+                  CMD Message
+                </Link>
+              </div>
+            </div>
             <Link 
               href="/gallery" 
               className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
@@ -73,16 +99,6 @@ export default function Navbar() {
               }`}
             >
               Gallery
-            </Link>
-            <Link 
-              href="/cmd" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
-                pathname === "/cmd" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
-              }`}
-            >
-              CMD
             </Link>
           </nav>
 
@@ -192,9 +208,25 @@ export default function Navbar() {
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
                     {pathname === "/about-us" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
-                    Sustainability & Impact
+                    About Us
                   </span>
                   <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                </Link>
+
+                <Link 
+                  onClick={() => setIsOpen(false)} 
+                  href="/cmd" 
+                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
+                    pathname === "/cmd" 
+                      ? "text-[#DDBD81]" 
+                      : "text-white hover:text-[#DDBD81]"
+                  }`}
+                >
+                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
+                    {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    CMD Message
+                  </span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/cmd" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -243,22 +275,6 @@ export default function Navbar() {
                     Gallery
                   </span>
                   <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/gallery" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
-                </Link>
-
-                <Link 
-                  onClick={() => setIsOpen(false)} 
-                  href="/cmd" 
-                  className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
-                    pathname === "/cmd" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
-                  }`}
-                >
-                  <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
-                    CMD
-                  </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/cmd" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
                 </Link>
 
                 <Link 

@@ -61,15 +61,16 @@ export default function GovernancePage() {
       <div className="absolute top-[40vh] -left-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Page Header */}
-      <div className="relative pt-28 pb-16 md:pt-36 md:pb-20 z-10">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
         <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
           <SectionHeading
             badge="Compliance & Trust"
             plainText="Corporate"
             highlightText="Governance"
             align="center"
+            className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light mt-2">
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Nandeeka Enterprises operates under standard corporate governance models, delivering legal security, structural clarity, and transparent transactions to every investor.
           </p>
         </div>

@@ -17,6 +17,7 @@ export default function FormsPage() {
 
   const [search, setSearch] = useState("");
   const [selectedType, setSelectedType] = useState<string>("");
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   useEffect(() => {
     loadForms();
@@ -41,6 +42,8 @@ export default function FormsPage() {
   const handleToggleActive = async (id: string, currentActive: boolean) => {
     try {
       await updateForm(id, { isActive: !currentActive });
+      setSuccessMessage("Form status updated successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
       loadForms();
     } catch (err: any) {
       alert(err.message || "Failed to update form status");
@@ -50,6 +53,8 @@ export default function FormsPage() {
   const handleDuplicate = async (id: string) => {
     try {
       await duplicateForm(id);
+      setSuccessMessage("Form duplicated successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
       loadForms();
     } catch (err: any) {
       alert(err.message || "Failed to duplicate form");
@@ -60,6 +65,8 @@ export default function FormsPage() {
     if (!confirm(`Are you sure you want to delete form '${name}'?`)) return;
     try {
       await deleteForm(id);
+      setSuccessMessage("Form deleted successfully!");
+      setTimeout(() => setSuccessMessage(null), 3000);
       loadForms();
     } catch (err: any) {
       alert(err.message || "Failed to delete form");
@@ -94,6 +101,12 @@ export default function FormsPage() {
           </Link>
         </div>
       </div>
+
+      {successMessage && (
+        <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-sm text-emerald-400 animate-in fade-in duration-350 flex items-center gap-2">
+          <span>✓</span> {successMessage}
+        </div>
+      )}
 
       {/* Search & Filters */}
       <div className="bg-[#13131a] border border-[#1e1e2e] rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4">

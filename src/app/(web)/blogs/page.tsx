@@ -118,14 +118,15 @@ export default function BlogsWebPage() {
       <div className="absolute top-[60vh] -right-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Header Banner */}
-      <div className="relative pt-28 pb-16 md:pt-36 md:pb-20 z-10">
+      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
           <SectionHeading 
             badge="Asset Intelligence Blog" 
             plainText="Nandeeka" 
             highlightText="Insights" 
             align="center" 
+            className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-base md:text-lg text-text-gray-muted leading-relaxed font-light">
+          <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             Stay ahead with curated deep-dives into Varanasi&apos;s property trends, legal guidelines, and branded plotted land developments.
           </p>
       </div>

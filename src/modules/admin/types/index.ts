@@ -7,6 +7,7 @@ export * from "./gallery.types";
 export * from "./template.types";
 export * from "./form.types";
 export * from "./footer.types";
+export * from "./home-gallery.types";
 
 
 

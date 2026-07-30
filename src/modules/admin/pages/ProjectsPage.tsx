@@ -421,7 +421,7 @@ export default function ProjectsPage() {
         maxWidth="max-w-5xl"
         title={
           selectedProject ? (
-            <div className="flex items-center gap-3">
+            <div className="flex flex-wrap items-center gap-3">
               <span>{selectedProject.name}</span>
               <span className="text-[10px] font-bold bg-gold-solid/20 text-gold-solid px-2 py-0.5 rounded border border-gold-solid/25 uppercase">
                 {selectedProject.projectType}
@@ -434,6 +434,20 @@ export default function ProjectsPage() {
                 }`}>
                 {selectedProject.projectStatus}
               </span>
+              {selectedProject.isFeatured && (
+                <span className="text-[10px] font-bold bg-indigo-500/10 text-indigo-400 border border-indigo-500/25 px-2 py-0.5 rounded uppercase">
+                  Featured
+                </span>
+              )}
+              {selectedProject.isActive ? (
+                <span className="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-0.5 rounded uppercase">
+                  Active
+                </span>
+              ) : (
+                <span className="text-[10px] font-bold bg-slate-500/10 text-slate-400 border border-slate-500/25 px-2 py-0.5 rounded uppercase">
+                  Draft
+                </span>
+              )}
             </div>
           ) : (
             "Project Details"
@@ -755,6 +769,22 @@ export default function ProjectsPage() {
                   </div>
                 )}
 
+                {/* Slug / Link */}
+                <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-3.5 flex items-center justify-between text-xs">
+                  <div className="truncate pr-2">
+                    <span className="text-[9px] text-slate-500 block uppercase tracking-wider mb-0.5">Project URL Slug</span>
+                    <span className="font-mono text-slate-300 font-semibold truncate block">{selectedProject.slug}</span>
+                  </div>
+                  <a
+                    href={`/projects/${selectedProject.slug}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors cursor-pointer shrink-0"
+                  >
+                    View Page ↗
+                  </a>
+                </div>
+
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4">
@@ -781,17 +811,45 @@ export default function ProjectsPage() {
                     <span className="text-[10px] text-slate-555 block uppercase tracking-wider mb-0.5">Full Address</span>
                     <span className="text-xs text-slate-300">{selectedProject.address}</span>
                   </div>
-                  <div className="grid grid-cols-2 gap-2 border-t border-[#1e1e2e]/50 pt-2.5 text-xs">
+                  <div className="grid grid-cols-3 gap-2 border-t border-[#1e1e2e]/50 pt-2.5 text-xs">
                     <div>
                       <span className="text-[10px] text-slate-555 block uppercase tracking-wider">City</span>
-                      <span className="text-slate-300">{selectedProject.city}</span>
+                      <span className="text-slate-300 block truncate">{selectedProject.city}</span>
+                    </div>
+                    <div>
+                      <span className="text-[10px] text-slate-555 block uppercase tracking-wider">State</span>
+                      <span className="text-slate-300 block truncate">{selectedProject.state || "N/A"}</span>
                     </div>
                     <div>
                       <span className="text-[10px] text-slate-555 block uppercase tracking-wider">Pincode</span>
-                      <span className="text-slate-300">{selectedProject.pincode}</span>
+                      <span className="text-slate-300 block truncate">{selectedProject.pincode}</span>
                     </div>
                   </div>
                 </div>
+
+                {/* Amenities */}
+                {selectedProject.amenities && selectedProject.amenities.length > 0 && (
+                  <div className="bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl p-4 space-y-3">
+                    <span className="text-[10px] text-slate-555 block uppercase tracking-wider">Amenities</span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedProject.amenities.map((amenity: any) => (
+                        <div
+                          key={amenity.id}
+                          className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#13131a] border border-[#1e1e2e] text-[10px] text-slate-300 font-medium"
+                        >
+                          {amenity.icon && (
+                            amenity.icon.startsWith("http") || amenity.icon.startsWith("/") ? (
+                              <img src={amenity.icon} alt="" className="w-3.5 h-3.5 object-contain rounded" />
+                            ) : (
+                              <span>{amenity.icon}</span>
+                            )
+                          )}
+                          <span>{amenity.name}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 {/* Brochure Attachment */}
                 {(selectedProject.brochureUrl || selectedProject.brochureFile) && (
@@ -820,7 +878,10 @@ export default function ProjectsPage() {
                   </div>
                   <div className="border-t border-[#1e1e2e]/50 pt-4">
                     <span className="text-[10px] text-slate-555 font-bold uppercase tracking-wider block mb-1">Detailed Description</span>
-                    <p className="text-xs text-slate-300 leading-relaxed whitespace-pre-wrap">{selectedProject.description}</p>
+                    <div 
+                      className="text-xs text-slate-300 leading-relaxed rich-text-renderer"
+                      dangerouslySetInnerHTML={{ __html: selectedProject.description }}
+                    />
                   </div>
                 </div>
 
