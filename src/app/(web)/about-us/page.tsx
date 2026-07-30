@@ -82,14 +82,14 @@ export default function AboutUsPage() {
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
               Headquartered in Varanasi, we focus on picking transit-oriented development hubs. By pre-installing high-quality utilities (asphalt drainage, street lights, and 24/7 security) before selling, we ensure that our customers buy assets that instantly start appreciating.
             </p>
-            <div className="pt-2">
+            {/* <div className="pt-2">
               <button
                 onClick={() => openEnquiry()}
                 className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover active:scale-95 transition-all shadow-[0_4px_20px_rgba(221,189,129,0.25)]"
               >
                 Meet Our Advisory Board
               </button>
-            </div>
+            </div> */}
           </div>
 
           {/* Decorative Media Frame */}

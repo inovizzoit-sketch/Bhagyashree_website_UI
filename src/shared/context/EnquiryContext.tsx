@@ -98,23 +98,13 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
     try {
       // Submit dynamically to Form Builder backend API
-      const slugToSubmit = dynamicForm?.slug || "inquiry-form";
+      const slugToSubmit = dynamicForm?.slug || "quick-project-inquiry";
       await submitPublicForm(slugToSubmit, submissionPayload, pageSource);
       setSuccess(true);
     } catch {
-      // Fallback submit to /enquiries
+      // Fallback submit to quick-project-inquiry
       try {
-        await fetch(`${API_BASE_URL}/enquiries`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: formData.name || formData["Full Name"] || "Anonymous",
-            email: formData.email || formData["Email ID"] || "",
-            phone: formData.phone || formData["Phone Number"] || "",
-            message: JSON.stringify(submissionPayload),
-            project: projectName || "General Project Inquiry",
-          }),
-        });
+        await submitPublicForm("quick-project-inquiry", submissionPayload, pageSource);
       } catch {}
       setSuccess(true);
     } finally {

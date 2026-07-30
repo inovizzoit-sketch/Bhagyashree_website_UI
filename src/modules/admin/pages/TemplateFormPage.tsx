@@ -89,7 +89,37 @@ export default function TemplateFormPage({ id }: TemplateFormPageProps) {
   }
 
   function insertVariable(variableToken: string) {
-    setContent((prev) => `${prev} ${variableToken}`);
+    const textarea = document.getElementById("template-content-textarea") as HTMLTextAreaElement;
+    if (!textarea) {
+      setContent((prev) => `${prev} ${variableToken}`);
+      return;
+    }
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    setContent(text.substring(0, start) + variableToken + text.substring(end));
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + variableToken.length, start + variableToken.length);
+    }, 0);
+  }
+
+  function insertFormat(tagOpen: string, tagClose: string) {
+    const textarea = document.getElementById("template-content-textarea") as HTMLTextAreaElement;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const text = textarea.value;
+    const selectedText = text.substring(start, end);
+    const replacement = tagOpen + selectedText + tagClose;
+
+    setContent(text.substring(0, start) + replacement + text.substring(end));
+
+    setTimeout(() => {
+      textarea.focus();
+      textarea.setSelectionRange(start + tagOpen.length, start + tagOpen.length + selectedText.length);
+    }, 0);
   }
 
   async function handleSubmit(e: React.FormEvent) {
@@ -260,14 +290,95 @@ export default function TemplateFormPage({ id }: TemplateFormPageProps) {
 
           {/* Template Body Content */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-slate-300">Template Body Content *</label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-semibold text-slate-300">Template Body Content *</label>
+              {type === "EMAIL" && (
+                <div className="flex items-center gap-1 bg-[#13131a] border border-[#1e1e2e] p-1 rounded-lg">
+                  <button
+                    type="button"
+                    title="Bold"
+                    onClick={() => insertFormat("<b>", "</b>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[11px] font-bold cursor-pointer outline-none transition-colors"
+                  >
+                    B
+                  </button>
+                  <button
+                    type="button"
+                    title="Italic"
+                    onClick={() => insertFormat("<i>", "</i>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[11px] italic cursor-pointer outline-none transition-colors"
+                  >
+                    I
+                  </button>
+                  <button
+                    type="button"
+                    title="Underline"
+                    onClick={() => insertFormat("<u>", "</u>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[11px] underline cursor-pointer outline-none transition-colors"
+                  >
+                    U
+                  </button>
+                  <div className="w-[1px] h-3 bg-[#1e1e2e] mx-1" />
+                  <button
+                    type="button"
+                    title="Heading 1"
+                    onClick={() => insertFormat("<h1>", "</h1>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-extrabold cursor-pointer outline-none transition-colors"
+                  >
+                    H1
+                  </button>
+                  <button
+                    type="button"
+                    title="Heading 2"
+                    onClick={() => insertFormat("<h2>", "</h2>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-extrabold cursor-pointer outline-none transition-colors"
+                  >
+                    H2
+                  </button>
+                  <button
+                    type="button"
+                    title="Paragraph"
+                    onClick={() => insertFormat("<p>", "</p>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-mono cursor-pointer outline-none transition-colors"
+                  >
+                    P
+                  </button>
+                  <div className="w-[1px] h-3 bg-[#1e1e2e] mx-1" />
+                  <button
+                    type="button"
+                    title="Line Break"
+                    onClick={() => insertFormat("<br/>", "")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-mono cursor-pointer outline-none transition-colors"
+                  >
+                    BR
+                  </button>
+                  <button
+                    type="button"
+                    title="List Item"
+                    onClick={() => insertFormat("<li>", "</li>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-mono cursor-pointer outline-none transition-colors"
+                  >
+                    LI
+                  </button>
+                  <button
+                    type="button"
+                    title="Link"
+                    onClick={() => insertFormat('<a href="https://example.com" target="_blank" class="text-gold-solid hover:underline">', "</a>")}
+                    className="p-1.5 hover:bg-[#1c1c27] text-slate-305 hover:text-white rounded text-[10px] font-mono cursor-pointer outline-none transition-colors"
+                  >
+                    A
+                  </button>
+                </div>
+              )}
+            </div>
             <textarea
+              id="template-content-textarea"
               required
               rows={8}
               placeholder="Write template content here using {{variables}}..."
               value={content}
               onChange={(e) => setContent(e.target.value)}
-              className="w-full px-3.5 py-2.5 bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl text-xs text-slate-100 leading-relaxed focus:outline-none focus:border-gold-solid/50 transition-colors font-mono"
+              className="w-full px-3.5 py-2.5 bg-[#0b0b0f] border border-[#1e1e2e] rounded-xl text-xs text-slate-105 leading-relaxed focus:outline-none focus:border-gold-solid/50 transition-colors font-mono"
             />
           </div>
 
