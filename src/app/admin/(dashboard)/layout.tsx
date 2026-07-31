@@ -159,6 +159,15 @@ const navItems: NavItem[] = [
       </svg>
     ),
   },
+  {
+    label: "Team Management",
+    href: "/admin/team",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a3 3 0 11-6 0 3 3 0 016 0zm7 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg>
+    ),
+  },
   // {
   //   label: "Settings",
 
@@ -275,8 +284,8 @@ export default function AdminLayout({
                 href={item.href}
                 onClick={() => setSidebarOpen(false)} // Close drawer on link click on mobile
                 className={`flex items-center gap-3 px-3 py-2.5 rounded-lg no-underline text-sm font-medium transition-all duration-150 ${isActive
-                    ? "bg-indigo-500/15 text-indigo-200"
-                    : "text-slate-400 hover:bg-indigo-500/10 hover:text-indigo-200"
+                  ? "bg-indigo-500/15 text-indigo-200"
+                  : "text-slate-400 hover:bg-indigo-500/10 hover:text-indigo-200"
                   }`}
               >
                 <span className="text-base shrink-0">{item.icon}</span>

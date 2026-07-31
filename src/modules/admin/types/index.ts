@@ -9,6 +9,7 @@ export * from "./form.types";
 export * from "./footer.types";
 export * from "./home-gallery.types";
 export * from "./theme.types";
+export * from "./team.types";
 
 
 

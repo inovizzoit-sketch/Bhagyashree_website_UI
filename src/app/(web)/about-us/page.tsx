@@ -94,9 +94,9 @@ export default function AboutUsPage() {
 
           {/* Decorative Media Frame */}
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-            <img 
-              src="/images/About.jpeg" 
-              alt="About Nandeeka" 
+            <img
+              src="/images/About.jpeg"
+              alt="About Nandeeka"
               className="w-full h-full object-cover"
             />
           </div>
@@ -155,7 +155,7 @@ export default function AboutUsPage() {
         <div className="bg-gradient-to-r from-[#0d153b] via-[#050c38] to-[#020520] border border-white/15 p-8 md:p-14 rounded-3xl text-center space-y-8 shadow-2xl relative overflow-hidden">
           {/* Subtle inside gold glow */}
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gold-solid/5 rounded-full blur-[80px] pointer-events-none" />
-          
+
           <div className="space-y-3 max-w-2xl mx-auto">
             <span className="text-[10px] font-bold uppercase tracking-widest text-gold-solid">Ready to Invest?</span>
             <h3 className="text-2xl md:text-4xl font-serif text-white font-light leading-tight">
