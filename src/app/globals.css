@@ -16,13 +16,15 @@
   --text-gray-muted: #8E90A2;
   --border-color: #3F404D;
   --border-muted: rgba(255, 255, 255, 0.1);
+  --font-family-body: var(--font-plus-jakarta);
+  --font-family-heading: var(--font-serif);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-plus-jakarta);
-  --font-serif: var(--font-serif);
+  --font-sans: var(--font-family-body);
+  --font-serif: var(--font-family-heading);
   --font-mono: var(--font-geist-mono);
 
   --color-dark-primary: var(--dark-primary);
@@ -41,7 +43,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-plus-jakarta), sans-serif;
+  font-family: var(--font-family-body), sans-serif;
   font-size: 15px;
   /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
   line-height: 1.6;

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Hero from "@/modules/web/components/Hero";
 import CounterSection from "@/modules/web/components/CounterSection";
@@ -12,7 +10,7 @@ import GallerySection from "@/modules/web/components/GallerySection";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col gap-12 md:gap-16 pb-20">
+    <div className="flex flex-col gap-12 md:gap-16 pb-20 relative">
       {/* Immersive Modular Hero Component */}
       <Hero />
 
@@ -40,3 +38,4 @@ export default function HomePage() {
     </div>
   );
 }
+

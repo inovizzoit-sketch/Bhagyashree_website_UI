@@ -30,7 +30,6 @@ interface YTStateChangeEvent {
 }
 
 function YouTubeHeroPlayer() {
-  const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const playerRef = useRef<any>(null);
@@ -71,17 +70,6 @@ function YouTubeHeroPlayer() {
     }
   }, []);
 
-  const togglePlay = () => {
-    if (!playerRef.current) return;
-    if (isPlaying) {
-      playerRef.current.pauseVideo();
-      setIsPlaying(false);
-    } else {
-      playerRef.current.playVideo();
-      setIsPlaying(true);
-    }
-  };
-
   const toggleMute = () => {
     if (!playerRef.current) return;
     if (isMuted) {
@@ -109,22 +97,7 @@ function YouTubeHeroPlayer() {
         />
       </div>
 
-      {/* Play/Pause Button Overlay in Center */}
-      <button
-        onClick={togglePlay}
-        aria-label={isPlaying ? "Pause Video" : "Play Video"}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-full bg-black/60 border border-white/20 text-white flex items-center justify-center cursor-pointer z-10 hover:bg-black/80 hover:scale-110 active:scale-95 transition-all duration-300"
-      >
-        {isPlaying ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z" />
-          </svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16" className="translate-x-0.5">
-            <path d="M11.596 8.697l-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393z" />
-          </svg>
-        )}
-      </button>
+
 
       {/* Mute/Unmute Button Overlay in Top Right */}
       <button

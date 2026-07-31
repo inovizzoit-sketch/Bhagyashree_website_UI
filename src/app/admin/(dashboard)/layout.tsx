@@ -150,6 +150,15 @@ const navItems: NavItem[] = [
       </svg>
     ),
   },
+  {
+    label: "Themes",
+    href: "/admin/themes",
+    icon: (
+      <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+      </svg>
+    ),
+  },
   // {
   //   label: "Settings",
 
@@ -215,23 +224,21 @@ export default function AdminLayout({
   }
 
   return (
-    <div className={`flex h-screen bg-[#0f0f14] text-slate-200 overflow-hidden font-sans relative ${
-      theme === "light" ? "admin-theme-light" : "admin-theme-dark"
-    }`}>
-      
+    <div className={`flex h-screen bg-[#0f0f14] text-slate-200 overflow-hidden font-sans relative ${theme === "light" ? "admin-theme-light" : "admin-theme-dark"
+      }`}>
+
       {/* Mobile Drawer Backdrop overlay */}
       {sidebarOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-30 bg-black/60 backdrop-blur-sm lg:hidden transition-opacity"
           onClick={() => setSidebarOpen(false)}
         />
       )}
 
       {/* ── Sidebar ── */}
-      <aside 
-        className={`fixed lg:relative inset-y-0 left-0 z-40 w-[240px] bg-[#13131a] border-r border-[#1e1e2e] flex flex-col py-6 gap-2 transform transition-transform duration-300 ease-in-out ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0`}
+      <aside
+        className={`fixed lg:relative inset-y-0 left-0 z-40 w-[240px] bg-[#13131a] border-r border-[#1e1e2e] flex flex-col py-6 gap-2 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0`}
       >
         {/* Brand */}
         <div className="flex items-center justify-between px-5 pb-6 border-b border-[#1e1e2e]">
@@ -248,7 +255,7 @@ export default function AdminLayout({
           </div>
 
           {/* Close Sidebar Toggle for Mobile */}
-          <button 
+          <button
             onClick={() => setSidebarOpen(false)}
             className="lg:hidden text-slate-400 hover:text-white text-lg p-1 outline-none"
           >
@@ -267,11 +274,10 @@ export default function AdminLayout({
                 key={item.href}
                 href={item.href}
                 onClick={() => setSidebarOpen(false)} // Close drawer on link click on mobile
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg no-underline text-sm font-medium transition-all duration-150 ${
-                  isActive
+                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg no-underline text-sm font-medium transition-all duration-150 ${isActive
                     ? "bg-indigo-500/15 text-indigo-200"
                     : "text-slate-400 hover:bg-indigo-500/10 hover:text-indigo-200"
-                }`}
+                  }`}
               >
                 <span className="text-base shrink-0">{item.icon}</span>
                 <span>{item.label}</span>
@@ -311,12 +317,12 @@ export default function AdminLayout({
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
-            
+
             <div className="text-[15px] font-semibold text-slate-400 tracking-wide">
               Admin Panel
             </div>
           </div>
-          
+
           <div className="flex items-center gap-4">
             <Link
               href="/"
@@ -324,7 +330,7 @@ export default function AdminLayout({
             >
               ↗ View Site
             </Link>
-            
+
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-lg hover:bg-slate-500/10 transition-colors cursor-pointer outline-none border-none bg-transparent text-slate-400 hover:text-slate-100 flex items-center justify-center"
