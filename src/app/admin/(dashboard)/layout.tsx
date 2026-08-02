@@ -150,6 +150,15 @@ const navItems: NavItem[] = [
       </svg>
     ),
   },
+  // {
+  //   label: "Hero Settings",
+  //   href: "/admin/hero",
+  //   icon: (
+  //     <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+  //       <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+  //     </svg>
+  //   ),
+  // },
   {
     label: "Themes",
     href: "/admin/themes",
@@ -207,14 +216,60 @@ export default function AdminLayout({
     localStorage.setItem("admin_theme", nextTheme);
   };
 
+  const [permissions, setPermissions] = useState<Record<string, string[]>>({});
+
   useEffect(() => {
     const token = localStorage.getItem("admin_token");
     if (!token) {
       router.push("/admin/login");
     } else {
       setIsAuthenticated(true);
+      try {
+        const permsStr = localStorage.getItem("admin_permissions");
+        if (permsStr) {
+          setPermissions(JSON.parse(permsStr));
+        }
+      } catch (e) {
+        console.error("Error parsing admin permissions", e);
+      }
     }
   }, [router]);
+
+  // Route protection interceptor
+  useEffect(() => {
+    if (!isAuthenticated) return;
+
+    const cleanPath = pathname.replace(/^\/admin\//, "");
+    const segment = cleanPath.split("/")[0];
+
+    const segmentToModule: Record<string, string> = {
+      dashboard: "dashboard",
+      projects: "projects",
+      properties: "properties",
+      "amenity-categories": "amenities",
+      amenities: "amenities",
+      blogs: "blog",
+      testimonials: "testimonials",
+      gallery: "gallery",
+      "home-gallery": "gallery",
+      popup: "popup",
+      leads: "inquiry",
+      templates: "forms",
+      forms: "forms",
+      inbox: "inquiry",
+      themes: "themes",
+      team: "team",
+    };
+
+    const targetModule = segmentToModule[segment];
+    if (targetModule && targetModule !== "dashboard") {
+      const allowedActions = permissions[targetModule];
+      if (!allowedActions || !allowedActions.includes("view")) {
+        // Access denied: redirect to safe dashboard path
+        router.push("/admin/dashboard");
+      }
+    }
+  }, [pathname, isAuthenticated, permissions, router]);
 
   async function handleLogout(e: React.MouseEvent) {
     e.preventDefault();
@@ -224,13 +279,41 @@ export default function AdminLayout({
       console.error("API logout error, clearing token locally anyway:", err);
     } finally {
       localStorage.removeItem("admin_token");
+      localStorage.removeItem("admin_permissions");
       router.push("/admin/login");
     }
   }
 
   if (!isAuthenticated) {
-    return null; // Keep screen blank (or render a spinner) while redirecting
+    return null;
   }
+
+  // Map sidebar item paths to CMS modules for view permission filtering
+  const schemaModuleMap: Record<string, string> = {
+    "/admin/dashboard": "dashboard",
+    "/admin/projects": "projects",
+    "/admin/properties": "properties",
+    "/admin/amenity-categories": "amenities",
+    "/admin/amenities": "amenities",
+    "/admin/blogs": "blog",
+    "/admin/testimonials": "testimonials",
+    "/admin/gallery": "gallery",
+    "/admin/home-gallery": "gallery",
+    "/admin/popup": "popup",
+    "/admin/leads": "inquiry",
+    "/admin/templates": "forms",
+    "/admin/forms": "forms",
+    "/admin/inbox": "inquiry",
+    "/admin/themes": "themes",
+    "/admin/team": "team",
+  };
+
+  const visibleNavItems = navItems.filter((item) => {
+    if (item.href === "/admin/dashboard") return true;
+    const schemaModule = schemaModuleMap[item.href];
+    if (!schemaModule) return true;
+    return permissions[schemaModule]?.includes("view");
+  });
 
   return (
     <div className={`flex h-screen bg-[#0f0f14] text-slate-200 overflow-hidden font-sans relative ${theme === "light" ? "admin-theme-light" : "admin-theme-dark"
@@ -258,7 +341,7 @@ export default function AdminLayout({
             <span className="font-bold text-[15px] text-slate-100 tracking-wide">
               Nandeeka
             </span>
-            <span className="text-[10px] font-semibold bg-indigo-500/20 text-indigo-400 px-1.5 py-0.5 rounded border border-indigo-500/30 tracking-widest uppercase">
+            <span className="text-[10px] font-semibold bg-indigo-500/20 text-indigo-400 px-1.5 sm:px-2 py-0.5 rounded border border-indigo-500/30 tracking-widest uppercase">
               CMS
             </span>
           </div>
@@ -274,7 +357,7 @@ export default function AdminLayout({
 
         {/* Nav */}
         <nav className="flex flex-col gap-0.5 px-3 pt-4 flex-1 overflow-y-auto">
-          {navItems.map((item) => {
+          {visibleNavItems.map((item) => {
             const isActive =
               pathname === item.href ||
               (item.href !== "/admin/dashboard" && pathname.startsWith(item.href + "/"));

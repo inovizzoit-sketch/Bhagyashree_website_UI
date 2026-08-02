@@ -6,10 +6,16 @@ export interface LoginCredentials {
 
 export interface LoginResponse {
   accessToken: string;
-  user: {
+  user?: {
     id: string;
     username: string;
     email: string;
     role: string;
   };
+  admin?: {
+    id: string;
+    username: string;
+    permissions?: Record<string, string[]>;
+  };
 }
+
