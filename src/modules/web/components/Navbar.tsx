@@ -4,20 +4,28 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
+import { useTheme } from "@/shared/context/ThemeContext";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { openEnquiry } = useEnquiry();
+  const { theme } = useTheme();
 
   const openDrawer = () => setIsOpen(!isOpen);
 
+  // Dynamically resolve branding logo based on dark mode preferences
+  const isDarkMode = theme?.components?.darkModeEnabled !== false;
+  const logoSrc = isDarkMode 
+    ? (theme?.branding?.darkLogo || theme?.branding?.logo || "/logo.png")
+    : (theme?.branding?.logo || theme?.branding?.darkLogo || "/logo.png");
+
   return (
-    <header className="sticky top-0 z-50 w-full" style={{ background: 'var(--background)' }}>
-      <div className="mx-auto flex max-w-7xl h-16 md:h-20 items-center justify-between px-6 md:px-8">
+    <header className="sticky top-0 z-50 w-full" style={{ background: 'var(--nav-bg)', height: 'var(--nav-height)' }}>
+      <div className="mx-auto flex max-w-7xl h-full items-center justify-between px-6 md:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center transition-opacity hover:opacity-90" id="headerLogo">
-          <img src="/logo.png" alt="Nandeeka Logo" className="h-8 sm:h-10 md:h-12 w-auto object-contain" />
+          <img src={logoSrc} alt="Nandeeka Logo" className="h-8 sm:h-10 md:h-12 w-auto object-contain" />
         </Link>
 
         {/* Navigation & CTA Controls */}
@@ -26,30 +34,30 @@ export default function Navbar() {
           <nav className="hidden md:flex items-center gap-6 lg:gap-10 font-sans">
             <Link 
               href="/" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-nav-active after:transition-all after:duration-300 ${
                 pathname === "/" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+                  ? "text-nav-active after:w-full" 
+                  : "text-nav-menu hover:text-white after:w-0 hover:after:w-full"
               }`}
             >
               Home
             </Link>
             <Link 
               href="/projects" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-nav-active after:transition-all after:duration-300 ${
                 pathname === "/projects" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+                  ? "text-nav-active after:w-full" 
+                  : "text-nav-menu hover:text-white after:w-0 hover:after:w-full"
               }`}
             >
               Projects
             </Link>
             <Link 
               href="/decoding-land" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-nav-active after:transition-all after:duration-300 ${
                 pathname === "/decoding-land" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+                  ? "text-nav-active after:w-full" 
+                  : "text-nav-menu hover:text-white after:w-0 hover:after:w-full"
               }`}
             >
               Decoding Land
@@ -58,8 +66,8 @@ export default function Navbar() {
               <button 
                 className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 flex items-center gap-1 cursor-pointer bg-transparent border-0 outline-none p-0 ${
                   pathname === "/about-us" || pathname === "/cmd" || pathname === "/about-us/team"
-                    ? "text-[#DDBD81]" 
-                    : "text-[#8E90A2] hover:text-white"
+                    ? "text-nav-active" 
+                    : "text-nav-menu hover:text-white"
                 }`}
               >
                 <span>About</span>
@@ -67,13 +75,13 @@ export default function Navbar() {
               </button>
               
               {/* Dropdown Options */}
-              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 rounded-xl bg-[#0a113a]/95 backdrop-blur-md border border-white/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 flex flex-col gap-1">
+              <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-48 rounded-xl bg-nav-bg/95 backdrop-blur-md border border-white/10 p-2 shadow-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 flex flex-col gap-1">
                 <Link
                   href="/about-us"
                   className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
                     pathname === "/about-us"
-                      ? "bg-gold-solid/10 text-[#DDBD81]"
-                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                      ? "bg-nav-active/10 text-nav-active"
+                      : "text-nav-menu hover:text-white hover:bg-white/5"
                   }`}
                 >
                   About Us
@@ -82,8 +90,8 @@ export default function Navbar() {
                   href="/about-us/team"
                   className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
                     pathname === "/about-us/team"
-                      ? "bg-gold-solid/10 text-[#DDBD81]"
-                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                      ? "bg-nav-active/10 text-nav-active"
+                      : "text-nav-menu hover:text-white hover:bg-white/5"
                   }`}
                 >
                   Our Team
@@ -92,8 +100,8 @@ export default function Navbar() {
                   href="/cmd"
                   className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
                     pathname === "/cmd"
-                      ? "bg-gold-solid/10 text-[#DDBD81]"
-                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                      ? "bg-nav-active/10 text-nav-active"
+                      : "text-nav-menu hover:text-white hover:bg-white/5"
                   }`}
                 >
                   CMD Message
@@ -102,10 +110,10 @@ export default function Navbar() {
             </div>
             <Link 
               href="/gallery" 
-              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-[#DDBD81] after:transition-all after:duration-300 ${
+              className={`text-xs lg:text-sm font-semibold uppercase tracking-widest transition-all duration-300 relative py-1 after:absolute after:bottom-0 after:left-0 after:h-[2px] after:bg-nav-active after:transition-all after:duration-300 ${
                 pathname === "/gallery" 
-                  ? "text-[#DDBD81] after:w-full" 
-                  : "text-[#8E90A2] hover:text-white after:w-0 hover:after:w-full"
+                  ? "text-nav-active after:w-full" 
+                  : "text-nav-menu hover:text-white after:w-0 hover:after:w-full"
               }`}
             >
               Gallery
@@ -114,9 +122,10 @@ export default function Navbar() {
 
           {/* Contact Us CTA (Border Button) */}
           <button
-            className="hidden sm:inline-block rounded-full border border-white/20 bg-transparent px-6 lg:px-8 py-2 md:py-2.5 text-xs lg:text-sm font-semibold uppercase tracking-widest text-white transition-all hover:bg-white/10 hover:border-white font-sans"
+            className="hidden sm:inline-block border border-white/20 bg-transparent px-6 lg:px-8 py-2 md:py-2.5 text-xs lg:text-sm font-semibold uppercase tracking-widest text-white transition-all hover:bg-white/10 hover:border-white font-sans"
             id="headerEnquireBtn"
             onClick={() => openEnquiry()}
+            style={{ borderRadius: 'var(--radius-btn)' }}
           >
             Contact Us
           </button>
@@ -142,14 +151,14 @@ export default function Navbar() {
           {/* Sidebar Panel */}
           <div 
             className="relative w-full max-w-md h-full border-l border-border-muted p-8 flex flex-col justify-between overflow-y-auto shadow-2xl font-sans"
-            style={{ background: 'var(--background)', animation: 'sidebarSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
+            style={{ background: 'var(--nav-bg)', animation: 'sidebarSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards' }}
           >
             <div>
               {/* Header Close Button */}
               <div className="flex justify-end mb-10">
                 <button
                   onClick={() => setIsOpen(false)}
-                  className="h-10 w-10 flex items-center justify-center text-[#8E90A2] hover:text-white transition-all hover:rotate-90 duration-300"
+                  className="h-10 w-10 flex items-center justify-center text-nav-menu hover:text-white transition-all hover:rotate-90 duration-300"
                   aria-label="Close menu"
                 >
                   <svg className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -165,12 +174,12 @@ export default function Navbar() {
                   href="/" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Home
                   </span>
                 </Link>
@@ -180,15 +189,15 @@ export default function Navbar() {
                   href="/projects" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/projects" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/projects" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/projects" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Partner With Us
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/projects" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/projects" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -196,15 +205,15 @@ export default function Navbar() {
                   href="/decoding-land" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/decoding-land" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/decoding-land" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/decoding-land" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Decoding Land
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/decoding-land" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/decoding-land" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -212,15 +221,15 @@ export default function Navbar() {
                   href="/about-us" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/about-us" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/about-us" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/about-us" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     About Us
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -228,15 +237,15 @@ export default function Navbar() {
                   href="/about-us/team" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/about-us/team" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/about-us/team" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/about-us/team" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Our Team
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us/team" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/about-us/team" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -244,15 +253,15 @@ export default function Navbar() {
                   href="/cmd" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/cmd" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     CMD Message
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/cmd" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/cmd" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -260,15 +269,15 @@ export default function Navbar() {
                   href="/blogs" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/blogs" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/blogs" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/blogs" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Blogs
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/blogs" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/blogs" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -276,15 +285,15 @@ export default function Navbar() {
                   href="/amenities" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/amenities" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/amenities" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/amenities" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Amenities
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/amenities" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/amenities" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -292,15 +301,15 @@ export default function Navbar() {
                   href="/gallery" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/gallery" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/gallery" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/gallery" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Gallery
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/gallery" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/gallery" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
 
                 <Link 
@@ -308,15 +317,15 @@ export default function Navbar() {
                   href="/governance" 
                   className={`border-b border-white/5 py-5 flex items-center justify-between group cursor-pointer no-underline text-lg font-medium transition-all duration-300 ${
                     pathname === "/governance" 
-                      ? "text-[#DDBD81]" 
-                      : "text-white hover:text-[#DDBD81]"
+                      ? "text-nav-active" 
+                      : "text-white hover:text-nav-active"
                   }`}
                 >
                   <span className="group-hover:translate-x-2 transition-transform duration-300 flex items-center gap-2">
-                    {pathname === "/governance" && <span className="w-1.5 h-1.5 rounded-full bg-[#DDBD81]" />}
+                    {pathname === "/governance" && <span className="w-1.5 h-1.5 rounded-full bg-nav-active" />}
                     Governance
                   </span>
-                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/governance" ? "text-[#DDBD81]" : "text-[#8E90A2]"}`}>→</span>
+                  <span className={`text-sm transition-transform duration-300 group-hover:translate-x-1 ${pathname === "/governance" ? "text-nav-active" : "text-nav-menu"}`}>→</span>
                 </Link>
               </nav>
             </div>

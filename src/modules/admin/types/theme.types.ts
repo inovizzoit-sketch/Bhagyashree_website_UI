@@ -75,7 +75,7 @@ export interface Theme {
   slug: string;
   description: string | null;
   previewImage: string | null;
-  version: string;
+  version?: string;
   status: ThemeStatus;
   isDefault: boolean;
   notes: string | null;

@@ -49,6 +49,18 @@ function getGoogleFontsUrl(headingFont?: string, bodyFont?: string) {
   return `https://fonts.googleapis.com/css2?${families.join("&")}&display=swap`;
 }
 
+function sanitizeCSSValue(val: string): string {
+  if (!val) return "";
+  let clean = String(val).trim();
+  if (
+    (clean.startsWith("linear-gradient(") || clean.startsWith("radial-gradient(")) &&
+    !clean.endsWith(")")
+  ) {
+    return clean + ")";
+  }
+  return clean;
+}
+
 export default async function WebLayout({ children }: { children: React.ReactNode }) {
   const theme = await fetch(`${API_BASE_URL}/website/active-theme`, {
     cache: "no-store",
@@ -76,22 +88,48 @@ export default async function WebLayout({ children }: { children: React.ReactNod
         // typography
         "--font-family-body": theme.typography?.bodyFont ? `"${theme.typography.bodyFont}", sans-serif` : "var(--font-plus-jakarta), sans-serif",
         "--font-family-heading": theme.typography?.headingFont ? `"${theme.typography.headingFont}", serif` : "var(--font-serif), serif",
+        "--letter-spacing": theme.typography?.letterSpacing || "0em",
+        "--line-height": theme.typography?.lineHeight || "1.6",
+        "--base-font-size": theme.typography?.baseFontSize || "16px",
         // layout / components
         "--radius-btn": theme.components?.btnRadius || theme.layout?.borderRadius || "0.5rem",
         "--radius-card": theme.components?.cardRadius || theme.layout?.cardRadius || "1rem",
+        "--container-width": theme.layout?.containerWidth || "1280px",
+        "--spacing-section": theme.layout?.sectionSpacing || "5rem",
+        // specific component settings
+        "--nav-bg": theme.components?.navBg || theme.colors?.background || "#020520",
+        "--nav-height": theme.components?.navHeight || "72px",
+        "--nav-menu-color": theme.components?.navMenuColor || theme.colors?.textMuted || "#8E90A2",
+        "--nav-active-color": theme.components?.navActiveColor || theme.colors?.primary || "#DDBD81",
+        "--footer-bg": theme.components?.footerBg || theme.colors?.surface || "#13131a",
+        "--footer-text": theme.components?.footerText || theme.colors?.textMuted || "#8E90A2",
+        "--footer-link": theme.components?.footerLink || theme.colors?.primary || "#DDBD81",
+        "--card-bg": theme.components?.cardBg || theme.colors?.surface || "#13131a",
+        "--card-border": theme.components?.cardBorder || theme.colors?.border || "#1e1e2e",
       }
     : {};
 
   const googleFontsUrl = theme ? getGoogleFontsUrl(theme.typography?.headingFont, theme.typography?.bodyFont) : null;
+  const styleBlock = theme
+    ? `
+      :root {
+        ${Object.entries(cssVars)
+          .map(([key, val]) => `${key}: ${sanitizeCSSValue(val)};`)
+          .join("\n")}
+      }
+    `
+    : "";
 
   return (
     <div
       className="flex min-h-screen flex-col text-text-white antialiased"
       style={{
         background: "var(--background)",
-        ...cssVars,
       } as React.CSSProperties}
     >
+      {styleBlock && (
+        <style id="theme-ssr-variables" dangerouslySetInnerHTML={{ __html: styleBlock }} />
+      )}
       {googleFontsUrl && (
         <>
           <link rel="preconnect" href="https://fonts.googleapis.com" />

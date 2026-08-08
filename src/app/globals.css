@@ -27,6 +27,7 @@
   --font-serif: var(--font-family-heading);
   --font-mono: var(--font-geist-mono);
 
+  --color-white: var(--text-white);
   --color-dark-primary: var(--dark-primary);
   --color-dark-secondary: var(--dark-secondary);
   --color-gold-solid: var(--gold-solid);
@@ -38,15 +39,30 @@
   --color-text-gray-muted: var(--text-gray-muted);
   --color-border-color: var(--border-color);
   --color-border-muted: var(--border-muted);
+
+  /* Specific component themes mapping */
+  --color-nav-bg: var(--nav-bg);
+  --color-nav-menu: var(--nav-menu-color);
+  --color-nav-active: var(--nav-active-color);
+  --color-footer-bg: var(--footer-bg);
+  --color-footer-text: var(--footer-text);
+  --color-footer-link: var(--footer-link);
+  --color-card-bg: var(--card-bg);
+  --color-card-border: var(--card-border);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-family-body), sans-serif;
-  font-size: 15px;
-  /* Adjust this value (e.g. 14px, 15px, 16px) as needed */
-  line-height: 1.6;
+  font-size: var(--base-font-size, 15px);
+  line-height: var(--line-height, 1.6);
+  letter-spacing: var(--letter-spacing, 0em);
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+header, footer, nav, button, a {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
 html {
@@ -460,5 +476,19 @@ html {
   }
   p[style*="text-align: left"], h1[style*="text-align: left"], h2[style*="text-align: left"], h3[style*="text-align: left"], h4[style*="text-align: left"], h5[style*="text-align: left"], h6[style*="text-align: left"] {
     text-align: left !important;
+  }
+
+  /* Global Dynamic Inputs Styling Override */
+  input[type="text"], input[type="email"], input[type="tel"], textarea, select {
+    background-color: var(--card-bg) !important;
+    color: var(--text-white) !important;
+    border-color: var(--card-border) !important;
+  }
+  input[type="text"]:focus, input[type="email"]:focus, input[type="tel"]:focus, textarea:focus, select:focus {
+    border-color: var(--gold-solid) !important;
+  }
+  input::placeholder, textarea::placeholder {
+    color: var(--text-gray-muted) !important;
+    opacity: 0.65;
   }
 }

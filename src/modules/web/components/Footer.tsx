@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import { useTheme } from "@/shared/context/ThemeContext";
 
 interface FooterSettings {
   logoUrl?: string;
@@ -71,6 +72,7 @@ const defaultSocials: FooterSocial[] = [
 ];
 
 export default function Footer() {
+  const { theme } = useTheme();
   const [settings, setSettings] = useState<FooterSettings>(defaultSettings);
   const [links, setLinks] = useState<FooterLink[]>(defaultLinks);
   const [socials, setSocials] = useState<FooterSocial[]>(defaultSocials);
@@ -226,19 +228,25 @@ export default function Footer() {
     return `/${trimmed}`;
   };
 
-  const footerBgColor = settings.backgroundColor || "#010314";
+  const footerBgColor = "var(--footer-bg)";
 
   return (
     <footer 
       className="border-t border-white/5 py-16 text-[13px] md:text-sm text-text-gray-muted mt-auto z-10 relative" 
-      style={{ backgroundColor: footerBgColor, color: settings.textColor || undefined }}
+      style={{ backgroundColor: footerBgColor, color: "var(--footer-text)" }}
     >
       <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
         {/* Column 1: Brand Info */}
         <div className="md:col-span-6 space-y-4">
           <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
             <img 
-              src={settings.logoUrl || "/logo.png"} 
+              src={
+                (theme?.components?.darkModeEnabled !== false
+                  ? (theme?.branding?.darkLogo || theme?.branding?.logo)
+                  : (theme?.branding?.logo || theme?.branding?.darkLogo)) ||
+                settings.logoUrl || 
+                "/logo.png"
+              } 
               alt={`${settings.companyName} Logo`} 
               className="h-8 md:h-10 w-auto object-contain" 
             />
@@ -273,7 +281,7 @@ export default function Footer() {
 
         {/* Column 2: Navigation Links */}
         <div className="md:col-span-2 space-y-3.5">
-          <span className="text-[10px] md:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">Quick Links</span>
+          <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest block font-mono" style={{ color: 'var(--footer-text)' }}>Quick Links</span>
           <nav className="flex flex-col gap-2 font-light">
             {links.map((link) => {
               const formattedUrl = formatUrl(link.url);
@@ -286,7 +294,7 @@ export default function Footer() {
                     href={formattedUrl}
                     target={link.openInNewTab ? "_blank" : undefined}
                     rel={link.openInNewTab ? "noopener noreferrer" : undefined}
-                    className="hover:text-gold-solid transition-colors"
+                    className="hover:text-footer-link transition-colors"
                   >
                     {link.title}
                   </a>
@@ -299,7 +307,7 @@ export default function Footer() {
                   href={formattedUrl}
                   target={link.openInNewTab ? "_blank" : undefined}
                   rel={link.openInNewTab ? "noopener noreferrer" : undefined}
-                  className="hover:text-gold-solid transition-colors"
+                  className="hover:text-footer-link transition-colors"
                 >
                   {link.title}
                 </Link>
@@ -310,11 +318,11 @@ export default function Footer() {
 
         {/* Column 3: Contacts */}
         <div className="md:col-span-4 space-y-4">
-          <span className="text-[10px] md:text-[11px] font-bold text-white uppercase tracking-widest block font-mono">Contact Details</span>
+          <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest block font-mono" style={{ color: 'var(--footer-text)' }}>Contact Details</span>
           <div className="space-y-3 font-light">
             {settings.address && (
               <div className="flex items-start gap-2.5">
-                <span className="text-gold-solid mt-0.5">📍</span>
+                <span className="text-footer-link mt-0.5">📍</span>
                 <span className="leading-relaxed">
                   {settings.address}
                 </span>
@@ -322,16 +330,16 @@ export default function Footer() {
             )}
             {settings.phone && (
               <div className="flex items-center gap-2.5">
-                <span className="text-gold-solid">📞</span>
-                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-gold-solid transition-colors">
+                <span className="text-footer-link">📞</span>
+                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-footer-link transition-colors">
                   {settings.phone}
                 </a>
               </div>
             )}
             {settings.email && (
               <div className="flex items-center gap-2.5">
-                <span className="text-gold-solid">✉️</span>
-                <a href={`mailto:${settings.email}`} className="hover:text-gold-solid transition-colors">
+                <span className="text-footer-link">✉️</span>
+                <a href={`mailto:${settings.email}`} className="hover:text-footer-link transition-colors">
                   {settings.email}
                 </a>
               </div>

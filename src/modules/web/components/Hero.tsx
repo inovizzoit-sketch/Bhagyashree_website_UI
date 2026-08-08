@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import DynamicFormRenderer from "@/shared/components/DynamicFormRenderer";
 
 declare global {
   interface Window {
@@ -116,11 +117,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
   const [slides, setSlides] = useState<any[]>([]);
   const [currentIdx, setCurrentIdx] = useState(0);
 
-  // Lead form states for the FORM layout
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formPhone, setFormPhone] = useState("");
-  const [formStatus, setFormStatus] = useState("");
+
 
   useEffect(() => {
     if (previewData) {
@@ -196,31 +193,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
     }
   }
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormStatus("submitting");
 
-    try {
-      const response = await fetch(`${API_BASE_URL}/leads`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: formName,
-          email: formEmail,
-          phone: formPhone,
-          source: `Hero section lead - ${activeSlide.title || "Unknown Slide"}`,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Failed to submit enquiry");
-      setFormStatus("success");
-      setFormName("");
-      setFormEmail("");
-      setFormPhone("");
-    } catch (err) {
-      setFormStatus("error");
-    }
-  };
 
   const renderMedia = () => {
     if (mediaType === "VIDEO") {
@@ -260,7 +233,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
 
         <h1
           className="text-4xl sm:text-5xl lg:text-7xl font-light tracking-tight leading-[1.05] mb-6 font-serif"
-          style={{ color: customText || "#ffffff" }}
+          style={{ color: customText || "var(--text-white)" }}
         >
           {headingLine1}
           {headingLine2 && (
@@ -281,7 +254,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
 
         <p
           className="text-sm sm:text-base leading-relaxed mb-6 max-w-md lg:max-w-none font-light"
-          style={{ color: customText ? `${customText}dd` : "#cbd5e1" }}
+          style={{ color: customText ? `${customText}dd` : "var(--text-gray-light)" }}
         >
           {description}
         </p>
@@ -289,7 +262,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
         {features.length > 0 && (
           <div
             className={`grid grid-cols-2 gap-x-6 gap-y-2 mb-8 text-xs font-medium font-sans tracking-wide`}
-            style={{ color: customText ? `${customText}bb` : "#94a3b8" }}
+            style={{ color: customText ? `${customText}bb` : "var(--text-gray-muted)" }}
           >
             {features.map((feat: string, idx: number) => (
               <div key={idx} className="flex items-center gap-1.5">
@@ -307,12 +280,13 @@ export default function Hero({ previewData }: { previewData?: any }) {
                 <button
                   key={idx}
                   onClick={() => openEnquiry(badgeText)}
-                  className="w-full sm:w-auto rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 animate-pulse cursor-pointer border-none"
+                  className="w-full sm:w-auto px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 animate-pulse cursor-pointer border-none"
                   style={{
                     backgroundColor: isPrimary ? customAccent : "transparent",
-                    color: isPrimary ? "#020520" : customText || "#ffffff",
-                    border: isPrimary ? "none" : `1px solid ${customText}33`,
+                    color: isPrimary ? "#020520" : customText || "var(--text-white)",
+                    border: isPrimary ? "none" : `1px solid ${customText ? `${customText}33` : "var(--border-muted)"}`,
                     boxShadow: isPrimary ? `0 4px 25px ${customAccent}4d` : "none",
+                    borderRadius: 'var(--radius-btn)',
                   }}
                 >
                   {btn.text}
@@ -324,12 +298,13 @@ export default function Hero({ previewData }: { previewData?: any }) {
                 key={idx}
                 href={btn.url}
                 target={btn.openInNewTab ? "_blank" : undefined}
-                className="w-full sm:w-auto text-center rounded-full px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 no-underline"
+                className="w-full sm:w-auto text-center px-8 py-4 text-xs font-bold uppercase tracking-widest transition-all hover:scale-105 active:scale-95 no-underline"
                 style={{
                   backgroundColor: isPrimary ? customAccent : "transparent",
-                  color: isPrimary ? "#020520" : customText || "#ffffff",
-                  border: isPrimary ? "none" : `1px solid ${customText ? `${customText}33` : "rgba(255,255,255,0.2)"}`,
+                  color: isPrimary ? "#020520" : customText || "var(--text-white)",
+                  border: isPrimary ? "none" : `1px solid ${customText ? `${customText}33` : "var(--border-muted)"}`,
                   boxShadow: isPrimary ? `0 4px 25px ${customAccent}4d` : "none",
+                  borderRadius: 'var(--radius-btn)',
                 }}
               >
                 {btn.text}
@@ -414,57 +389,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
             <div className="bg-[#13131a] p-8 rounded-3xl border border-white/10 shadow-2xl max-w-md mx-auto w-full">
               <h3 className="text-lg font-serif text-white mb-2">Request Exclusive Pricing</h3>
               <p className="text-xs text-slate-400 mb-6">Submit your detail and our representative will reach back shortly.</p>
-              
-              {formStatus === "success" ? (
-                <div className="bg-emerald-500/10 border border-emerald-500/30 p-4 rounded-xl text-emerald-400 text-xs text-center">
-                  Thank you! Your inquiry was successfully registered.
-                </div>
-              ) : (
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  {formStatus === "error" && (
-                    <div className="bg-red-500/10 border border-red-500/30 p-3 rounded-lg text-red-400 text-xs text-center">
-                      Failed to submit details. Please try again.
-                    </div>
-                  )}
-                  <div>
-                    <input
-                      type="text"
-                      required
-                      placeholder="Your Name"
-                      value={formName}
-                      onChange={(e) => setFormName(e.target.value)}
-                      className="w-full bg-[#1b1b26] border border-white/10 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-solid transition"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="email"
-                      required
-                      placeholder="Email Address"
-                      value={formEmail}
-                      onChange={(e) => setFormEmail(e.target.value)}
-                      className="w-full bg-[#1b1b26] border border-white/10 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-solid transition"
-                    />
-                  </div>
-                  <div>
-                    <input
-                      type="tel"
-                      required
-                      placeholder="Phone Number"
-                      value={formPhone}
-                      onChange={(e) => setFormPhone(e.target.value)}
-                      className="w-full bg-[#1b1b26] border border-white/10 rounded-lg px-4 py-3 text-xs text-white focus:outline-none focus:border-gold-solid transition"
-                    />
-                  </div>
-                  <button
-                    type="submit"
-                    disabled={formStatus === "submitting"}
-                    className="w-full bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold uppercase tracking-widest text-xxs py-3.5 rounded-lg transition"
-                  >
-                    {formStatus === "submitting" ? "Registering..." : "Submit Inquiry"}
-                  </button>
-                </form>
-              )}
+              <DynamicFormRenderer formSlug="quick-project-inquiry" pageSource={`Hero - ${activeSlide.title || "Slide"}`} />
             </div>
           </div>
         );

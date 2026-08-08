@@ -47,7 +47,6 @@ export default function ThemeFormPage({ id }: { id: string }) {
         slug: data.slug,
         description: data.description,
         notes: data.notes,
-        version: data.version,
         colors: data.colors ? { ...data.colors } : undefined,
         typography: data.typography ? { ...data.typography } : undefined,
         layout: data.layout ? { ...data.layout } : undefined,
@@ -104,7 +103,6 @@ export default function ThemeFormPage({ id }: { id: string }) {
           slug: theme.slug,
           description: theme.description,
           notes: theme.notes,
-          version: theme.version,
           colors: theme.colors ? { ...theme.colors } : undefined,
           typography: theme.typography ? { ...theme.typography } : undefined,
           layout: theme.layout ? { ...theme.layout } : undefined,
@@ -176,7 +174,6 @@ export default function ThemeFormPage({ id }: { id: string }) {
         slug: formData.slug,
         description: formData.description ?? undefined,
         notes: formData.notes ?? undefined,
-        version: formData.version,
         colors: formData.colors ? {
           primary: formData.colors.primary,
           secondary: formData.colors.secondary,
@@ -315,6 +312,42 @@ export default function ThemeFormPage({ id }: { id: string }) {
     fontFamily: typography.bodyFont ? `"${typography.bodyFont}", sans-serif` : "sans-serif",
   } as React.CSSProperties;
 
+  const renderColorInput = (
+    section: "colors" | "components",
+    key: string,
+    label: string,
+    isBackgroundField = false
+  ) => {
+    const sectionData = (formData[section] as any) || {};
+    const val = sectionData[key] || "";
+    const isGradient = val.includes("gradient") || val.includes("linear") || val.includes("radial");
+    const isTransparent = val === "transparent";
+
+    return (
+      <div className="space-y-1">
+        <label className="text-[10px] text-slate-400 font-bold uppercase">{label}</label>
+        <div className="flex items-center gap-2 bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5">
+          {!isGradient && !isTransparent && (
+            <input
+              type="color"
+              value={val.startsWith("#") && val.length === 7 ? val : "#FFFFFF"}
+              onChange={(e) => handleNestedChange(section, key, e.target.value)}
+              className="w-5 h-5 rounded cursor-pointer border border-[#1e1e2e] bg-transparent shrink-0"
+            />
+          )}
+          <input
+            type="text"
+            value={val}
+            onChange={(e) => handleNestedChange(section, key, e.target.value)}
+            className="w-full bg-transparent border-0 p-0 text-xs text-slate-200 font-mono focus:outline-none"
+            maxLength={isBackgroundField ? 150 : 25}
+            placeholder={isBackgroundField ? "e.g. #HEX or linear-gradient(...)" : "#HEX"}
+          />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="flex flex-col h-[calc(100vh-140px)] overflow-hidden space-y-4">
       {/* Top Header bar with Undo/Redo & Save Buttons */}
@@ -451,15 +484,7 @@ export default function ThemeFormPage({ id }: { id: string }) {
                     className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
                   />
                 </div>
-                <div className="space-y-1">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Version</label>
-                  <input
-                    type="text"
-                    value={formData.version || ""}
-                    onChange={(e) => handleDetailsChange("version", e.target.value)}
-                    className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded-lg px-3 py-2 text-sm text-slate-200 focus:outline-none focus:border-indigo-500"
-                  />
-                </div>
+
                 <div className="space-y-1">
                   <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wide">Description</label>
                   <textarea
@@ -493,35 +518,43 @@ export default function ThemeFormPage({ id }: { id: string }) {
                     { key: "background", label: "Page Background" },
                     { key: "surface", label: "Surface (Cards & Modals)" },
                     { key: "textPrimary", label: "Text Color (Primary)" },
-                    { key: "textMuted", label: "Text Color (Muted)" },
+                    { key: "textMuted", label: "Muted & Placeholder Text" },
                     { key: "border", label: "Border Color" },
                     { key: "success", label: "Success Accent" },
                     { key: "warning", label: "Warning Accent" },
                     { key: "error", label: "Error / Critical Accent" },
                   ] as const
-                ).map(({ key, label }) => (
-                  <div key={key} className="flex items-center justify-between gap-4 bg-[#0f0f14] p-3 rounded-lg border border-[#1e1e2e]">
-                    <div className="space-y-0.5">
-                      <span className="text-xs font-bold text-slate-300">{label}</span>
-                      <span className="block text-[10px] font-mono text-slate-500 uppercase">{colors[key] || "#FFFFFF"}</span>
+                ).map(({ key, label }) => {
+                  const val = colors[key] || "";
+                  const isGradient = val.includes("gradient") || val.includes("linear") || val.includes("radial");
+                  const isLongField = key === "background" || key === "surface";
+                  return (
+                    <div key={key} className="flex items-center justify-between gap-4 bg-[#0f0f14] p-3 rounded-lg border border-[#1e1e2e]">
+                      <div className="space-y-0.5">
+                        <span className="text-xs font-bold text-slate-300">{label}</span>
+                        <span className="block text-[10px] font-mono text-slate-500 uppercase">{val || "#FFFFFF"}</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {!isGradient && (
+                          <input
+                            type="color"
+                            value={val.startsWith("#") && val.length === 7 ? val : "#FFFFFF"}
+                            onChange={(e) => handleNestedChange("colors", key, e.target.value)}
+                            className="w-8 h-8 rounded cursor-pointer border border-[#1e1e2e] bg-transparent"
+                          />
+                        )}
+                        <input
+                          type="text"
+                          value={val}
+                          onChange={(e) => handleNestedChange("colors", key, e.target.value)}
+                          className={`${isLongField ? 'w-48' : 'w-20'} bg-[#0f0f14] border border-[#1e1e2e] rounded px-2 py-1 text-xs text-slate-200 font-mono text-center`}
+                          maxLength={isLongField ? 150 : 7}
+                          placeholder={key === "background" ? "e.g. #020520 or linear-gradient(...)" : "#HEX"}
+                        />
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <input
-                        type="color"
-                        value={colors[key] || "#FFFFFF"}
-                        onChange={(e) => handleNestedChange("colors", key, e.target.value)}
-                        className="w-8 h-8 rounded cursor-pointer border border-[#1e1e2e] bg-transparent"
-                      />
-                      <input
-                        type="text"
-                        value={colors[key] || ""}
-                        onChange={(e) => handleNestedChange("colors", key, e.target.value)}
-                        className="w-20 bg-[#0f0f14] border border-[#1e1e2e] rounded px-2 py-1 text-xs text-slate-200 uppercase font-mono text-center"
-                        maxLength={7}
-                      />
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
 
@@ -719,42 +752,10 @@ export default function ThemeFormPage({ id }: { id: string }) {
                 <div className="space-y-3">
                   <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wide border-b border-[#1e1e2e] pb-1.5">Buttons</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Background</label>
-                      <input
-                        type="text"
-                        value={components.btnBg || ""}
-                        onChange={(e) => handleNestedChange("components", "btnBg", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Text Color</label>
-                      <input
-                        type="text"
-                        value={components.btnText || ""}
-                        onChange={(e) => handleNestedChange("components", "btnText", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Border Color</label>
-                      <input
-                        type="text"
-                        value={components.btnBorder || ""}
-                        onChange={(e) => handleNestedChange("components", "btnBorder", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Hover State</label>
-                      <input
-                        type="text"
-                        value={components.btnHover || ""}
-                        onChange={(e) => handleNestedChange("components", "btnHover", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
+                    {renderColorInput("components", "btnBg", "Background", true)}
+                    {renderColorInput("components", "btnText", "Text Color")}
+                    {renderColorInput("components", "btnBorder", "Border Color")}
+                    {renderColorInput("components", "btnHover", "Hover State")}
                   </div>
                 </div>
 
@@ -762,14 +763,8 @@ export default function ThemeFormPage({ id }: { id: string }) {
                 <div className="space-y-3">
                   <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wide border-b border-[#1e1e2e] pb-1.5">Navigation Bar</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1 col-span-2">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Navbar Background</label>
-                      <input
-                        type="text"
-                        value={components.navBg || ""}
-                        onChange={(e) => handleNestedChange("components", "navBg", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
+                    <div className="col-span-2">
+                      {renderColorInput("components", "navBg", "Navbar Background", true)}
                     </div>
                     <div className="space-y-1">
                       <label className="text-[10px] text-slate-400 font-bold uppercase">Navbar Height</label>
@@ -780,25 +775,9 @@ export default function ThemeFormPage({ id }: { id: string }) {
                         className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200"
                       />
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Menu Color</label>
-                      <input
-                        type="text"
-                        value={components.navMenuColor || ""}
-                        onChange={(e) => handleNestedChange("components", "navMenuColor", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Active Link</label>
-                      <input
-                        type="text"
-                        value={components.navActiveColor || ""}
-                        onChange={(e) => handleNestedChange("components", "navActiveColor", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="flex items-center gap-2 pt-4">
+                    {renderColorInput("components", "navMenuColor", "Menu Color")}
+                    {renderColorInput("components", "navActiveColor", "Active Link")}
+                    <div className="flex items-center gap-2 pt-4 col-span-2">
                       <input
                         type="checkbox"
                         id="navSticky-toggle"
@@ -815,33 +794,11 @@ export default function ThemeFormPage({ id }: { id: string }) {
                 <div className="space-y-3">
                   <h3 className="text-xs font-bold text-indigo-400 uppercase tracking-wide border-b border-[#1e1e2e] pb-1.5">Footer</h3>
                   <div className="grid grid-cols-2 gap-3">
-                    <div className="space-y-1 col-span-2">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Footer Background</label>
-                      <input
-                        type="text"
-                        value={components.footerBg || ""}
-                        onChange={(e) => handleNestedChange("components", "footerBg", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
+                    <div className="col-span-2">
+                      {renderColorInput("components", "footerBg", "Footer Background", true)}
                     </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Text Color</label>
-                      <input
-                        type="text"
-                        value={components.footerText || ""}
-                        onChange={(e) => handleNestedChange("components", "footerText", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-[10px] text-slate-400 font-bold uppercase">Link Accent</label>
-                      <input
-                        type="text"
-                        value={components.footerLink || ""}
-                        onChange={(e) => handleNestedChange("components", "footerLink", e.target.value)}
-                        className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded px-2.5 py-1.5 text-xs text-slate-200 font-mono uppercase"
-                      />
-                    </div>
+                    {renderColorInput("components", "footerText", "Text Color")}
+                    {renderColorInput("components", "footerLink", "Link Accent")}
                   </div>
                 </div>
 

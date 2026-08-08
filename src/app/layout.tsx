@@ -35,6 +35,7 @@ export const metadata: Metadata = {
 };
 
 import { EnquiryProvider } from "@/shared/context/EnquiryContext";
+import { ThemeProvider } from "@/shared/context/ThemeContext";
 
 export default function RootLayout({
   children,
@@ -47,9 +48,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${plusJakartaSans.variable} ${cormorantGaramond.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <EnquiryProvider>
-          {children}
-        </EnquiryProvider>
+        <ThemeProvider>
+          <EnquiryProvider>
+            {children}
+          </EnquiryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
