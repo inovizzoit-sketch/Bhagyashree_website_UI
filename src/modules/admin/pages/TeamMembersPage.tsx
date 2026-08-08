@@ -561,7 +561,7 @@ export default function TeamMembersPage() {
 
       {/* Create / Edit Modal */}
       <Modal isOpen={isOpen} onClose={() => setIsOpen(false)} title={editingId ? "Edit Team Member" : "Add Team Member"}>
-        <form onSubmit={handleSubmit} className="space-y-4 max-h-[80vh] overflow-y-auto pr-1">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {formError && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 p-3 rounded-lg text-xs">
               {formError}

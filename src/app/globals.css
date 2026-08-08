@@ -18,6 +18,17 @@
   --border-muted: rgba(255, 255, 255, 0.1);
   --font-family-body: var(--font-plus-jakarta);
   --font-family-heading: var(--font-serif);
+
+  /* Component defaults when backend active theme is not defined */
+  --nav-bg: #020520;
+  --nav-height: 80px;
+  --nav-menu-color: #8E90A2;
+  --nav-active-color: #DDBD81;
+  --footer-bg: #13131a;
+  --footer-text: #8E90A2;
+  --footer-link: #DDBD81;
+  --card-bg: #13131a;
+  --card-border: #1e1e2e;
 }
 
 @theme inline {
@@ -219,6 +230,8 @@ html {
   /* Secondary Buttons & Action Boxes */
   & .bg-\[\#181824\],
   & .bg-\[\#171721\],
+  & .bg-\[\#171722\],
+  & .bg-\[\#161622\],
   & .bg-\[\#20202e\],
   & .bg-slate-800 {
     background-color: #f5f2eb !important;

@@ -118,11 +118,10 @@ export default function TeamPage() {
           <button
             key={dept}
             onClick={() => setSelectedDepartment(dept)}
-            className={`rounded-full px-5 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-300 border outline-none cursor-pointer ${
-              selectedDepartment === dept
-                ? "bg-gold-solid text-dark-primary border-gold-solid shadow-[0_4px_15px_rgba(221,189,129,0.3)] scale-105"
-                : "bg-white/5 text-slate-400 border-white/5 hover:border-white/10 hover:text-white"
-            }`}
+            className={`rounded-full px-5 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-300 border outline-none cursor-pointer ${selectedDepartment === dept
+              ? "bg-gold-solid text-dark-primary border-gold-solid shadow-[0_4px_15px_rgba(221,189,129,0.3)] scale-105"
+              : "bg-white/5 text-slate-400 border-white/5 hover:border-white/10 hover:text-white"
+              }`}
           >
             {dept}
           </button>
@@ -132,7 +131,7 @@ export default function TeamPage() {
       {/* ── Section 1: Executive Leadership ── */}
       {featuredMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-20">
-          <div className="border-l-2 border-gold-solid pl-4 mb-8">
+          <div className="mb-8">
             <h3 className="text-xl font-serif text-white font-light tracking-wide uppercase">
               Executive <span className="font-semibold italic text-gold-solid">Leadership</span>
             </h3>
@@ -143,19 +142,20 @@ export default function TeamPage() {
             {featuredMembers.map((member, idx) => (
               <div
                 key={member.id || idx}
-                className="bg-gradient-to-b from-gold-solid/5 to-transparent border border-gold-solid/20 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-sm group relative"
+                className="bg-gradient-to-b from-gold-solid/5 to-transparent border border-gold-solid/20 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-sm group relative opacity-0 animate-fade-in-up"
+                style={{ animationDelay: `${idx * 80}ms`, animationFillMode: "forwards" }}
               >
                 {/* Accent halo glow behind featured profiles */}
                 <div className="absolute inset-0 bg-gradient-to-r from-gold-solid/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl pointer-events-none" />
-                
+
                 <div>
                   {/* Profile Image Wrapper */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-gold-solid/15 bg-[#1b2354]/10">
+                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-gold-solid/15 bg-[#1b2354]/10 shadow-inner">
                     {member.image ? (
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                           const parent = e.currentTarget.parentElement;
@@ -166,57 +166,27 @@ export default function TeamPage() {
                         }}
                       />
                     ) : null}
+                    {/* Premium Vignette Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 pointer-events-none" />
+                    
                     <div className={`fallback-avatar w-full h-full bg-[#1b2354]/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
                       👤
                     </div>
                     {member.department && (
-                      <span className="absolute top-3 right-3 text-[9px] font-bold tracking-widest uppercase bg-gold-solid text-dark-primary px-2.5 py-1.5 rounded-md shadow-lg font-sans">
+                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-gold-solid/90 text-dark-primary px-2.5 py-1 rounded shadow-lg font-sans backdrop-blur-sm">
                         {member.department}
                       </span>
                     )}
                   </div>
 
-                  <div className="space-y-2 relative z-10">
+                  <div className="space-y-2 relative z-10 text-center flex flex-col items-center">
                     <h4 className="text-lg font-bold text-white group-hover:text-gold-solid transition-colors duration-300">
                       {member.name}
                     </h4>
                     <p className="text-xs text-gold-solid font-semibold tracking-wider uppercase">
                       {member.designation}
                     </p>
-                    {member.bio && (
-                      <p className="text-xs text-[#8E90A2] font-light line-clamp-4 leading-relaxed pt-1">
-                        {member.bio}
-                      </p>
-                    )}
                   </div>
-                </div>
-
-                {/* Social Links Footer */}
-                <div className="flex items-center gap-4 mt-6 pt-4 border-t border-white/5 text-xs relative z-10">
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[#8E90A2] hover:text-gold-solid transition-colors font-medium flex items-center gap-1.5 no-underline"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                      </svg>
-                      LinkedIn
-                    </a>
-                  )}
-                  {member.email && (
-                    <a
-                      href={`mailto:${member.email}`}
-                      className="text-[#8E90A2] hover:text-gold-solid transition-colors font-medium flex items-center gap-1.5 no-underline"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      Email
-                    </a>
-                  )}
                 </div>
               </div>
             ))}
@@ -227,7 +197,7 @@ export default function TeamPage() {
       {/* ── Section 2: Management & Experts ── */}
       {regularMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-28">
-          <div className="border-l-2 border-white/20 pl-4 mb-8">
+          <div className="mb-8">
             <h3 className="text-xl font-serif text-white font-light tracking-wide uppercase">
               Management & <span className="font-semibold italic text-slate-300">Experts</span>
             </h3>
@@ -238,16 +208,17 @@ export default function TeamPage() {
             {regularMembers.map((member, idx) => (
               <div
                 key={member.id || idx}
-                className="bg-[#050c38]/15 border border-white/5 hover:border-gold-solid/40 p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between backdrop-blur-sm group"
+                className="bg-[#050c38]/10 border border-white/5 p-5 rounded-2xl transition-all duration-300 hover:border-gold-solid/30 hover:-translate-y-1 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_10px_30px_rgba(221,189,129,0.05)] flex flex-col justify-between backdrop-blur-sm group opacity-0 animate-fade-in-up"
+                style={{ animationDelay: `${idx * 80}ms`, animationFillMode: "forwards" }}
               >
                 <div>
                   {/* Profile Image Wrapper */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-white/5 bg-[#1b2354]/10">
+                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-white/5 bg-[#1b2354]/10 shadow-inner">
                     {member.image ? (
                       <img
                         src={member.image}
                         alt={member.name}
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         onError={(e) => {
                           e.currentTarget.style.display = 'none';
                           const parent = e.currentTarget.parentElement;
@@ -258,57 +229,27 @@ export default function TeamPage() {
                         }}
                       />
                     ) : null}
+                    {/* Premium Vignette Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-50 pointer-events-none" />
+                    
                     <div className={`fallback-avatar w-full h-full bg-[#1b2354]/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
                       👤
                     </div>
                     {member.department && (
-                      <span className="absolute top-3 right-3 text-[9px] font-bold tracking-widest uppercase bg-white/10 text-white backdrop-blur-md px-2 py-1 rounded-md shadow-md">
+                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-white/10 text-white backdrop-blur-md px-2.5 py-1 rounded shadow-md">
                         {member.department}
                       </span>
                     )}
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2 text-center flex flex-col items-center">
                     <h4 className="text-lg font-bold text-white group-hover:text-gold-solid transition-colors duration-300">
                       {member.name}
                     </h4>
                     <p className="text-xs text-gold-solid font-medium tracking-wide uppercase">
                       {member.designation}
                     </p>
-                    {member.bio && (
-                      <p className="text-xs text-[#8E90A2] font-light line-clamp-3 leading-relaxed pt-1">
-                        {member.bio}
-                      </p>
-                    )}
                   </div>
-                </div>
-
-                {/* Social Links Footer */}
-                <div className="flex items-center gap-4 mt-6 pt-4 border-t border-white/5 text-xs">
-                  {member.linkedin && (
-                    <a
-                      href={member.linkedin}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[#8E90A2] hover:text-gold-solid transition-colors font-medium flex items-center gap-1.5 no-underline"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
-                      </svg>
-                      LinkedIn
-                    </a>
-                  )}
-                  {member.email && (
-                    <a
-                      href={`mailto:${member.email}`}
-                      className="text-[#8E90A2] hover:text-gold-solid transition-colors font-medium flex items-center gap-1.5 no-underline"
-                    >
-                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                      </svg>
-                      Email
-                    </a>
-                  )}
                 </div>
               </div>
             ))}
@@ -320,8 +261,33 @@ export default function TeamPage() {
       <div className="mx-auto max-w-5xl px-6 md:px-8 relative z-10">
         <div className="bg-gradient-to-r from-[#0d153b] via-[#050c38] to-[#020520] border border-white/15 p-8 md:p-14 rounded-3xl text-center space-y-8 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gold-solid/5 rounded-full blur-[80px] pointer-events-none" />
-          
-          <div className="space-y-3 max-w-2xl mx-auto">
+
+          {/* Decorative Compass on Left */}
+          <div className="absolute -left-10 top-1/2 -translate-y-1/2 w-64 h-64 opacity-25 pointer-events-none hidden lg:block select-none">
+            <svg viewBox="0 0 100 100" className="w-full h-full text-gold-solid">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="1.2" />
+              <circle cx="50" cy="50" r="41" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="1 1.5" />
+              {[...Array(24)].map((_, i) => {
+                const angle = (i * 360) / 24;
+                const length = i % 6 === 0 ? 5 : 3;
+                return (
+                  <line
+                    key={i}
+                    x1="50"
+                    y1={5}
+                    x2="50"
+                    y2={5 + length}
+                    stroke="currentColor"
+                    strokeWidth={i % 6 === 0 ? 0.8 : 0.4}
+                    transform={`rotate(${angle} 50 50)`}
+                  />
+                );
+              })}
+              <text x="50" y="59" textAnchor="middle" fill="currentColor" className="font-serif text-3xl font-light tracking-wide">N</text>
+            </svg>
+          </div>
+
+          <div className="space-y-3 max-w-2xl mx-auto relative z-10">
             <span className="text-[10px] font-bold uppercase tracking-widest text-gold-solid">Ready to Invest?</span>
             <h3 className="text-2xl md:text-4xl font-serif text-white font-light leading-tight">
               Begin your secure land legacy <span className="font-medium italic text-gold-solid">today</span>
@@ -331,22 +297,38 @@ export default function TeamPage() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-10">
             <button
               onClick={() => openEnquiry()}
               className="w-full sm:w-auto rounded-full bg-gold-solid px-8 py-4 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(221,189,129,0.3)]"
             >
-              Enquire Now
+              ENQUIRE NOW
             </button>
             <a
               href="tel:+919519662111"
               className="w-full sm:w-auto text-center rounded-full border border-white/20 bg-transparent px-8 py-4 text-xs font-bold uppercase tracking-widest text-white hover:bg-white/10 hover:border-white transition-all no-underline"
             >
-              Call Consultant
+              CALL CONSULTANT
             </a>
           </div>
         </div>
       </div>
+
+      <style>{`
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+      `}</style>
     </div>
   );
 }

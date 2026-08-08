@@ -115,7 +115,6 @@ function YouTubeHeroPlayer({ videoId }: { videoId: string }) {
 export default function Hero({ previewData }: { previewData?: any }) {
   const { openEnquiry } = useEnquiry();
   const [slides, setSlides] = useState<any[]>([]);
-  const [currentIdx, setCurrentIdx] = useState(0);
 
 
 
@@ -123,34 +122,32 @@ export default function Hero({ previewData }: { previewData?: any }) {
     if (previewData) {
       // If previewing, wrap data in an array
       setSlides(Array.isArray(previewData) ? previewData : [previewData]);
-      setCurrentIdx(0);
       return;
     }
 
     fetch(`${API_BASE_URL}/hero`)
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`Hero request failed with status ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data) => {
-        if (data && data.length > 0) {
-          setSlides(data);
+        const nextSlides = Array.isArray(data) ? data : data ? [data] : [];
+
+        if (nextSlides.length > 0) {
+          setSlides(nextSlides);
         }
       })
       .catch((err) => console.error("Failed to load hero slides", err));
   }, [previewData]);
 
-  // Autoplay Slider logic
-  useEffect(() => {
-    if (slides.length <= 1) return;
-    const interval = setInterval(() => {
-      setCurrentIdx((prev) => (prev + 1) % slides.length);
-    }, 6000);
-    return () => clearInterval(interval);
-  }, [slides]);
-
   if (slides.length === 0) {
     return null;
   }
 
-  const activeSlide = slides[currentIdx];
+  // The public home hero is intentionally static and uses the first configured slide.
+  const activeSlide = slides[0];
 
   // Map variables
   const badgeText = activeSlide.badgeText || "";
@@ -435,21 +432,6 @@ export default function Hero({ previewData }: { previewData?: any }) {
         {renderLayout()}
       </div>
 
-      {/* Navigation Dot Indicators if there are multiple slides */}
-      {slides.length > 1 && (
-        <div className="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2 z-20">
-          {slides.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIdx(idx)}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                currentIdx === idx ? "w-8" : "opacity-40"
-              }`}
-              style={{ backgroundColor: customAccent }}
-            />
-          ))}
-        </div>
-      )}
     </section>
   );
 }
