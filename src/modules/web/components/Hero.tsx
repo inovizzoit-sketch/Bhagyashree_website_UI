@@ -90,6 +90,7 @@ function YouTubeHeroPlayer({ videoId }: { videoId: string }) {
           title="Hero Video Player"
           frameBorder="0"
           allow="autoplay; encrypted-media"
+          referrerPolicy="strict-origin-when-cross-origin"
           style={{ pointerEvents: "none", objectFit: "cover", width: "100%", height: "100%" }}
         />
       </div>
@@ -346,6 +347,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
                   title="Banner Video Background"
                   frameBorder="0"
                   allow="autoplay; encrypted-media"
+                  referrerPolicy="strict-origin-when-cross-origin"
                   style={{ objectFit: "cover", width: "100%", height: "100%" }}
                 />
               </div>
