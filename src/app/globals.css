@@ -6,31 +6,31 @@
   --foreground: #202a26;
   --surface: #fffdf8;
   --surface-muted: #eee9dc;
-  --surface-dark: #102c25;
-  --surface-dark-deep: #091f1a;
+  --surface-dark: #152e60;
+  --surface-dark-deep: #0d2047;
 
-  --dark-primary: #174b3c;
-  --dark-secondary: #0b2b23;
+  --dark-primary: #1d417f;
+  --dark-secondary: #152e60;
   --gold-solid: #b58a3a;
   --gold-hover: #956f2c;
   --gold-dark: #765620;
-  --violet-footer: #0b2b23;
+  --violet-footer: #152e60;
   --text-white: #fffdf8;
   --text-gray-light: #e8eee9;
   --text-gray-muted: #66736d;
   --text-on-dark-muted: #b9c6bf;
   --border-color: #dcd5c5;
   --border-muted: rgba(32, 42, 38, 0.12);
-  --shadow-color: rgba(11, 43, 35, 0.12);
+  --shadow-color: rgba(21, 46, 96, 0.14);
   --font-family-body: var(--font-plus-jakarta);
   --font-family-heading: var(--font-serif);
 
   /* Component defaults when backend active theme is not defined */
-  --nav-bg: #0b2b23;
+  --nav-bg: #152e60;
   --nav-height: 80px;
   --nav-menu-color: #e8eee9;
   --nav-active-color: #d1ad65;
-  --footer-bg: #091f1a;
+  --footer-bg: #0d2047;
   --footer-text: #b9c6bf;
   --footer-link: #d1ad65;
   --card-bg: #fffdf8;

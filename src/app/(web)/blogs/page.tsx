@@ -24,17 +24,17 @@ export default function BlogsWebPage() {
 
   const staticArticles: BlogArticle[] = [
     {
-      id: "varanasi-renaissance",
-      title: "The Varanasi Renaissance: Why Rohania is Plotted Land's Next Goldmine",
+      id: "mirzapur-renaissance",
+      title: "The Mirzapur Renaissance: Why Development Zones are Plotted Land's Next Goldmine",
       category: "Market Insights",
       date: "July 15, 2026",
       readTime: "4 min read",
       image: "/images/hero_brand.png",
-      excerpt: "With the expansion of the Ring Road and rapid urban migration, Varanasi's outskirts are witnessing unprecedented appreciation. Here's a deep dive into the numbers.",
+      excerpt: "With the expansion of key transit highways and rapid urban migration, Mirzapur's outskirts are witnessing unprecedented appreciation. Here's a deep dive into the numbers.",
       content: [
-        "Varanasi is experiencing an unprecedented structural boom. The expansion of the Ring Road Phase 2 and arterial highway connectivity has brought suburbs like Rohania into the primary limelight for both commercial expansions and luxury residential plotting layout developments.",
+        "Mirzapur is experiencing an unprecedented structural boom. The expansion of regional transit corridors and arterial highway connectivity has brought new development zones into the primary limelight for both commercial expansions and luxury residential plotting layout developments.",
         "Over the last 36 months, land values along the outer corridors have seen historic capital appreciation multipliers. The influx of retail spaces, institutional campuses, and national transit projects has created a supply-demand imbalance that favors early investors.",
-        "Unlike traditional unorganized land segments where title clearing remains an issue, branded plotted avenues in Rohania offer secure investment channels with clear exit strategies, high resale liquidity, and robust legal backing."
+        "Unlike traditional unorganized land segments where title clearing remains an issue, branded plotted avenues in Mirzapur offer secure investment channels with clear exit strategies, high resale liquidity, and robust legal backing."
       ]
     },
     {
@@ -127,7 +127,7 @@ export default function BlogsWebPage() {
             className="!mb-4"
           />
           <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Stay ahead with curated deep-dives into Varanasi&apos;s property trends, legal guidelines, and branded plotted land developments.
+            Stay ahead with curated deep-dives into Mirzapur&apos;s property trends, legal guidelines, and branded plotted land developments.
           </p>
       </div>
 

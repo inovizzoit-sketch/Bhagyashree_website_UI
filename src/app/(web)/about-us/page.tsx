@@ -21,7 +21,7 @@ export default function AboutUsPage() {
     },
     {
       title: "Strategic Locations",
-      description: "We handpick high-potential real estate corridors in Varanasi, primarily focusing on growth sectors like Rohaniya. We build where future value and infrastructure expansion are guaranteed.",
+      description: "We handpick high-potential real estate corridors in Mirzapur, focusing on transit growth sectors. We build where future value and infrastructure expansion are guaranteed.",
       icon: (
         <svg className="w-10 h-10 text-gold-solid" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -44,7 +44,7 @@ export default function AboutUsPage() {
     { value: "5 Mn Sq Ft", label: "Land" },
     { value: "650+", label: "Customers" },
     { value: "16 Mn Sq.Ft.", label: "Under Development" },
-    { value: "2", label: "Locations in Greater Varanasi" }
+    { value: "2", label: "Locations in Greater Mirzapur" }
   ];
 
   return (
@@ -74,13 +74,13 @@ export default function AboutUsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 lg:gap-20 items-center">
           <div className="space-y-6">
             <h3 className="text-2xl sm:text-3xl font-serif text-white font-light tracking-tight leading-snug">
-              Redefining Plotted Land ownership in <span className="text-gold-solid font-medium italic">Varanasi</span>
+              Redefining Plotted Land ownership in <span className="text-gold-solid font-medium italic">Mirzapur</span>
             </h3>
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
               For generations, investing in land was considered high-risk due to duplicate claims, boundary conflicts, and missing infrastructure. Bhagyashree Enterprises stepped in to build a transparent legal pipeline.
             </p>
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
-              Headquartered in Varanasi, we focus on picking transit-oriented development hubs. By pre-installing high-quality utilities (asphalt drainage, street lights, and 24/7 security) before selling, we ensure that our customers buy assets that instantly start appreciating.
+              We focus on picking transit-oriented development hubs in Mirzapur. By pre-installing high-quality utilities (asphalt drainage, street lights, and 24/7 security) before selling, we ensure that our customers buy assets that instantly start appreciating.
             </p>
             {/* <div className="pt-2">
               <button
@@ -186,7 +186,7 @@ export default function AboutUsPage() {
               Begin your secure land legacy <span className="font-medium italic text-gold-solid">today</span>
             </h3>
             <p className="text-xs md:text-sm text-text-gray-muted leading-relaxed font-light">
-              Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Varanasi.
+              Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Mirzapur.
             </p>
           </div>
 

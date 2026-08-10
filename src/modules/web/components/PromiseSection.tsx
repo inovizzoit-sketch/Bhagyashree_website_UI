@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import SectionHeading from "@/shared/components/SectionHeading";
+import DecorativeCircles from "./DecorativeCircles";
 
 // Slide promise object structure
 interface SlickCard {
@@ -56,101 +57,96 @@ export default function PromiseSection() {
   };
 
   return (
-    <section className="w-full bg-slate-100/40 py-12 lg:py-20 border-y border-slate-200/60 relative overflow-hidden font-sans">
-      <div className="mx-auto max-w-7xl px-6 md:px-8">
-        
-        {/* Responsive Grid Split: Stacks on mobile, splits on large screens */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.5fr] gap-12 lg:gap-16 items-center">
-          
-          {/* Left Column Content */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left max-w-md mx-auto lg:mx-0">
-            <SectionHeading 
+    <section className="w-full bg-surface py-14 sm:py-16 lg:py-20 relative overflow-x-clip font-sans">
+      <DecorativeCircles
+        theme="light"
+        circles={[
+          { size: 550, right: "-15%", top: "10%", opacity: 0.08, className: "lg:right-[-100px] lg:top-[5%]" }
+        ]}
+      />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-gold-solid/40 to-transparent" />
+      <div className="absolute -left-36 top-20 h-80 w-80 rounded-full bg-gold-solid/5 blur-3xl pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-6 md:px-8 relative">
+        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 items-start">
+          <div className="lg:sticky lg:top-28">
+            <SectionHeading
               badge="Our Commitment"
-              plainText="Land Buying," 
-              highlightText="Simplified" 
-              className="!mb-6"
+              plainText="Land Buying,"
+              highlightText="Simplified"
+              className="!mb-5"
             />
-            <p className="mt-4 text-sm sm:text-base text-slate-500 leading-relaxed">
+            <p className="max-w-md border-l-2 border-gold-solid pl-5 text-sm sm:text-base leading-7 text-text-gray-muted">
               Because owning land should feel easy, not overwhelming.
             </p>
+
+            <div className="mt-8 flex items-center gap-3">
+              <button
+                type="button"
+                onClick={handlePrev}
+                aria-label="Previous promise"
+                className="grid h-11 w-11 place-items-center rounded-full border border-dark-secondary/15 text-dark-secondary transition-all hover:border-dark-secondary hover:bg-dark-secondary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid"
+              >
+                <span aria-hidden="true">←</span>
+              </button>
+              <span className="min-w-14 text-center text-xs font-bold tracking-widest text-text-gray-muted">
+                {String(activeIndex + 1).padStart(2, "0")} / {String(slickCards.length).padStart(2, "0")}
+              </span>
+              <button
+                type="button"
+                onClick={handleNext}
+                aria-label="Next promise"
+                className="grid h-11 w-11 place-items-center rounded-full bg-dark-secondary text-white transition-all hover:-translate-y-0.5 hover:bg-dark-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid"
+              >
+                <span aria-hidden="true">→</span>
+              </button>
+            </div>
           </div>
 
-          {/* Right Column Content: Custom Slick Track Carousel (Vertical Top to Bottom) */}
-          <div className="relative w-full max-w-2xl mx-auto overflow-hidden h-[382px]">
-            <div 
-              className="flex flex-col transition-transform duration-700 ease-out h-full"
-              style={{ transform: `translateY(-${activeIndex * 100}%)` }}
-            >
+          <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr] min-w-0">
+            <article className="relative min-h-[330px] overflow-hidden rounded-[2rem] bg-dark-secondary p-7 sm:p-9 text-white shadow-xl shadow-dark-secondary/15 flex flex-col justify-between">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-gold-solid/20" />
+              <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
+              <div className="relative">
+                <span className="inline-flex items-center gap-2 rounded-full border border-gold-solid/30 bg-gold-solid/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-gold-solid">
+                  <span>★</span> Premium guarantee
+                </span>
+              </div>
+              <div className="relative mt-16">
+                <span className="text-xs font-semibold uppercase tracking-[0.22em] text-text-on-dark-muted">We promise</span>
+                <h3 className="mt-3 text-3xl sm:text-4xl font-serif leading-tight text-white">
+                  {slickCards[activeIndex].title}
+                </h3>
+                <p className="mt-4 max-w-lg text-sm sm:text-base leading-7 text-text-on-dark-muted">
+                  {slickCards[activeIndex].description}
+                </p>
+              </div>
+            </article>
+
+            <div className="grid gap-2" role="tablist" aria-label="Our promises">
               {slickCards.map((card, idx) => (
-                <div key={idx} className="w-full min-h-full h-full px-2 py-0.5 box-border">
-                  {/* Outer border wrapper */}
-                  <div className="bg-gradient-to-b from-slate-200/50 to-slate-200 p-[1px] rounded-2xl h-full">
-                    
-                    {/* Inner Content Card (Matches the site's deep blue/dark theme with curved base background) */}
-                    <div className="bg-gradient-to-t to-indigo-50/20 via-white/80 from-white flex flex-col items-center justify-between gap-10 px-6 pt-10 pb-6 relative rounded-2xl h-full overflow-hidden border border-slate-100 shadow-sm">
-                      
-                      {/* Decorative Base Vector Curve Background */}
-                      <div className="absolute left-0 right-0 bottom-0 h-16 w-full opacity-10 z-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
-
-                      {/* Top: Description text */}
-                      <div className="text-center z-10">
-                        <p className="text-base font-normal leading-[160%] text-slate-700 max-w-md mx-auto">
-                          {card.description}
-                        </p>
-                      </div>
-
-                      {/* Middle: Brand Tag & Icon details */}
-                      <div className="flex flex-col items-center text-center z-10 gap-3">
-                        <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest">We promise</p>
-                        
-                        {/* Gold Badge Medal Symbol */}
-                        <div className="flex items-center justify-center gap-1.5 py-1 px-3.5 rounded-full bg-gold-solid/5 border border-gold-solid/25">
-                          <span className="text-[10px] text-gold-solid">★</span>
-                          <span className="text-[10px] text-gold-solid font-bold uppercase tracking-wider">Premium Guarantee</span>
-                        </div>
-
-                        <h3 className="text-2xl sm:text-3xl font-extrabold leading-[140%] text-slate-800 font-serif mt-2">
-                          {card.title}
-                        </h3>
-                      </div>
-
-                      {/* Bottom: Know More link with chevron indicator */}
-                      <div className="flex justify-center items-center gap-2 relative z-30 pb-2 w-full cursor-pointer hover:opacity-85 transition-opacity text-slate-600">
-                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Know more</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-500">
-                          <circle cx="12" cy="12" r="10" />
-                          <path d="m10 8 4 4-4 4" />
-                        </svg>
-                      </div>
-
-                    </div>
-                  </div>
-                </div>
+                <button
+                  key={card.title}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeIndex === idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`group flex min-w-0 items-center gap-4 rounded-2xl border px-4 py-3 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid ${
+                    activeIndex === idx
+                      ? "border-gold-solid/45 bg-[#f0eadc] shadow-sm"
+                      : "border-card-border bg-background hover:border-gold-solid/35 hover:bg-surface-muted/50"
+                  }`}
+                >
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[10px] font-extrabold ${activeIndex === idx ? "bg-gold-solid text-dark-secondary" : "bg-surface-muted text-text-gray-muted group-hover:text-dark-primary"}`}>
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <span className={`truncate text-sm font-bold ${activeIndex === idx ? "text-dark-secondary" : "text-foreground"}`}>
+                    {card.title}
+                  </span>
+                  <span className={`ml-auto text-sm transition-transform group-hover:translate-x-0.5 ${activeIndex === idx ? "text-gold-dark" : "text-text-gray-muted/50"}`}>→</span>
+                </button>
               ))}
             </div>
-
-            {/* Carousel Arrows Overlay */}
-            <div className="flex justify-center items-center gap-6 mt-8 relative z-30">
-              <button
-                onClick={handlePrev}
-                aria-label="Previous slide"
-                className="w-10 h-10 rounded-full border border-slate-200 hover:border-slate-300 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-all hover:bg-slate-100 cursor-pointer"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button
-                onClick={handleNext}
-                aria-label="Next slide"
-                className="w-10 h-10 rounded-full border border-slate-200 hover:border-slate-300 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-all hover:bg-slate-100 cursor-pointer"
-              >
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-
           </div>
         </div>
       </div>

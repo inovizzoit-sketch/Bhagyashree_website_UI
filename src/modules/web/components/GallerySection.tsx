@@ -46,16 +46,16 @@ export default function GallerySection() {
   }, [items]);
 
   return (
-    <section className="w-full bg-[#0d153b]/10 py-16 md:py-24 border-y border-white/5">
+    <section className="w-full bg-dark-secondary py-14 md:py-20 overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         <SectionHeading 
           badge="Visual Experience" 
           plainText="Gallery &" 
           highlightText="Lifestyle" 
-          align="center"
-          className="max-w-2xl"
+          align="left"
+          className="max-w-2xl [&_h2]:!text-white"
         />
-        <p className="mt-[-2rem] text-sm text-[#8E90A2] text-center max-w-2xl mx-auto mb-16">
+        <p className="mt-[-2rem] text-sm text-text-on-dark-muted max-w-2xl mb-14 leading-7">
           A glance into the state-of-the-art architectures, wellness setups, and elite clubhouses designed for modern comfort.
         </p>
 
@@ -86,7 +86,7 @@ export default function GallerySection() {
           /* Main Gallery scroll view */
           <div 
             ref={scrollRef}
-            className="flex overflow-x-auto gap-6 pb-4 snap-x snap-mandatory no-scrollbar scroll-smooth"
+            className="flex overflow-x-auto gap-5 pb-4 snap-x snap-mandatory no-scrollbar scroll-smooth"
           >
             {items.map((item, idx) => {
               const imageUrl = item.image.startsWith("http")
@@ -96,7 +96,7 @@ export default function GallerySection() {
               return (
                 <div
                   key={item.id}
-                  className="group relative aspect-square w-[260px] sm:w-[320px] shrink-0 overflow-hidden rounded-2xl border border-border-muted snap-start"
+                  className={`group relative shrink-0 overflow-hidden rounded-[2rem] border border-white/10 snap-start shadow-2xl ${idx % 3 === 0 ? "w-[300px] sm:w-[430px] aspect-[4/3]" : "w-[250px] sm:w-[300px] aspect-[3/4]"}`}
                 >
                   <Image
                     src={imageUrl}

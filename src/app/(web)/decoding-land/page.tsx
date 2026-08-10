@@ -32,17 +32,17 @@ export default function DecodingLandPage() {
 
   const articles: BlogArticle[] = [
     {
-      id: "varanasi-renaissance",
-      title: "The Varanasi Renaissance: Why Rohania is Plotted Land's Next Goldmine",
+      id: "mirzapur-renaissance",
+      title: "The Mirzapur Renaissance: Why Development Zones are Plotted Land's Next Goldmine",
       category: "Market Insights",
       date: "July 15, 2026",
       readTime: "4 min read",
       image: "/images/hero_brand.png",
-      excerpt: "With the expansion of the Ring Road and rapid urban migration, Varanasi's outskirts are witnessing unprecedented appreciation. Here's a deep dive into the numbers.",
+      excerpt: "With the expansion of transit highways and rapid urban migration, Mirzapur's outskirts are witnessing unprecedented appreciation. Here's a deep dive into the numbers.",
       content: [
-        "Varanasi is experiencing an unprecedented structural boom. The expansion of the Ring Road Phase 2 and arterial highway connectivity has brought suburbs like Rohania into the primary limelight for both commercial expansions and luxury residential plotting layout developments.",
+        "Mirzapur is experiencing an unprecedented structural boom. The expansion of transit corridors and arterial highway connectivity has brought new suburbs into the primary limelight for both commercial expansions and luxury residential plotting layout developments.",
         "Over the last 36 months, land values along the outer corridors have seen historic capital appreciation multipliers. The influx of retail spaces, institutional campuses, and national transit projects has created a supply-demand imbalance that favors early investors.",
-        "Unlike traditional unorganized land segments where title clearing remains an issue, branded plotted avenues in Rohania offer secure investment channels with clear exit strategies, high resale liquidity, and robust legal backing."
+        "Unlike traditional unorganized land segments where title clearing remains an issue, branded plotted avenues in Mirzapur offer secure investment channels with clear exit strategies, high resale liquidity, and robust legal backing."
       ]
     },
     {
@@ -55,7 +55,7 @@ export default function DecodingLandPage() {
       excerpt: "Why institutional security, legal clearances, and immediate road access make branded land layouts outperform traditional unorganized plots by 3x.",
       content: [
         "For decades, plotted land purchase was considered high-risk due to duplicate registrations, boundary overlaps, and encroachment threats. Branded land developers have changed the paradigm by offering institutional security.",
-        "Branded plotted layouts undergo rigorous legal checks. They guarantee non-agricultural (NA) certification, VDA STANDARDS compliance, and clear demarcation from day one, which standardizes plot value appreciation.",
+        "Branded plotted layouts undergo rigorous legal checks. They guarantee non-agricultural (NA) certification, local authority standard compliance, and clear demarcation from day one, which standardizes plot value appreciation.",
         "Additionally, branded layouts deliver ready utilities (paved asphalt roads, electricity connections, water supply drains) immediately. This pre-installed infrastructure ensures rapid valuation growth, outperforming raw agricultural plots by up to 300%."
       ]
     },
@@ -66,11 +66,11 @@ export default function DecodingLandPage() {
       date: "July 08, 2026",
       readTime: "6 min read",
       image: "/images/wellness.png",
-      excerpt: "Navigating non-agricultural certificates, VDA STANDARDS documentation, and land mutation records can be tricky. Here is our 5-step checklist.",
+      excerpt: "Navigating non-agricultural certificates, local authority layout documentation, and land mutation records can be tricky. Here is our 5-step checklist.",
       content: [
         "Due diligence is the single most important step when acquiring land in Uttar Pradesh. First, verify the 'Khatauni' (land record registers) to establish the current ownership names and check for hidden bank mortgages.",
         "Ensure the plot is registered as Non-Agricultural (NA) or verify that a conversion certificate has been officially issued by the sub-divisional magistrate. This prevents zoning fines down the road.",
-        "Finally, ensure that the layout is VDA STANDARDS approved. Buying inside a VDA STANDARDS-compliant development protects your capital against developer defaults, boundary conflicts, and infrastructure delivery delays."
+        "Finally, ensure that the layout is approved by local authorities. Buying inside a standard-compliant development protects your capital against developer defaults, boundary conflicts, and infrastructure delivery delays."
       ]
     }
   ];
@@ -108,8 +108,8 @@ export default function DecodingLandPage() {
       answer: "We employ precision digital surveying technology and physical boundary fencing. Every plot has designated geo-coordinates, verified through government registration maps, eliminating boundary disputes or overlap claims.",
     },
     {
-      question: "Are your plots compliant with VDA STANDARDS?",
-      answer: "Yes, all our plotting layouts are applied under VDA STANDARDS. This guarantees that layout drawings, amenities timelines, and title certificates conform fully to statutory regulatory norms.",
+      question: "Are your plots compliant with government layouts?",
+      answer: "Yes, all our plotting layouts are designed in accordance with local municipal standards. This guarantees that layout drawings, amenities timelines, and title certificates conform fully to statutory regulatory norms.",
     },
     {
       question: "Can I obtain financing or bank loans for purchasing plots?",
@@ -261,7 +261,7 @@ export default function DecodingLandPage() {
             {[
               { num: "01", title: "Comprehensive Title Search", desc: "30-year historical title verification to establish complete ownership chain." },
               { num: "02", title: "NA (Non-Agricultural) Certification", desc: "Verifying clear zoning conversions and boundary layout map clearances." },
-              { num: "03", title: "VDA STANDARDS", desc: "Applied under VDA norms ensuring transparent construction and delivery timelines." },
+              { num: "03", title: "Government Guidelines", desc: "Applied under state municipal norms ensuring transparent construction and delivery timelines." },
               { num: "04", title: "Geo-fenced Boundary Mapping", desc: "Precise coordinates matching revenue records to secure layout margins." },
               { num: "05", title: "Pre-installed Utility Infrastructure", desc: "Ensuring power, water connection networks, and storm drains are fully ready." },
             ].map((check, idx) => (

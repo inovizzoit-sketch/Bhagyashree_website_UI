@@ -45,7 +45,7 @@ interface FooterSocial {
 // Fallback hardcoded data in case API fails or is loading
 const defaultSettings: FooterSettings = {
   companyName: "Bhagyashree Enterprises",
-  description: "Bhagyashree Enterprises is a trusted real estate company based in Rohania, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
+  description: "Bhagyashree Enterprises is a trusted real estate company — offering premium commercial and residential plots built for modern living and investment success in Mirzapur. Discover transparent deals, prime locations, and a legacy of trust.",
   address: "2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108",
   phone: "+91 95196 62111",
   email: "info@bhagyashreeenterprises.com",

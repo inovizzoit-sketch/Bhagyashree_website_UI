@@ -45,7 +45,7 @@ export default function GovernancePage() {
     {
       num: "04",
       title: "Eco-Conscious Development",
-      description: "Our layouts are designed to align harmoniously with Varanasi's town planning and environment.",
+      description: "Our layouts are designed to align harmoniously with Mirzapur's town planning and environment.",
       details: [
         "Strict adherence to environmental impact clearances (EIC)",
         "Layout designs incorporating green buffers, water recharging, and plantation belts",

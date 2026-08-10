@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
+import DecorativeCircles from "./DecorativeCircles";
 
 // CountUp configuration data structure
 interface StatItem {
@@ -14,7 +15,7 @@ const statsData: StatItem[] = [
   { target: 5, suffix: " Mn Sq Ft", label: "Land", subLabel: "" },
   { target: 650, suffix: "+", label: "Customers", subLabel: "" },
   { target: 16, suffix: " Mn Sq.Ft.", label: "Under", subLabel: "Development" },
-  { target: 2, suffix: "", label: "Locations in", subLabel: "Greater Varanasi" },
+  { target: 2, suffix: "", label: "Locations in", subLabel: "Greater Mirzapur" },
 ];
 
 export default function CounterSection() {
@@ -70,29 +71,39 @@ export default function CounterSection() {
   }, [isVisible]);
 
   return (
-    <section ref={sectionRef} className="w-full bg-transparent py-8 md:py-10 font-sans relative">
-      {/* Background Glow */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[350px] w-[500px] rounded-full bg-gold-solid/5 blur-[120px]" />
-      </div>
+    <section ref={sectionRef} className="w-full bg-dark-secondary py-12 md:py-14 font-sans relative overflow-hidden">
+      {/* Concentric rings design for footprint/counter section */}
+      <DecorativeCircles
+        theme="dark"
+        circles={[
+          { size: 500, right: "-100px", top: "-100px", opacity: 0.15, color: "border-gold-solid/25" },
+          { size: 420, right: "-60px", top: "-60px", opacity: 0.12, color: "border-gold-solid/15" },
+          { size: 340, right: "-20px", top: "-20px", opacity: 0.10, color: "border-gold-solid/10" },
+          { size: 600, left: "-200px", bottom: "-200px", opacity: 0.10, color: "border-white/5" },
+          { size: 520, left: "-160px", bottom: "-160px", opacity: 0.08, color: "border-white/5" }
+        ]}
+      />
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4 items-center">
+        <div className="mb-7 flex items-center gap-4 text-gold-solid text-xs font-bold uppercase tracking-[0.24em]"><span className="h-px w-12 bg-gold-solid" />Our footprint</div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden">
           {statsData.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center text-center relative group">
+            <div key={idx} className="flex flex-col items-center justify-center text-center relative group bg-dark-secondary/90 p-6 md:p-8 hover:bg-dark-primary transition-colors w-full h-full min-h-[160px]">
               {/* Stat Value */}
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-serif text-foreground font-extrabold tracking-tight">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white font-semibold tracking-tight">
                 {counts[idx]}
                 <span className="text-gold-solid">{stat.suffix}</span>
               </div>
               {/* Stat Descriptions */}
-              <div className="mt-3 flex flex-col text-xs md:text-sm text-text-gray-muted font-semibold tracking-wider uppercase leading-snug">
+              <div className="mt-4 flex flex-col text-xs md:text-sm text-text-on-dark-muted font-semibold tracking-wider uppercase leading-snug">
                 <span>{stat.label}</span>
-                <span className="text-text-gray-muted/60">{stat.subLabel}</span>
+                <span className="text-text-gray-muted/60">
+                  {stat.subLabel || <span className="invisible">&nbsp;</span>}
+                </span>
               </div>
 
               {/* Vertical dotted divider separator line matching image style */}
-              {idx < statsData.length - 1 && (
+              {false && idx < statsData.length - 1 && (
                 <div className="hidden md:flex absolute right-[-8px] top-1/2 -translate-y-1/2 h-14 items-center justify-between flex-col">
                   {/* Decorative divider crosses at top and bottom */}
                   <span className="text-[9px] text-text-gray-muted/30 select-none">✦</span>

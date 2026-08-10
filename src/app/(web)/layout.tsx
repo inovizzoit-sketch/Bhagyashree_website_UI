@@ -16,14 +16,14 @@ function OrganizationSchema() {
     "name": "BHAGYASHREE ENTERPRISES",
     "url": "https://www.bhagyashreeenterprises.com",
     "logo": "https://www.bhagyashreeenterprises.com/logo.png",
-    "description": "BHAGYASHREE ENTERPRISES offers VDA STANDARDS approved plotted land layouts in Greater Varanasi with clear titles and complete infrastructure.",
+    "description": "BHAGYASHREE ENTERPRISES offers premium plotted land layouts in Mirzapur with clear titles and complete infrastructure.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Varanasi",
       "addressRegion": "Uttar Pradesh",
       "addressCountry": "IN"
     },
-    "areaServed": "Greater Varanasi",
+    "areaServed": "Mirzapur",
     "telephone": "+91-XXXXXXXXXX",
     "sameAs": [
       "https://www.instagram.com/bhagyashreeenterprises",

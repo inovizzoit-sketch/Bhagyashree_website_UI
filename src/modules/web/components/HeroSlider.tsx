@@ -133,7 +133,7 @@ export default function HeroSlider() {
             {/* Action Call to Action Button */}
             <button
               onClick={() => openEnquiry(slide.heading)}
-              className="px-8 py-4 bg-gold-solid hover:bg-gold-hover text-dark-secondary hover:text-white text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_25px_rgba(9,31,26,0.28)] hover:shadow-[0_4px_30px_rgba(181,138,58,0.3)] cursor-pointer"
+              className="px-8 py-4 bg-gold-solid hover:bg-gold-hover text-dark-secondary hover:text-white text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_25px_rgba(21,46,96,0.28)] hover:shadow-[0_4px_30px_rgba(181,138,58,0.3)] cursor-pointer"
             >
               {slide.ctaText}
             </button>

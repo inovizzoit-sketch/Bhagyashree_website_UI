@@ -293,7 +293,7 @@ export default function TeamPage() {
               Begin your secure land legacy <span className="font-medium italic text-gold-solid">today</span>
             </h3>
             <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-light">
-              Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Varanasi.
+              Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Mirzapur.
             </p>
           </div>
 

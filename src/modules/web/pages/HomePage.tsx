@@ -10,16 +10,12 @@ import GallerySection from "@/modules/web/components/GallerySection";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col pb-20 relative bg-transparent text-slate-800 overflow-hidden">
-      {/* Decorative ambient glowing background elements */}
-      <div className="absolute top-[10%] left-[-10%] w-[500px] h-[500px] bg-indigo-200/10 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute top-[40%] right-[-10%] w-[600px] h-[600px] bg-purple-200/5 rounded-full blur-[180px] pointer-events-none" />
-      <div className="absolute bottom-[20%] left-[5%] w-[450px] h-[450px] bg-gold-solid/5 rounded-full blur-[130px] pointer-events-none" />
+    <div className="flex flex-col relative bg-background text-foreground overflow-x-clip">
 
       {/* Immersive Ken Burns Hero Slider */}
       <HeroSlider />
 
-      <div className="relative z-10 flex flex-col gap-4 md:gap-8 mt-16 md:mt-24 pb-16">
+      <div className="relative z-10 flex flex-col">
         {/* Brand Core Promises */}
         <PromiseSection />
 

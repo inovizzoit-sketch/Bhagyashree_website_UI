@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import SectionHeading from "@/shared/components/SectionHeading";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
+import DecorativeCircles from "./DecorativeCircles";
 
 interface FAQItem {
   question: string;
@@ -10,26 +12,27 @@ interface FAQItem {
 
 export default function FaqSection() {
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const { openEnquiry } = useEnquiry();
 
   const faqs: FAQItem[] = [
     {
-      question: "Are the plots offered by BHAGYASHREE ENTERPRISES VDA approved and ready for investment?",
-      answer: "Yes, all plots are applied for VDA approval, come with clear land titles and have complete infrastructure (paved roads, drainage, water, and electricity). They are ready for both long-term investment and future construction.",
+      question: "Are the plots offered by Bhagyashree Real Estate approved by local authorities and ready for investment?",
+      answer: "Yes, all plots are applied for local authority approvals, come with clear land titles and have complete infrastructure (paved roads, drainage, water, and electricity). They are ready for both long-term investment and future construction.",
     },
     {
-      question: "What kind of support does Bhagyashree Enterprises offer to NRI buyers?",
+      question: "What kind of support does Bhagyashree Real Estate offer to NRI buyers?",
       answer: "Bhagyashree offers comprehensive end-to-end support for NRI buyers, including virtual site tours, secure digital transaction pathways, remote legal documentation assistance, and dedicated relationship managers to guide you through registration and mutation.",
     },
     {
-      question: "What makes BHAGYASHREE ENTERPRISES different from other real estate or land developers?",
+      question: "What makes Bhagyashree Real Estate different from other real estate or land developers?",
       answer: "Unlike unorganized land sellers, Bhagyashree provides institutional security, pre-built high-quality utilities, clear boundary layout demarcations, and fully gated layouts. We sell peace of mind alongside prime properties.",
     },
     {
-      question: "How does BHAGYASHREE ENTERPRISES deliver long-term value to land investors?",
-      answer: "By strategically selecting high-growth transit corridors (such as Varanasi's ring roads and DLW expansions) and adding premium amenities (clubhouses, wellness parks, security), we secure rapid capital appreciation that outperforms raw, unorganized land.",
+      question: "How does Bhagyashree Real Estate deliver long-term value to land investors?",
+      answer: "By strategically selecting high-growth transit corridors in Mirzapur (including major highway corridors and upcoming development zones) and adding premium amenities (clubhouses, wellness parks, security), we secure rapid capital appreciation that outperforms raw, unorganized land.",
     },
     {
-      question: "How does BHAGYASHREE ENTERPRISES ensure legally secure and transparent land transactions?",
+      question: "How does Bhagyashree Real Estate ensure legally secure and transparent land transactions?",
       answer: "Every parcel is backed by a 30-year clear title registry history, non-agricultural (NA) conversion certificates, and complete municipal clearance documentation that is fully shared with buyers before purchase.",
     },
   ];
@@ -48,26 +51,49 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="w-full py-10 md:py-14 bg-background">
+    <section className="w-full py-14 md:py-20 bg-surface">
       {/* FAQ Schema Markup for AEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="mx-auto max-w-4xl px-6 md:px-8">
-        <SectionHeading
-          badge="F.A.Q."
-          plainText="Frequently Asked"
-          highlightText="Questions"
-          align="center"
-          className="!mb-8"
-        />
+      <div className="mx-auto max-w-7xl px-6 md:px-8 grid lg:grid-cols-[0.72fr_1.28fr] gap-12 lg:gap-20 items-start">
+        <div className="lg:sticky lg:top-28">
+          <SectionHeading
+            badge="F.A.Q."
+            plainText="Frequently Asked"
+            highlightText="Questions"
+            align="left"
+            className="!mb-8"
+          />
+          <p className="text-sm leading-7 text-text-gray-muted max-w-sm">Clear answers are part of a transparent land-buying experience. Explore the essentials before taking your next step.</p>
+          <div className="mt-8 rounded-3xl bg-dark-secondary p-7 text-white relative overflow-hidden">
+            <DecorativeCircles
+              theme="dark"
+              circles={[
+                { size: 180, right: "-40px", top: "-40px", opacity: 0.12, color: "border-gold-solid/20" },
+                { size: 120, right: "-20px", top: "-20px", opacity: 0.08, color: "border-white/10" }
+              ]}
+            />
+            <div className="relative z-10">
+              <p className="text-xs uppercase tracking-[0.2em] text-gold-solid font-bold">Still deciding?</p>
+              <p className="mt-3 text-xl font-serif">Speak with our land advisory team for clear, personal guidance.</p>
+              <button
+                type="button"
+                onClick={() => openEnquiry()}
+                className="mt-6 inline-flex items-center justify-center rounded-xl bg-gold-solid px-6 py-3 text-xs font-extrabold uppercase tracking-widest text-dark-secondary shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-hover hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid focus-visible:ring-offset-2 focus-visible:ring-offset-dark-secondary active:translate-y-0"
+              >
+                Request a consultation
+              </button>
+            </div>
+          </div>
+        </div>
 
-        <div className="space-y-4">
+        <div className="space-y-3">
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="bg-card-bg border border-card-border hover:border-gold-solid/25 rounded-2xl overflow-hidden shadow-md transition-all duration-300 backdrop-blur-sm"
+              className="bg-background border border-card-border hover:border-gold-solid/40 rounded-2xl overflow-hidden transition-all duration-300"
             >
               <button
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}

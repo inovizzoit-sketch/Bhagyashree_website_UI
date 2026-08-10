@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import SectionHeading from "@/shared/components/SectionHeading";
 import { API_BASE_URL } from "@/shared/lib/api-config";
+import DecorativeCircles from "./DecorativeCircles";
 
 interface Testimonial {
   id: string;
@@ -79,6 +80,12 @@ export default function TestimonialsSection() {
 
   return (
     <section className="w-full py-16 md:py-24 relative overflow-hidden bg-gradient-to-b from-background via-dark-secondary/40 to-background">
+      <DecorativeCircles
+        theme="dark"
+        circles={[
+          { size: 650, left: "20%", top: "-100px", opacity: 0.1, color: "border-gold-solid/15" }
+        ]}
+      />
       {/* Local inline styles for the infinite marquee animation */}
       <style jsx global>{`
         @keyframes marquee {

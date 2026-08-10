@@ -5,6 +5,7 @@ import Link from "next/link";
 import SectionHeading from "@/shared/components/SectionHeading";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 import AmenityIcon from "@/shared/components/AmenityIcon";
+import DecorativeCircles from "./DecorativeCircles";
 
 export interface Project {
   id: string;
@@ -78,18 +79,26 @@ export default function FeaturedProjectsSection() {
   }
 
   return (
-    <section className="mx-auto w-full max-w-7xl px-6 md:px-8">
-      <div className="flex items-end justify-between mb-12 gap-4">
-        <SectionHeading
-          badge="Selected Works"
-          plainText="Featured"
-          highlightText="Developments"
-          className="!mb-0"
-        />
-        <Link href="/projects" className="text-xs sm:text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors shrink-0 pb-1">
-          View All Projects →
-        </Link>
-      </div>
+    <section className="w-full bg-[#f0eadc] py-14 md:py-20 relative overflow-hidden">
+      <DecorativeCircles
+        theme="light"
+        circles={[
+          { size: 480, right: "-120px", bottom: "-120px", opacity: 0.08, className: "lg:right-[-60px]" },
+          { size: 380, right: "-60px", bottom: "-60px", opacity: 0.06, className: "lg:right-[0px]" }
+        ]}
+      />
+      <div className="mx-auto w-full max-w-7xl px-6 md:px-8 relative z-10">
+        <div className="flex items-end justify-between mb-8 gap-6 border-b border-dark-secondary/15 pb-6">
+          <SectionHeading
+            badge="Selected Works"
+            plainText="Featured"
+            highlightText="Developments"
+            className="!mb-0"
+          />
+          <Link href="/projects" className="text-xs sm:text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors shrink-0 pb-1">
+            View All Projects →
+          </Link>
+        </div>
 
       {loading && (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
@@ -205,6 +214,7 @@ export default function FeaturedProjectsSection() {
           ))}
         </div>
       )}
+      </div>
     </section>
   );
 }

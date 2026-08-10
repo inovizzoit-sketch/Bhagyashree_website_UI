@@ -3,6 +3,7 @@
 import React from "react";
 import SectionHeading from "@/shared/components/SectionHeading";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
+import DecorativeCircles from "./DecorativeCircles";
 
 interface LegacyItem {
   iconSvg: React.ReactNode;
@@ -69,27 +70,35 @@ export default function LegacySection() {
   const { openEnquiry } = useEnquiry();
 
   return (
-    <section className="w-full py-16 lg:py-24 relative overflow-hidden font-sans bg-transparent">
+    <section className="w-full py-14 lg:py-20 relative overflow-hidden font-sans bg-surface">
+      <DecorativeCircles
+        theme="light"
+        circles={[
+          { size: 620, left: "-310px", top: "10%", opacity: 0.06 }
+        ]}
+      />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-solid/35 to-transparent" />
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
         
         {/* Responsive Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.8fr] gap-12 lg:gap-20 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-[0.85fr_1.4fr] gap-14 lg:gap-24 items-start">
           
           {/* Left Column: Heading and Brand Narrative */}
-          <div className="flex flex-col items-center lg:items-start text-center lg:text-left sticky top-24">
+          <div className="flex flex-col items-start text-left sticky top-28 bg-dark-secondary rounded-[2rem] p-8 md:p-10 overflow-hidden">
+            <div className="absolute -right-20 -bottom-20 w-64 h-64 rounded-full border border-gold-solid/20" />
             <SectionHeading 
               badge="Legacy & Wealth"
               plainText="Why Branded Land" 
               highlightText="Is The New Legacy" 
-              className="!mb-6"
+              className="!mb-6 [&_h2]:!text-white"
             />
-            <p className="mt-4 text-sm sm:text-base text-slate-500 leading-relaxed max-w-md">
+            <p className="mt-4 text-sm sm:text-base text-text-on-dark-muted leading-7 max-w-md relative">
               Land ownership is not just about plots; it is about creating multi-generational wealth, security, and a lasting family legacy with complete peace of mind.
             </p>
-            <div className="mt-8 flex flex-wrap gap-4 justify-center lg:justify-start w-full">
+            <div className="mt-8 flex flex-wrap gap-4 justify-start w-full relative">
               <button 
                 onClick={() => openEnquiry()}
-                className="px-6 py-3 rounded-xl bg-dark-primary hover:bg-dark-secondary text-white text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="px-6 py-3 rounded-xl bg-gold-solid hover:bg-gold-hover text-dark-secondary hover:text-white text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-md hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 Build Your Legacy
               </button>
@@ -97,17 +106,17 @@ export default function LegacySection() {
           </div>
 
           {/* Right Column: Premium Cascading timeline card flow */}
-          <div className="flex flex-col gap-6 w-full">
+          <div className="grid sm:grid-cols-2 gap-5 w-full">
             {legacyItems.map((item, idx) => (
               <div 
                 key={idx}
-                className="group flex flex-col sm:flex-row gap-5 items-start p-6 rounded-2xl border border-card-border bg-card-bg hover:border-gold-solid/40 hover:shadow-[0_15px_30px_var(--shadow-color)] transition-all duration-300 relative overflow-hidden"
+                className="group flex flex-col gap-5 items-start p-6 rounded-3xl border border-card-border bg-card-bg hover:border-gold-solid/50 hover:shadow-[0_18px_36px_var(--shadow-color)] hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
               >
                 {/* Accent border line */}
                 <div className="absolute top-0 bottom-0 left-0 w-1 bg-gradient-to-b from-gold-solid/0 via-gold-solid/25 to-gold-solid/0 group-hover:from-gold-solid group-hover:to-gold-solid transition-all duration-300" />
                 
                 {/* Icon Container */}
-                <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-center shrink-0 group-hover:bg-gold-solid/10 transition-colors duration-300">
+                <div className="w-14 h-14 rounded-2xl bg-surface-muted border border-gold-solid/15 flex items-center justify-center shrink-0 group-hover:bg-gold-solid/15 transition-colors duration-300">
                   {item.iconSvg}
                 </div>
 
