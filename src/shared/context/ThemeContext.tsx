@@ -35,17 +35,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
   // Load the active theme initially
   useEffect(() => {
-    fetch(`${API_BASE_URL}/website/active-theme`)
-      .then((res) => (res.ok ? res.json() : null))
-      .then((data) => {
-        setTheme(data);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch active theme in provider:", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    setLoading(false);
 
     // Listen for preview updates from parent window (for iframe previews)
     const handleMessage = (e: MessageEvent) => {
@@ -71,18 +61,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const components = (currentTheme.components || {}) as ThemeComponent;
 
     const vars: Record<string, string> = {
-      "--background": colors.background || "#0B0F19",
-      "--foreground": colors.textPrimary || "#FFFFFF",
-      "--dark-primary": colors.secondary || "#0a146f",
-      "--dark-secondary": colors.secondary || "#002244",
-      "--gold-solid": colors.primary || "#DDBD81",
-      "--gold-hover": colors.accent || "#C5A267",
-      "--gold-dark": colors.accent || "#AC8336",
-      "--text-white": colors.textPrimary || "#FFFFFF",
-      "--text-gray-light": colors.textMuted || "#E4E4E7",
-      "--text-gray-muted": colors.textMuted || "#8E90A2",
-      "--border-color": colors.border || "#3F404D",
-      "--border-muted": colors.border || "rgba(255, 255, 255, 0.1)",
+      "--background": colors.background || "#f7f4ec",
+      "--foreground": colors.textPrimary || "#202a26",
+      "--dark-primary": colors.secondary || "#174b3c",
+      "--dark-secondary": colors.secondary || "#0b2b23",
+      "--gold-solid": colors.primary || "#b58a3a",
+      "--gold-hover": colors.accent || "#956f2c",
+      "--gold-dark": colors.accent || "#765620",
+      "--text-white": "#fffdf8",
+      "--text-gray-light": "#e8eee9",
+      "--text-gray-muted": colors.textMuted || "#66736d",
+      "--border-color": colors.border || "#dcd5c5",
+      "--border-muted": colors.border || "rgba(0, 0, 0, 0.08)",
       
       "--font-family-body": typography.bodyFont ? `"${typography.bodyFont}", sans-serif` : "var(--font-plus-jakarta), sans-serif",
       "--font-family-heading": typography.headingFont ? `"${typography.headingFont}", serif` : "var(--font-serif), serif",
@@ -95,15 +85,15 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       "--container-width": layout.containerWidth || "1280px",
       "--spacing-section": layout.sectionSpacing || "5rem",
 
-      "--nav-bg": components.navBg || colors.background || "#020520",
+      "--nav-bg": components.navBg || colors.secondary || "#0b2b23",
       "--nav-height": components.navHeight || "72px",
-      "--nav-menu-color": components.navMenuColor || colors.textMuted || "#8E90A2",
-      "--nav-active-color": components.navActiveColor || colors.primary || "#DDBD81",
-      "--footer-bg": components.footerBg || colors.surface || "#13131a",
-      "--footer-text": components.footerText || colors.textMuted || "#8E90A2",
-      "--footer-link": components.footerLink || colors.primary || "#DDBD81",
-      "--card-bg": components.cardBg || colors.surface || "#13131a",
-      "--card-border": components.cardBorder || colors.border || "#1e1e2e",
+      "--nav-menu-color": components.navMenuColor || "#e8eee9",
+      "--nav-active-color": components.navActiveColor || colors.primary || "#d1ad65",
+      "--footer-bg": components.footerBg || colors.secondary || "#091f1a",
+      "--footer-text": components.footerText || "#b9c6bf",
+      "--footer-link": components.footerLink || colors.primary || "#d1ad65",
+      "--card-bg": components.cardBg || colors.surface || "#fffdf8",
+      "--card-border": components.cardBorder || colors.border || "#dcd5c5",
     };
 
     // Apply all variables dynamically

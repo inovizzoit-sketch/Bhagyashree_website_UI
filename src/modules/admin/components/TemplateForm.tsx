@@ -71,7 +71,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
 
   // Test Runner State
   const [testModalOpen, setTestModalOpen] = useState(false);
-  const [testRecipient, setTestRecipient] = useState("admin@nandeekacms.com");
+  const [testRecipient, setTestRecipient] = useState("admin@bhagyashreecms.com");
   const [testLoading, setTestLoading] = useState(false);
   const [testResult, setTestResult] = useState<any>(null);
 
@@ -172,7 +172,7 @@ export default function TemplateForm({ template }: TemplateFormProps) {
         recipient: testRecipient,
         payload: {
           name: "Test Recipient",
-          project_name: "Nandeeka Signature Residency",
+          project_name: "Bhagyashree Signature Residency",
         },
       });
       setTestResult(res);

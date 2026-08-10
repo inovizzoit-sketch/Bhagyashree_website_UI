@@ -44,12 +44,12 @@ interface FooterSocial {
 
 // Fallback hardcoded data in case API fails or is loading
 const defaultSettings: FooterSettings = {
-  companyName: "Nandeeka Enterprises",
-  description: "Nandeeka Enterprises is a trusted real estate company based in Rohania, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
+  companyName: "Bhagyashree Enterprises",
+  description: "Bhagyashree Enterprises is a trusted real estate company based in Rohania, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
   address: "2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108",
   phone: "+91 95196 62111",
-  email: "info@nandeekaenterprises.com",
-  copyrightText: "Nandeeka Enterprises. All rights reserved.",
+  email: "info@bhagyashreeenterprises.com",
+  copyrightText: "Bhagyashree Enterprises. All rights reserved.",
   privacyPolicyUrl: "",
   termsOfServiceUrl: "",
   isActive: true,
@@ -64,11 +64,11 @@ const defaultLinks: FooterLink[] = [
 ];
 
 const defaultSocials: FooterSocial[] = [
-  { id: "1", platform: "Facebook", url: "https://www.facebook.com/NandeekaEnterprisesPvtLtd", icon: "facebook", sortOrder: 1, isActive: true },
-  { id: "2", platform: "Instagram", url: "https://www.instagram.com/nandeekaenterprisespvtltd_", icon: "instagram", sortOrder: 2, isActive: true },
-  { id: "3", platform: "X", url: "https://x.com/nandeekaepvtltd", icon: "x", sortOrder: 3, isActive: true },
-  { id: "4", platform: "LinkedIn", url: "https://www.linkedin.com/company/nandeeka-enterprises-pvt-ltd", icon: "linkedin", sortOrder: 4, isActive: true },
-  { id: "5", platform: "YouTube", url: "https://www.youtube.com/@NandeekaEnterprisesPvtLtd-b5z", icon: "youtube", sortOrder: 5, isActive: true },
+  { id: "1", platform: "Facebook", url: "https://www.facebook.com/BhagyashreeEnterprisesPvtLtd", icon: "facebook", sortOrder: 1, isActive: true },
+  { id: "2", platform: "Instagram", url: "https://www.instagram.com/bhagyashreeenterprisespvtltd_", icon: "instagram", sortOrder: 2, isActive: true },
+  { id: "3", platform: "X", url: "https://x.com/bhagyashreeepvtltd", icon: "x", sortOrder: 3, isActive: true },
+  { id: "4", platform: "LinkedIn", url: "https://www.linkedin.com/company/bhagyashree-enterprises-pvt-ltd", icon: "linkedin", sortOrder: 4, isActive: true },
+  { id: "5", platform: "YouTube", url: "https://www.youtube.com/@BhagyashreeEnterprisesPvtLtd-b5z", icon: "youtube", sortOrder: 5, isActive: true },
 ];
 
 export default function Footer() {
@@ -145,9 +145,9 @@ export default function Footer() {
     if (key.includes("twitter") || key === "x") {
       return {
         title: "X (Twitter)",
-        borderColor: "border-white/20",
-        bgColor: "bg-white/10 hover:bg-white/20 hover:border-white",
-        textColor: "text-white",
+        borderColor: "border-slate-300 dark:border-white/20",
+        bgColor: "bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 hover:border-slate-400 dark:hover:border-white",
+        textColor: "text-slate-800 dark:text-white",
         shadowColor: "",
         svg: (
           <svg className="w-3.5 h-3.5 transition-transform duration-500 group-hover:rotate-[360deg]" fill="currentColor" viewBox="0 0 24 24">
@@ -189,9 +189,9 @@ export default function Footer() {
 
     return {
       title: platform,
-      borderColor: "border-white/20",
-      bgColor: "bg-white/10 hover:bg-white/20 hover:border-white",
-      textColor: "text-white",
+      borderColor: "border-slate-300 dark:border-white/20",
+      bgColor: "bg-slate-100 hover:bg-slate-200 dark:bg-white/10 dark:hover:bg-white/20 hover:border-slate-400 dark:hover:border-white",
+      textColor: "text-slate-800 dark:text-white",
       shadowColor: "",
       svg: (
         <svg className="w-4 h-4 transition-transform duration-500 group-hover:rotate-[360deg]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -240,15 +240,9 @@ export default function Footer() {
         <div className="md:col-span-6 space-y-4">
           <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
             <img 
-              src={
-                (theme?.components?.darkModeEnabled !== false
-                  ? (theme?.branding?.darkLogo || theme?.branding?.logo)
-                  : (theme?.branding?.logo || theme?.branding?.darkLogo)) ||
-                settings.logoUrl || 
-                "/logo.png"
-              } 
+              src="/logo.png"
               alt={`${settings.companyName} Logo`} 
-              className="h-8 md:h-10 w-auto object-contain" 
+              className="h-14 md:h-16 w-auto object-contain" 
             />
           </Link>
           {settings.description && (
@@ -349,7 +343,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-[13px]">
-        <p>© {new Date().getFullYear()} {settings.companyName || "Nandeeka Enterprises"}. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} {settings.companyName || "Bhagyashree Enterprises"}. All rights reserved.</p>
         {/* <p className="flex gap-6 font-light">
           {settings.privacyPolicyUrl ? (
             <Link href={settings.privacyPolicyUrl} className="hover:text-gold-solid transition-colors">Privacy Policy</Link>

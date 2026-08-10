@@ -125,7 +125,7 @@ export default function DashboardPage() {
             Dashboard Overview
           </h1>
           <p className="text-sm text-slate-400 mt-1">
-            Real-time analytics and status updates for Nandeeka projects and properties.
+            Real-time analytics and status updates for Bhagyashree projects and properties.
           </p>
         </div>
         <button

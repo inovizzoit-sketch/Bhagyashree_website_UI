@@ -112,14 +112,14 @@ export default function ProjectsPage() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 space-y-12">
         {/* Filtering Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 border-b border-white/5 pb-8">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 border-b border-card-border pb-8">
           {filterTabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveFilter(tab.value)}
               className={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer border ${activeFilter === tab.value
-                ? "bg-gold-solid text-[#020520] border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
-                : "bg-[#050c38]/40 border-white/5 text-text-gray-muted hover:text-white hover:border-gold-solid/30"
+                ? "bg-gold-solid text-white border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
+                : "bg-card-bg border-card-border text-text-gray-muted hover:text-foreground hover:border-gold-solid/35"
                 }`}
             >
               {tab.label}
@@ -139,22 +139,22 @@ export default function ProjectsPage() {
         {error && (
           <div className="max-w-md mx-auto p-6 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
-            <h3 className="text-base font-bold text-white">Unable to Load Portfolio</h3>
+            <h3 className="text-base font-bold text-foreground">Unable to Load Portfolio</h3>
             <p className="text-xs text-text-gray-muted">{error}</p>
           </div>
         )}
 
         {/* Empty State */}
         {!loading && !error && filteredProjects.length === 0 && (
-          <div className="text-center py-20 bg-[#050c38]/20 rounded-3xl border border-white/5 p-8 space-y-4 max-w-xl mx-auto backdrop-blur-sm">
+          <div className="text-center py-20 bg-card-bg rounded-3xl border border-card-border p-8 space-y-4 max-w-xl mx-auto backdrop-blur-sm">
             <div className="text-3xl text-gold-solid/50">📂</div>
-            <h3 className="text-lg font-bold text-white">No Developments Found</h3>
+            <h3 className="text-lg font-bold text-foreground">No Developments Found</h3>
             <p className="text-xs text-text-gray-muted">
               We currently don&apos;t have active listings in this category. Check back later or view our general collection.
             </p>
             <button
               onClick={() => setActiveFilter("ALL")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Show All Developments
             </button>
@@ -167,12 +167,12 @@ export default function ProjectsPage() {
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/25 hover:bg-[#050c38]/40 hover:border-gold-solid/35 transition-all duration-300 shadow-2xl relative backdrop-blur-sm"
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card-bg hover:border-gold-solid/35 transition-all duration-300 shadow-md relative backdrop-blur-sm"
               >
                 {/* Media Wrapper */}
                 <Link
                   href={`/projects/${project.slug}`}
-                  className="aspect-[16/10] w-full relative overflow-hidden bg-[#020520] block"
+                  className="aspect-[16/10] w-full relative overflow-hidden bg-background block"
                 >
                   {project.thumbnailImage ? (
                     <img
@@ -181,7 +181,7 @@ export default function ProjectsPage() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-tr from-[#020520] to-[#050c38] flex items-center justify-center">
+                    <div className="w-full h-full bg-gradient-to-tr from-background to-card-bg flex items-center justify-center">
                       <span className="text-gold-solid/25 font-extrabold text-2xl uppercase tracking-widest font-mono">
                         {project.projectType}
                       </span>
@@ -189,20 +189,20 @@ export default function ProjectsPage() {
                   )}
 
                   {/* Glass Backdrop Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#020520]/80 via-transparent to-transparent opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent opacity-70" />
 
                   {/* Status Badge */}
                   <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-                    ? "bg-emerald-500/10 text-emerald-400 border-emerald-500/20"
+                    ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
                     : project.projectStatus === "ONGOING"
-                      ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                      : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                      ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                      : "bg-blue-500/10 text-blue-600 border-blue-500/20"
                     }`}>
                     {project.projectStatus}
                   </span>
 
                   {/* Project Type Badge */}
-                  <span className="absolute top-4 right-4 text-[9px] font-bold tracking-wider uppercase bg-[#020520]/80 text-gold-solid border border-gold-solid/25 px-2.5 py-1 rounded-md backdrop-blur-md">
+                  <span className="absolute top-4 right-4 text-[9px] font-bold tracking-wider uppercase bg-[#0f172a]/85 text-gold-solid border border-gold-solid/25 px-2.5 py-1 rounded-md backdrop-blur-md">
                     {project.projectType}
                   </span>
                 </Link>
@@ -214,39 +214,17 @@ export default function ProjectsPage() {
                       <span>📍</span> {project.location}, {project.city}
                     </span>
                     <Link href={`/projects/${project.slug}`} className="block no-underline group-hover:text-gold-solid transition-colors">
-                      <h3 className="text-lg font-bold text-white tracking-tight font-sans transition-colors duration-250">
+                      <h3 className="text-lg font-bold text-foreground tracking-tight font-sans transition-colors duration-250">
                         {project.name}
                       </h3>
                     </Link>
                     <p className="text-xs text-text-gray-muted leading-relaxed line-clamp-3 font-light">
                       {project.shortDescription || project.description}
                     </p>
-
-                    {/* Amenities Badges */}
-                    {/* {project.amenities && project.amenities.length > 0 && (
-                      <div className="pt-1 flex flex-wrap items-center gap-1.5">
-                        {project.amenities.slice(0, 3).map((am) => (
-                          <span
-                            key={am.id}
-                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-[10px] font-medium text-slate-200"
-                          >
-                            <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-[#DDBD81] shrink-0" />
-                            <span className="truncate max-w-[80px]">
-                              {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://")) ? "Amenity" : am.name}
-                            </span>
-                          </span>
-                        ))}
-                        {project.amenities.length > 3 && (
-                          <span className="text-[9px] font-bold text-[#DDBD81] font-mono px-1">
-                            +{project.amenities.length - 3}
-                          </span>
-                        )}
-                      </div>
-                    )} */}
                   </div>
 
                   {/* Info Row & Price */}
-                  <div className="border-t border-white/5 pt-4 flex items-center justify-between">
+                  <div className="border-t border-border-muted pt-4 flex items-center justify-between">
                     <div>
                       <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
                         Starting From
@@ -259,17 +237,17 @@ export default function ProjectsPage() {
                       <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
                         Price Per Sqft
                       </span>
-                      <span className="text-xs font-semibold text-white">
+                      <span className="text-xs font-semibold text-foreground">
                         ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
                       </span>
                     </div>
                   </div>
 
                   {/* Actions Grid */}
-                  <div className="pt-3 border-t border-white/5 flex gap-2">
+                  <div className="pt-3 border-t border-border-muted flex gap-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="flex-1 py-2.5 bg-gold-solid hover:bg-gold-hover text-[#020520] text-center rounded-xl text-xs font-bold transition-all duration-300 no-underline cursor-pointer shadow-md hover:shadow-lg hover:shadow-gold-solid/5 active:scale-[0.98]"
+                      className="flex-1 py-2.5 bg-gold-solid hover:bg-gold-hover text-white text-center rounded-xl text-xs font-bold transition-all duration-300 no-underline cursor-pointer shadow-md hover:shadow-lg hover:shadow-gold-solid/5 active:scale-[0.98]"
                     >
                       Explore Project
                     </Link>
@@ -278,7 +256,7 @@ export default function ProjectsPage() {
                         href={project.brochureFile}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3.5 py-2.5 bg-[#050c38]/40 hover:bg-[#050c38]/80 text-text-gray-light hover:text-gold-solid border border-white/5 hover:border-gold-solid/35 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer no-underline flex items-center justify-center active:scale-[0.98]"
+                        className="px-3.5 py-2.5 bg-card-bg hover:bg-slate-100 text-foreground border border-card-border hover:border-gold-solid rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer no-underline flex items-center justify-center active:scale-[0.98]"
                         title="Download Brochure"
                       >
                         📄

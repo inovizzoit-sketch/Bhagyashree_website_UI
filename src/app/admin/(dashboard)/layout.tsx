@@ -318,14 +318,13 @@ export default function AdminLayout({
         className={`fixed lg:relative inset-y-0 left-0 z-40 w-[240px] bg-[#13131a] border-r border-[#1e1e2e] flex flex-col py-6 gap-2 transform transition-transform duration-300 ease-in-out ${sidebarOpen ? "translate-x-0" : "-translate-x-full"
           } lg:translate-x-0`}
       >
-        {/* Brand */}
         <div className="flex items-center justify-between px-5 pb-6 border-b border-[#1e1e2e]">
           <div className="flex items-center gap-2.5">
-            <span className="w-[34px] h-[34px] rounded-lg bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center font-extrabold text-base text-white shrink-0">
+            <span className="w-[44px] h-[44px] rounded-xl bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center font-extrabold text-lg text-white shrink-0">
               N
             </span>
-            <span className="font-bold text-[15px] text-slate-100 tracking-wide">
-              Nandeeka
+            <span className="font-bold text-[17px] text-slate-100 tracking-wide">
+              Bhagyashree
             </span>
             <span className="text-[10px] font-semibold bg-indigo-500/20 text-indigo-400 px-1.5 sm:px-2 py-0.5 rounded border border-indigo-500/30 tracking-widest uppercase">
               CMS

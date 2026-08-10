@@ -30,7 +30,7 @@ const fallbackTeam: TeamMember[] = [
     image: "/images/team1.jpg",
     bio: "Visionary leader with 15+ years in real estate development and land acquisition strategy.",
     linkedin: "#",
-    email: "sandeep@nandeeka.com",
+    email: "sandeep@bhagyashree.com",
     isFeatured: true
   },
   {
@@ -41,7 +41,7 @@ const fallbackTeam: TeamMember[] = [
     image: "/images/team2.jpg",
     bio: "Ex-town planner specializing in gated community architectures and smart layouts.",
     linkedin: "#",
-    email: "aman@nandeeka.com",
+    email: "aman@bhagyashree.com",
     isFeatured: true
   },
   {
@@ -52,7 +52,7 @@ const fallbackTeam: TeamMember[] = [
     image: "/images/team3.jpg",
     bio: "Spearheading execution, quality control, and on-time delivery of gated communities.",
     linkedin: "#",
-    email: "john@nandeeka.com",
+    email: "john@bhagyashree.com",
     isFeatured: false
   }
 ];
@@ -107,7 +107,7 @@ export default function TeamPage() {
             className="!mb-4"
           />
           <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            The driving force behind Nandeeka's commitment to quality, transparency, and innovation in plotted developments.
+            The driving force behind Bhagyashree's commitment to quality, transparency, and innovation in plotted developments.
           </p>
         </div>
       </div>
@@ -119,8 +119,8 @@ export default function TeamPage() {
             key={dept}
             onClick={() => setSelectedDepartment(dept)}
             className={`rounded-full px-5 py-2 text-xs font-semibold tracking-wider uppercase transition-all duration-300 border outline-none cursor-pointer ${selectedDepartment === dept
-              ? "bg-gold-solid text-dark-primary border-gold-solid shadow-[0_4px_15px_rgba(221,189,129,0.3)] scale-105"
-              : "bg-white/5 text-slate-400 border-white/5 hover:border-white/10 hover:text-white"
+              ? "bg-gold-solid text-white border-gold-solid shadow-[0_4px_15px_rgba(37,99,235,0.3)] scale-105"
+              : "bg-card-bg text-text-gray-muted border-card-border hover:border-gold-solid hover:text-foreground"
               }`}
           >
             {dept}
@@ -132,7 +132,7 @@ export default function TeamPage() {
       {featuredMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-20">
           <div className="mb-8">
-            <h3 className="text-xl font-serif text-white font-light tracking-wide uppercase">
+            <h3 className="text-xl font-serif text-foreground font-light tracking-wide uppercase">
               Executive <span className="font-semibold italic text-gold-solid">Leadership</span>
             </h3>
             <p className="text-xs text-text-gray-muted mt-0.5">Visionaries driving the advisory board and organizational strategy.</p>
@@ -150,7 +150,7 @@ export default function TeamPage() {
 
                 <div>
                   {/* Profile Image Wrapper */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-gold-solid/15 bg-[#1b2354]/10 shadow-inner">
+                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-gold-solid/15 bg-slate-200/40 shadow-inner">
                     {member.image ? (
                       <img
                         src={member.image}
@@ -169,18 +169,18 @@ export default function TeamPage() {
                     {/* Premium Vignette Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-60 pointer-events-none" />
                     
-                    <div className={`fallback-avatar w-full h-full bg-[#1b2354]/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
+                    <div className={`fallback-avatar w-full h-full bg-slate-200/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
                       👤
                     </div>
                     {member.department && (
-                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-gold-solid/90 text-dark-primary px-2.5 py-1 rounded shadow-lg font-sans backdrop-blur-sm">
+                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-gold-solid text-white px-2.5 py-1 rounded shadow-lg font-sans backdrop-blur-sm">
                         {member.department}
                       </span>
                     )}
                   </div>
 
                   <div className="space-y-2 relative z-10 text-center flex flex-col items-center">
-                    <h4 className="text-lg font-bold text-white group-hover:text-gold-solid transition-colors duration-300">
+                    <h4 className="text-lg font-bold text-foreground group-hover:text-gold-solid transition-colors duration-300">
                       {member.name}
                     </h4>
                     <p className="text-xs text-gold-solid font-semibold tracking-wider uppercase">
@@ -198,8 +198,8 @@ export default function TeamPage() {
       {regularMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-28">
           <div className="mb-8">
-            <h3 className="text-xl font-serif text-white font-light tracking-wide uppercase">
-              Management & <span className="font-semibold italic text-slate-300">Experts</span>
+            <h3 className="text-xl font-serif text-foreground font-light tracking-wide uppercase">
+              Management & <span className="font-semibold italic text-gold-solid">Experts</span>
             </h3>
             <p className="text-xs text-text-gray-muted mt-0.5">The dedicated managers and engineers ensuring flawless execution.</p>
           </div>
@@ -208,12 +208,12 @@ export default function TeamPage() {
             {regularMembers.map((member, idx) => (
               <div
                 key={member.id || idx}
-                className="bg-[#050c38]/10 border border-white/5 p-5 rounded-2xl transition-all duration-300 hover:border-gold-solid/30 hover:-translate-y-1 shadow-[0_4px_20px_rgba(0,0,0,0.25)] hover:shadow-[0_10px_30px_rgba(221,189,129,0.05)] flex flex-col justify-between backdrop-blur-sm group opacity-0 animate-fade-in-up"
+                className="bg-card-bg border border-card-border p-5 rounded-2xl transition-all duration-300 hover:border-gold-solid/30 hover:-translate-y-1 shadow-md hover:shadow-lg flex flex-col justify-between backdrop-blur-sm group opacity-0 animate-fade-in-up"
                 style={{ animationDelay: `${idx * 80}ms`, animationFillMode: "forwards" }}
               >
                 <div>
                   {/* Profile Image Wrapper */}
-                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-white/5 bg-[#1b2354]/10 shadow-inner">
+                  <div className="relative aspect-square w-full rounded-xl overflow-hidden mb-5 border border-card-border bg-slate-200/40 shadow-inner">
                     {member.image ? (
                       <img
                         src={member.image}
@@ -232,18 +232,18 @@ export default function TeamPage() {
                     {/* Premium Vignette Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-50 pointer-events-none" />
                     
-                    <div className={`fallback-avatar w-full h-full bg-[#1b2354]/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
+                    <div className={`fallback-avatar w-full h-full bg-slate-200/40 flex items-center justify-center text-4xl text-gold-solid ${member.image ? 'hidden' : ''}`}>
                       👤
                     </div>
                     {member.department && (
-                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-white/10 text-white backdrop-blur-md px-2.5 py-1 rounded shadow-md">
+                      <span className="absolute top-3 right-3 text-[8px] font-bold tracking-widest uppercase bg-card-bg text-foreground border border-card-border px-2.5 py-1 rounded shadow-md">
                         {member.department}
                       </span>
                     )}
                   </div>
 
                   <div className="space-y-2 text-center flex flex-col items-center">
-                    <h4 className="text-lg font-bold text-white group-hover:text-gold-solid transition-colors duration-300">
+                    <h4 className="text-lg font-bold text-foreground group-hover:text-gold-solid transition-colors duration-300">
                       {member.name}
                     </h4>
                     <p className="text-xs text-gold-solid font-medium tracking-wide uppercase">
@@ -259,7 +259,7 @@ export default function TeamPage() {
 
       {/* Call to Action Box */}
       <div className="mx-auto max-w-5xl px-6 md:px-8 relative z-10">
-        <div className="bg-gradient-to-r from-[#0d153b] via-[#050c38] to-[#020520] border border-white/15 p-8 md:p-14 rounded-3xl text-center space-y-8 shadow-2xl relative overflow-hidden">
+        <div className="bg-gradient-to-r from-dark-primary via-dark-secondary to-dark-secondary border border-card-border/10 p-8 md:p-14 rounded-3xl text-center space-y-8 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gold-solid/5 rounded-full blur-[80px] pointer-events-none" />
 
           {/* Decorative Compass on Left */}
@@ -292,7 +292,7 @@ export default function TeamPage() {
             <h3 className="text-2xl md:text-4xl font-serif text-white font-light leading-tight">
               Begin your secure land legacy <span className="font-medium italic text-gold-solid">today</span>
             </h3>
-            <p className="text-xs md:text-sm text-text-gray-muted leading-relaxed font-light">
+            <p className="text-xs md:text-sm text-slate-300 leading-relaxed font-light">
               Connect with our land investment consultants to schedule a guided site tour of our premium layouts in Varanasi.
             </p>
           </div>
@@ -300,7 +300,7 @@ export default function TeamPage() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center relative z-10">
             <button
               onClick={() => openEnquiry()}
-              className="w-full sm:w-auto rounded-full bg-gold-solid px-8 py-4 text-xs font-bold uppercase tracking-widest text-dark-primary hover:bg-gold-hover hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(221,189,129,0.3)]"
+              className="w-full sm:w-auto rounded-full bg-gold-solid px-8 py-4 text-xs font-bold uppercase tracking-widest text-white hover:bg-gold-hover hover:scale-105 active:scale-95 transition-all shadow-[0_4px_25px_rgba(37,99,235,0.3)]"
             >
               ENQUIRE NOW
             </button>

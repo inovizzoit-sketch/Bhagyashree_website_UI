@@ -141,7 +141,7 @@ ${project.shortDescription}
 Explore Details & Inventory:
 ${shareUrl}
 
--- NANDEEKA ENTERPRISES --`;
+-- BHAGYASHREE ENTERPRISES --`;
   }
 
   function handleCopyDetails() {
@@ -228,7 +228,7 @@ ${shareUrl}
   const activeProperties = project.properties?.filter((p) => p.isActive) || [];
 
   return (
-    <div className="min-h-screen pb-32 relative overflow-x-clip text-slate-350">
+    <div className="min-h-screen pt-32 md:pt-36 pb-32 relative overflow-x-clip text-slate-350">
       {/* Background Decorative Gradients */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-[80vh] left-0 w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />

@@ -1,34 +1,40 @@
 @import "tailwindcss";
 
 :root {
-  /* --background: rgba(116, 13, 13, 0.965); */
-  --background: linear-gradient(90deg, rgba(7, 32, 61, 1) 0%, rgb(6, 6, 51) 100%);
-  --foreground: #FFFFFF;
+  /* Bhagyashree palette: warm neutrals, forest green and antique gold. */
+  --background: #f7f4ec;
+  --foreground: #202a26;
+  --surface: #fffdf8;
+  --surface-muted: #eee9dc;
+  --surface-dark: #102c25;
+  --surface-dark-deep: #091f1a;
 
-  --dark-primary: #0a146f;
-  --dark-secondary: #002244;
-  --gold-solid: #DDBD81;
-  --gold-hover: #C5A267;
-  --gold-dark: #AC8336;
-  --violet-footer: #001f3f;
-  --text-white: #FFFFFF;
-  --text-gray-light: #E4E4E7;
-  --text-gray-muted: #8E90A2;
-  --border-color: #3F404D;
-  --border-muted: rgba(255, 255, 255, 0.1);
+  --dark-primary: #174b3c;
+  --dark-secondary: #0b2b23;
+  --gold-solid: #b58a3a;
+  --gold-hover: #956f2c;
+  --gold-dark: #765620;
+  --violet-footer: #0b2b23;
+  --text-white: #fffdf8;
+  --text-gray-light: #e8eee9;
+  --text-gray-muted: #66736d;
+  --text-on-dark-muted: #b9c6bf;
+  --border-color: #dcd5c5;
+  --border-muted: rgba(32, 42, 38, 0.12);
+  --shadow-color: rgba(11, 43, 35, 0.12);
   --font-family-body: var(--font-plus-jakarta);
   --font-family-heading: var(--font-serif);
 
   /* Component defaults when backend active theme is not defined */
-  --nav-bg: #020520;
+  --nav-bg: #0b2b23;
   --nav-height: 80px;
-  --nav-menu-color: #8E90A2;
-  --nav-active-color: #DDBD81;
-  --footer-bg: #13131a;
-  --footer-text: #8E90A2;
-  --footer-link: #DDBD81;
-  --card-bg: #13131a;
-  --card-border: #1e1e2e;
+  --nav-menu-color: #e8eee9;
+  --nav-active-color: #d1ad65;
+  --footer-bg: #091f1a;
+  --footer-text: #b9c6bf;
+  --footer-link: #d1ad65;
+  --card-bg: #fffdf8;
+  --card-border: #dcd5c5;
 }
 
 @theme inline {
@@ -50,6 +56,11 @@
   --color-text-gray-muted: var(--text-gray-muted);
   --color-border-color: var(--border-color);
   --color-border-muted: var(--border-muted);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-dark: var(--surface-dark);
+  --color-surface-dark-deep: var(--surface-dark-deep);
+  --color-text-on-dark-muted: var(--text-on-dark-muted);
 
   /* Specific component themes mapping */
   --color-nav-bg: var(--nav-bg);
@@ -63,7 +74,7 @@
 }
 
 body {
-  background: var(--background);
+  background: linear-gradient(135deg, #faf8f2 0%, #f7f4ec 52%, #efeade 100%) fixed;
   color: var(--foreground);
   font-family: var(--font-family-body), sans-serif;
   font-size: var(--base-font-size, 15px);
@@ -84,13 +95,13 @@ html {
 
   0%,
   100% {
-    border-color: rgba(221, 189, 129, 0.15);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 15px rgba(221, 189, 129, 0.03);
+    border-color: rgba(181, 138, 58, 0.18);
+    box-shadow: 0 10px 30px -10px rgba(9, 31, 26, 0.35), 0 0 15px rgba(181, 138, 58, 0.04);
   }
 
   50% {
-    border-color: rgba(221, 189, 129, 0.5);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(221, 189, 129, 0.12);
+    border-color: rgba(181, 138, 58, 0.48);
+    box-shadow: 0 10px 30px -10px rgba(9, 31, 26, 0.35), 0 0 25px rgba(181, 138, 58, 0.13);
   }
 }
 

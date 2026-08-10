@@ -122,9 +122,9 @@ export default function FeaturedProjectsSection() {
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="group overflow-hidden rounded-2xl border border-white/5 bg-[#050c38]/20 hover:border-gold-solid/45 transition-all duration-500 ease-out hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.6),_0_0_25px_rgba(221,189,129,0.08)] block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
+              className="group overflow-hidden rounded-2xl border border-card-border bg-card-bg hover:border-gold-solid/50 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_18px_36px_var(--shadow-color)] block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
             >
-              <div className="aspect-[4/3] w-full relative overflow-hidden bg-background">
+              <div className="aspect-[16/9] w-full relative overflow-hidden bg-background">
                 {project.thumbnailImage ? (
                   <img
                     src={project.thumbnailImage}
@@ -154,10 +154,10 @@ export default function FeaturedProjectsSection() {
                 <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
                   Featured Development
                 </span>
-                <h3 className="mt-2 text-xl font-bold text-white font-sans group-hover:text-gold-solid transition-colors">
+                <h3 className="mt-2 text-xl font-bold text-foreground font-sans group-hover:text-dark-primary transition-colors">
                   {project.name}
                 </h3>
-                <p className="mt-2 text-sm text-[#8E90A2] line-clamp-2 font-light leading-relaxed">
+                <p className="mt-2 text-sm text-text-gray-muted line-clamp-2 font-light leading-relaxed">
                   {project.shortDescription || project.description}
                 </p>
 
@@ -167,22 +167,22 @@ export default function FeaturedProjectsSection() {
                     {project.amenities.slice(0, 3).map((am) => (
                       <span
                         key={am.id}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-white/[0.05] border border-white/10 text-[10px] font-medium text-slate-200"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-medium text-slate-650"
                       >
-                        <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-[#DDBD81] shrink-0" />
+                        <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-gold-solid shrink-0" />
                         <span className="truncate max-w-[80px]">
                           {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://")) ? "Amenity" : am.name}
                         </span>
                       </span>
                     ))}
                     {project.amenities.length > 3 && (
-                      <span className="text-[9px] font-bold text-[#DDBD81] font-mono px-1">
+                      <span className="text-[9px] font-bold text-gold-solid font-mono px-1">
                         +{project.amenities.length - 3}
                       </span>
                     )}
                   </div>
                 )}
-                <div className="mt-4 pt-4 border-t border-white/5 flex items-center justify-between">
+                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
                   <div>
                     <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
                       Starting From
@@ -191,7 +191,7 @@ export default function FeaturedProjectsSection() {
                       {formatPrice(project.startingPrice)}
                     </span>
                   </div>
-                  <div className="text-right bg-white/[0.03] border border-white/5 hover:border-gold-solid/20 px-3 py-1.5 rounded-xl transition-all">
+                  <div className="text-right bg-slate-50 border border-slate-200/60 hover:border-gold-solid/20 px-3 py-1.5 rounded-xl transition-all">
                     <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
                       Price Per Sqft
                     </span>

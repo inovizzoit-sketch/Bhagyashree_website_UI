@@ -33,7 +33,7 @@ export default function TestimonialsSection() {
       designation: "Real Estate Investor",
       company: "Mehta Holdings",
       rating: 5,
-      message: "NANDEEKA ENTERPRISES delivered exactly what they promised. The appreciation on the plots is exceptional.",
+      message: "BHAGYASHREE ENTERPRISES delivered exactly what they promised. The appreciation on the plots is exceptional.",
     },
     {
       id: "fallback-3",
@@ -118,7 +118,7 @@ export default function TestimonialsSection() {
           {loopedList.map((t, idx) => (
             <div 
               key={`${t.id}-${idx}`}
-              className="bg-gradient-to-br from-dark-secondary/60 to-background border border-border-muted hover:border-gold-solid/40 p-6 md:p-8 rounded-2xl flex flex-col justify-between space-y-6 transition-all duration-300 shadow-2xl group w-[300px] md:w-[360px] shrink-0 animate-fade-in"
+              className="bg-card-bg border border-card-border hover:border-gold-solid/40 p-6 md:p-8 rounded-2xl flex flex-col justify-between space-y-6 transition-all duration-300 shadow-md group w-[300px] md:w-[360px] shrink-0 animate-fade-in"
             >
               {/* Top Stars & Quote */}
               <div className="space-y-4">
@@ -129,7 +129,7 @@ export default function TestimonialsSection() {
                     </span>
                   ))}
                 </div>
-                <p className="text-sm text-slate-200 font-light leading-relaxed italic line-clamp-4">
+                <p className="text-sm text-foreground font-light leading-relaxed italic line-clamp-4">
                   &ldquo;{t.message}&rdquo;
                 </p>
               </div>
@@ -150,11 +150,11 @@ export default function TestimonialsSection() {
                   )}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-white group-hover:text-gold-solid transition-colors">
+                  <h4 className="text-sm font-bold text-foreground group-hover:text-gold-solid transition-colors">
                     {t.name}
                   </h4>
                   {t.designation && (
-                    <p className="text-[11px] text-slate-400 mt-0.5 font-light truncate max-w-[200px]">
+                    <p className="text-[11px] text-text-gray-muted mt-0.5 font-light truncate max-w-[200px]">
                       {t.designation} {t.company ? `@ ${t.company}` : ""}
                     </p>
                   )}

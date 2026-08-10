@@ -5,18 +5,18 @@ import Footer from "@/modules/web/components/Footer";
 import ScrollToTop from "@/modules/web/components/ScrollToTop";
 
 export const metadata: Metadata = {
-  title: "Nandeeka — Timeless Luxury Spaces",
-  description: "Official website of NANDEEKA ENTERPRISES.",
+  title: "Bhagyashree — Timeless Luxury Spaces",
+  description: "Official website of BHAGYASHREE ENTERPRISES.",
 };
 
 function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    "name": "NANDEEKA ENTERPRISES",
-    "url": "https://www.nandeekaenterprises.com",
-    "logo": "https://www.nandeekaenterprises.com/logo.png",
-    "description": "NANDEEKA ENTERPRISES offers VDA STANDARDS approved plotted land layouts in Greater Varanasi with clear titles and complete infrastructure.",
+    "name": "BHAGYASHREE ENTERPRISES",
+    "url": "https://www.bhagyashreeenterprises.com",
+    "logo": "https://www.bhagyashreeenterprises.com/logo.png",
+    "description": "BHAGYASHREE ENTERPRISES offers VDA STANDARDS approved plotted land layouts in Greater Varanasi with clear titles and complete infrastructure.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Varanasi",
@@ -26,8 +26,8 @@ function OrganizationSchema() {
     "areaServed": "Greater Varanasi",
     "telephone": "+91-XXXXXXXXXX",
     "sameAs": [
-      "https://www.instagram.com/nandeekaenterprises",
-      "https://www.facebook.com/nandeekaenterprises"
+      "https://www.instagram.com/bhagyashreeenterprises",
+      "https://www.facebook.com/bhagyashreeenterprises"
     ]
   };
 
@@ -62,11 +62,7 @@ function sanitizeCSSValue(val: string): string {
 }
 
 export default async function WebLayout({ children }: { children: React.ReactNode }) {
-  const theme = await fetch(`${API_BASE_URL}/website/active-theme`, {
-    cache: "no-store",
-  })
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null);
+  const theme: any = null;
 
   const cssVars = theme
     ? {
@@ -122,7 +118,7 @@ export default async function WebLayout({ children }: { children: React.ReactNod
 
   return (
     <div
-      className="flex min-h-screen flex-col text-text-white antialiased"
+      className="public-site flex min-h-screen flex-col text-foreground antialiased"
       style={{
         background: "var(--background)",
       } as React.CSSProperties}

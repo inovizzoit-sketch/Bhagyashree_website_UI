@@ -1,6 +1,6 @@
 # Footer Management Module Documentation
 
-Build a production-ready Footer Management System for the **Nandeeka CMS** web portal.
+Build a production-ready Footer Management System for the **Bhagyashree CMS** web portal.
 
 ## 1. Module Overview
 The Footer module provides dynamic configuration and management of the web portal's footer. It consists of three primary components:
@@ -22,7 +22,7 @@ model FooterSettings {
   id                String   @id @default(uuid())
   logoUrl           String?  @map("logo_url") @db.VarChar(500)
   bottomLogoUrl     String?  @map("bottom_logo_url") @db.VarChar(500)
-  companyName       String   @default("Nandeeka Enterprises") @map("company_name") @db.VarChar(255)
+  companyName       String   @default("Bhagyashree Enterprises") @map("company_name") @db.VarChar(255)
   description       String?  @db.Text
   address           String?  @db.Text
   phone             String?  @db.VarChar(50)

@@ -106,9 +106,9 @@ export default function GallerySection() {
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
                     loading="lazy"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-80 z-10" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent opacity-85 z-10" />
                   <div className="absolute bottom-6 left-6 right-6 z-20">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-[#DDBD81]">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
                       {item.tag}
                     </span>
                     <h4 className="text-lg font-bold text-white mt-1">{item.title}</h4>

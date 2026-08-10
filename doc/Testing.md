@@ -1,8 +1,8 @@
-# Nandeeka CMS — Website Testing Workflow
+# Bhagyashree CMS — Website Testing Workflow
 
 ## Overview
 
-This document outlines the step-by-step manual and automated testing workflow for the **Nandeeka CMS Web** project. Follow this guide before every release or after major feature changes.
+This document outlines the step-by-step manual and automated testing workflow for the **Bhagyashree CMS Web** project. Follow this guide before every release or after major feature changes.
 
 ---
 
@@ -12,14 +12,14 @@ Before running tests, ensure both services are running:
 
 ### Start Backend
 ```bash
-cd /Users/pratibha875695gmail.com/Work/Backend/nandeeka-backend
+cd /Users/pratibha875695gmail.com/Work/Backend/bhagyashree-backend
 npm run start:dev
 # Backend should be running at http://localhost:5001
 ```
 
 ### Start Frontend
 ```bash
-cd /Users/pratibha875695gmail.com/Work/frontend/nandeeka-cms
+cd /Users/pratibha875695gmail.com/Work/frontend/bhagyashree-cms
 npm run dev
 # Frontend should be running at http://localhost:3000
 ```
@@ -31,7 +31,7 @@ npm run dev
 Always verify a clean TypeScript build passes before testing the UI:
 
 ```bash
-cd /Users/pratibha875695gmail.com/Work/frontend/nandeeka-cms
+cd /Users/pratibha875695gmail.com/Work/frontend/bhagyashree-cms
 npm run build
 ```
 
@@ -161,7 +161,7 @@ Open DevTools Console (`F12`) and verify no errors on:
 The project has Playwright installed. Run end-to-end tests:
 
 ```bash
-cd /Users/pratibha875695gmail.com/Work/frontend/nandeeka-cms
+cd /Users/pratibha875695gmail.com/Work/frontend/bhagyashree-cms
 npx playwright test
 ```
 

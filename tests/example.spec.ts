@@ -23,7 +23,7 @@ test.describe('Admin Login Page', () => {
     await page.goto(`${BASE_URL}/admin/login`);
 
     // Brand visible
-    await expect(page.getByText('Nandeeka')).toBeVisible();
+    await expect(page.getByText('Bhagyashree')).toBeVisible();
 
     // Form elements exist
     await expect(page.locator('#admin-username')).toBeVisible();

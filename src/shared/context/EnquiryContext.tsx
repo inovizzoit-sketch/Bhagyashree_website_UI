@@ -44,9 +44,9 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       })
       .catch(() => {
         setProjectsList([
-          { id: "1", name: "Nandeeka Enclave" },
-          { id: "2", name: "Nandeeka Heights" },
-          { id: "3", name: "Nandeeka Puram" },
+          { id: "1", name: "Bhagyashree Enclave" },
+          { id: "2", name: "Bhagyashree Heights" },
+          { id: "3", name: "Bhagyashree Puram" },
         ]);
       });
 
@@ -335,7 +335,7 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                       className="w-4 h-4 mt-0.5 shrink-0 rounded bg-transparent border border-white/20 text-gold-solid focus:ring-0 checked:bg-gold-solid cursor-pointer"
                     />
                     <span className="text-[10px] md:text-xs text-[#8E90A2] leading-relaxed font-light select-none">
-                      I agree to be contacted by Nandeeka or its representative through SMS/ Email/ WhatsApp/ RCS or Call.
+                      I agree to be contacted by Bhagyashree or its representative through SMS/ Email/ WhatsApp/ RCS or Call.
                     </span>
                   </label>
 

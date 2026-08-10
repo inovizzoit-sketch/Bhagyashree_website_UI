@@ -40,34 +40,34 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-[420px] mx-auto px-5 py-8 sm:px-10 sm:py-12 bg-[#13131a] border border-[#1e1e2e]/60 rounded-2xl shadow-[0_0_0_1px_rgba(99,102,241,0.06),0_24px_64px_rgba(0,0,0,0.5)]">
+    <div className="w-full max-w-[420px] mx-auto px-5 py-8 sm:px-10 sm:py-12 bg-card-bg border border-card-border rounded-2xl shadow-[0_0_0_1px_rgba(99,102,241,0.06),0_24px_64px_rgba(0,0,0,0.1)]">
 
       {/* Brand */}
       <div className="flex items-center gap-3 mb-6 sm:mb-8">
-        <div className="relative w-[32px] h-[32px] sm:w-[36px] sm:h-[36px] overflow-hidden flex items-center justify-center shrink-0">
+        <div className="relative w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] overflow-hidden flex items-center justify-center shrink-0">
           <Image
             src="/logo.png"
-            alt="Nandeeka Logo"
+            alt="Bhagyashree Logo"
             fill
             className="object-contain"
             priority
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-lg sm:text-xl font-bold text-slate-100 tracking-wide">
-            Nandeeka
+          <span className="text-lg sm:text-xl font-bold text-foreground tracking-wide">
+            Bhagyashree
           </span>
-          <span className="text-[9px] sm:text-[10px] font-semibold bg-indigo-500/20 text-indigo-400 px-1.5 sm:px-2 py-0.5 rounded border border-indigo-500/30 uppercase tracking-widest">
+          <span className="text-[9px] sm:text-[10px] font-semibold bg-indigo-500/20 text-indigo-500 px-1.5 sm:px-2 py-0.5 rounded border border-indigo-500/30 uppercase tracking-widest">
             CMS
           </span>
         </div>
       </div>
 
       {/* Headings */}
-      <h1 className="text-xl sm:text-2xl font-bold text-slate-100 tracking-tight mb-1 sm:mb-2">
+      <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight mb-1 sm:mb-2">
         Welcome back
       </h1>
-      <p className="text-xs sm:text-sm text-slate-400 mb-6 sm:mb-8">
+      <p className="text-xs sm:text-sm text-text-gray-muted mb-6 sm:mb-8">
         Sign in to your admin panel to manage content
       </p>
 
@@ -76,11 +76,11 @@ export default function LoginForm() {
 
         {/* Username */}
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="admin-username" className="text-[13px] font-medium text-slate-400 tracking-wide">
+          <label htmlFor="admin-username" className="text-[13px] font-medium text-text-gray-muted tracking-wide">
             Username
           </label>
           <div className="relative flex items-center">
-            <span className="absolute left-3.5 text-sm text-slate-600 pointer-events-none">👤</span>
+            <span className="absolute left-3.5 text-sm text-text-gray-muted/60 pointer-events-none">👤</span>
             <input
               id="admin-username"
               type="text"
@@ -89,18 +89,18 @@ export default function LoginForm() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-200 placeholder-slate-700 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+              className="w-full bg-background border border-card-border rounded-xl py-2.5 pl-10 pr-10 text-sm text-foreground placeholder-text-gray-muted/40 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
             />
           </div>
         </div>
 
         {/* Password */}
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="admin-password" className="text-[13px] font-medium text-slate-400 tracking-wide">
+          <label htmlFor="admin-password" className="text-[13px] font-medium text-text-gray-muted tracking-wide">
             Password
           </label>
           <div className="relative flex items-center">
-            <span className="absolute left-3.5 text-sm text-slate-600 pointer-events-none">🔒</span>
+            <span className="absolute left-3.5 text-sm text-text-gray-muted/60 pointer-events-none">🔒</span>
             <input
               id="admin-password"
               type={showPassword ? "text" : "password"}
@@ -109,13 +109,13 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-[#0f0f14] border border-[#1e1e2e] rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-200 placeholder-slate-700 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+              className="w-full bg-background border border-card-border rounded-xl py-2.5 pl-10 pr-10 text-sm text-foreground placeholder-text-gray-muted/40 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
             />
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-3 text-sm text-slate-600 hover:text-slate-400 transition-colors duration-150 p-1 cursor-pointer bg-transparent border-none"
+              className="absolute right-3 text-sm text-text-gray-muted/65 hover:text-foreground transition-colors duration-150 p-1 cursor-pointer bg-transparent border-none"
             >
               {showPassword ? "🙈" : "👁"}
             </button>

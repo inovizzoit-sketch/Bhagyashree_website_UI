@@ -33,18 +33,18 @@ export default function CMDPage() {
             
             <div className="space-y-6 text-sm sm:text-base text-slate-200 leading-relaxed font-light">
               <p>
-                When I imagined NandeekaPuram, I did not imagine a township. I imagined a
+                When I imagined BhagyashreePuram, I did not imagine a township. I imagined a
                 family together in the evening, unhurried, at peace and I asked myself: have
                 we built for that feeling? Every decision since has been an answer to that
                 question. I give you my word, and I give you my name alongside it.
-                NandeekaPuram is both an epitome and an assurance — of excellence, of
+                BhagyashreePuram is both an epitome and an assurance — of excellence, of
                 serenity, and of a life lived with quiet distinction.
               </p>
               
               <p>
-                At the heart of everything the Nandeeka Group builds is a belief we do not
+                At the heart of everything the Bhagyashree Group builds is a belief we do not
                 compromise on, that a space must serve the human being first, entirely, and
-                without afterthought. NandeekaPuram has been planned and designed from the
+                without afterthought. BhagyashreePuram has been planned and designed from the
                 inside out: around the body that will walk its paths, the mind that will rest
                 within its walls, and the life that will unfold, day after day, within its gates.
               </p>
@@ -61,7 +61,7 @@ export default function CMDPage() {
                 Vivek Singh
               </h4>
               <p className="text-xs uppercase tracking-widest text-gold-solid font-mono font-bold">
-                CMD, Nandeeka Group
+                CMD, Bhagyashree Group
               </p>
             </div>
           </div>
@@ -72,7 +72,7 @@ export default function CMDPage() {
             <div className="relative aspect-[9/10] rounded-2xl overflow-hidden border border-white/10 bg-[#050c38]/20 shadow-2xl transition-all duration-500 group-hover:border-gold-solid/35">
               <img
                 src="/images/cmd.png"
-                alt="A Promise by Vivek Singh, CMD Nandeeka Group"
+                alt="A Promise by Vivek Singh, CMD Bhagyashree Group"
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
               />
             </div>

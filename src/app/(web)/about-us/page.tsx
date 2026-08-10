@@ -31,7 +31,7 @@ export default function AboutUsPage() {
     },
     {
       title: "Integrated Ecosystems",
-      description: "We do not just sell raw land. Every Nandeeka layout is designed as a secure, gated community with pre-installed modern utilities, asphalt roads, green avenues, and security protocols.",
+      description: "We do not just sell raw land. Every Bhagyashree layout is designed as a secure, gated community with pre-installed modern utilities, asphalt roads, green avenues, and security protocols.",
       icon: (
         <svg className="w-10 h-10 text-gold-solid" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -64,7 +64,7 @@ export default function AboutUsPage() {
             className="!mb-4"
           />
           <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Nandeeka Enterprises was founded with a single mission: to revolutionize raw land acquisition in Uttar Pradesh by delivering secure, institutional, and fully developed branded layouts.
+            Bhagyashree Enterprises was founded with a single mission: to revolutionize raw land acquisition in Uttar Pradesh by delivering secure, institutional, and fully developed branded layouts.
           </p>
         </div>
       </div>
@@ -77,7 +77,7 @@ export default function AboutUsPage() {
               Redefining Plotted Land ownership in <span className="text-gold-solid font-medium italic">Varanasi</span>
             </h3>
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
-              For generations, investing in land was considered high-risk due to duplicate claims, boundary conflicts, and missing infrastructure. Nandeeka Enterprises stepped in to build a transparent legal pipeline.
+              For generations, investing in land was considered high-risk due to duplicate claims, boundary conflicts, and missing infrastructure. Bhagyashree Enterprises stepped in to build a transparent legal pipeline.
             </p>
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
               Headquartered in Varanasi, we focus on picking transit-oriented development hubs. By pre-installing high-quality utilities (asphalt drainage, street lights, and 24/7 security) before selling, we ensure that our customers buy assets that instantly start appreciating.
@@ -96,7 +96,7 @@ export default function AboutUsPage() {
           <div className="relative aspect-[4/3] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
             <img
               src="/images/About.jpeg"
-              alt="About Nandeeka"
+              alt="About Bhagyashree"
               className="w-full h-full object-cover"
             />
           </div>

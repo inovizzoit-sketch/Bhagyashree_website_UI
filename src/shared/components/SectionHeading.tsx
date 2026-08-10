@@ -26,7 +26,7 @@ export default function SectionHeading({
           {badge}
         </span>
       )}
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white font-light tracking-tight leading-tight">
+      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground font-light tracking-tight leading-tight">
         {plainText}{" "}
         <span className="bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark bg-clip-text text-transparent font-medium italic block sm:inline">
           {highlightText}

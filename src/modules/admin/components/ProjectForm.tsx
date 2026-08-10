@@ -210,7 +210,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
             <input
               type="text"
               required
-              placeholder="e.g. Nandeeka Apartments"
+              placeholder="e.g. Bhagyashree Apartments"
               value={name}
               onChange={handleNameChange}
               className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"
@@ -224,7 +224,7 @@ export default function ProjectForm({ project }: ProjectFormProps) {
             <input
               type="text"
               required
-              placeholder="e.g. nandeeka-apartments"
+              placeholder="e.g. bhagyashree-apartments"
               value={slug}
               onChange={(e) => setSlug(e.target.value)}
               className="w-full bg-[#0b0b0f] border border-[#1e1e2e] focus:border-indigo-500 rounded-lg px-4 py-2.5 text-slate-150 text-sm outline-none transition-colors"

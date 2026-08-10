@@ -121,7 +121,7 @@ export default function BlogsWebPage() {
       <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
           <SectionHeading 
             badge="Asset Intelligence Blog" 
-            plainText="Nandeeka" 
+            plainText="Bhagyashree" 
             highlightText="Insights" 
             align="center" 
             className="!mb-4"

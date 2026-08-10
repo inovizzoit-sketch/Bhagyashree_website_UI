@@ -56,7 +56,7 @@ export default function PromiseSection() {
   };
 
   return (
-    <section className="w-full bg-[#0d153b]/25 py-12 lg:py-20 border-y border-white/5 relative overflow-hidden font-sans">
+    <section className="w-full bg-slate-100/40 py-12 lg:py-20 border-y border-slate-200/60 relative overflow-hidden font-sans">
       <div className="mx-auto max-w-7xl px-6 md:px-8">
         
         {/* Responsive Grid Split: Stacks on mobile, splits on large screens */}
@@ -70,7 +70,7 @@ export default function PromiseSection() {
               highlightText="Simplified" 
               className="!mb-6"
             />
-            <p className="mt-4 text-sm sm:text-base text-[#8E90A2] leading-relaxed">
+            <p className="mt-4 text-sm sm:text-base text-slate-500 leading-relaxed">
               Because owning land should feel easy, not overwhelming.
             </p>
           </div>
@@ -84,40 +84,40 @@ export default function PromiseSection() {
               {slickCards.map((card, idx) => (
                 <div key={idx} className="w-full min-h-full h-full px-2 py-0.5 box-border">
                   {/* Outer border wrapper */}
-                  <div className="bg-gradient-to-b from-white/0 to-white/30 p-[1px] rounded-2xl h-full">
+                  <div className="bg-gradient-to-b from-slate-200/50 to-slate-200 p-[1px] rounded-2xl h-full">
                     
                     {/* Inner Content Card (Matches the site's deep blue/dark theme with curved base background) */}
-                    <div className="bg-gradient-to-t to-dark-primary/40 via-dark-secondary/80 from-[#060633] flex flex-col items-center justify-between gap-10 px-6 pt-10 pb-6 relative rounded-2xl h-full overflow-hidden">
+                    <div className="bg-gradient-to-t to-indigo-50/20 via-white/80 from-white flex flex-col items-center justify-between gap-10 px-6 pt-10 pb-6 relative rounded-2xl h-full overflow-hidden border border-slate-100 shadow-sm">
                       
                       {/* Decorative Base Vector Curve Background */}
-                      <div className="absolute left-0 right-0 bottom-0 h-16 w-full opacity-60 z-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent pointer-events-none" />
+                      <div className="absolute left-0 right-0 bottom-0 h-16 w-full opacity-10 z-0 bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-indigo-500/20 via-transparent to-transparent pointer-events-none" />
 
                       {/* Top: Description text */}
                       <div className="text-center z-10">
-                        <p className="text-base font-normal leading-[160%] text-white/90 max-w-md mx-auto">
+                        <p className="text-base font-normal leading-[160%] text-slate-700 max-w-md mx-auto">
                           {card.description}
                         </p>
                       </div>
 
                       {/* Middle: Brand Tag & Icon details */}
                       <div className="flex flex-col items-center text-center z-10 gap-3">
-                        <p className="text-sm font-semibold text-white/70 uppercase tracking-widest">We promise</p>
+                        <p className="text-sm font-semibold text-slate-400 uppercase tracking-widest">We promise</p>
                         
                         {/* Gold Badge Medal Symbol */}
-                        <div className="flex items-center justify-center gap-1.5 py-1 px-3.5 rounded-full bg-gold-solid/10 border border-gold-solid/35">
-                          <span className="text-[10px] text-[#DDBD81]">★</span>
-                          <span className="text-[10px] text-[#DDBD81] font-bold uppercase tracking-wider">Premium Guarantee</span>
+                        <div className="flex items-center justify-center gap-1.5 py-1 px-3.5 rounded-full bg-gold-solid/5 border border-gold-solid/25">
+                          <span className="text-[10px] text-gold-solid">★</span>
+                          <span className="text-[10px] text-gold-solid font-bold uppercase tracking-wider">Premium Guarantee</span>
                         </div>
 
-                        <h3 className="text-2xl sm:text-3xl font-extrabold leading-[140%] text-white font-serif mt-2">
+                        <h3 className="text-2xl sm:text-3xl font-extrabold leading-[140%] text-slate-800 font-serif mt-2">
                           {card.title}
                         </h3>
                       </div>
 
                       {/* Bottom: Know More link with chevron indicator */}
-                      <div className="flex justify-center items-center gap-2 relative z-30 pb-2 w-full cursor-pointer hover:opacity-85 transition-opacity">
-                        <p className="text-xs font-semibold text-white/80 uppercase tracking-wider">Know more</p>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-white/80">
+                      <div className="flex justify-center items-center gap-2 relative z-30 pb-2 w-full cursor-pointer hover:opacity-85 transition-opacity text-slate-600">
+                        <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Know more</p>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="text-slate-500">
                           <circle cx="12" cy="12" r="10" />
                           <path d="m10 8 4 4-4 4" />
                         </svg>
@@ -134,7 +134,7 @@ export default function PromiseSection() {
               <button
                 onClick={handlePrev}
                 aria-label="Previous slide"
-                className="w-10 h-10 rounded-full border border-white/10 hover:border-white/30 text-[#8E90A2] hover:text-white flex items-center justify-center transition-all hover:bg-white/5"
+                className="w-10 h-10 rounded-full border border-slate-200 hover:border-slate-300 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-all hover:bg-slate-100 cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -143,7 +143,7 @@ export default function PromiseSection() {
               <button
                 onClick={handleNext}
                 aria-label="Next slide"
-                className="w-10 h-10 rounded-full border border-white/10 hover:border-white/30 text-[#8E90A2] hover:text-white flex items-center justify-center transition-all hover:bg-white/5"
+                className="w-10 h-10 rounded-full border border-slate-200 hover:border-slate-300 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-all hover:bg-slate-100 cursor-pointer"
               >
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

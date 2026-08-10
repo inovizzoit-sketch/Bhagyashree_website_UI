@@ -79,32 +79,32 @@ export default function DecodingLandPage() {
     {
       feature: "Title Clearance & Legal Auditing",
       traditional: "Tedious manual tracking, high risk of double-sales or disputes.",
-      nandeeka: "100% vetted clear titles, backed by legal certificate guarantee.",
+      bhagyashree: "100% vetted clear titles, backed by legal certificate guarantee.",
     },
     {
       feature: "Infrastructure Development",
       traditional: "Raw plots without access roads, power lines, or water drains.",
-      nandeeka: "Integrated avenues, paved asphalt roads, sewage, and power lines pre-installed.",
+      bhagyashree: "Integrated avenues, paved asphalt roads, sewage, and power lines pre-installed.",
     },
     {
       feature: "Encroachment & Security",
       traditional: "Vulnerable to illegal land grabbing; requires continuous vigilance.",
-      nandeeka: "Fully gated community, boundary fences, and 24/7 round-the-clock guards.",
+      bhagyashree: "Fully gated community, boundary fences, and 24/7 round-the-clock guards.",
     },
     {
       feature: "Resale Liquidity",
       traditional: "Takes months to find private buyers; opaque pricing.",
-      nandeeka: "Branded community ecosystem with high-demand resale facilitation.",
+      bhagyashree: "Branded community ecosystem with high-demand resale facilitation.",
     },
   ];
 
   const faqs: FAQItem[] = [
     {
       question: "What makes branded land a safer asset class than traditional plots?",
-      answer: "Traditional plotted land lacks standardized title documentation and physical infrastructure. Nandeeka's branded land guarantees completely clean legal titles, immediate registration readiness, pre-built physical infrastructures (asphalt roads, electricity lines, gated communities), and continuous guard surveillance to eliminate encroachment risk.",
+      answer: "Traditional plotted land lacks standardized title documentation and physical infrastructure. Bhagyashree's branded land guarantees completely clean legal titles, immediate registration readiness, pre-built physical infrastructures (asphalt roads, electricity lines, gated communities), and continuous guard surveillance to eliminate encroachment risk.",
     },
     {
-      question: "How does Nandeeka guarantee boundary ownership clarity?",
+      question: "How does Bhagyashree guarantee boundary ownership clarity?",
       answer: "We employ precision digital surveying technology and physical boundary fencing. Every plot has designated geo-coordinates, verified through government registration maps, eliminating boundary disputes or overlap claims.",
     },
     {
@@ -113,7 +113,7 @@ export default function DecodingLandPage() {
     },
     {
       question: "Can I obtain financing or bank loans for purchasing plots?",
-      answer: "Absolutely. Because NANDEEKA ENTERPRISES features verified clean titles and government-approved layouts, all leading national banks facilitate standard land acquisition loans for our buyers.",
+      answer: "Absolutely. Because BHAGYASHREE ENTERPRISES features verified clean titles and government-approved layouts, all leading national banks facilitate standard land acquisition loans for our buyers.",
     },
   ];
 
@@ -204,7 +204,7 @@ export default function DecodingLandPage() {
           </div>
         </div>
 
-        {/* Traditional Plotted vs Nandeeka Branded Land */}
+        {/* Traditional Plotted vs Bhagyashree Branded Land */}
         <div className="space-y-8">
           <SectionHeading 
             badge="Comparison Audit" 
@@ -220,7 +220,7 @@ export default function DecodingLandPage() {
                   <tr className="border-b border-white/5 bg-[#0d153b]/40 text-text-gray-muted font-bold uppercase tracking-wider">
                     <th className="px-6 py-4">Investment Dimension</th>
                     <th className="px-6 py-4">Traditional Unorganized Ploting</th>
-                    <th className="px-6 py-4 text-gold-solid">Nandeeka Branded Land</th>
+                    <th className="px-6 py-4 text-gold-solid">Bhagyashree Branded Land</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-white/5">
@@ -233,7 +233,7 @@ export default function DecodingLandPage() {
                         {item.traditional}
                       </td>
                       <td className="px-6 py-4 text-sm font-medium bg-gold-solid/5 border-l border-gold-solid/10 leading-relaxed text-text-gray-light">
-                        {item.nandeeka}
+                        {item.bhagyashree}
                       </td>
                     </tr>
                   ))}
@@ -253,7 +253,7 @@ export default function DecodingLandPage() {
               className="!mb-6"
             />
             <p className="text-sm sm:text-base text-text-gray-muted leading-relaxed font-light">
-              We perform rigorous legal vetting and infrastructure planning before any land development starts. Nandeeka covers the compliance checklist so you can invest with absolute peace of mind.
+              We perform rigorous legal vetting and infrastructure planning before any land development starts. Bhagyashree covers the compliance checklist so you can invest with absolute peace of mind.
             </p>
           </div>
           

@@ -1,6 +1,6 @@
-# Nandeeka CMS — Admin Panel Design System
+# Bhagyashree CMS — Admin Panel Design System
 
-This document outlines the design goals, color palette, layout, and component specifications of the **Nandeeka CMS Admin Panel**. 
+This document outlines the design goals, color palette, layout, and component specifications of the **Bhagyashree CMS Admin Panel**. 
 
 ---
 

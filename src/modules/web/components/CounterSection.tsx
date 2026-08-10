@@ -81,23 +81,23 @@ export default function CounterSection() {
           {statsData.map((stat, idx) => (
             <div key={idx} className="flex flex-col items-center text-center relative group">
               {/* Stat Value */}
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white font-extrabold tracking-tight">
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-serif text-foreground font-extrabold tracking-tight">
                 {counts[idx]}
-                <span className="text-[#DDBD81]">{stat.suffix}</span>
+                <span className="text-gold-solid">{stat.suffix}</span>
               </div>
               {/* Stat Descriptions */}
-              <div className="mt-3 flex flex-col text-xs md:text-sm text-[#8E90A2] font-semibold tracking-wider uppercase leading-snug">
+              <div className="mt-3 flex flex-col text-xs md:text-sm text-text-gray-muted font-semibold tracking-wider uppercase leading-snug">
                 <span>{stat.label}</span>
-                <span className="text-white/40">{stat.subLabel}</span>
+                <span className="text-text-gray-muted/60">{stat.subLabel}</span>
               </div>
 
               {/* Vertical dotted divider separator line matching image style */}
               {idx < statsData.length - 1 && (
                 <div className="hidden md:flex absolute right-[-8px] top-1/2 -translate-y-1/2 h-14 items-center justify-between flex-col">
                   {/* Decorative divider crosses at top and bottom */}
-                  <span className="text-[9px] text-white/20 select-none">✦</span>
-                  <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-white/10 to-transparent" />
-                  <span className="text-[9px] text-white/20 select-none">✦</span>
+                  <span className="text-[9px] text-text-gray-muted/30 select-none">✦</span>
+                  <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-border-muted to-transparent" />
+                  <span className="text-[9px] text-text-gray-muted/30 select-none">✦</span>
                 </div>
               )}
             </div>

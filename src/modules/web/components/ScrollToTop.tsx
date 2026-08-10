@@ -52,7 +52,7 @@ export default function ScrollToTop() {
     <button
       onClick={handleScrollAction}
       aria-label={isAtTopHalf ? "Scroll to bottom" : "Scroll to top"}
-      className={`fixed bottom-8 right-8 w-14 h-14 rounded-full bg-[#020520]/80 backdrop-blur-md border border-white/10 flex items-center justify-center cursor-pointer z-50 shadow-[0_8px_30px_rgb(0,0,0,0.5)] hover:border-gold-solid/40 hover:shadow-[0_8px_30px_rgba(221,189,129,0.25)] transition-all duration-300 group/scroll ${
+      className={`fixed bottom-8 right-8 w-14 h-14 rounded-full bg-card-bg backdrop-blur-md border border-card-border flex items-center justify-center cursor-pointer z-50 shadow-[0_8px_30px_rgba(0,0,0,0.15)] hover:border-gold-solid/40 transition-all duration-300 group/scroll ${
         isScrollable
           ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
           : "opacity-0 translate-y-4 scale-90 pointer-events-none"
@@ -66,7 +66,7 @@ export default function ScrollToTop() {
           cy="20"
           r="18"
           fill="transparent"
-          className="stroke-white/5"
+          className="stroke-border-color"
           strokeWidth="2"
         />
         {/* Active progress track */}

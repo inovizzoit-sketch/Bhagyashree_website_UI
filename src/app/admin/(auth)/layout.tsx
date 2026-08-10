@@ -1,21 +1,27 @@
-// src/app/admin/(auth)/layout.tsx
-// Full-screen layout for auth pages (login, forgot-password, etc.)
-// No sidebar or topbar — independent from AdminLayout.
+"use client";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Login — Nandeeka CMS",
-  description: "Sign in to the Nandeeka CMS admin panel",
-};
+import { useEffect, useState } from "react";
 
 export default function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("admin_theme") as "light" | "dark";
+    if (savedTheme) {
+      setTheme(savedTheme);
+    } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      setTheme("dark");
+    }
+  }, []);
+
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-[#0f0f14] font-sans p-4 sm:p-6 md:p-8">
+    <div className={`min-h-screen w-full flex items-center justify-center bg-background font-sans p-4 sm:p-6 md:p-8 ${
+      theme === "light" ? "admin-theme-light" : "admin-theme-dark"
+    }`}>
       {children}
     </div>
   );

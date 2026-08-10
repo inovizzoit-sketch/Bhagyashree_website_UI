@@ -109,7 +109,7 @@ export default function AmenitiesWebPage() {
           <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
             {selectedCategoryData 
               ? (selectedCategoryData.category.description || "Explore curated premium offerings in this category.") 
-              : "Discover the structural perks, recreational facilities, and security configurations that set NANDEEKA ENTERPRISES apart."
+              : "Discover the structural perks, recreational facilities, and security configurations that set BHAGYASHREE ENTERPRISES apart."
             }
           </p>
         </div>
@@ -124,27 +124,27 @@ export default function AmenitiesWebPage() {
         ) : error && amenities.length === 0 ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
-            <h3 className="text-base font-bold text-white">Temporary Loading Error</h3>
+            <h3 className="text-base font-bold text-foreground">Temporary Loading Error</h3>
             <p className="text-xs text-text-gray-muted font-light leading-relaxed">
               We encountered a connection check delay. Click below to contact our customer helpline directly.
             </p>
             <button
               onClick={() => openEnquiry("Amenities Details")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-background font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Enquire Directly
             </button>
           </div>
         ) : amenities.length === 0 ? (
-          <div className="max-w-md mx-auto p-8 rounded-2xl border border-white/5 bg-[#0d153b]/20 text-center space-y-4">
+          <div className="max-w-md mx-auto p-8 rounded-2xl border border-card-border bg-card-bg text-center space-y-4">
             <span className="text-3xl">☘</span>
-            <h3 className="text-base font-bold text-white">Amenities Catalog Empty</h3>
+            <h3 className="text-base font-bold text-foreground">Amenities Catalog Empty</h3>
             <p className="text-xs text-text-gray-muted font-light leading-relaxed">
               No amenities have been published yet. Contact our desk to receive structural plans and catalogue files.
             </p>
             <button
               onClick={() => openEnquiry("Amenities Enquiry")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-background font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
             >
               Enquire Details
             </button>
@@ -165,7 +165,7 @@ export default function AmenitiesWebPage() {
                 <div
                   key={cat.category.id}
                   onClick={() => setSelectedCategorySlug(cat.category.slug)}
-                  className="group relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/10 cursor-pointer border border-white/5 hover:border-gold-solid/35 block"
+                  className="group relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-card-bg shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/10 cursor-pointer border border-card-border hover:border-gold-solid/35 block"
                 >
                   {/* Background Cover Image */}
                   <img
@@ -176,10 +176,10 @@ export default function AmenitiesWebPage() {
                   />
 
                   {/* Dark Elegant Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-black/25 opacity-85 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-black/25 opacity-85 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
 
                   {/* Top Stats Tag */}
-                  <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full pointer-events-none">
+                  <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md border border-card-border px-3 py-1 rounded-full pointer-events-none">
                     <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
                       {totalAmenities} {totalAmenities === 1 ? "Amenity" : "Amenities"}
                     </span>
@@ -191,7 +191,7 @@ export default function AmenitiesWebPage() {
                       {cat.category.name}
                     </h4>
                     {cat.category.description && (
-                      <p className="text-xs text-text-gray-muted font-light mt-1.5 line-clamp-2 leading-relaxed">
+                      <p className="text-xs text-slate-300 font-light mt-1.5 line-clamp-2 leading-relaxed">
                         {cat.category.description}
                       </p>
                     )}
@@ -207,7 +207,7 @@ export default function AmenitiesWebPage() {
             <div className="flex justify-start">
               <button
                 onClick={() => setSelectedCategorySlug(null)}
-                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-gold-solid hover:text-white bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/25 transition-all cursor-pointer active:scale-95"
+                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-gold-solid hover:text-foreground bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/25 transition-all cursor-pointer active:scale-95"
               >
                 ← Back to Albums
               </button>
@@ -218,7 +218,7 @@ export default function AmenitiesWebPage() {
               {selectedCategoryData?.list.map((am) => (
                 <div
                   key={am.id}
-                  className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer border border-white/5"
+                  className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-card-bg shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer border border-card-border"
                   onClick={() => openEnquiry(`${am.name} (${selectedCategoryData.category.name})`)}
                 >
                   {/* Background Visual Image Overlay */}
@@ -233,13 +233,13 @@ export default function AmenitiesWebPage() {
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="absolute inset-0 h-full w-full bg-[#0d153b]/40 flex items-center justify-center">
+                    <div className="absolute inset-0 h-full w-full bg-slate-200/40 flex items-center justify-center">
                       <span className="text-3xl opacity-20">✽</span>
                     </div>
                   )}
 
                   {/* Dark shading */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
 
                   {/* Info Tag Footer */}
                   <div className="absolute bottom-6 left-6 right-6">

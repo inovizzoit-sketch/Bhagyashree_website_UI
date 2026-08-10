@@ -97,8 +97,8 @@ export default function AnnouncementPopup() {
           }
 
           // Frequency Check
-          const localKey = `nandeeka_popup_shown_${popup.id}`;
-          const sessionKey = `nandeeka_popup_shown_session_${popup.id}`;
+          const localKey = `bhagyashree_popup_shown_${popup.id}`;
+          const sessionKey = `bhagyashree_popup_shown_session_${popup.id}`;
 
           if (popup.frequency === "ONCE") {
             if (localStorage.getItem(localKey)) return false;
@@ -152,8 +152,8 @@ export default function AnnouncementPopup() {
     const showPopup = () => {
       setIsVisible(true);
       // Mark as shown according to frequency requirements
-      const localKey = `nandeeka_popup_shown_${currentPopup.id}`;
-      const sessionKey = `nandeeka_popup_shown_session_${currentPopup.id}`;
+      const localKey = `bhagyashree_popup_shown_${currentPopup.id}`;
+      const sessionKey = `bhagyashree_popup_shown_session_${currentPopup.id}`;
 
       if (currentPopup.frequency === "ONCE") {
         localStorage.setItem(localKey, "true");

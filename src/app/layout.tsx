@@ -26,7 +26,7 @@ const cormorantGaramond = Cormorant_Garamond({
 });
 
 export const metadata: Metadata = {
-  title: "Nandeeka Enterprises",
+  title: "Bhagyashree Enterprises",
   description: "Realestate Management",
    icons: {
     icon: "/logo.png",          // uses /public/logo.png

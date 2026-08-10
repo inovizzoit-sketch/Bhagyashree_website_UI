@@ -869,7 +869,7 @@ export default function ThemeFormPage({ id }: { id: string }) {
                     <img src={formData.branding.logo} alt="Logo" className="h-6 object-contain" />
                   ) : (
                     <span className="font-bold text-sm tracking-wider" style={{ color: "var(--color-primary)" }}>
-                      NANDEEKA
+                      BHAGYASHREE
                     </span>
                   )}
                 </div>
@@ -912,7 +912,7 @@ export default function ThemeFormPage({ id }: { id: string }) {
                   <span className="text-[10px] uppercase font-bold tracking-wider" style={{ color: "var(--color-primary)" }}>
                     Featured Project
                   </span>
-                  <h4 className="font-bold text-sm mt-1">Nandeeka Heights, Bangalore</h4>
+                  <h4 className="font-bold text-sm mt-1">Bhagyashree Heights, Bangalore</h4>
                   <p className="text-xs mt-1" style={{ color: "var(--color-text-muted)" }}>
                     Ultra premium 3 & 4 BHK apartments with panoramic skyline views.
                   </p>
@@ -971,7 +971,7 @@ export default function ThemeFormPage({ id }: { id: string }) {
                 className="border-t px-6 py-4 flex justify-between items-center shrink-0"
               >
                 <span className="text-[10px]" style={{ color: "var(--footer-text)" }}>
-                  © 2026 Nandeeka Group. All rights reserved.
+                  © 2026 Bhagyashree Group. All rights reserved.
                 </span>
                 <span className="text-[10px] font-semibold" style={{ color: "var(--footer-link)" }}>
                   Privacy Policy

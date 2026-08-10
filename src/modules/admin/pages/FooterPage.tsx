@@ -376,7 +376,7 @@ export default function FooterPage() {
                       type="text"
                       value={companyName}
                       onChange={(e) => setCompanyName(e.target.value)}
-                      placeholder="e.g. Nandeeka Enterprises"
+                      placeholder="e.g. Bhagyashree Enterprises"
                       required
                       className="w-full bg-[#181824] border border-[#1e1e2e] rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-gold-solid/50 transition-colors"
                     />
@@ -459,7 +459,7 @@ export default function FooterPage() {
                       type="email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
-                      placeholder="e.g. contact@nandeeka.com"
+                      placeholder="e.g. contact@bhagyashree.com"
                       className="w-full bg-[#181824] border border-[#1e1e2e] rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-gold-solid/50 transition-colors"
                     />
                   </div>
@@ -470,7 +470,7 @@ export default function FooterPage() {
                       type="text"
                       value={copyrightText}
                       onChange={(e) => setCopyrightText(e.target.value)}
-                      placeholder="e.g. © 2026 Nandeeka Enterprises."
+                      placeholder="e.g. © 2026 Bhagyashree Enterprises."
                       className="w-full bg-[#181824] border border-[#1e1e2e] rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-gold-solid/50 transition-colors"
                     />
                   </div>
@@ -892,7 +892,7 @@ export default function FooterPage() {
                 </div>
 
                 <div className="mx-auto max-w-7xl px-6 mt-8 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px]">
-                  <p>© {new Date().getFullYear()} {companyName || "Nandeeka Enterprises"}. All rights reserved.</p>
+                  <p>© {new Date().getFullYear()} {companyName || "Bhagyashree Enterprises"}. All rights reserved.</p>
                   <p className="flex gap-4 font-light">
                     <span className="hover:text-gold-solid cursor-pointer">Privacy Policy</span>
                     <span className="hover:text-gold-solid cursor-pointer">Terms of Service</span>
@@ -1038,7 +1038,7 @@ export default function FooterPage() {
                   type="text"
                   value={socialUrl}
                   onChange={(e) => setSocialUrl(e.target.value)}
-                  placeholder="e.g. https://instagram.com/nandeeka"
+                  placeholder="e.g. https://instagram.com/bhagyashree"
                   required
                   className="w-full bg-[#181824] border border-[#1e1e2e] rounded-xl px-4 py-2 text-sm text-slate-200 focus:outline-none focus:border-gold-solid/50"
                 />
