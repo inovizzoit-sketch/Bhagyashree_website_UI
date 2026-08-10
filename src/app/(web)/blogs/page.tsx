@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { useEnquiry } from "@/shared/context/EnquiryContext";
 import SectionHeading from "@/shared/components/SectionHeading";
+import { useEnquiry } from "@/shared/context/EnquiryContext";
 import { API_BASE_URL } from "@/shared/lib/api-config";
 
 interface BlogArticle {
@@ -13,6 +13,7 @@ interface BlogArticle {
   readTime: string;
   image: string;
   excerpt: string;
+  descriptionHtml?: string;
   content: string[];
 }
 
@@ -38,31 +39,17 @@ export default function BlogsWebPage() {
       ]
     },
     {
-      id: "branded-plotted-land",
-      title: "Branded Plotted Land: The Safest Wealth Multiplier in 2026",
-      category: "Land Economics",
-      date: "July 12, 2026",
-      readTime: "5 min read",
-      image: "/images/clubhouse.png",
-      excerpt: "Why institutional security, legal clearances, and immediate road access make branded land layouts outperform traditional unorganized plots by 3x.",
-      content: [
-        "For decades, plotted land purchase was considered high-risk due to duplicate registrations, boundary overlaps, and encroachment threats. Branded land developers have changed the paradigm by offering institutional security.",
-        "Branded plotted layouts undergo rigorous legal checks. They guarantee non-agricultural (NA) certification, RERA compliance, and clear demarcation from day one, which standardizes plot value appreciation.",
-        "Additionally, branded layouts deliver ready utilities (paved asphalt roads, electricity connections, water supply drains) immediately. This pre-installed infrastructure ensures rapid valuation growth, outperforming raw agricultural plots by up to 300%."
-      ]
-    },
-    {
-      id: "legal-due-diligence",
-      title: "The Smart Investor's Legal Checklist for Land in Uttar Pradesh",
-      category: "Due Diligence",
-      date: "July 08, 2026",
+      id: "land-buying-checklist",
+      title: "The Ultimate Due Diligence Checklist for Purchasing Land in Uttar Pradesh",
+      category: "Guides",
+      date: "June 28, 2026",
       readTime: "6 min read",
-      image: "/images/wellness.png",
-      excerpt: "Navigating non-agricultural certificates, RERA documentation numbers, and land mutation records can be tricky. Here is our 5-step checklist.",
+      image: "/images/About.jpeg",
+      excerpt: "Avoid legal pitfalls and disputes. Our comprehensive guide walks you through verifying land registries, mutation status, and local municipal zoning laws.",
       content: [
-        "Due diligence is the single most important step when acquiring land in Uttar Pradesh. First, verify the 'Khatauni' (land record registers) to establish the current ownership names and check for hidden bank mortgages.",
-        "Ensure the plot is registered as Non-Agricultural (NA) or verify that a conversion certificate has been officially issued by the sub-divisional magistrate. This prevents zoning fines down the road.",
-        "Finally, ensure that the layout is RERA approved. Buying inside a RERA-registered development protects your capital against developer defaults, boundary conflicts, and infrastructure delivery delays."
+        "Buying plotted land is one of the most stable wealth generators in India, but it requires thorough due diligence to avoid common title disputes and regulatory hurdles.",
+        "First, always verify the 30-year title registry history to ensure there are no pre-existing claims or family disputes. Second, confirm that the land has non-agricultural (NA) conversion clearances and conforms to planning layouts approved by the local municipal corporation.",
+        "Finally, ensure that the property has a clear mutation entry in the land records database. Branded developers like Bhagyashree handle all these legal steps upfront, ensuring complete peace of mind."
       ]
     }
   ];
@@ -70,34 +57,41 @@ export default function BlogsWebPage() {
   useEffect(() => {
     async function loadBlogs() {
       try {
-        const res = await fetch(`${API_BASE_URL}/blog`);
-        if (!res.ok) throw new Error("Failed to fetch");
-        const data = await res.json();
-        if (Array.isArray(data) && data.length > 0) {
-          const mapped: BlogArticle[] = data.map((b: any) => {
-            const readTimeMinutes = Math.max(2, Math.ceil((b.description || "").split(/\s+/).length / 200));
-            const imageUrl = b.blogImage
-              ? (b.blogImage.startsWith("http") || b.blogImage.startsWith("https")
-                ? b.blogImage
-                : `${API_BASE_URL.replace("/api/v1", "")}${b.blogImage}`)
-              : "/images/hero_brand.png";
+        const res = await fetch(`${API_BASE_URL}/blogs`);
+        if (res.ok) {
+          const data = await res.json();
+          const activeBlogs = data.filter((b: any) => b.isActive !== false);
+          if (activeBlogs.length > 0) {
+            const mapped = activeBlogs.map((b: any) => {
+              const textOnly = (b.description || "").replace(/<[^>]*>/g, "");
+              const wordsCount = textOnly.split(/\s+/).length;
+              const readTimeMinutes = Math.max(1, Math.ceil(wordsCount / 200));
+              const imageUrl = b.blogImage
+                ? (b.blogImage.startsWith("http") || b.blogImage.startsWith("https")
+                  ? b.blogImage
+                  : `${API_BASE_URL.replace("/api/v1", "")}${b.blogImage}`)
+                : "/images/hero_brand.png";
 
-            return {
-              id: b.id,
-              title: b.title,
-              category: "Market Insights",
-              date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              }),
-              readTime: `${readTimeMinutes} min read`,
-              image: imageUrl,
-              excerpt: b.description ? (b.description.length > 150 ? b.description.slice(0, 150) + "..." : b.description) : "",
-              content: (b.description || "").split(/\r?\n/).filter((line: string) => line.trim().length > 0),
-            };
-          });
-          setArticles(mapped);
+              return {
+                id: b.id,
+                title: b.title,
+                category: "Market Insights",
+                date: new Date(b.createdAt || Date.now()).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                }),
+                readTime: `${readTimeMinutes} min read`,
+                image: imageUrl,
+                excerpt: b.description ? (b.description.length > 150 ? b.description.slice(0, 150) + "..." : b.description) : "",
+                descriptionHtml: b.description || "",
+                content: (b.description || "").split(/\r?\n/).filter((line: string) => line.trim().length > 0),
+              };
+            });
+            setArticles(mapped);
+          } else {
+            setArticles(staticArticles);
+          }
         } else {
           setArticles(staticArticles);
         }
@@ -112,23 +106,23 @@ export default function BlogsWebPage() {
   }, []);
 
   return (
-    <div className="min-h-screen pb-32 overflow-hidden relative text-slate-300 font-sans">
+    <div className="min-h-screen bg-background pb-32 overflow-hidden relative text-slate-800 font-sans">
       {/* Visual background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[60vh] -right-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Header Banner */}
       <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
-          <SectionHeading 
-            badge="Asset Intelligence Blog" 
-            plainText="Bhagyashree" 
-            highlightText="Insights" 
-            align="center" 
-            className="!mb-4"
-          />
-          <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
-            Stay ahead with curated deep-dives into Mirzapur&apos;s property trends, legal guidelines, and branded plotted land developments.
-          </p>
+        <SectionHeading 
+          badge="Asset Intelligence Blog" 
+          plainText="Bhagyashree" 
+          highlightText="Insights" 
+          align="center" 
+          className="!mb-4"
+        />
+        <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-light">
+          Stay ahead with curated deep-dives into Mirzapur&apos;s property trends, legal guidelines, and branded plotted land developments.
+        </p>
       </div>
 
       <div className="mx-auto max-w-6xl px-6 md:px-8 relative z-10 space-y-16">
@@ -141,7 +135,7 @@ export default function BlogsWebPage() {
               </p>
             </div>
           ) : articles.length === 0 ? (
-            <div className="text-center py-20 col-span-full text-slate-400">
+            <div className="text-center py-20 col-span-full text-slate-500">
               No articles found.
             </div>
           ) : (
@@ -149,11 +143,11 @@ export default function BlogsWebPage() {
               <div
                 key={article.id}
                 onClick={() => setSelectedBlog(article)}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-white/5 bg-[#0d153b]/15 hover:border-gold-solid/35 transition-all duration-300 shadow-xl cursor-pointer"
+                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-dark-secondary/10 bg-surface hover:border-gold-solid/35 transition-all duration-300 shadow-xl cursor-pointer"
               >
                 <div className="space-y-4">
                   {/* Image container */}
-                  <div className="aspect-[16/10] overflow-hidden relative bg-[#080d27]">
+                  <div className="aspect-[16/10] overflow-hidden relative bg-slate-50">
                     <img
                       src={article.image}
                       alt={article.title}
@@ -166,20 +160,20 @@ export default function BlogsWebPage() {
 
                   {/* Text contents */}
                   <div className="px-6 space-y-2">
-                    <span className="text-[10px] text-text-gray-muted font-mono">
+                    <span className="text-[10px] text-slate-500 font-mono">
                       {article.date} • {article.readTime}
                     </span>
-                    <h3 className="text-base font-bold text-white group-hover:text-gold-solid transition-colors duration-300 leading-snug line-clamp-2">
+                    <h3 className="text-base font-bold text-slate-900 group-hover:text-gold-solid transition-colors duration-300 leading-snug line-clamp-2">
                       {article.title}
                     </h3>
-                    <p className="text-xs text-text-gray-muted font-light leading-relaxed line-clamp-3">
+                    <p className="text-xs text-slate-600 font-light leading-relaxed line-clamp-3">
                       {article.excerpt}
                     </p>
                   </div>
                 </div>
 
                 <div className="px-6 pb-6 pt-4 mt-auto">
-                  <span className="text-xs font-semibold text-gold-solid group-hover:text-white transition-colors flex items-center gap-1.5">
+                  <span className="text-xs font-semibold text-gold-solid group-hover:text-gold-hover transition-colors flex items-center gap-1.5">
                     Read Full Article ➔
                   </span>
                 </div>
@@ -191,56 +185,63 @@ export default function BlogsWebPage() {
 
       {/* Glassmorphic Blog Article Modal Overlay */}
       {selectedBlog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in">
-          <div className="relative w-full max-w-2xl bg-gradient-to-b from-[#0e163d]/95 to-[#080d27]/98 border border-white/10 rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-slide-up">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
+          <div className="relative w-full max-w-2xl bg-surface border border-dark-secondary/10 rounded-3xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-slide-up">
             
             {/* Top decorative line */}
             <div className="h-1.5 w-full bg-gradient-to-r from-gold-solid to-gold-hover" />
 
             {/* Header / Cover container */}
-            <div className="relative aspect-[21/9] w-full bg-[#080d27] shrink-0">
+            <div className="relative aspect-[21/9] w-full bg-slate-50 shrink-0">
               <img
                 src={selectedBlog.image}
                 alt={selectedBlog.title}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0e163d] to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-surface to-transparent" />
               <button
                 onClick={() => setSelectedBlog(null)}
-                className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-[#020520] transition-colors flex items-center justify-center cursor-pointer outline-none"
+                className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-black/60 border border-white/10 text-white hover:bg-gold-solid hover:text-[#020520] transition-colors flex items-center justify-center cursor-pointer outline-none"
               >
                 ✕
               </button>
             </div>
 
             {/* Content area */}
-            <div className="p-8 overflow-y-auto space-y-4 leading-relaxed text-sm text-text-gray-light font-light scrollbar-thin">
+            <div className="p-8 overflow-y-auto space-y-4 leading-relaxed text-sm text-slate-700 font-light scrollbar-thin">
               <div className="space-y-1.5">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-gold-solid bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded inline-block">
                   {selectedBlog.category}
                 </span>
-                <h3 className="text-xl md:text-2xl font-extrabold text-white leading-tight">
+                <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 leading-tight">
                   {selectedBlog.title}
                 </h3>
-                <p className="text-xs text-text-gray-muted font-mono">
+                <p className="text-xs text-slate-500 font-mono">
                   Published on {selectedBlog.date} • {selectedBlog.readTime}
                 </p>
               </div>
 
-              <hr className="border-white/5 my-4" />
+              <hr className="border-slate-100 my-4" />
 
-              {selectedBlog.content.map((p, idx) => (
-                <p key={idx}>{p}</p>
-              ))}
+              {selectedBlog.descriptionHtml ? (
+                <div 
+                  className="rich-text-renderer space-y-4"
+                  dangerouslySetInnerHTML={{ __html: selectedBlog.descriptionHtml }}
+                />
+              ) : (
+                selectedBlog.content.map((p, idx) => (
+                  <p key={idx}>{p}</p>
+                ))
+              )}
             </div>
 
-            <div className="p-6 border-t border-white/5 bg-[#080d27]/40 flex justify-end shrink-0 gap-3">
+            <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex justify-end shrink-0 gap-3">
               <button
                 onClick={() => {
                   setSelectedBlog(null);
                   openEnquiry(`Enquiry via Blog: ${selectedBlog.title}`);
                 }}
-                className="px-5 py-2.5 bg-transparent hover:bg-white/5 border border-gold-solid text-gold-solid font-bold text-xs rounded-xl transition-all cursor-pointer"
+                className="px-5 py-2.5 bg-transparent hover:bg-slate-50 border border-gold-solid text-gold-solid font-bold text-xs rounded-xl transition-all cursor-pointer"
               >
                 Consult Property Expert
               </button>

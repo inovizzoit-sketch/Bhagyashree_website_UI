@@ -29,8 +29,8 @@ export const metadata: Metadata = {
   title: "Bhagyashree Enterprises",
   description: "Realestate Management",
    icons: {
-    icon: "/logo.png",          // uses /public/logo.png
-    apple: "/logo.png",         // for Apple devices
+    icon: "/navbarlogo.png",
+    apple: "/navbarlogo.png",
   },
 };
 

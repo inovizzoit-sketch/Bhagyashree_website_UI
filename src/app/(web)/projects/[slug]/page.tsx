@@ -200,19 +200,19 @@ ${shareUrl}
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#020520] flex flex-col items-center justify-center space-y-4 py-32 text-slate-300">
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center space-y-4 py-32 text-text-gray-muted">
         <div className="w-10 h-10 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
-        <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading details...</p>
+        <p className="text-xs uppercase tracking-widest font-semibold">Loading details...</p>
       </div>
     );
   }
 
   if (error || !project) {
     return (
-      <div className="min-h-screen bg-[#020520] py-32 text-center px-6">
+      <div className="min-h-screen bg-background py-32 text-center px-6">
         <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 space-y-4">
           <span className="text-3xl">⚠️</span>
-          <h3 className="text-base font-bold text-white">Project Not Found</h3>
+          <h3 className="text-base font-bold text-dark-secondary">Project Not Found</h3>
           <p className="text-xs text-text-gray-muted">{error || "The development details could not be found."}</p>
           <button
             onClick={() => router.push("/projects")}
@@ -228,26 +228,16 @@ ${shareUrl}
   const activeProperties = project.properties?.filter((p) => p.isActive) || [];
 
   return (
-    <div className="min-h-screen pt-32 md:pt-36 pb-32 relative overflow-x-clip text-slate-350">
+    <div className="min-h-screen bg-background pt-32 md:pt-36 pb-32 relative overflow-x-clip text-slate-800 font-sans">
       {/* Background Decorative Gradients */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-[80vh] left-0 w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[120px] pointer-events-none" />
-
-      {/* Navigation breadcrumbs */}
-      {/* <div className="mx-auto max-w-7xl px-6 md:px-8 pt-10 relative z-10">
-        <button
-          onClick={() => router.push("/projects")}
-          className="text-xs font-bold text-gold-solid hover:text-gold-hover flex items-center gap-1.5 transition-colors cursor-pointer bg-transparent border-0 outline-none"
-        >
-          ← Back to Portfolio
-        </button>
-      </div> */}
 
       {/* Hero Split Layout */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-16 items-start relative z-10">
         {/* Left Column: Visual Media & Specs */}
         <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-32">
-          <div className="rounded-2xl overflow-hidden border border-white/5 bg-[#050c38]/20 aspect-[16/10] relative shadow-2xl">
+          <div className="rounded-2xl overflow-hidden border border-dark-secondary/10 bg-surface aspect-[16/10] relative shadow-2xl">
             {project.thumbnailImage ? (
               <img
                 src={project.thumbnailImage}
@@ -255,17 +245,17 @@ ${shareUrl}
                 className="w-full h-full object-cover"
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-tr from-[#020520] to-[#050c38] flex items-center justify-center">
-                <span className="text-gold-solid/20 font-extrabold text-2xl uppercase tracking-widest font-mono">
+              <div className="w-full h-full bg-gradient-to-tr from-slate-50 to-slate-100 flex items-center justify-center">
+                <span className="text-gold-solid/30 font-extrabold text-2xl uppercase tracking-widest font-mono">
                   {project.projectType}
                 </span>
               </div>
             )}
             <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-              ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20"
+              ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
               : project.projectStatus === "ONGOING"
-                ? "bg-amber-500/10 text-amber-400 border-amber-500/20"
-                : "bg-blue-500/10 text-blue-400 border-blue-500/20"
+                ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                : "bg-blue-500/10 text-blue-600 border-blue-500/20"
               }`}>
               {project.projectStatus}
             </span>
@@ -273,16 +263,16 @@ ${shareUrl}
 
           {/* Quick Stats Grid */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-[#050c38]/25 border border-white/5 rounded-xl p-4 backdrop-blur-sm shadow-xl">
+            <div className="bg-surface border border-dark-secondary/10 rounded-xl p-4 backdrop-blur-sm shadow-xl">
               <span className="text-[10px] text-text-gray-muted block uppercase tracking-wider mb-1">Starting Price</span>
-              <span className="text-gold-solid font-extrabold text-xl">
+              <span className="text-dark-secondary font-extrabold text-xl">
                 {formatPrice(project.startingPrice)}
               </span>
             </div>
             <div className="bg-gold-solid/5 border border-gold-solid/30 rounded-xl p-4 backdrop-blur-sm shadow-xl relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-12 h-12 bg-gold-solid/10 rounded-full blur-md pointer-events-none" />
               <span className="text-[10px] text-gold-solid block uppercase tracking-wider mb-1 font-bold">Price Per Sqft</span>
-              <span className="text-white font-extrabold text-xl tracking-tight">
+              <span className="text-dark-secondary font-extrabold text-xl tracking-tight">
                 ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
               </span>
             </div>
@@ -312,13 +302,13 @@ ${shareUrl}
               <button
                 onClick={handleCopyDetails}
                 className={`flex-1 flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border ${copied
-                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
-                  : "bg-[#050c38]/20 hover:bg-[#050c38]/35 border-white/5 hover:border-gold-solid/35 text-text-gray-light hover:text-gold-solid"
+                  ? "bg-emerald-500/10 border-emerald-500/30 text-emerald-600"
+                  : "bg-surface hover:bg-slate-50 border-dark-secondary/10 hover:border-gold-solid/35 text-slate-800 hover:text-gold-solid"
                   }`}
               >
                 <div className="flex items-center gap-3">
                   {copied ? (
-                    <svg className="w-4 h-4 text-emerald-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <svg className="w-4 h-4 text-emerald-600 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                   ) : (
@@ -336,7 +326,7 @@ ${shareUrl}
                 onClick={() => {
                   window.open(`https://wa.me/?text=${encodeURIComponent(getProfessionalDetailsText())}`, "_blank");
                 }}
-                className="flex-1 md:hidden flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border bg-emerald-600/15 hover:bg-emerald-600/25 border-emerald-500/30 text-emerald-400 hover:text-emerald-300"
+                className="flex-1 md:hidden flex items-center justify-between px-5 py-4 rounded-xl text-xs font-bold tracking-wide transition-all duration-300 cursor-pointer active:scale-[0.98] shadow-lg outline-none border bg-emerald-600/10 hover:bg-emerald-600/20 border-emerald-500/20 text-emerald-600 hover:text-emerald-700"
               >
                 <div className="flex items-center gap-3">
                   <span className="text-sm">💬</span>
@@ -367,31 +357,31 @@ ${shareUrl}
             />
             <p className="text-xs md:text-sm font-medium text-gold-solid flex items-start gap-1.5">
               <span className="text-base mt-0.5">📍</span>
-              <span className="leading-relaxed font-light text-slate-200">
+              <span className="leading-relaxed font-light text-slate-600">
                 {project.address}, {project.location}, {project.city}, {project.state} - {project.pincode}
               </span>
             </p>
           </div>
 
-          <div className="bg-[#050c38]/20 border border-white/5 rounded-2xl p-6 md:p-8 space-y-6 backdrop-blur-sm shadow-2xl">
+          <div className="bg-surface border border-dark-secondary/10 rounded-2xl p-6 md:p-8 space-y-6 backdrop-blur-sm shadow-2xl">
             <div>
               <span className="text-[10px] text-gold-solid font-bold uppercase tracking-widest block mb-2 font-mono">Overview</span>
-              <p className="text-sm text-text-gray-light leading-relaxed font-light">
+              <p className="text-sm text-slate-700 leading-relaxed font-light">
                 {project.shortDescription}
               </p>
             </div>
-            <div ref={descContainerRef} className="border-t border-white/5 pt-6">
+            <div ref={descContainerRef} className="border-t border-dark-secondary/10 pt-6">
               <span className="text-[10px] text-text-gray-muted font-bold uppercase tracking-widest block mb-2 font-mono">Detailed Description</span>
               <div className="relative">
                 <div 
                   ref={descRef}
-                  className={`text-sm text-[#8E90A2] leading-relaxed overflow-hidden rich-text-renderer ${
+                  className={`text-sm text-slate-600 leading-relaxed overflow-hidden rich-text-renderer ${
                     showToggle && !isDescExpanded ? "max-h-36" : "max-h-none"
                   }`}
                   dangerouslySetInnerHTML={{ __html: project.description }}
                 />
                 {showToggle && !isDescExpanded && (
-                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#030623] to-transparent pointer-events-none" />
+                  <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-background to-transparent pointer-events-none" />
                 )}
               </div>
               
@@ -408,15 +398,15 @@ ${shareUrl}
 
             {/* Key Amenities & Facilities Section */}
             {project.amenities && project.amenities.length > 0 && (
-              <div className="border-t border-white/10 pt-6 space-y-4">
+              <div className="border-t border-dark-secondary/10 pt-6 space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#DDBD81]">★</span>
-                    <span className="text-[11px] text-[#DDBD81] font-bold uppercase tracking-widest font-mono">
+                    <span className="text-xs text-gold-solid">★</span>
+                    <span className="text-[11px] text-gold-solid font-bold uppercase tracking-widest font-mono">
                       Key Amenities & Facilities
                     </span>
                   </div>
-                  <span className="text-[10px] font-mono font-semibold text-[#DDBD81] bg-[#DDBD81]/10 border border-[#DDBD81]/25 px-2.5 py-0.5 rounded-full">
+                  <span className="text-[10px] font-mono font-semibold text-gold-solid bg-gold-solid/10 border border-gold-solid/25 px-2.5 py-0.5 rounded-full">
                     {project.amenities.length} Offerings
                   </span>
                 </div>
@@ -426,22 +416,21 @@ ${shareUrl}
                     const cleanName = am.name && (am.name.startsWith("http://") || am.name.startsWith("https://"))
                       ? "Amenity Offering"
                       : am.name;
-                    const displayIcon = getAmenityIcon(cleanName, am.icon);
 
                     return (
                       <div
                         key={am.id}
-                        className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-white/10 hover:border-[#DDBD81]/50 hover:bg-gradient-to-r hover:from-[#DDBD81]/10 hover:to-white/[0.04] transition-all duration-300 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.3)] hover:shadow-[0_8px_25px_rgba(221,189,129,0.12)] hover:-translate-y-0.5"
+                        className="group flex items-center gap-3 p-3 rounded-2xl bg-gradient-to-r from-white/[0.06] to-white/[0.02] border border-dark-secondary/10 hover:border-gold-solid/50 hover:bg-gold-solid/5 transition-all duration-300 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_25px_rgba(221,189,129,0.12)] hover:-translate-y-0.5"
                       >
-                        <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#DDBD81]/20 to-[#DDBD81]/5 border border-[#DDBD81]/30 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 group-hover:border-[#DDBD81]/60 transition-all duration-300">
-                          <AmenityIcon name={cleanName} icon={am.icon} className="w-5 h-5 text-[#DDBD81]" />
+                        <div className="w-10 h-10 rounded-xl bg-gold-solid/10 border border-gold-solid/20 flex items-center justify-center shrink-0 shadow-inner group-hover:scale-110 group-hover:border-gold-solid/40 transition-all duration-300">
+                          <AmenityIcon name={cleanName} icon={am.icon} className="w-5 h-5 text-gold-solid" />
                         </div>
                         <div className="flex flex-col min-w-0">
-                          <span className="text-xs font-semibold text-slate-100 group-hover:text-[#DDBD81] transition-colors truncate">
+                          <span className="text-xs font-semibold text-slate-800 group-hover:text-gold-solid transition-colors truncate">
                             {cleanName}
                           </span>
                           {am.category?.name && (
-                            <span className="text-[9px] text-slate-400 font-mono tracking-wider truncate">
+                            <span className="text-[9px] text-slate-500 font-mono tracking-wider truncate">
                               {am.category.name}
                             </span>
                           )}
@@ -456,58 +445,12 @@ ${shareUrl}
         </div>
       </div>
 
-      {/* Amenities & Facilities Section */}
-      {/* {project.amenities && project.amenities.length > 0 && (
-        <div className="mx-auto max-w-7xl px-6 md:px-8 mt-16 space-y-8 relative z-10">
-          <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold text-white font-sans">
-                Project Amenities & Facilities
-              </h2>
-              <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
-                World-class features and lifestyle offerings integrated within {project.name}.
-              </p>
-            </div>
-            <span className="text-[10px] bg-gold-solid/5 border border-gold-solid/20 text-gold-solid font-bold uppercase px-3 py-1 rounded-full">
-              {project.amenities.length} Offerings Available
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
-            {project.amenities.map((am) => (
-              <div
-                key={am.id}
-                className="bg-[#050c38]/20 border border-white/5 hover:border-gold-solid/30 rounded-2xl p-4 flex flex-col items-center justify-center text-center space-y-2 backdrop-blur-sm transition-all duration-300 group hover:-translate-y-1"
-              >
-                <div className="w-12 h-12 rounded-xl bg-gold-solid/10 border border-gold-solid/20 flex items-center justify-center text-xl text-gold-solid group-hover:bg-gold-solid group-hover:text-background transition-colors duration-300 overflow-hidden">
-                  {am.icon && (am.icon.startsWith("http") || am.icon.startsWith("/")) ? (
-                    <img src={am.icon} alt={am.name} className="w-7 h-7 object-contain" />
-                  ) : (
-                    am.icon || "✨"
-                  )}
-                </div>
-                <h4 className="font-bold text-white text-xs truncate max-w-full">
-                  {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://"))
-                    ? "Amenity Offering"
-                    : am.name}
-                </h4>
-                {am.category?.name && (
-                  <span className="text-[9px] text-text-gray-muted font-mono uppercase tracking-wider block">
-                    {am.category.name}
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
-      )} */}
-
       {/* Properties Inventory Section */}
       {activeProperties.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 mt-20 space-y-8 relative z-10">
-          <div className="border-t border-white/5 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div className="border-t border-dark-secondary/10 pt-12 flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <h2 className="text-2xl font-bold text-white font-sans">
+              <h2 className="text-2xl font-bold text-dark-secondary font-sans">
                 Inventory & Available Units
               </h2>
               <p className="text-xs text-text-gray-muted mt-1 leading-relaxed">
@@ -523,10 +466,10 @@ ${shareUrl}
             {activeProperties.map((prop) => (
               <div
                 key={prop.id}
-                className="bg-[#050c38]/20 border border-white/5 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between hover:border-gold-solid/30 transition-all duration-300 group backdrop-blur-sm"
+                className="bg-surface border border-dark-secondary/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col justify-between hover:border-gold-solid/35 transition-all duration-300 group backdrop-blur-sm"
               >
                 {/* Image Layout Preview */}
-                <div className="aspect-[16/10] bg-[#020520] relative overflow-hidden">
+                <div className="aspect-[16/10] bg-slate-50 relative overflow-hidden">
                   {prop.propertyImage ? (
                     <img
                       src={prop.propertyImage}
@@ -534,7 +477,7 @@ ${shareUrl}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-tr from-[#020520] to-[#050c38] flex flex-col items-center justify-center p-4 text-center">
+                    <div className="w-full h-full bg-gradient-to-tr from-slate-50 to-slate-100 flex flex-col items-center justify-center p-4 text-center animate-pulse">
                       <span className="text-3xl mb-1 opacity-20">🏘️</span>
                       <span className="text-[9px] uppercase font-bold tracking-widest text-gold-solid/40">
                         {prop.propertyType}
@@ -544,10 +487,10 @@ ${shareUrl}
 
                   {/* Status Badge */}
                   <span className={`absolute top-4 left-4 text-[8px] font-bold tracking-wider uppercase px-2.5 py-1 rounded border backdrop-blur-md ${prop.status === "AVAILABLE" || prop.status === "Available"
-                    ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/20 shadow-sm"
+                    ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20 shadow-sm"
                     : prop.status === "SOLD" || prop.status === "Sold"
-                      ? "bg-red-500/10 text-red-400 border-red-500/20 shadow-sm"
-                      : "bg-amber-500/10 text-amber-400 border-emerald-500/20 shadow-sm"
+                      ? "bg-red-500/10 text-red-600 border-red-500/20 shadow-sm"
+                      : "bg-amber-500/10 text-amber-600 border-amber-500/20 shadow-sm"
                     }`}>
                     {prop.status}
                   </span>
@@ -566,45 +509,45 @@ ${shareUrl}
                         </span>
                       )}
                     </div>
-                    <h4 className="font-bold text-white text-base truncate group-hover:text-gold-solid transition-colors duration-250">
+                    <h4 className="font-bold text-slate-800 text-base truncate group-hover:text-gold-solid transition-colors duration-250">
                       {prop.title}
                     </h4>
 
                     {/* Specs Details Grid */}
-                    <div className="grid grid-cols-2 gap-y-2 gap-x-3 pt-3 text-[11px] text-text-gray-muted border-t border-white/5 font-light">
+                    <div className="grid grid-cols-2 gap-y-2 gap-x-3 pt-3 text-[11px] text-slate-500 border-t border-dark-secondary/10 font-light">
                       <div className="flex items-center gap-1.5">
-                        <span>📐</span> Size: <span className="text-white font-medium">{prop.areaSqft || "N/A"} sqft</span>
+                        <span>📐</span> Size: <span className="text-slate-800 font-medium">{prop.areaSqft || "N/A"} sqft</span>
                       </div>
                       <div className="flex items-center gap-1.5">
-                        <span>🧭</span> Facing: <span className="text-white font-medium">{prop.facing || "N/A"}</span>
+                        <span>🧭</span> Facing: <span className="text-slate-800 font-medium">{prop.facing || "N/A"}</span>
                       </div>
                       {prop.bedrooms && (
                         <div className="flex items-center gap-1.5">
-                          <span>🛌</span> Beds: <span className="text-white font-medium">{prop.bedrooms} BHK</span>
+                          <span>🛌</span> Beds: <span className="text-slate-800 font-medium">{prop.bedrooms} BHK</span>
                         </div>
                       )}
                       {prop.floorNumber !== null && prop.floorNumber !== undefined && (
                         <div className="flex items-center gap-1.5">
-                          <span>🏢</span> Floor: <span className="text-white font-medium">{prop.floorNumber}</span>
+                          <span>🏢</span> Floor: <span className="text-slate-800 font-medium">{prop.floorNumber}</span>
                         </div>
                       )}
                       {prop.price && prop.areaSqft && !isNaN(parseFloat(prop.price)) && !isNaN(parseFloat(prop.areaSqft)) && parseFloat(prop.areaSqft) > 0 ? (
                         <div className="flex items-center gap-1.5 col-span-2 text-gold-solid font-bold mt-1">
-                          <span>🏷️</span> Price Rate: <span className="text-white font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{Math.round(parseFloat(prop.price) / parseFloat(prop.areaSqft)).toLocaleString()}/sqft</span>
+                          <span>🏷️</span> Price Rate: <span className="text-gold-dark font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{Math.round(parseFloat(prop.price) / parseFloat(prop.areaSqft)).toLocaleString()}/sqft</span>
                         </div>
                       ) : project.pricePerSqft ? (
                         <div className="flex items-center gap-1.5 col-span-2 text-gold-solid font-bold mt-1">
-                          <span>🏷️</span> Est. Rate: <span className="text-white font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft</span>
+                          <span>🏷️</span> Est. Rate: <span className="text-gold-dark font-extrabold bg-gold-solid/10 border border-gold-solid/25 px-2 py-0.5 rounded">₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft</span>
                         </div>
                       ) : null}
                     </div>
                   </div>
 
                   {/* Price Row */}
-                  <div className="border-t border-white/5 pt-4 flex items-center justify-between gap-2">
+                  <div className="border-t border-dark-secondary/10 pt-4 flex items-center justify-between gap-2">
                     <div className="flex flex-col">
                       <span className="text-[9px] text-text-gray-muted uppercase tracking-wider font-semibold">Pricing</span>
-                      <span className="font-extrabold text-white text-base">
+                      <span className="font-extrabold text-slate-800 text-base">
                         {formatPrice(prop.price)}
                       </span>
                     </div>

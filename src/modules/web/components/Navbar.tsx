@@ -83,7 +83,7 @@ export default function Navbar() {
                   >
                     Our Team
                   </Link>
-                  <Link
+                  {/* <Link
                     href="/cmd"
                     className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
                       pathname === "/cmd"
@@ -92,7 +92,7 @@ export default function Navbar() {
                     }`}
                   >
                     CMD Message
-                  </Link>
+                  </Link> */}
                 </div>
               </div>
               <Link 
