@@ -332,12 +332,11 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
                       <div className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-200 block">
-                          Email ID *
+                          Email ID <span className="text-slate-400 font-normal font-sans">(Optional)</span>
                         </label>
                         <input
                           type="email"
-                          required
-                          placeholder="john@example.com"
+                          placeholder="john@example.com (Optional)"
                           value={formData.email || ""}
                           onChange={(e) => handleInputChange("email", e.target.value)}
                           className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors"

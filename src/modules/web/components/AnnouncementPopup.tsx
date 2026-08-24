@@ -233,8 +233,8 @@ export default function AnnouncementPopup() {
   // Submit Lead form/newsletter
   const handleLeadSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!leadEmail) {
-      setLeadError("Email address is required.");
+    if (!leadEmail && !leadPhone && !leadName) {
+      setLeadError("Please provide at least a name, phone number, or email.");
       return;
     }
 
@@ -464,8 +464,7 @@ export default function AnnouncementPopup() {
                   )}
                   <input
                     type="email"
-                    required
-                    placeholder="Email Address *"
+                    placeholder="Email Address (Optional)"
                     value={leadEmail}
                     onChange={(e) => setLeadEmail(e.target.value)}
                     className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"

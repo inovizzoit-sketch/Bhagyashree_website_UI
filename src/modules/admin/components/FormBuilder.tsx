@@ -42,7 +42,7 @@ export default function FormBuilder({ form }: FormBuilderProps) {
       ? form.fields
       : [
         { label: "Full Name", name: "name", type: "TEXT", placeholder: "e.g. John Doe", required: true, sortOrder: 1 },
-        { label: "Email ID", name: "email", type: "EMAIL", placeholder: "john@example.com", required: true, sortOrder: 2 },
+        { label: "Email ID", name: "email", type: "EMAIL", placeholder: "john@example.com (Optional)", required: false, sortOrder: 2 },
         { label: "Phone Number", name: "phone", type: "PHONE", placeholder: "+91 9876543210", required: true, sortOrder: 3 },
         { label: "Message / Requirements", name: "message", type: "TEXTAREA", placeholder: "Write message...", required: false, sortOrder: 4 },
       ]

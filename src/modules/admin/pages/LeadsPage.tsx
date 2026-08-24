@@ -38,7 +38,7 @@ export default function LeadsPage() {
     const rows = leads.map((l) => [
       l.id,
       l.name || "",
-      l.email,
+      l.email || "",
       l.phone || "",
       l.message || "",
       l.popup?.title || "N/A",

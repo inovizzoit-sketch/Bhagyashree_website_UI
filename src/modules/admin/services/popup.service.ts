@@ -37,7 +37,7 @@ export interface PopupLeadItem {
   id: string;
   popupId: string;
   name?: string;
-  email: string;
+  email?: string;
   phone?: string;
   message?: string;
   createdAt: string;
