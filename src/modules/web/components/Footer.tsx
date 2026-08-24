@@ -44,12 +44,12 @@ interface FooterSocial {
 
 // Fallback hardcoded data in case API fails or is loading
 const defaultSettings: FooterSettings = {
-  companyName: "Bhagyashree Enterprises",
-  description: "Bhagyashree Enterprises is a trusted real estate company — offering premium commercial and residential plots built for modern living and investment success in Mirzapur. Discover transparent deals, prime locations, and a legacy of trust.",
-  address: "2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108",
-  phone: "+91 91981 76509",
-  email: "info@bhagyashreeenterprises.com",
-  copyrightText: "Bhagyashree Enterprises. All rights reserved.",
+  companyName: "BhagyaShree Real Estate",
+  description: "Bhagya Shree Real Estate is a trusted real estate company based in Mirzapur, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
+  address: "Bathua Gandhi Ghat, Mirzapur, Uttar Pradesh 221108",
+  phone: "+91 6307274881, 91981 76509",
+  email: "info@mirzapur.com",
+  copyrightText: "Bhagya Shree Real Estate. All rights reserved.",
   privacyPolicyUrl: "",
   termsOfServiceUrl: "",
   isActive: true,
@@ -325,7 +325,7 @@ export default function Footer() {
             {settings.phone && (
               <div className="flex items-center gap-2.5">
                 <span className="text-footer-link">📞</span>
-                <a href={`tel:${settings.phone.replace(/\s+/g, "")}`} className="hover:text-footer-link transition-colors">
+                <a href={`tel:${settings.phone.split(',')[0].replace(/\s+/g, "")}`} className="hover:text-footer-link transition-colors">
                   {settings.phone}
                 </a>
               </div>
@@ -343,7 +343,7 @@ export default function Footer() {
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-[13px]">
-        <p>© {new Date().getFullYear()} {settings.companyName || "Bhagyashree Enterprises"}. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} {settings.companyName || "Bhagya Shree Real Estate"}. All rights reserved.</p>
         {/* <p className="flex gap-6 font-light">
           {settings.privacyPolicyUrl ? (
             <Link href={settings.privacyPolicyUrl} className="hover:text-gold-solid transition-colors">Privacy Policy</Link>
