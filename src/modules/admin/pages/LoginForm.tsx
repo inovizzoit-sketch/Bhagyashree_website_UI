@@ -40,11 +40,11 @@ export default function LoginForm() {
   }
 
   return (
-    <div className="w-full max-w-[420px] mx-auto px-5 py-8 sm:px-10 sm:py-12 bg-card-bg border border-card-border rounded-2xl shadow-[0_0_0_1px_rgba(99,102,241,0.06),0_24px_64px_rgba(0,0,0,0.1)]">
+    <div className="w-full max-w-[420px] mx-auto px-6 py-8 sm:px-10 sm:py-10 bg-white border border-slate-200 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.06)] font-sans">
 
       {/* Brand */}
       <div className="flex items-center gap-3 mb-6 sm:mb-8">
-        <div className="relative w-[48px] h-[48px] sm:w-[56px] sm:h-[56px] overflow-hidden flex items-center justify-center shrink-0">
+        <div className="relative w-[48px] h-[48px] sm:w-[54px] sm:h-[54px] overflow-hidden flex items-center justify-center shrink-0">
           <Image
             src="/logo.png"
             alt="Bhagyashree Logo"
@@ -54,21 +54,21 @@ export default function LoginForm() {
           />
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-lg sm:text-xl font-bold text-foreground tracking-wide">
+          <span className="text-lg sm:text-xl font-bold text-slate-900 tracking-wide font-serif">
             Bhagyashree
           </span>
-          <span className="text-[9px] sm:text-[10px] font-semibold bg-indigo-500/20 text-indigo-500 px-1.5 sm:px-2 py-0.5 rounded border border-indigo-500/30 uppercase tracking-widest">
+          <span className="text-[9px] sm:text-[10px] font-bold bg-[#070e2b]/10 text-[#070e2b] px-2 py-0.5 rounded-md border border-[#070e2b]/20 uppercase tracking-widest">
             CMS
           </span>
         </div>
       </div>
 
       {/* Headings */}
-      <h1 className="text-xl sm:text-2xl font-bold text-foreground tracking-tight mb-1 sm:mb-2">
-        Welcome back
+      <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight mb-1 font-serif">
+        Welcome Back
       </h1>
-      <p className="text-xs sm:text-sm text-text-gray-muted mb-6 sm:mb-8">
-        Sign in to your admin panel to manage content
+      <p className="text-xs sm:text-sm text-slate-500 mb-6 sm:mb-8 font-normal">
+        Sign in to your admin panel to manage website content.
       </p>
 
       {/* Form */}
@@ -76,11 +76,11 @@ export default function LoginForm() {
 
         {/* Username */}
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="admin-username" className="text-[13px] font-medium text-text-gray-muted tracking-wide">
+          <label htmlFor="admin-username" className="text-xs font-semibold text-slate-700 tracking-wide">
             Username
           </label>
           <div className="relative flex items-center">
-            <span className="absolute left-3.5 text-sm text-text-gray-muted/60 pointer-events-none">👤</span>
+            <span className="absolute left-3.5 text-sm text-slate-400 pointer-events-none">👤</span>
             <input
               id="admin-username"
               type="text"
@@ -89,18 +89,18 @@ export default function LoginForm() {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              className="w-full bg-background border border-card-border rounded-xl py-2.5 pl-10 pr-10 text-sm text-foreground placeholder-text-gray-muted/40 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+              className="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-gold-solid rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
             />
           </div>
         </div>
 
         {/* Password */}
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="admin-password" className="text-[13px] font-medium text-text-gray-muted tracking-wide">
+          <label htmlFor="admin-password" className="text-xs font-semibold text-slate-700 tracking-wide">
             Password
           </label>
           <div className="relative flex items-center">
-            <span className="absolute left-3.5 text-sm text-text-gray-muted/60 pointer-events-none">🔒</span>
+            <span className="absolute left-3.5 text-sm text-slate-400 pointer-events-none">🔒</span>
             <input
               id="admin-password"
               type={showPassword ? "text" : "password"}
@@ -109,13 +109,13 @@ export default function LoginForm() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full bg-background border border-card-border rounded-xl py-2.5 pl-10 pr-10 text-sm text-foreground placeholder-text-gray-muted/40 outline-none transition-all duration-200 focus:border-indigo-500 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.15)]"
+              className="w-full bg-slate-50 border border-slate-200 focus:bg-white focus:border-gold-solid rounded-xl py-2.5 pl-10 pr-10 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition-all duration-200"
             />
             <button
               type="button"
               onClick={() => setShowPassword((v) => !v)}
               aria-label={showPassword ? "Hide password" : "Show password"}
-              className="absolute right-3 text-sm text-text-gray-muted/65 hover:text-foreground transition-colors duration-150 p-1 cursor-pointer bg-transparent border-none"
+              className="absolute right-3 text-sm text-slate-400 hover:text-slate-700 transition-colors duration-150 p-1 cursor-pointer bg-transparent border-none"
             >
               {showPassword ? "🙈" : "👁"}
             </button>
@@ -126,7 +126,7 @@ export default function LoginForm() {
         {error && (
           <div
             role="alert"
-            className="flex items-center gap-2 px-3.5 py-2.5 bg-red-500/10 border border-red-500/25 rounded-lg text-[13px] text-red-400"
+            className="flex items-center gap-2 px-3.5 py-2.5 bg-red-50 border border-red-200 rounded-xl text-xs font-medium text-red-600"
           >
             <span>⚠</span>
             <span>{error}</span>
@@ -138,10 +138,10 @@ export default function LoginForm() {
           id="login-submit-btn"
           type="submit"
           disabled={loading}
-          className="mt-1.5 w-full py-3 rounded-xl border-none cursor-pointer text-sm font-semibold text-white bg-gradient-to-r from-indigo-500 to-purple-500 shadow-[0_4px_20px_rgba(99,102,241,0.3)] transition-all duration-200 flex items-center justify-center min-h-[46px] hover:opacity-90 hover:-translate-y-px hover:shadow-[0_8px_28px_rgba(99,102,241,0.4)] active:translate-y-0 disabled:opacity-70 disabled:cursor-not-allowed"
+          className="mt-2 w-full py-3.5 rounded-xl border-none cursor-pointer text-xs font-bold uppercase tracking-widest text-[#070e2b] bg-gold-solid hover:bg-gold-hover shadow-lg shadow-gold-solid/20 transition-all flex items-center justify-center min-h-[46px] disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {loading ? (
-            <span className="inline-block w-[18px] h-[18px] border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <span className="inline-block w-[18px] h-[18px] border-2 border-[#070e2b]/30 border-t-[#070e2b] rounded-full animate-spin" />
           ) : (
             "Sign in"
           )}

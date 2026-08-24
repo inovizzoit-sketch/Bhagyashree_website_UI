@@ -42,10 +42,11 @@ export default function AboutUsPage() {
   ];
 
   const stats = [
-    { value: "5 Mn Sq Ft", label: "Land" },
-    { value: "650+", label: "Customers" },
-    { value: "16 Mn Sq.Ft.", label: "Under Development" },
-    { value: "2", label: "Locations in Greater Mirzapur" }
+    { value: "10 Mn Sq Ft", label: "Land" },
+    { value: "450+", label: "Customers" },
+    { value: "20 Mn Sq.Ft.", label: "Under Development" },
+    { value: "2", label: "Locations in Greater Mirzapur" },
+    { value: "1", label: "Location in Prayagraj" }
   ];
 
   return (
@@ -98,7 +99,7 @@ export default function AboutUsPage() {
 
       {/* Interactive Stats Grid */}
       <div className="w-full bg-gold-solid/5 border-y border-gold-solid/20 py-12 mb-28 relative z-10 backdrop-blur-sm shadow-xl">
-        <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-6">
           {stats.map((stat, idx) => (
             <div key={idx} className="text-center space-y-1.5">
               <span className="text-3xl sm:text-4xl font-extrabold text-gold-solid block tracking-tight">

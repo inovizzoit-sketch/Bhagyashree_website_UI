@@ -12,14 +12,15 @@ interface StatItem {
 }
 
 const statsData: StatItem[] = [
-  { target: 5, suffix: " Mn Sq Ft", label: "Land", subLabel: "" },
-  { target: 650, suffix: "+", label: "Customers", subLabel: "" },
-  { target: 16, suffix: " Mn Sq.Ft.", label: "Under", subLabel: "Development" },
+  { target: 10, suffix: " Mn Sq Ft", label: "Land", subLabel: "" },
+  { target: 450, suffix: "+", label: "Customers", subLabel: "" },
+  { target: 20, suffix: " Mn Sq.Ft.", label: "Under", subLabel: "Development" },
   { target: 2, suffix: "", label: "Locations in", subLabel: "Greater Mirzapur" },
+  { target: 1, suffix: "", label: "Location in", subLabel: "Prayagraj" },
 ];
 
 export default function CounterSection() {
-  const [counts, setCounts] = useState<number[]>([0, 0, 0, 0]);
+  const [counts, setCounts] = useState<number[]>([0, 0, 0, 0, 0]);
   const [isVisible, setIsVisible] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
 
@@ -86,11 +87,11 @@ export default function CounterSection() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
         <div className="mb-7 flex items-center gap-4 text-gold-solid text-xs font-bold uppercase tracking-[0.24em]"><span className="h-px w-12 bg-gold-solid" />Our footprint</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden">
           {statsData.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center text-center relative group bg-dark-secondary/90 p-6 md:p-8 hover:bg-dark-primary transition-colors w-full h-full min-h-[160px]">
+            <div key={idx} className="flex flex-col items-center justify-center text-center relative group bg-dark-secondary/90 p-5 md:p-6 lg:p-7 hover:bg-dark-primary transition-colors w-full h-full min-h-[160px]">
               {/* Stat Value */}
-              <div className="text-4xl sm:text-5xl lg:text-6xl font-serif text-white font-semibold tracking-tight">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white font-semibold tracking-tight">
                 {counts[idx]}
                 <span className="text-gold-solid">{stat.suffix}</span>
               </div>

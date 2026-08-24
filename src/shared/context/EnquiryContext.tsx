@@ -78,7 +78,12 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
   };
 
   const handleInputChange = (fieldName: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [fieldName]: value }));
+    let cleanVal = value;
+    const lowerKey = fieldName.toLowerCase();
+    if (lowerKey === "phone" || lowerKey.includes("phone") || lowerKey.includes("mobile")) {
+      cleanVal = String(value).replace(/\D/g, "").slice(0, 10);
+    }
+    setFormData((prev) => ({ ...prev, [fieldName]: cleanVal }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -87,6 +92,17 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       setError("You must agree to be contacted to submit.");
       return;
     }
+
+    // Validate 10-digit mobile number
+    const phoneEntry = Object.entries(formData).find(
+      ([k]) => k.toLowerCase().includes("phone") || k.toLowerCase().includes("mobile")
+    );
+    const phoneVal = phoneEntry ? String(phoneEntry[1] || "") : "";
+    if (phoneVal && phoneVal.length !== 10) {
+      setError("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -118,14 +134,19 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
 
       {/* Modern Royal Blue Glassmorphic Dynamic Enquiry Modal Popup */}
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fade-in font-sans">
-          
-          <div className="relative w-full max-w-[480px] max-h-[95vh] overflow-y-auto bg-gradient-to-br from-dark-secondary to-background border border-white/5 rounded-3xl shadow-2xl p-8 md:p-10 scrollbar-none flex flex-col justify-between">
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-sans"
+          onClick={closeEnquiry}
+        >
+          <div
+            className="relative w-full max-w-[480px] max-h-[90vh] overflow-y-auto bg-[#070e2b] border border-gold-solid/30 rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 scrollbar-none flex flex-col justify-between text-white"
+            onClick={(e) => e.stopPropagation()}
+          >
             
             {/* Close Button */}
             <button
               onClick={closeEnquiry}
-              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
+              className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
               title="Close"
             >
               ✕
@@ -142,40 +163,40 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                 
                 <div className="space-y-2">
                   <h4 className="text-xl font-bold text-white font-serif">Thank You</h4>
-                  <p className="text-xs text-[#8E90A2] leading-relaxed max-w-xs mx-auto font-light">
+                  <p className="text-xs text-slate-300 leading-relaxed max-w-xs mx-auto font-normal">
                     Your details are verified. Our advisory expert will call you shortly.
                   </p>
                 </div>
                 
                 <button
                   onClick={closeEnquiry}
-                  className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-background hover:bg-gold-hover transition-all cursor-pointer shadow-lg shadow-gold-solid/15"
+                  className="rounded-full bg-gold-solid px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-[#050c38] hover:bg-gold-hover transition-all cursor-pointer shadow-lg shadow-gold-solid/15"
                 >
                   Close Window
                 </button>
               </div>
             ) : (
-              <div className="space-y-8">
+              <div className="space-y-6">
                 {/* Dynamic Header */}
-                <div className="space-y-2">
-                  <h3 className="text-2xl md:text-3xl font-serif text-white leading-tight font-medium">
+                <div className="space-y-1.5 pr-6">
+                  <h3 className="text-2xl md:text-3xl font-serif text-white leading-tight font-semibold">
                     {dynamicForm?.name || "Just a few more details."}
                   </h3>
-                  <p className="text-xs sm:text-sm text-[#8E90A2] font-light">
+                  <p className="text-xs sm:text-sm text-slate-300 font-normal">
                     {dynamicForm?.description || "Our experts will call you shortly."}
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
                   {error && (
-                    <div className="p-3 bg-red-500/10 border border-red-500/20 text-red-400 rounded-lg text-xs font-light">
+                    <div className="p-3 bg-red-500/15 border border-red-500/30 text-red-300 rounded-xl text-xs font-medium">
                       {error}
                     </div>
                   )}
 
                   {/* Project Selector Dropdown */}
-                  <div className="space-y-1">
-                    <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-semibold text-slate-200 block">
                       Project
                     </label>
                     <select
@@ -184,21 +205,21 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                         setProjectName(e.target.value);
                         handleInputChange("project", e.target.value);
                       }}
-                      className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 cursor-pointer rounded-none appearance-none"
+                      className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 cursor-pointer rounded-xl appearance-none transition-colors"
                       style={{
-                        backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%238E90A2' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
-                        backgroundPosition: 'right 0rem center',
+                        backgroundImage: `url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23DDBD81' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3E%3C/svg%3E")`,
+                        backgroundPosition: 'right 0.75rem center',
                         backgroundSize: '1.25em 1.25em',
                         backgroundRepeat: 'no-repeat',
                       }}
                     >
-                      <option value="" disabled className="bg-[#0a0d24] text-white/50">Select a project</option>
+                      <option value="" disabled className="bg-[#070e2b] text-slate-400">Select a project</option>
                       {projectsList.map((p) => (
-                        <option key={p.id} value={p.name} className="bg-[#0a0d24] text-white">
+                        <option key={p.id} value={p.name} className="bg-[#070e2b] text-white">
                           {p.name}
                         </option>
                       ))}
-                      <option value="General Inquiry" className="bg-[#0a0d24] text-white">General Inquiry</option>
+                      <option value="General Inquiry" className="bg-[#070e2b] text-white">General Inquiry</option>
                     </select>
                   </div>
 
@@ -207,8 +228,8 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                     dynamicForm.fields.map((field: any) => {
                       const key = field.name || field.label;
                       return (
-                        <div key={field.id || key} className="space-y-1">
-                          <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                        <div key={field.id || key} className="space-y-1.5">
+                          <label className="text-xs font-semibold text-slate-200 block">
                             {field.label} {field.required && <span className="text-gold-solid">*</span>}
                           </label>
 
@@ -219,20 +240,20 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                               placeholder={field.placeholder || "Enter details..."}
                               value={formData[key] || ""}
                               onChange={(e) => handleInputChange(key, e.target.value)}
-                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors resize-none"
+                              className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors resize-none"
                             />
                           ) : field.type === "SELECT" || field.type === "select" ? (
                             <select
                               required={field.required}
                               value={formData[key] || ""}
                               onChange={(e) => handleInputChange(key, e.target.value)}
-                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 cursor-pointer rounded-none appearance-none"
+                              className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 cursor-pointer rounded-xl appearance-none transition-colors"
                             >
-                              <option value="" disabled className="bg-[#0a0d24] text-white/50">
+                              <option value="" disabled className="bg-[#070e2b] text-slate-400">
                                 {field.placeholder || "Select option..."}
                               </option>
                               {field.options?.map((opt: string) => (
-                                <option key={opt} value={opt} className="bg-[#0a0d24] text-white">
+                                <option key={opt} value={opt} className="bg-[#070e2b] text-white">
                                   {opt}
                                 </option>
                               ))}
@@ -251,10 +272,20 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                                   : "text"
                               }
                               required={field.required}
+                              maxLength={
+                                field.type === "PHONE" || field.type === "phone" || key.toLowerCase().includes("phone") || key.toLowerCase().includes("mobile")
+                                  ? 10
+                                  : undefined
+                              }
+                              inputMode={
+                                field.type === "PHONE" || field.type === "phone" || key.toLowerCase().includes("phone") || key.toLowerCase().includes("mobile")
+                                  ? "numeric"
+                                  : undefined
+                              }
                               placeholder={field.placeholder || `Enter ${field.label}`}
                               value={formData[key] || ""}
                               onChange={(e) => handleInputChange(key, e.target.value)}
-                              className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                              className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors"
                             />
                           )}
                         </div>
@@ -263,8 +294,8 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                   ) : (
                     /* Fallback Fields if API is Loading */
                     <>
-                      <div className="space-y-1">
-                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-200 block">
                           Full Name *
                         </label>
                         <input
@@ -273,32 +304,34 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                           placeholder="e.g. John Doe"
                           value={formData.name || ""}
                           onChange={(e) => handleInputChange("name", e.target.value)}
-                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                          className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors"
                         />
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-200 block">
                           Mobile Number *
                         </label>
-                        <div className="flex items-center border-0 border-b border-white/20 focus-within:border-gold-solid/80 transition-colors">
-                          <div className="flex items-center gap-1 text-white text-sm py-2.5 pr-2 select-none font-medium">
+                        <div className="flex items-center rounded-xl bg-[#03071e]/90 border border-white/20 focus-within:border-gold-solid overflow-hidden transition-colors">
+                          <div className="flex items-center gap-1.5 text-gold-solid text-sm font-bold px-3.5 py-2.5 bg-white/5 border-r border-white/20 select-none">
                             <span>+91</span>
-                            <span>🇮🇳</span>
                           </div>
                           <input
                             type="tel"
                             required
-                            placeholder="Enter mobile number"
+                            maxLength={10}
+                            inputMode="numeric"
+                            pattern="[0-9]{10}"
+                            placeholder="Enter 10-digit mobile number"
                             value={formData.phone || ""}
                             onChange={(e) => handleInputChange("phone", e.target.value)}
-                            className="w-full bg-transparent text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none"
+                            className="w-full bg-transparent text-white text-sm outline-none py-2.5 px-3 placeholder:text-slate-400"
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-200 block">
                           Email ID *
                         </label>
                         <input
@@ -307,12 +340,12 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                           placeholder="john@example.com"
                           value={formData.email || ""}
                           onChange={(e) => handleInputChange("email", e.target.value)}
-                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors"
+                          className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors"
                         />
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="text-[10px] md:text-xs font-semibold text-[#8E90A2] block">
+                      <div className="space-y-1.5">
+                        <label className="text-xs font-semibold text-slate-200 block">
                           Message / Requirements
                         </label>
                         <textarea
@@ -320,35 +353,35 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
                           placeholder="Write message..."
                           value={formData.message || ""}
                           onChange={(e) => handleInputChange("message", e.target.value)}
-                          className="w-full bg-transparent border-0 border-b border-white/20 focus:border-gold-solid/80 text-white text-sm outline-none py-2.5 placeholder:text-white/20 rounded-none transition-colors resize-none"
+                          className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid text-white text-sm outline-none px-3.5 py-2.5 placeholder:text-slate-400 rounded-xl transition-colors resize-none"
                         />
                       </div>
                     </>
                   )}
 
                   {/* Agreement Checkbox */}
-                  <label className="flex items-start gap-3.5 cursor-pointer pt-2">
+                  <label className="flex items-start gap-3 cursor-pointer pt-1">
                     <input
                       type="checkbox"
                       checked={agreed}
                       onChange={(e) => setAgreed(e.target.checked)}
-                      className="w-4 h-4 mt-0.5 shrink-0 rounded bg-transparent border border-white/20 text-gold-solid focus:ring-0 checked:bg-gold-solid cursor-pointer"
+                      className="w-4 h-4 mt-0.5 shrink-0 rounded border border-white/30 text-gold-solid focus:ring-0 checked:bg-gold-solid cursor-pointer"
                     />
-                    <span className="text-[10px] md:text-xs text-[#8E90A2] leading-relaxed font-light select-none">
+                    <span className="text-xs text-slate-300 leading-relaxed font-normal select-none">
                       I agree to be contacted by Bhagyashree or its representative through SMS/ Email/ WhatsApp/ RCS or Call.
                     </span>
                   </label>
 
                   {/* Action Button */}
-                  <div className="pt-4 flex justify-center">
+                  <div className="pt-2">
                     <button
                       type="submit"
                       disabled={submitting}
-                      className="w-full sm:w-auto rounded-full bg-gold-solid hover:bg-gold-hover px-10 py-4 text-xs font-bold uppercase tracking-widest text-background transition-all duration-300 disabled:opacity-50 hover:scale-[1.03] active:scale-[0.97] shadow-[0_4px_25px_rgba(221,189,129,0.3)] flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full rounded-xl bg-gold-solid hover:bg-gold-hover py-3.5 text-xs sm:text-sm font-bold uppercase tracking-widest text-[#050c38] transition-all duration-300 disabled:opacity-50 shadow-lg shadow-gold-solid/25 flex items-center justify-center gap-2 cursor-pointer border-none"
                     >
                       {submitting ? (
                         <>
-                          <div className="w-3.5 h-3.5 border-2 border-background/20 border-t-background rounded-full animate-spin" />
+                          <div className="w-4 h-4 border-2 border-[#050c38]/30 border-t-[#050c38] rounded-full animate-spin" />
                           <span>Submitting...</span>
                         </>
                       ) : (

@@ -52,7 +52,7 @@ export default function Navbar() {
               <div className="relative group py-1">
                 <button 
                   className={`text-[9px] lg:text-xs xl:text-sm font-semibold uppercase tracking-widest transition-all duration-300 px-2 lg:px-4 py-2 rounded-full border flex items-center gap-1 cursor-pointer bg-transparent outline-none ${
-                    pathname === "/about-us" || pathname === "/cmd" || pathname === "/about-us/team"
+                    pathname === "/about-us" || pathname === "/about-us/team"
                       ? "bg-white/15 text-white border-white/20 font-bold" 
                       : "text-white/80 hover:text-white hover:bg-white/5 border-transparent"
                   }`}
@@ -83,16 +83,7 @@ export default function Navbar() {
                   >
                     Our Team
                   </Link>
-                  {/* <Link
-                    href="/cmd"
-                    className={`px-4 py-2.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-colors no-underline block ${
-                      pathname === "/cmd"
-                        ? "bg-white/15 text-white"
-                        : "text-white/80 hover:text-white hover:bg-white/5"
-                    }`}
-                  >
-                    CMD Message
-                  </Link> */}
+
                 </div>
               </div>
               <Link 
@@ -230,18 +221,7 @@ export default function Navbar() {
                 {pathname === "/about-us/team" && <span className="w-1.5 h-1.5 rounded-full bg-gold-solid" />}
               </Link>
 
-              <Link 
-                onClick={() => setIsOpen(false)} 
-                href="/cmd" 
-                className={`px-4 py-2.5 rounded-xl border transition-all duration-300 flex items-center justify-between no-underline text-xs font-bold uppercase tracking-wider ${
-                  pathname === "/cmd" 
-                    ? "bg-white/15 text-white border-white/20" 
-                    : "text-white/80 border-transparent hover:bg-white/5 hover:text-white"
-                }`}
-              >
-                <span>CMD Message</span>
-                {pathname === "/cmd" && <span className="w-1.5 h-1.5 rounded-full bg-gold-solid" />}
-              </Link>
+
 
               <Link 
                 onClick={() => setIsOpen(false)} 
@@ -300,7 +280,7 @@ export default function Navbar() {
                   onClick={() => { setIsOpen(false); openEnquiry(); }}
                   className="w-full text-center rounded-xl bg-gold-solid hover:bg-gold-hover py-3 text-xs font-extrabold uppercase tracking-widest text-dark-secondary hover:text-white transition-all duration-300"
                 >
-                  Enquire Now
+                  Contact Us
                 </button>
               </div>
             </nav>

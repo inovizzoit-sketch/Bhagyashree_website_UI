@@ -239,6 +239,10 @@ export default function AnnouncementPopup() {
     }
 
     try {
+      if (currentPopup?.popupType === "LEAD_FORM" && leadPhone && leadPhone.length !== 10) {
+        setLeadError("Please enter a valid 10-digit mobile number.");
+        return;
+      }
       setSubmittingLead(true);
       setLeadError(null);
 
@@ -283,8 +287,14 @@ export default function AnnouncementPopup() {
   // RENDER CUSTOM HTML
   if (currentPopup.popupType === "CUSTOM_HTML") {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in">
-        <div className="relative w-full max-w-[650px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-dark-secondary to-background border border-white/10 rounded-3xl shadow-2xl p-4 flex flex-col justify-between">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+        onClick={handleClose}
+      >
+        <div
+          className="relative w-full max-w-[650px] max-h-[90vh] overflow-y-auto bg-[#070e2b] border border-gold-solid/30 rounded-3xl shadow-2xl p-4 flex flex-col justify-between text-white"
+          onClick={(e) => e.stopPropagation()}
+        >
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
@@ -305,8 +315,14 @@ export default function AnnouncementPopup() {
   // RENDER IMAGE POPUP
   if (currentPopup.popupType === "IMAGE_POPUP") {
     return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in">
-        <div className="relative w-full max-w-[500px] bg-transparent rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center">
+      <div
+        className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+        onClick={handleClose}
+      >
+        <div
+          className="relative w-full max-w-[500px] bg-transparent rounded-3xl overflow-hidden shadow-2xl flex flex-col items-center"
+          onClick={(e) => e.stopPropagation()}
+        >
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/60 hover:bg-black/80 text-white/80 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none border border-white/10"
@@ -337,8 +353,14 @@ export default function AnnouncementPopup() {
 
   // RENDER STANDARD LAYOUTS: ANNOUNCEMENT, PROMOTION, NEWSLETTER, LEAD_FORM, VIDEO_POPUP
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-sm animate-fade-in font-sans">
-      <div className="relative w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-gradient-to-br from-[#0c0d16] to-[#010314] border border-white/10 rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col justify-between">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in font-sans"
+      onClick={handleClose}
+    >
+      <div
+        className="relative w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-[#070e2b] border border-gold-solid/30 rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col justify-between text-white"
+        onClick={(e) => e.stopPropagation()}
+      >
         
         {/* Close Button */}
         <button
@@ -437,7 +459,7 @@ export default function AnnouncementPopup() {
                       placeholder="Your Name"
                       value={leadName}
                       onChange={(e) => setLeadName(e.target.value)}
-                      className="w-full bg-white/5 border border-white/10 focus:border-[#DDBD81]/50 outline-none rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 transition-colors"
+                      className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
                     />
                   )}
                   <input
@@ -446,23 +468,26 @@ export default function AnnouncementPopup() {
                     placeholder="Email Address *"
                     value={leadEmail}
                     onChange={(e) => setLeadEmail(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 focus:border-[#DDBD81]/50 outline-none rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 transition-colors"
+                    className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
                   />
                   {currentPopup.popupType === "LEAD_FORM" && (
                     <>
                       <input
                         type="tel"
-                        placeholder="Phone Number"
+                        maxLength={10}
+                        inputMode="numeric"
+                        pattern="[0-9]{10}"
+                        placeholder="10-Digit Mobile Number"
                         value={leadPhone}
-                        onChange={(e) => setLeadPhone(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 focus:border-[#DDBD81]/50 outline-none rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 transition-colors"
+                        onChange={(e) => setLeadPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
+                        className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
                       />
                       <textarea
                         rows={2}
                         placeholder="Your Message"
                         value={leadMessage}
                         onChange={(e) => setLeadMessage(e.target.value)}
-                        className="w-full bg-white/5 border border-white/10 focus:border-[#DDBD81]/50 outline-none rounded-xl px-4 py-2 text-sm text-white placeholder-slate-500 resize-none transition-colors"
+                        className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 resize-none transition-colors"
                       />
                     </>
                   )}

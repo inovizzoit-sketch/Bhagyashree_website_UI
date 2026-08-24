@@ -47,7 +47,7 @@ const defaultSettings: FooterSettings = {
   companyName: "Bhagyashree Enterprises",
   description: "Bhagyashree Enterprises is a trusted real estate company — offering premium commercial and residential plots built for modern living and investment success in Mirzapur. Discover transparent deals, prime locations, and a legacy of trust.",
   address: "2nd Floor, Survey No, 36 & 38, Rohaniya - DLW Road, Mauza, Gobindpur, Varanasi, Uttar Pradesh 221108",
-  phone: "+91 95196 62111",
+  phone: "+91 91981 76509",
   email: "info@bhagyashreeenterprises.com",
   copyrightText: "Bhagyashree Enterprises. All rights reserved.",
   privacyPolicyUrl: "",
@@ -58,9 +58,9 @@ const defaultSettings: FooterSettings = {
 const defaultLinks: FooterLink[] = [
   { id: "1", title: "Home", url: "/", openInNewTab: false, sortOrder: 1, isActive: true },
   { id: "2", title: "Projects", url: "/projects", openInNewTab: false, sortOrder: 2, isActive: true },
-  { id: "3", title: "Decoding Land", url: "/decoding-land", openInNewTab: false, sortOrder: 3, isActive: true },
+  // { id: "3", title: "Decoding Land", url: "/decoding-land", openInNewTab: false, sortOrder: 3, isActive: true },
   { id: "4", title: "About Us", url: "/about-us", openInNewTab: false, sortOrder: 4, isActive: true },
-  { id: "5", title: "Governance", url: "/governance", openInNewTab: false, sortOrder: 5, isActive: true },
+  // { id: "5", title: "Governance", url: "/governance", openInNewTab: false, sortOrder: 5, isActive: true },
 ];
 
 const defaultSocials: FooterSocial[] = [

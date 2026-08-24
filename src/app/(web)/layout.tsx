@@ -24,7 +24,7 @@ function OrganizationSchema() {
       "addressCountry": "IN"
     },
     "areaServed": "Mirzapur",
-    "telephone": "+91-XXXXXXXXXX",
+    "telephone": "+91-9198176509",
     "sameAs": [
       "https://www.instagram.com/bhagyashreeenterprises",
       "https://www.facebook.com/bhagyashreeenterprises"

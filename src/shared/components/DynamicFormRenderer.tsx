@@ -51,7 +51,12 @@ export default function DynamicFormRenderer({
   }
 
   const handleInputChange = (name: string, value: any) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    let cleanVal = value;
+    const lower = name.toLowerCase();
+    if (lower === "phone" || lower.includes("phone") || lower.includes("mobile")) {
+      cleanVal = String(value).replace(/\D/g, "").slice(0, 10);
+    }
+    setFormData((prev) => ({ ...prev, [name]: cleanVal }));
   };
 
   const handleCheckboxToggle = (name: string, option: string) => {
@@ -64,6 +69,17 @@ export default function DynamicFormRenderer({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate 10-digit mobile number
+    const phoneEntry = Object.entries(formData).find(
+      ([k]) => k.toLowerCase().includes("phone") || k.toLowerCase().includes("mobile")
+    );
+    const phoneVal = phoneEntry ? String(phoneEntry[1] || "") : "";
+    if (phoneVal && phoneVal.length !== 10) {
+      setError("Please enter a valid 10-digit mobile number.");
+      return;
+    }
+
     setSubmitting(true);
     setError(null);
 
@@ -210,6 +226,16 @@ export default function DynamicFormRenderer({
                                   : "text"
                       }
                       required={field.required}
+                      maxLength={
+                        field.type === "PHONE" || field.name.toLowerCase().includes("phone") || field.name.toLowerCase().includes("mobile")
+                          ? 10
+                          : undefined
+                      }
+                      inputMode={
+                        field.type === "PHONE" || field.name.toLowerCase().includes("phone") || field.name.toLowerCase().includes("mobile")
+                          ? "numeric"
+                          : undefined
+                      }
                       placeholder={field.placeholder}
                       value={formData[field.name] || ""}
                       onChange={(e) => handleInputChange(field.name, e.target.value)}

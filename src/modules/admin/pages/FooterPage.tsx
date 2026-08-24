@@ -448,7 +448,7 @@ export default function FooterPage() {
                       type="text"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="e.g. +91 95196 62111"
+                      placeholder="e.g. +91 91981 76509"
                       className="w-full bg-[#181824] border border-[#1e1e2e] rounded-xl px-4 py-2.5 text-sm text-slate-200 focus:outline-none focus:border-gold-solid/50 transition-colors"
                     />
                   </div>
