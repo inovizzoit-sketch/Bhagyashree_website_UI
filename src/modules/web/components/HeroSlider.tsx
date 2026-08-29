@@ -1,46 +1,37 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import Link from "next/link";
 import { useEnquiry } from "@/shared/context/EnquiryContext";
 
-const DEFAULT_SLIDES = [
+interface SlideItem {
+  id: number;
+  title: string;
+  subTitle: string;
+  images: string[];
+  mediaUrl?: string;
+  altText: string;
+  ctaText: string;
+}
+
+const DEFAULT_SLIDES: SlideItem[] = [
   {
     id: 1,
-    heading: "Your Dream Plot Awaits",
-    description: "Premium Residential Plots in Prime Locations",
-    badgeText: "Prime Location • Trusted Deals • Smart Investment",
-    mediaUrl: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1920&q=85",
-    altText: "Premium Residential Plots",
-    ctaText: "Explore Plots →"
+    title: "BHAGYASHREE REAL ESTATE",
+    subTitle: "AB HONGE SAPNE SAKAAR",
+    images: ["/images/hero1.png", "/images/hero2.png"],
+    mediaUrl: "/images/hero1.png",
+    altText: "Bhagyashree Real Estate Development Showcase 1",
+    ctaText: "View Property",
   },
   {
     id: 2,
-    heading: "Invest in Land. Build Your Future.",
-    description: "Secure residential plots with excellent future growth potential.",
-    badgeText: "Clear Documentation • Great Connectivity • High Growth Potential",
-    mediaUrl: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1920&q=85",
-    altText: "Secure residential plots",
-    ctaText: "View Available Plots →"
+    title: "BHAGYASHREE REAL ESTATE",
+    subTitle: "AB HONGE SAPNE SAKAAR",
+    images: ["/images/hero3.png", "/images/hero4.png"],
+    mediaUrl: "/images/hero3.png",
+    altText: "Bhagyashree Real Estate Development Showcase 2",
+    ctaText: "View Property",
   },
-  {
-    id: 3,
-    heading: "Find the Perfect Plot for Your Dream Home",
-    description: "Well-planned plots surrounded by roads, greenery and essential infrastructure.",
-    badgeText: "Wide Roads • Green Environment • Planned Development",
-    mediaUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1920&q=85",
-    altText: "Well-planned plots",
-    ctaText: "Book a Site Visit →"
-  },
-  {
-    id: 4,
-    heading: "A Smart Investment Starts with the Right Land",
-    description: "Choose premium plots in developing locations with strong investment potential.",
-    badgeText: "Strategic Location • Secure Investment • Future Appreciation",
-    mediaUrl: "https://images.unsplash.com/photo-1500049242364-5f500807cdd7?auto=format&fit=crop&w=1920&q=85",
-    altText: "Premium plots",
-    ctaText: "Discover Opportunities →"
-  }
 ];
 
 export default function HeroSlider() {
@@ -49,7 +40,7 @@ export default function HeroSlider() {
   const [isPaused, setIsPaused] = useState(false);
   const autoPlayTimer = useRef<NodeJS.Timeout | null>(null);
 
-  // Auto-play cycling effect (every 4.5 seconds)
+  // Auto-play cycling effect
   useEffect(() => {
     if (isPaused) {
       if (autoPlayTimer.current) clearInterval(autoPlayTimer.current);
@@ -65,109 +56,132 @@ export default function HeroSlider() {
     };
   }, [isPaused]);
 
-  const handleScrollDown = () => {
-    window.scrollBy({
-      top: window.innerHeight - 80,
-      behavior: "smooth",
-    });
+  const handlePrev = () => {
+    setCurrentSlideIndex((prev) => (prev - 1 + DEFAULT_SLIDES.length) % DEFAULT_SLIDES.length);
+  };
+
+  const handleNext = () => {
+    setCurrentSlideIndex((prev) => (prev + 1) % DEFAULT_SLIDES.length);
+  };
+
+  const handleCtaClick = () => {
+    const el = document.getElementById("featured-projects");
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+    } else {
+      window.location.href = "/projects";
+    }
   };
 
   return (
     <section
-      className="relative w-full h-screen min-h-[650px] flex items-center justify-center overflow-hidden font-sans select-none"
+      className="w-full h-screen min-h-[600px] pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 px-2 sm:px-4 md:px-6 max-w-[1650px] mx-auto font-sans select-none flex flex-col justify-center"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
-      {/* Background Image Slider with Zoom Animation */}
-      <div className="absolute inset-0 z-0 bg-surface-dark-deep">
-        {DEFAULT_SLIDES.map((slide, idx) => (
-          <div
-            key={slide.id}
-            className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${
-              currentSlideIndex === idx ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
+      {/* Framed Rounded Hero Banner Container matching reference screenshot */}
+      <div className="relative w-full flex-1 h-full min-h-[420px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-[#EADBB4]/60 bg-[#1A150C] shadow-2xl shadow-black/20">
+
+        {/* Sliding Track Viewport Container */}
+        <div
+          className="flex w-full h-full transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${currentSlideIndex * 100}%)` }}
+        >
+          {DEFAULT_SLIDES.map((slide, idx) => {
+            const slideImages = slide.images && slide.images.length > 0 
+              ? slide.images 
+              : [slide.mediaUrl || "/images/hero1.png"];
+
+            return (
+              <div
+                key={slide.id}
+                className="relative w-full h-full shrink-0 overflow-hidden"
+              >
+                {/* 2-Image Side-by-Side Split View with Faded Seam */}
+                <div className="relative w-full h-full">
+                  <div className={`w-full h-full grid ${slideImages.length > 1 ? "grid-cols-2" : "grid-cols-1"} bg-black`}>
+                    {slideImages.map((imgUrl, imgIdx) => (
+                      <div key={imgIdx} className="relative w-full h-full overflow-hidden bg-black/60">
+                        <img
+                          src={imgUrl}
+                          alt={`${slide.altText} - Part ${imgIdx + 1}`}
+                          className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${
+                            currentSlideIndex === idx ? "scale-105" : "scale-100"
+                          }`}
+                        />
+                        {/* Soft edge gradient fade on individual image edges */}
+                        {slideImages.length > 1 && imgIdx === 0 && (
+                          <div className="absolute inset-y-0 right-0 w-28 sm:w-44 bg-gradient-to-l from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                        )}
+                        {slideImages.length > 1 && imgIdx === 1 && (
+                          <div className="absolute inset-y-0 left-0 w-28 sm:w-44 bg-gradient-to-r from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Center Seam Blend Gradient & Glow */}
+                  {slideImages.length > 1 && (
+                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-16 sm:w-28 bg-gradient-to-r from-black/80 via-[#D4AF37]/20 to-black/80 pointer-events-none z-10 blur-sm" />
+                  )}
+                </div>
+
+                {/* Subtle Gradient Overlay at Bottom for legibility */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none z-10" />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Left Arrow Navigation Overlay */}
+        <button
+          onClick={handlePrev}
+          aria-label="Previous Slide"
+          className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
+        >
+          ‹
+        </button>
+
+        {/* Right Arrow Navigation Overlay */}
+        <button
+          onClick={handleNext}
+          aria-label="Next Slide"
+          className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
+        >
+          ›
+        </button>
+
+        {/* Bottom-Left Overlay Content (Matching Reference Image) */}
+        <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-20 max-w-lg text-left">
+          <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-white tracking-wide uppercase leading-tight drop-shadow-md mb-3">
+            {DEFAULT_SLIDES[currentSlideIndex].title}
+          </h1>
+
+          <button
+            onClick={handleCtaClick}
+            className="inline-flex items-center justify-center border border-white/80 hover:border-[#D4AF37] bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] px-5 sm:px-6 py-2 rounded-full text-[11px] font-extrabold uppercase tracking-widest backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 active:scale-95"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={slide.mediaUrl}
-              alt={slide.altText}
-              className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${
-                currentSlideIndex === idx ? "scale-105" : "scale-100"
-              }`}
-            />
-            {/* Premium Radial & Linear Gradients for optimal text readability */}
-            <div className="absolute inset-0 bg-gradient-to-b from-surface-dark-deep/65 via-surface-dark-deep/55 to-surface-dark-deep/95 z-10" />
-            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-surface-dark-deep/20 to-surface-dark-deep/70 z-10" />
-          </div>
-        ))}
-      </div>
+            <span>{DEFAULT_SLIDES[currentSlideIndex].ctaText}</span>
+            <span className="ml-1.5 font-bold">➔</span>
+          </button>
+        </div>
 
-      {/* Slide Text Content Container */}
-      <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-20 w-full flex flex-col items-center justify-center text-center py-24">
-        {DEFAULT_SLIDES.map((slide, idx) => (
-          <div
-            key={slide.id}
-            className={`max-w-4xl flex flex-col items-center transition-all duration-700 transform ${
-              currentSlideIndex === idx
-                ? "opacity-100 translate-y-0 scale-100"
-                : "opacity-0 translate-y-6 scale-95 absolute pointer-events-none"
-            }`}
-          >
-            {/* Highlights Bar */}
-            {slide.badgeText && (
-              <span className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-gold-solid bg-dark-secondary/85 border border-gold-solid/30 px-4 py-2 rounded-full mb-6 backdrop-blur-md shadow-lg">
-                {slide.badgeText}
-              </span>
-            )}
-
-            {/* Headline */}
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-white font-normal tracking-tight leading-[1.12] mb-6 drop-shadow-md">
-              {slide.heading}
-            </h1>
-
-            {/* Subtext */}
-            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-200 font-light leading-relaxed max-w-2xl mb-10 drop-shadow">
-              {slide.description}
-            </p>
-
-            {/* Action Call to Action Button */}
-            <button
-              onClick={() => openEnquiry(slide.heading)}
-              className="px-8 py-4 bg-gold-solid hover:bg-gold-hover text-dark-secondary hover:text-white text-xs font-extrabold uppercase tracking-widest rounded-xl transition-all duration-300 hover:scale-105 active:scale-95 shadow-[0_4px_25px_rgba(21,46,96,0.28)] hover:shadow-[0_4px_30px_rgba(181,138,58,0.3)] cursor-pointer"
-            >
-              {slide.ctaText}
-            </button>
-          </div>
-        ))}
-      </div>
-
-      {/* Bottom Slider Indicators/Dots */}
-      {DEFAULT_SLIDES.length > 1 && (
-        <div className="absolute bottom-20 left-1/2 -translate-x-1/2 flex gap-3.5 z-30">
+        {/* Bottom Center Pagination Dots */}
+        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30 bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
           {DEFAULT_SLIDES.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlideIndex(idx)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
-                currentSlideIndex === idx ? "bg-gold-solid scale-125 shadow-md shadow-gold-solid/35" : "bg-white/35 hover:bg-white/60"
+              className={`rounded-full transition-all duration-300 cursor-pointer ${
+                currentSlideIndex === idx
+                  ? "w-3 h-3 bg-[#D4AF37] shadow-md shadow-[#D4AF37]/50 scale-110"
+                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/90"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}
         </div>
-      )}
 
-      {/* Down Scroll Indicator */}
-      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-30">
-        <button
-          onClick={handleScrollDown}
-          className="w-11 h-11 rounded-full bg-black/25 hover:bg-gold-solid border border-white/15 hover:border-gold-solid flex items-center justify-center text-white transition-all duration-300 hover:scale-110 active:scale-95 backdrop-blur-sm cursor-pointer shadow-md"
-          aria-label="Scroll Down"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-chevron-down animate-bounce" viewBox="0 0 16 16">
-            <path fillRule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z" />
-          </svg>
-        </button>
       </div>
     </section>
   );

@@ -20,15 +20,15 @@ export default function SectionHeading({
   const alignClass = align === "center" ? "text-center mx-auto" : "text-left";
 
   return (
-    <div className={`max-w-3xl mb-12 lg:mb-16 ${alignClass} ${className} animate-in fade-in slide-in-from-bottom duration-700`}>
+    <div className={`max-w-3xl mb-6 sm:mb-8 ${alignClass} ${className} animate-in fade-in slide-in-from-bottom duration-700`}>
       {badge && (
-        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold-solid/5 border border-gold-solid/20 text-[10px] font-bold uppercase tracking-widest text-gold-solid mb-4">
+        <span className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF4E8] border border-[#EADBB4] text-[10px] font-extrabold uppercase tracking-widest text-[#8C6D23] mb-3 shadow-sm">
           {badge}
         </span>
       )}
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-foreground font-light tracking-tight leading-tight">
+      <h2 className="text-2xl sm:text-4xl lg:text-5xl font-sans text-foreground font-bold tracking-tight leading-tight">
         {plainText}{" "}
-        <span className="bg-gradient-to-r from-gold-solid via-gold-hover to-gold-dark bg-clip-text text-transparent font-medium italic block sm:inline">
+        <span className="bg-gradient-to-r from-[#D4AF37] via-[#C5A028] to-[#8C6D23] bg-clip-text text-transparent font-extrabold not-italic block sm:inline">
           {highlightText}
         </span>
       </h2>

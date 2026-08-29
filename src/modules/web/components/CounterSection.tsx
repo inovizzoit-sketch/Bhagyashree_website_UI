@@ -72,46 +72,39 @@ export default function CounterSection() {
   }, [isVisible]);
 
   return (
-    <section ref={sectionRef} className="w-full bg-dark-secondary py-12 md:py-14 font-sans relative overflow-hidden">
+    <section ref={sectionRef} className="w-full bg-[#FAF4E8] py-10 md:py-12 font-sans relative overflow-hidden border-y border-[#EADBB4]">
       {/* Concentric rings design for footprint/counter section */}
       <DecorativeCircles
-        theme="dark"
+        theme="light"
         circles={[
-          { size: 500, right: "-100px", top: "-100px", opacity: 0.15, color: "border-gold-solid/25" },
-          { size: 420, right: "-60px", top: "-60px", opacity: 0.12, color: "border-gold-solid/15" },
-          { size: 340, right: "-20px", top: "-20px", opacity: 0.10, color: "border-gold-solid/10" },
-          { size: 600, left: "-200px", bottom: "-200px", opacity: 0.10, color: "border-white/5" },
-          { size: 520, left: "-160px", bottom: "-160px", opacity: 0.08, color: "border-white/5" }
+          { size: 500, right: "-100px", top: "-100px", opacity: 0.08, color: "border-[#8C6D23]/20" },
+          { size: 600, left: "-200px", bottom: "-200px", opacity: 0.06, color: "border-[#8C6D23]/15" }
         ]}
       />
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
-        <div className="mb-7 flex items-center gap-4 text-gold-solid text-xs font-bold uppercase tracking-[0.24em]"><span className="h-px w-12 bg-gold-solid" />Our footprint</div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-white/10 border border-white/10 rounded-3xl overflow-hidden">
+        <div className="mb-5 flex items-center gap-4 text-[#8C6D23] text-xs font-extrabold uppercase tracking-[0.24em]">
+          <span className="h-px w-12 bg-[#8C6D23]" />
+          Our Footprint
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-5">
           {statsData.map((stat, idx) => (
-            <div key={idx} className="flex flex-col items-center justify-center text-center relative group bg-dark-secondary/90 p-5 md:p-6 lg:p-7 hover:bg-dark-primary transition-colors w-full h-full min-h-[160px]">
+            <div
+              key={idx}
+              className="flex flex-col items-center justify-center text-center relative group bg-white border border-[#EADBB4] hover:border-[#D4AF37] rounded-3xl p-6 shadow-md hover:shadow-xl hover:shadow-[#D4AF37]/15 transition-all duration-300 w-full h-full min-h-[160px]"
+            >
               {/* Stat Value */}
-              <div className="text-3xl sm:text-4xl lg:text-5xl font-serif text-white font-semibold tracking-tight">
+              <div className="text-3xl sm:text-4xl lg:text-5xl font-sans text-[#1A150C] font-extrabold tracking-tight">
                 {counts[idx]}
-                <span className="text-gold-solid">{stat.suffix}</span>
+                <span className="text-[#D4AF37] font-bold">{stat.suffix}</span>
               </div>
               {/* Stat Descriptions */}
-              <div className="mt-4 flex flex-col text-xs md:text-sm text-text-on-dark-muted font-semibold tracking-wider uppercase leading-snug">
-                <span>{stat.label}</span>
-                <span className="text-text-gray-muted/60">
+              <div className="mt-4 flex flex-col text-xs md:text-sm text-slate-700 font-bold tracking-wider uppercase leading-snug">
+                <span className="text-[#8C6D23]">{stat.label}</span>
+                <span className="text-slate-500 font-normal">
                   {stat.subLabel || <span className="invisible">&nbsp;</span>}
                 </span>
               </div>
-
-              {/* Vertical dotted divider separator line matching image style */}
-              {false && idx < statsData.length - 1 && (
-                <div className="hidden md:flex absolute right-[-8px] top-1/2 -translate-y-1/2 h-14 items-center justify-between flex-col">
-                  {/* Decorative divider crosses at top and bottom */}
-                  <span className="text-[9px] text-text-gray-muted/30 select-none">✦</span>
-                  <div className="w-[1px] h-full bg-gradient-to-b from-transparent via-border-muted to-transparent" />
-                  <span className="text-[9px] text-text-gray-muted/30 select-none">✦</span>
-                </div>
-              )}
             </div>
           ))}
         </div>

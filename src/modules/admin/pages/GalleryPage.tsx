@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { API_BASE_URL } from "@/shared/lib/api-config";
 import { GalleryItem, GalleryCategory } from "../types";
 import {
   getGalleryItems,
@@ -121,6 +122,16 @@ export default function GalleryPage() {
       alert(err.message || "Failed to save reorder");
     }
   }
+
+  const getMediaUrl = (url?: string | null) => {
+    if (!url) return "/placeholder-gallery.jpg";
+    const trimmed = url.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    const baseUrl = API_BASE_URL.replace("/api/v1", "");
+    return `${baseUrl}${trimmed.startsWith("/") ? "" : "/"}${trimmed}`;
+  };
 
   return (
     <div className="space-y-6 font-sans">
@@ -279,13 +290,16 @@ export default function GalleryPage() {
               <div className="aspect-[4/3] w-full relative overflow-hidden bg-slate-950 flex items-center justify-center group/media">
                 {item.mediaType === "VIDEO" ? (
                   <video
-                    src={item.mediaUrl}
+                    src={getMediaUrl(item.mediaUrl)}
                     className="w-full h-full object-cover"
                   />
                 ) : (
                   <img
-                    src={item.mediaUrl}
+                    src={getMediaUrl(item.mediaUrl)}
                     alt={item.altText || item.title || "Gallery Media"}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
+                    }}
                     className="w-full h-full object-cover group-hover/media:scale-105 transition-transform duration-300"
                   />
                 )}
@@ -460,14 +474,14 @@ export default function GalleryPage() {
             </button>
             {previewMedia.type === "VIDEO" ? (
               <video
-                src={previewMedia.url}
+                src={getMediaUrl(previewMedia.url)}
                 controls
                 autoPlay
                 className="max-h-[80vh] w-auto rounded-xl shadow-2xl border border-slate-700"
               />
             ) : (
               <img
-                src={previewMedia.url}
+                src={getMediaUrl(previewMedia.url)}
                 alt={previewMedia.title || "Preview"}
                 className="max-h-[80vh] w-auto rounded-xl shadow-2xl border border-slate-700"
               />

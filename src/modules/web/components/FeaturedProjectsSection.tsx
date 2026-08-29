@@ -79,7 +79,7 @@ export default function FeaturedProjectsSection() {
   }
 
   return (
-    <section className="w-full bg-[#f0eadc] py-14 md:py-20 relative overflow-hidden">
+    <section id="featured-projects" className="w-full bg-[#FBF8F2] py-10 md:py-14 relative overflow-hidden">
       <DecorativeCircles
         theme="light"
         circles={[
@@ -88,21 +88,22 @@ export default function FeaturedProjectsSection() {
         ]}
       />
       <div className="mx-auto w-full max-w-7xl px-6 md:px-8 relative z-10">
-        <div className="flex items-end justify-between mb-8 gap-6 border-b border-dark-secondary/15 pb-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between mb-6 gap-4 border-b border-[#EADBB4]/60 pb-4">
           <SectionHeading
             badge="Selected Works"
             plainText="Featured"
             highlightText="Developments"
             className="!mb-0"
           />
-          <Link href="/projects" className="text-xs sm:text-sm font-semibold tracking-wider text-gold-solid hover:text-gold-hover transition-colors shrink-0 pb-1">
-            View All Projects →
+          <Link href="/projects" className="text-xs sm:text-sm font-extrabold tracking-wider text-[#8C6D23] hover:text-[#D4AF37] transition-colors shrink-0 pb-1 flex items-center gap-1.5 min-h-[44px]">
+            <span>View All Projects</span>
+            <span>➔</span>
           </Link>
         </div>
 
       {loading && (
         <div className="flex flex-col items-center justify-center py-20 space-y-4">
-          <div className="w-10 h-10 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
+          <div className="w-10 h-10 border-2 border-[#D4AF37]/20 border-t-[#D4AF37] rounded-full animate-spin" />
           <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Fetching projects...</p>
         </div>
       )}
@@ -110,15 +111,15 @@ export default function FeaturedProjectsSection() {
       {error && (
         <div className="max-w-md mx-auto p-6 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
           <span className="text-3xl">⚠️</span>
-          <h3 className="text-base font-bold text-white">Unable to Load Portfolio</h3>
+          <h3 className="text-base font-bold text-slate-800">Unable to Load Portfolio</h3>
           <p className="text-xs text-text-gray-muted">{error}</p>
         </div>
       )}
 
       {!loading && !error && projects.length === 0 && (
-        <div className="text-center py-20 bg-[#050c38]/20 rounded-3xl border border-white/5 p-8 space-y-4 max-w-xl mx-auto backdrop-blur-sm">
-          <div className="text-3xl text-gold-solid/50">📂</div>
-          <h3 className="text-lg font-bold text-white">No Developments Found</h3>
+        <div className="text-center py-20 bg-[#1A150C]/10 rounded-3xl border border-[#EADBB4] p-8 space-y-4 max-w-xl mx-auto backdrop-blur-sm">
+          <div className="text-3xl text-[#D4AF37]">📂</div>
+          <h3 className="text-lg font-bold text-slate-800">No Developments Found</h3>
           <p className="text-xs text-text-gray-muted">
             We currently don't have active listings. Check back later.
           </p>
@@ -131,9 +132,9 @@ export default function FeaturedProjectsSection() {
             <Link
               key={project.id}
               href={`/projects/${project.slug}`}
-              className="group overflow-hidden rounded-2xl border border-card-border bg-card-bg hover:border-gold-solid/50 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-[0_18px_36px_var(--shadow-color)] block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
+              className="group overflow-hidden rounded-3xl border border-[#EADBB4] bg-white hover:border-[#D4AF37] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#D4AF37]/15 block no-underline shrink-0 w-[290px] sm:w-[360px] md:w-auto md:shrink snap-start"
             >
-              <div className="aspect-[16/9] w-full relative overflow-hidden bg-background">
+              <div className="aspect-[16/9] w-full relative overflow-hidden bg-slate-900">
                 {project.thumbnailImage ? (
                   <img
                     src={project.thumbnailImage}
@@ -141,70 +142,70 @@ export default function FeaturedProjectsSection() {
                     className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   />
                 ) : (
-                  <div className="w-full h-full bg-gradient-to-tr from-background to-dark-secondary/50 flex items-center justify-center">
-                    <span className="text-gold-solid/20 font-extrabold text-xl uppercase tracking-widest font-mono">
+                  <div className="w-full h-full bg-gradient-to-tr from-slate-900 to-[#1A150C] flex items-center justify-center">
+                    <span className="text-[#D4AF37]/40 font-extrabold text-xl uppercase tracking-widest font-mono">
                       {project.projectType}
                     </span>
                   </div>
                 )}
-                <div className="absolute inset-0 bg-background/25 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity" />
 
                 {/* Status Badge */}
-                <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-                    ? "bg-emerald-500/10 text-emerald-450 border-emerald-500/25"
+                <span className={`absolute top-4 left-4 text-[9px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full border backdrop-blur-md shadow-md ${project.projectStatus === "COMPLETED"
+                    ? "bg-emerald-950/80 text-emerald-300 border-emerald-500/40"
                     : project.projectStatus === "ONGOING"
-                      ? "bg-amber-500/10 text-amber-400 border-amber-500/25"
-                      : "bg-blue-500/10 text-blue-400 border-blue-500/25"
+                      ? "bg-amber-950/80 text-amber-300 border-amber-500/40"
+                      : "bg-blue-950/80 text-blue-300 border-blue-500/40"
                   }`}>
                   {project.projectStatus}
                 </span>
               </div>
-              <div className="p-6">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
+              <div className="p-6 space-y-3">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8C6D23] bg-[#F5EBE0] border border-[#EADBB4] px-2.5 py-0.5 rounded-full inline-block">
                   Featured Development
                 </span>
-                <h3 className="mt-2 text-xl font-bold text-foreground font-sans group-hover:text-dark-primary transition-colors">
+                <h3 className="text-xl font-extrabold text-[#1A150C] group-hover:text-[#8C6D23] transition-colors line-clamp-1">
                   {project.name}
                 </h3>
-                <p className="mt-2 text-sm text-text-gray-muted line-clamp-2 font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 line-clamp-2 font-normal leading-relaxed">
                   {project.shortDescription || project.description}
                 </p>
 
                 {/* Amenities Badges */}
                 {project.amenities && project.amenities.length > 0 && (
-                  <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                  <div className="pt-1 flex flex-wrap items-center gap-1.5">
                     {project.amenities.slice(0, 3).map((am) => (
                       <span
                         key={am.id}
-                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 border border-slate-200 text-[10px] font-medium text-slate-650"
+                        className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-[#FAF4E8] border border-[#EADBB4] text-[10px] font-bold text-[#8C6D23]"
                       >
-                        <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-gold-solid shrink-0" />
+                        <AmenityIcon name={am.name} icon={am.icon} className="w-3.5 h-3.5 text-[#8C6D23] shrink-0" />
                         <span className="truncate max-w-[80px]">
                           {am.name && (am.name.startsWith("http://") || am.name.startsWith("https://")) ? "Amenity" : am.name}
                         </span>
                       </span>
                     ))}
                     {project.amenities.length > 3 && (
-                      <span className="text-[9px] font-bold text-gold-solid font-mono px-1">
+                      <span className="text-[9px] font-extrabold text-[#8C6D23] font-mono px-1">
                         +{project.amenities.length - 3}
                       </span>
                     )}
                   </div>
                 )}
-                <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
                   <div>
-                    <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
+                    <span className="text-[9px] font-bold text-slate-400 uppercase tracking-wider block">
                       Starting From
                     </span>
-                    <span className="text-sm font-extrabold text-gold-solid">
+                    <span className="text-sm font-extrabold text-[#8C6D23]">
                       {formatPrice(project.startingPrice)}
                     </span>
                   </div>
-                  <div className="text-right bg-slate-50 border border-slate-200/60 hover:border-gold-solid/20 px-3 py-1.5 rounded-xl transition-all">
-                    <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
+                  <div className="text-right bg-[#FAF4E8] border border-[#EADBB4] px-3 py-1.5 rounded-xl transition-all">
+                    <span className="text-[9px] font-bold text-slate-500 uppercase tracking-wider block">
                       Price Per Sqft
                     </span>
-                    <span className="text-xs font-bold text-gold-solid">
+                    <span className="text-xs font-extrabold text-[#8C6D23]">
                       ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
                     </span>
                   </div>

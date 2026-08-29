@@ -51,37 +51,39 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="w-full py-14 md:py-20 bg-surface">
+    <section className="w-full py-10 md:py-14 bg-surface font-sans">
       {/* FAQ Schema Markup for AEO */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="mx-auto max-w-7xl px-6 md:px-8 grid lg:grid-cols-[0.72fr_1.28fr] gap-12 lg:gap-20 items-start">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 grid lg:grid-cols-[0.72fr_1.28fr] gap-8 lg:gap-14 items-start">
         <div className="lg:sticky lg:top-28">
           <SectionHeading
             badge="F.A.Q."
             plainText="Frequently Asked"
             highlightText="Questions"
             align="left"
-            className="!mb-8"
+            className="!mb-3"
           />
-          <p className="text-sm leading-7 text-text-gray-muted max-w-sm">Clear answers are part of a transparent land-buying experience. Explore the essentials before taking your next step.</p>
-          <div className="mt-8 rounded-3xl bg-dark-secondary p-7 text-white relative overflow-hidden">
+          <p className="text-xs sm:text-sm leading-relaxed text-slate-600 max-w-sm font-normal mb-6">
+            Clear answers are part of a transparent land-buying experience. Explore the essentials before taking your next step.
+          </p>
+          <div className="mt-6 rounded-3xl bg-[#1A150C] p-6 sm:p-7 text-white relative overflow-hidden border border-[#D4AF37]/30 shadow-xl">
             <DecorativeCircles
               theme="dark"
               circles={[
-                { size: 180, right: "-40px", top: "-40px", opacity: 0.12, color: "border-gold-solid/20" },
+                { size: 180, right: "-40px", top: "-40px", opacity: 0.12, color: "border-[#D4AF37]/20" },
                 { size: 120, right: "-20px", top: "-20px", opacity: 0.08, color: "border-white/10" }
               ]}
             />
             <div className="relative z-10">
-              <p className="text-xs uppercase tracking-[0.2em] text-gold-solid font-bold">Still deciding?</p>
-              <p className="mt-3 text-xl font-serif">Speak with our land advisory team for clear, personal guidance.</p>
+              <p className="text-xs uppercase tracking-[0.2em] text-[#D4AF37] font-extrabold">Still deciding?</p>
+              <p className="mt-3 text-xl font-sans font-bold leading-snug">Speak with our land advisory team for clear, personal guidance.</p>
               <button
                 type="button"
                 onClick={() => openEnquiry()}
-                className="mt-6 inline-flex items-center justify-center rounded-xl bg-gold-solid px-6 py-3 text-xs font-extrabold uppercase tracking-widest text-dark-secondary shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-gold-hover hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid focus-visible:ring-offset-2 focus-visible:ring-offset-dark-secondary active:translate-y-0"
+                className="mt-6 w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#C5A028] to-[#997A15] hover:from-[#EADBB4] hover:to-[#D4AF37] px-6 py-3.5 text-xs font-extrabold uppercase tracking-widest text-[#1A150C] hover:text-[#1A150C] shadow-lg transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer min-h-[44px]"
               >
                 Request a consultation
               </button>
@@ -93,19 +95,19 @@ export default function FaqSection() {
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="bg-background border border-card-border hover:border-gold-solid/40 rounded-2xl overflow-hidden transition-all duration-300"
+              className="bg-white border border-[#EADBB4] hover:border-[#D4AF37] rounded-2xl overflow-hidden transition-all duration-300 shadow-sm hover:shadow-md"
             >
               <button
                 onClick={() => setActiveFaq(activeFaq === idx ? null : idx)}
-                className="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm md:text-base text-foreground hover:text-gold-solid transition-colors cursor-pointer outline-none bg-transparent border-none"
+                className="w-full px-6 py-5 flex items-center justify-between text-left font-bold text-sm md:text-base text-[#1A150C] hover:text-[#8C6D23] transition-colors cursor-pointer outline-none bg-transparent border-none min-h-[48px]"
               >
-                <span>{faq.question}</span>
-                <span className={`text-gold-solid text-xs transform transition-transform duration-300 ${activeFaq === idx ? "rotate-95" : ""}`}>
-                  {activeFaq === idx ? "▲" : "▼"}
+                <span className="pr-4 leading-snug">{faq.question}</span>
+                <span className={`text-[#D4AF37] font-extrabold text-xs transform transition-transform duration-300 shrink-0 ${activeFaq === idx ? "rotate-180" : ""}`}>
+                  ▼
                 </span>
               </button>
               {activeFaq === idx && (
-                <div className="px-6 pb-6 pt-2 text-xs md:text-sm text-text-gray-muted leading-relaxed font-light border-t border-border-muted animate-fade-in">
+                <div className="px-6 pb-6 pt-2 text-xs md:text-sm text-slate-600 leading-relaxed font-normal border-t border-[#EADBB4]/50 animate-fade-in">
                   {faq.answer}
                 </div>
               )}

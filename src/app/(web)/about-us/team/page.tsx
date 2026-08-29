@@ -133,8 +133,8 @@ export default function TeamPage() {
       {featuredMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-20">
           <div className="mb-8">
-            <h3 className="text-xl font-serif text-foreground font-light tracking-wide uppercase">
-              Executive <span className="font-semibold italic text-gold-solid">Leadership</span>
+            <h3 className="text-xl font-sans text-foreground font-bold tracking-wide uppercase">
+              Executive <span className="font-extrabold not-italic text-gold-solid">Leadership</span>
             </h3>
             <p className="text-xs text-text-gray-muted mt-0.5">Visionaries driving the advisory board and organizational strategy.</p>
           </div>
@@ -199,8 +199,8 @@ export default function TeamPage() {
       {regularMembers.length > 0 && (
         <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-28">
           <div className="mb-8">
-            <h3 className="text-xl font-serif text-foreground font-light tracking-wide uppercase">
-              Management & <span className="font-semibold italic text-gold-solid">Experts</span>
+            <h3 className="text-xl font-sans text-foreground font-bold tracking-wide uppercase">
+              Management & <span className="font-extrabold not-italic text-gold-solid">Experts</span>
             </h3>
             <p className="text-xs text-text-gray-muted mt-0.5">The dedicated managers and engineers ensuring flawless execution.</p>
           </div>

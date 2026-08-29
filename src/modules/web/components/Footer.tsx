@@ -228,32 +228,29 @@ export default function Footer() {
     return `/${trimmed}`;
   };
 
-  const footerBgColor = "var(--footer-bg)";
-
   return (
-    <footer 
-      className="border-t border-white/5 py-16 text-[13px] md:text-sm text-text-gray-muted mt-auto z-10 relative" 
-      style={{ backgroundColor: footerBgColor, color: "var(--footer-text)" }}
+    <footer
+      className="bg-[#1A150C] border-t border-[#D4AF37]/30 py-14 md:py-16 text-[13px] md:text-sm text-slate-300 mt-auto z-10 relative font-sans"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
         {/* Column 1: Brand Info */}
-        <div className="md:col-span-6 space-y-4">
+        <div className="md:col-span-4 space-y-4">
           <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
-            <img 
+            <img
               src="/logo.png"
-              alt={`${settings.companyName} Logo`} 
-              className="h-14 md:h-16 w-auto object-contain" 
+              alt={`${settings.companyName} Logo`}
+              className="h-12 md:h-14 w-auto object-contain brightness-110"
             />
           </Link>
           {settings.description && (
-            <p className="text-[13px] md:text-sm text-text-gray-muted leading-relaxed font-light max-w-md">
+            <p className="text-[12px] md:text-xs text-slate-300 leading-relaxed font-light">
               {settings.description}
             </p>
           )}
 
           {/* Social Links Row */}
           {socials.length > 0 && (
-            <div className="flex items-center gap-3 pt-2">
+            <div className="flex items-center gap-2.5 pt-1">
               {socials.map((social) => {
                 const config = getSocialConfig(social.platform, social.icon);
                 return (
@@ -262,7 +259,7 @@ export default function Footer() {
                     href={formatUrl(social.url)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`group w-8 h-8 rounded-full border ${config.borderColor} ${config.bgColor} ${config.textColor} flex items-center justify-center transition-all duration-500 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md ${config.shadowColor}`}
+                    className="group w-8 h-8 rounded-full border border-[#D4AF37]/40 bg-[#2C2208] text-[#D4AF37] hover:bg-[#D4AF37] hover:text-[#1A150C] flex items-center justify-center transition-all duration-300 hover:-translate-y-1 hover:scale-105 active:scale-95 shadow-md shadow-black/40"
                     title={config.title}
                   >
                     {config.svg}
@@ -275,12 +272,12 @@ export default function Footer() {
 
         {/* Column 2: Navigation Links */}
         <div className="md:col-span-2 space-y-3.5">
-          <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest block font-mono" style={{ color: 'var(--footer-text)' }}>Quick Links</span>
-          <nav className="flex flex-col gap-2 font-light">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest block text-[#D4AF37]">Quick Links</span>
+          <nav className="flex flex-col gap-2 font-light text-xs">
             {links.map((link) => {
               const formattedUrl = formatUrl(link.url);
               const isExternal = formattedUrl.startsWith("http://") || formattedUrl.startsWith("https://");
-              
+
               if (isExternal) {
                 return (
                   <a
@@ -288,20 +285,20 @@ export default function Footer() {
                     href={formattedUrl}
                     target={link.openInNewTab ? "_blank" : undefined}
                     rel={link.openInNewTab ? "noopener noreferrer" : undefined}
-                    className="hover:text-footer-link transition-colors"
+                    className="text-slate-300 hover:text-[#D4AF37] transition-colors"
                   >
                     {link.title}
                   </a>
                 );
               }
-              
+
               return (
                 <Link
                   key={link.id}
                   href={formattedUrl}
                   target={link.openInNewTab ? "_blank" : undefined}
                   rel={link.openInNewTab ? "noopener noreferrer" : undefined}
-                  className="hover:text-footer-link transition-colors"
+                  className="text-slate-300 hover:text-[#D4AF37] transition-colors"
                 >
                   {link.title}
                 </Link>
@@ -311,51 +308,54 @@ export default function Footer() {
         </div>
 
         {/* Column 3: Contacts */}
-        <div className="md:col-span-4 space-y-4">
-          <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-widest block font-mono" style={{ color: 'var(--footer-text)' }}>Contact Details</span>
-          <div className="space-y-3 font-light">
+        <div className="md:col-span-3 space-y-3.5">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest block text-[#D4AF37]">Contact Details</span>
+          <div className="space-y-2.5 font-light text-xs">
             {settings.address && (
-              <div className="flex items-start gap-2.5">
-                <span className="text-footer-link mt-0.5">📍</span>
-                <span className="leading-relaxed">
+              <div className="flex items-start gap-2">
+                <span className="text-[#D4AF37] mt-0.5">📍</span>
+                <span className="leading-relaxed text-slate-300">
                   {settings.address}
                 </span>
               </div>
             )}
             {settings.phone && (
-              <div className="flex items-center gap-2.5">
-                <span className="text-footer-link">📞</span>
-                <a href={`tel:${settings.phone.split(',')[0].replace(/\s+/g, "")}`} className="hover:text-footer-link transition-colors">
+              <div className="flex items-center gap-2">
+                <span className="text-[#D4AF37]">📞</span>
+                <a href={`tel:${settings.phone.split(',')[0].replace(/\s+/g, "")}`} className="text-slate-300 hover:text-[#D4AF37] transition-colors">
                   {settings.phone}
                 </a>
               </div>
             )}
             {settings.email && (
-              <div className="flex items-center gap-2.5">
-                <span className="text-footer-link">✉️</span>
-                <a href={`mailto:${settings.email}`} className="hover:text-footer-link transition-colors">
+              <div className="flex items-center gap-2">
+                <span className="text-[#D4AF37]">✉️</span>
+                <a href={`mailto:${settings.email}`} className="text-slate-300 hover:text-[#D4AF37] transition-colors">
                   {settings.email}
                 </a>
               </div>
             )}
           </div>
         </div>
+
+        {/* Column 4: Right Side Location Map */}
+        <div className="md:col-span-3 space-y-3.5">
+          <span className="text-[11px] font-extrabold uppercase tracking-widest block text-[#D4AF37]">Location Map</span>
+          <div className="w-full h-36 rounded-2xl overflow-hidden border border-[#D4AF37]/30 shadow-md shadow-black/40">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.2905943566298!2d82.55798177516111!3d25.125864577756943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398feb5644b65f1b%3A0x7a474bec0b37de9f!2sGandhi%20Ghat%2C%20Bathua!5e0!3m2!1sen!2sin!4v1788002082281!5m2!1sen!2sin"
+              className="w-full h-full border-0"
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="strict-origin-when-cross-origin"
+              title="Bhagyashree Real Estate Location Map"
+            />
+          </div>
+        </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 md:px-8 mt-12 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs md:text-[13px]">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">
         <p>© {new Date().getFullYear()} {settings.companyName || "Bhagya Shree Real Estate"}. All rights reserved.</p>
-        {/* <p className="flex gap-6 font-light">
-          {settings.privacyPolicyUrl ? (
-            <Link href={settings.privacyPolicyUrl} className="hover:text-gold-solid transition-colors">Privacy Policy</Link>
-          ) : (
-            <span className="hover:text-gold-solid cursor-pointer transition-colors">Privacy Policy</span>
-          )}
-          {settings.termsOfServiceUrl ? (
-            <Link href={settings.termsOfServiceUrl} className="hover:text-gold-solid transition-colors">Terms of Service</Link>
-          ) : (
-            <span className="hover:text-gold-solid cursor-pointer transition-colors">Terms of Service</span>
-          )}
-        </p> */}
       </div>
     </footer>
   );

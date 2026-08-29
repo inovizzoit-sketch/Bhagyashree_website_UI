@@ -22,7 +22,7 @@
   --border-color: #dcd5c5;
   --border-muted: rgba(32, 42, 38, 0.12);
   --shadow-color: rgba(21, 46, 96, 0.14);
-  --font-family-body: var(--font-plus-jakarta);
+  --font-family-body: var(--font-inter), var(--font-plus-jakarta);
   --font-family-heading: var(--font-serif);
 
   /* Component defaults when backend active theme is not defined */

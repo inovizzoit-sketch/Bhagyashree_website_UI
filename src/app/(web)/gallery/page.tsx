@@ -58,6 +58,33 @@ export default function GalleryWebPage() {
     };
   }, []);
 
+  const getMediaUrl = (url?: string) => {
+    if (!url) return "/placeholder-gallery.jpg";
+    const trimmed = url.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    const baseUrl = API_BASE_URL.replace("/api/v1", "");
+    return `${baseUrl}${trimmed.startsWith("/") ? "" : "/"}${trimmed}`;
+  };
+
+  // Compute display categories (including dynamic General Showcase for uncategorized items)
+  const uncategorizedItems = items.filter(
+    (item) => !item.categoryId && (!item.category || typeof item.category === "string" || item.category === null)
+  );
+
+  const displayCategories: GalleryCategory[] = [...categories];
+
+  if (uncategorizedItems.length > 0 && !displayCategories.some((c) => c.slug === "general")) {
+    displayCategories.push({
+      id: "general",
+      name: "General Showcase",
+      slug: "general",
+      description: "Featured project developments, layouts, and site highlights.",
+      _count: { galleries: uncategorizedItems.length },
+    });
+  }
+
   return (
     <div className="min-h-screen bg-background pb-32 overflow-hidden relative font-sans">
       {/* Background Decorative Gradients */}
@@ -86,7 +113,7 @@ export default function GalleryWebPage() {
             <div className="w-10 h-10 border-2 border-gold-solid/25 border-t-gold-solid rounded-full animate-spin" />
             <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading Categories...</p>
           </div>
-        ) : error && categories.length === 0 ? (
+        ) : error && displayCategories.length === 0 && items.length === 0 ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
             <h3 className="text-base font-bold text-white">Temporary Loading Error</h3>
@@ -94,19 +121,23 @@ export default function GalleryWebPage() {
               We encountered a connection check delay while fetching the gallery. Please try again later.
             </p>
           </div>
-        ) : categories.length === 0 ? (
+        ) : displayCategories.length === 0 && items.length === 0 ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-white/5 bg-[#0d153b]/20 text-center space-y-4">
             <span className="text-3xl">🖼</span>
-            <h3 className="text-base font-bold text-white">No Categories Available</h3>
+            <h3 className="text-base font-bold text-white">No Gallery Media Available</h3>
             <p className="text-xs text-text-gray-muted font-light leading-relaxed">
-              No gallery categories have been published yet. Check back soon.
+              No gallery items have been published yet. Check back soon.
             </p>
           </div>
-        ) : (
+        ) : displayCategories.length > 0 ? (
+          /* ALBUM CATEGORIES GRID */
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pt-6">
-            {categories.map((cat) => {
+            {displayCategories.map((cat) => {
               // Find items matching this category
               const catItems = items.filter((item) => {
+                if (cat.id === "general" || cat.slug === "general") {
+                  return !item.categoryId && (!item.category || typeof item.category === "string" || item.category === null);
+                }
                 if (typeof item.category === "object" && item.category?.id) {
                   return item.category.id === cat.id;
                 }
@@ -115,7 +146,7 @@ export default function GalleryWebPage() {
 
               // Extract first image as cover image
               const coverImageItem = catItems.find((item) => item.mediaType === "IMAGE") || catItems[0];
-              const coverImageUrl = coverImageItem?.mediaUrl || "/placeholder-gallery.jpg";
+              const coverImageUrl = coverImageItem?.mediaUrl ? getMediaUrl(coverImageItem.mediaUrl) : "/placeholder-gallery.jpg";
               const totalItems = cat._count?.galleries ?? catItems.length;
 
               return (
@@ -129,6 +160,9 @@ export default function GalleryWebPage() {
                     src={coverImageUrl}
                     alt={cat.name}
                     loading="lazy"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
+                    }}
                     className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
@@ -156,6 +190,35 @@ export default function GalleryWebPage() {
                 </Link>
               );
             })}
+          </div>
+        ) : (
+          /* DIRECT GALLERY ITEMS GRID (Fallback if no Categories exist) */
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-6">
+            {items.map((item) => (
+              <div
+                key={item.id}
+                className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 border border-white/5 hover:border-gold-solid/35"
+              >
+                {item.mediaType === "VIDEO" ? (
+                  <video src={getMediaUrl(item.mediaUrl)} className="absolute inset-0 h-full w-full object-cover" />
+                ) : (
+                  <img
+                    src={getMediaUrl(item.mediaUrl)}
+                    alt={item.title || "Gallery Item"}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
+                    }}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                )}
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80" />
+                {item.title && (
+                  <div className="absolute bottom-6 left-6 right-6">
+                    <h4 className="text-base font-bold text-white leading-snug">{item.title}</h4>
+                  </div>
+                )}
+              </div>
+            ))}
           </div>
         )}
       </div>

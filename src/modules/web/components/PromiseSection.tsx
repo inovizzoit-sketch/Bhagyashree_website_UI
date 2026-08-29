@@ -57,7 +57,7 @@ export default function PromiseSection() {
   };
 
   return (
-    <section className="w-full bg-surface py-14 sm:py-16 lg:py-20 relative overflow-x-clip font-sans">
+    <section className="w-full bg-surface py-10 md:py-14 relative overflow-x-clip font-sans">
       <DecorativeCircles
         theme="light"
         circles={[
@@ -68,15 +68,15 @@ export default function PromiseSection() {
       <div className="absolute -left-36 top-20 h-80 w-80 rounded-full bg-gold-solid/5 blur-3xl pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative">
-        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16 items-start">
+        <div className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:gap-14 items-start">
           <div className="lg:sticky lg:top-28">
             <SectionHeading
               badge="Our Commitment"
               plainText="Land Buying,"
               highlightText="Simplified"
-              className="!mb-5"
+              className="!mb-3"
             />
-            <p className="max-w-md border-l-2 border-gold-solid pl-5 text-sm sm:text-base leading-7 text-text-gray-muted">
+            <p className="max-w-md border-l-2 border-[#D4AF37] pl-4 text-xs sm:text-sm leading-relaxed text-slate-600 font-normal">
               Because owning land should feel easy, not overwhelming.
             </p>
 
@@ -85,45 +85,45 @@ export default function PromiseSection() {
                 type="button"
                 onClick={handlePrev}
                 aria-label="Previous promise"
-                className="grid h-11 w-11 place-items-center rounded-full border border-dark-secondary/15 text-dark-secondary transition-all hover:border-dark-secondary hover:bg-dark-secondary hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid"
+                className="grid h-11 w-11 sm:h-12 sm:w-12 place-items-center rounded-full border border-[#8C6D23]/30 text-[#8C6D23] transition-all hover:border-[#8C6D23] hover:bg-[#8C6D23] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
               >
-                <span aria-hidden="true">←</span>
+                <span aria-hidden="true" className="text-lg">←</span>
               </button>
-              <span className="min-w-14 text-center text-xs font-bold tracking-widest text-text-gray-muted">
+              <span className="min-w-16 text-center text-xs font-extrabold tracking-widest text-[#8C6D23]">
                 {String(activeIndex + 1).padStart(2, "0")} / {String(slickCards.length).padStart(2, "0")}
               </span>
               <button
                 type="button"
                 onClick={handleNext}
                 aria-label="Next promise"
-                className="grid h-11 w-11 place-items-center rounded-full bg-dark-secondary text-white transition-all hover:-translate-y-0.5 hover:bg-dark-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid"
+                className="grid h-11 w-11 sm:h-12 sm:w-12 place-items-center rounded-full bg-[#1A150C] text-[#D4AF37] border border-[#D4AF37]/30 transition-all hover:-translate-y-0.5 hover:bg-[#8C6D23] hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer"
               >
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true" className="text-lg">→</span>
               </button>
             </div>
           </div>
 
           <div className="grid gap-5 md:grid-cols-[1.1fr_0.9fr] min-w-0">
-            <article className="relative min-h-[330px] overflow-hidden rounded-[2rem] bg-dark-secondary p-7 sm:p-9 text-white shadow-xl shadow-dark-secondary/15 flex flex-col justify-between">
-              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-gold-solid/20" />
+            <article className="relative min-h-[330px] overflow-hidden rounded-[2rem] bg-[#1A150C] p-7 sm:p-9 text-white shadow-xl shadow-black/20 flex flex-col justify-between border border-[#D4AF37]/25">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-[#D4AF37]/20" />
               <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full border border-white/10" />
               <div className="relative">
-                <span className="inline-flex items-center gap-2 rounded-full border border-gold-solid/30 bg-gold-solid/10 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-gold-solid">
-                  <span>★</span> Premium guarantee
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/40 bg-[#D4AF37]/15 px-3.5 py-1.5 text-[10px] font-extrabold uppercase tracking-[0.18em] text-[#D4AF37]">
+                  <span>★</span> Premium Guarantee
                 </span>
               </div>
-              <div className="relative mt-16">
-                <span className="text-xs font-semibold uppercase tracking-[0.22em] text-text-on-dark-muted">We promise</span>
-                <h3 className="mt-3 text-3xl sm:text-4xl font-serif leading-tight text-white">
+              <div className="relative mt-12 sm:mt-16">
+                <span className="text-xs font-extrabold uppercase tracking-[0.22em] text-[#D4AF37]">We promise</span>
+                <h3 className="mt-2 text-2xl sm:text-4xl font-sans leading-tight text-white font-bold">
                   {slickCards[activeIndex].title}
                 </h3>
-                <p className="mt-4 max-w-lg text-sm sm:text-base leading-7 text-text-on-dark-muted">
+                <p className="mt-3 sm:mt-4 max-w-lg text-sm sm:text-base leading-7 text-slate-300 font-light">
                   {slickCards[activeIndex].description}
                 </p>
               </div>
             </article>
 
-            <div className="grid gap-2" role="tablist" aria-label="Our promises">
+            <div className="grid gap-2.5" role="tablist" aria-label="Our promises">
               {slickCards.map((card, idx) => (
                 <button
                   key={card.title}
@@ -131,19 +131,19 @@ export default function PromiseSection() {
                   role="tab"
                   aria-selected={activeIndex === idx}
                   onClick={() => setActiveIndex(idx)}
-                  className={`group flex min-w-0 items-center gap-4 rounded-2xl border px-4 py-3 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold-solid ${
+                  className={`group flex min-w-0 items-center gap-4 rounded-2xl border px-4 py-3.5 text-left transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D4AF37] cursor-pointer min-h-[48px] ${
                     activeIndex === idx
-                      ? "border-gold-solid/45 bg-[#f0eadc] shadow-sm"
-                      : "border-card-border bg-background hover:border-gold-solid/35 hover:bg-surface-muted/50"
+                      ? "border-[#D4AF37] bg-[#F9F5EC] shadow-md shadow-[#D4AF37]/10"
+                      : "border-card-border bg-background hover:border-[#D4AF37]/40 hover:bg-[#F9F5EC]/50"
                   }`}
                 >
-                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[10px] font-extrabold ${activeIndex === idx ? "bg-gold-solid text-dark-secondary" : "bg-surface-muted text-text-gray-muted group-hover:text-dark-primary"}`}>
+                  <span className={`grid h-8 w-8 shrink-0 place-items-center rounded-full text-[10px] font-extrabold transition-colors ${activeIndex === idx ? "bg-[#8C6D23] text-white" : "bg-surface-muted text-text-gray-muted group-hover:text-dark-primary"}`}>
                     {String(idx + 1).padStart(2, "0")}
                   </span>
-                  <span className={`truncate text-sm font-bold ${activeIndex === idx ? "text-dark-secondary" : "text-foreground"}`}>
+                  <span className={`truncate text-sm font-bold transition-colors ${activeIndex === idx ? "text-[#1A150C]" : "text-foreground"}`}>
                     {card.title}
                   </span>
-                  <span className={`ml-auto text-sm transition-transform group-hover:translate-x-0.5 ${activeIndex === idx ? "text-gold-dark" : "text-text-gray-muted/50"}`}>→</span>
+                  <span className={`ml-auto text-sm transition-transform group-hover:translate-x-1 ${activeIndex === idx ? "text-[#8C6D23] font-bold" : "text-text-gray-muted/50"}`}>➔</span>
                 </button>
               ))}
             </div>

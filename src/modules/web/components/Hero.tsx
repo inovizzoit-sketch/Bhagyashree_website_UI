@@ -284,7 +284,7 @@ export default function Hero({ previewData }: { previewData?: any }) {
             <>
               <br />
               <span
-                className="bg-gradient-to-r bg-clip-text text-transparent inline-block font-normal italic"
+                className="bg-gradient-to-r bg-clip-text text-transparent inline-block font-bold not-italic"
                 style={{
                   backgroundImage: `linear-gradient(to right, ${customAccent}, ${customAccent}dd)`,
                   color: customAccent,

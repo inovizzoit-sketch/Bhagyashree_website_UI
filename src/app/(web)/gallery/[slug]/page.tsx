@@ -40,9 +40,29 @@ export default function CategoryGalleryPage() {
   // Lightbox state
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
+  const getMediaUrl = (url?: string) => {
+    if (!url) return "/placeholder-gallery.jpg";
+    const trimmed = url.trim();
+    if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+      return trimmed;
+    }
+    const baseUrl = API_BASE_URL.replace("/api/v1", "");
+    return `${baseUrl}${trimmed.startsWith("/") ? "" : "/"}${trimmed}`;
+  };
+
   // Fetch category details
   useEffect(() => {
     if (!slug) return;
+
+    if (slug === "general") {
+      setCategory({
+        id: "general",
+        name: "General Showcase",
+        slug: "general",
+        description: "Featured project developments, layouts, and site highlights.",
+      });
+      return;
+    }
 
     fetch(`${API_BASE_URL}/gallery/category?status=true`)
       .then((r) => (r.ok ? r.json() : []))
@@ -59,15 +79,32 @@ export default function CategoryGalleryPage() {
 
   // Fetch gallery items for the category with pagination
   useEffect(() => {
-    if (!category?.id) {
-      // If we don't have ID yet, wait until category details are loaded
+    if (!slug) return;
+
+    setLoading(true);
+
+    if (slug === "general" || category?.id === "general") {
+      fetch(`${API_BASE_URL}/gallery?status=true&limit=200`)
+        .then((r) => (r.ok ? r.json() : []))
+        .then((data) => {
+          const raw = Array.isArray(data) ? data : data.items || [];
+          const unassigned = raw.filter((item: any) => !item.categoryId);
+          const finalItems = unassigned.length > 0 ? unassigned : raw;
+          setItems(finalItems);
+          setTotalItems(finalItems.length);
+          setTotalPages(1);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setError(err.message || "Failed to load gallery items");
+          setLoading(false);
+        });
       return;
     }
 
-    setLoading(true);
-    const idToUse = category.id;
+    if (!category?.id) return;
 
-    fetch(`${API_BASE_URL}/gallery?status=true&categoryId=${idToUse}&page=${page}&limit=${limit}`)
+    fetch(`${API_BASE_URL}/gallery?status=true&categoryId=${category.id}&page=${page}&limit=${limit}`)
       .then((r) => {
         if (!r.ok) throw new Error("Failed to load images");
         return r.json();
@@ -88,7 +125,7 @@ export default function CategoryGalleryPage() {
         setError(err.message || "Failed to load gallery items");
         setLoading(false);
       });
-  }, [category, page, limit]);
+  }, [category, slug, page, limit]);
 
   // Lightbox handlers
   const openLightbox = (index: number) => {
@@ -228,16 +265,19 @@ export default function CategoryGalleryPage() {
                 >
                   {item.mediaType === "VIDEO" ? (
                     <video
-                      src={item.mediaUrl}
+                      src={getMediaUrl(item.mediaUrl)}
                       className="absolute inset-0 h-full w-full object-cover"
                       controls={false}
                       muted
                     />
                   ) : (
                     <img
-                      src={item.mediaUrl}
+                      src={getMediaUrl(item.mediaUrl)}
                       alt={item.altText || item.title || category?.name || "Gallery Image"}
                       loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
+                      }}
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   )}
@@ -339,15 +379,18 @@ export default function CategoryGalleryPage() {
           >
             {activeMedia.mediaType === "VIDEO" ? (
               <video
-                src={activeMedia.mediaUrl}
+                src={getMediaUrl(activeMedia.mediaUrl)}
                 controls
                 autoPlay
                 className="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-t-2xl"
               />
             ) : (
               <img
-                src={activeMedia.mediaUrl}
+                src={getMediaUrl(activeMedia.mediaUrl)}
                 alt={activeMedia.altText || activeMedia.title || "Gallery Preview"}
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
+                }}
                 className="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-t-2xl select-none"
               />
             )}
