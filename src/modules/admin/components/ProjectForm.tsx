@@ -244,6 +244,8 @@ export default function ProjectForm({ project }: ProjectFormProps) {
               <option value="VILLA">Villa</option>
               <option value="PLOT">Plot</option>
               <option value="COMMERCIAL">Commercial</option>
+              <option value="DEVELOPER">Developer</option>
+              <option value="CONSTRUCTION">Construction</option>
             </select>
           </div>
 

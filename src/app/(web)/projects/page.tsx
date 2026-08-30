@@ -80,14 +80,17 @@ export default function ProjectsPage() {
 
   const filteredProjects = activeFilter === "ALL"
     ? projects
-    : projects.filter(p => p.projectType === activeFilter);
+    : activeFilter === "DEVELOPER"
+      ? projects.filter(p => p.projectType === "DEVELOPER" || p.projectType === "CONSTRUCTION")
+      : projects.filter(p => p.projectType === activeFilter);
 
   const filterTabs = [
     { label: "All Works", value: "ALL" },
     { label: "Apartments", value: "APARTMENT" },
     { label: "Villas", value: "VILLA" },
     { label: "Plots", value: "PLOT" },
-    { label: "Commercial", value: "COMMERCIAL" }
+    { label: "Commercial", value: "COMMERCIAL" },
+    { label: "Developer / Construction", value: "DEVELOPER" }
   ];
 
   return (

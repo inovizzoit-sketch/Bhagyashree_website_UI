@@ -1,4 +1,4 @@
-export type ProjectType = "APARTMENT" | "VILLA" | "PLOT" | "COMMERCIAL";
+export type ProjectType = "APARTMENT" | "VILLA" | "PLOT" | "COMMERCIAL" | "DEVELOPER" | "CONSTRUCTION";
 export type ProjectStatus = "ONGOING" | "COMPLETED" | "UPCOMING";
 
 export interface Project {
