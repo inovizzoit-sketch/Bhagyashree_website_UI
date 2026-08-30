@@ -292,12 +292,12 @@ export default function AnnouncementPopup() {
         onClick={handleClose}
       >
         <div
-          className="relative w-full max-w-[650px] max-h-[90vh] overflow-y-auto bg-[#070e2b] border border-gold-solid/30 rounded-3xl shadow-2xl p-4 flex flex-col justify-between text-white"
+          className="relative w-full max-w-[650px] max-h-[90vh] overflow-y-auto bg-background border border-border-color rounded-3xl shadow-2xl p-4 flex flex-col justify-between text-foreground"
           onClick={(e) => e.stopPropagation()}
         >
           <button
             onClick={handleClose}
-            className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
+            className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/60 hover:text-foreground transition-all flex items-center justify-center cursor-pointer outline-none"
             title="Close"
           >
             ✕
@@ -358,14 +358,14 @@ export default function AnnouncementPopup() {
       onClick={handleClose}
     >
       <div
-        className="relative w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-[#070e2b] border border-gold-solid/30 rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col justify-between text-white"
+        className="relative w-full max-w-[500px] max-h-[90vh] overflow-y-auto bg-background border border-border-color rounded-3xl shadow-2xl p-6 md:p-8 flex flex-col justify-between text-foreground"
         onClick={(e) => e.stopPropagation()}
       >
         
         {/* Close Button */}
         <button
           onClick={handleClose}
-          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-white/5 hover:bg-white/10 text-white/60 hover:text-white transition-all flex items-center justify-center cursor-pointer outline-none"
+          className="absolute top-6 right-6 w-8 h-8 rounded-full bg-foreground/5 hover:bg-foreground/10 text-foreground/60 hover:text-foreground transition-all flex items-center justify-center cursor-pointer outline-none"
           title="Close"
         >
           ✕
@@ -373,23 +373,23 @@ export default function AnnouncementPopup() {
 
         <div className="space-y-4">
           {/* Badge */}
-          <div className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-[#DDBD81]/10 border border-[#DDBD81]/35">
-            <span className="text-[10px] text-[#DDBD81]">★</span>
-            <span className="text-[10px] text-[#DDBD81] font-bold uppercase tracking-wider">
+          <div className="inline-flex items-center gap-1.5 py-1 px-3 rounded-full bg-gold-solid/10 border border-gold-solid/35">
+            <span className="text-[10px] text-gold-solid">★</span>
+            <span className="text-[10px] text-gold-solid font-bold uppercase tracking-wider">
               {currentPopup.popupType === "PROMOTION" ? "Special Promotion" : "Latest Update"}
             </span>
           </div>
 
           {/* Heading */}
           {currentPopup.heading && (
-            <h3 className="text-2xl font-serif text-white font-medium leading-tight pt-1">
+            <h3 className="text-2xl font-serif text-foreground font-medium leading-tight pt-1">
               {currentPopup.heading}
             </h3>
           )}
 
           {/* Subheading */}
           {currentPopup.subHeading && (
-            <h4 className="text-sm font-sans text-[#DDBD81] font-medium tracking-wide">
+            <h4 className="text-sm font-sans text-gold-solid font-medium tracking-wide">
               {currentPopup.subHeading}
             </h4>
           )}
@@ -420,7 +420,7 @@ export default function AnnouncementPopup() {
 
           {/* Banner image for Announcements or Promotions */}
           {currentPopup.image && currentPopup.popupType !== "VIDEO_POPUP" && (
-            <div className="w-full overflow-hidden rounded-2xl border border-white/5 mt-2">
+            <div className="w-full overflow-hidden rounded-2xl border border-border-color/30 mt-2">
               <img
                 src={currentPopup.image}
                 alt={currentPopup.heading || currentPopup.title}
@@ -431,7 +431,7 @@ export default function AnnouncementPopup() {
 
           {/* Description Content */}
           {currentPopup.description && (
-            <p className="text-sm text-[#8E90A2] font-light leading-relaxed whitespace-pre-line">
+            <p className="text-sm text-foreground/75 font-light leading-relaxed whitespace-pre-line">
               {currentPopup.description}
             </p>
           )}
@@ -443,7 +443,7 @@ export default function AnnouncementPopup() {
                 <div className="p-4 bg-emerald-500/10 border border-emerald-500/20 rounded-2xl text-center">
                   <span className="text-xl">✓</span>
                   <p className="text-sm text-emerald-400 font-semibold mt-1">Thank you for submitting!</p>
-                  <p className="text-xs text-slate-400 mt-0.5">We will get back to you shortly.</p>
+                  <p className="text-xs text-foreground/65 mt-0.5">We will get back to you shortly.</p>
                   <button
                     onClick={handleClose}
                     className="mt-3 px-4 py-1.5 bg-emerald-500/20 hover:bg-emerald-500/35 text-emerald-300 rounded-full text-xs font-semibold uppercase tracking-wider cursor-pointer border-none transition-colors"
@@ -459,7 +459,7 @@ export default function AnnouncementPopup() {
                       placeholder="Your Name"
                       value={leadName}
                       onChange={(e) => setLeadName(e.target.value)}
-                      className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
+                      className="w-full bg-card-bg border border-border-color focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/45 transition-colors"
                     />
                   )}
                   <input
@@ -467,7 +467,7 @@ export default function AnnouncementPopup() {
                     placeholder="Email Address (Optional)"
                     value={leadEmail}
                     onChange={(e) => setLeadEmail(e.target.value)}
-                    className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
+                    className="w-full bg-card-bg border border-border-color focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/45 transition-colors"
                   />
                   {currentPopup.popupType === "LEAD_FORM" && (
                     <>
@@ -479,14 +479,14 @@ export default function AnnouncementPopup() {
                         placeholder="10-Digit Mobile Number"
                         value={leadPhone}
                         onChange={(e) => setLeadPhone(e.target.value.replace(/\D/g, "").slice(0, 10))}
-                        className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 transition-colors"
+                        className="w-full bg-card-bg border border-border-color focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/45 transition-colors"
                       />
                       <textarea
                         rows={2}
                         placeholder="Your Message"
                         value={leadMessage}
                         onChange={(e) => setLeadMessage(e.target.value)}
-                        className="w-full bg-[#03071e]/90 border border-white/20 focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-white placeholder:text-slate-400 resize-none transition-colors"
+                        className="w-full bg-card-bg border border-border-color focus:border-gold-solid outline-none rounded-xl px-4 py-2.5 text-sm text-foreground placeholder:text-foreground/45 resize-none transition-colors"
                       />
                     </>
                   )}
@@ -508,7 +508,7 @@ export default function AnnouncementPopup() {
             <div className="pt-4 flex flex-col sm:flex-row gap-3 sm:justify-end">
               <button
                 onClick={handleClose}
-                className="w-full sm:w-auto px-6 py-2.5 rounded-full border border-white/10 text-white/80 hover:text-white hover:bg-white/5 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer bg-transparent"
+                className="w-full sm:w-auto px-6 py-2.5 rounded-full border border-border-color text-foreground/80 hover:text-foreground hover:bg-foreground/5 text-xs font-semibold uppercase tracking-wider transition-all cursor-pointer bg-transparent"
               >
                 Dismiss
               </button>
@@ -518,7 +518,7 @@ export default function AnnouncementPopup() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={handleCTAClick}
-                  className="w-full sm:w-auto text-center px-6 py-2.5 rounded-full bg-gold-solid hover:bg-[#c9a76d] text-[#010314] text-xs font-bold uppercase tracking-widest transition-all shadow-[0_4px_20px_rgba(221,189,129,0.2)] hover:scale-[1.02] active:scale-[0.98] no-underline"
+                  className="w-full sm:w-auto text-center px-6 py-2.5 rounded-full bg-gold-solid hover:bg-gold-hover text-[#010314] text-xs font-bold uppercase tracking-widest transition-all shadow-[0_4px_20px_rgba(221,189,129,0.2)] hover:scale-[1.02] active:scale-[0.98] no-underline"
                 >
                   {currentPopup.buttonText || "Know More"} ➔
                 </a>

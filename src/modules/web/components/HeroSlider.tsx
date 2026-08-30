@@ -18,7 +18,7 @@ const DEFAULT_SLIDES: SlideItem[] = [
     id: 1,
     title: "BHAGYASHREE REAL ESTATE",
     subTitle: "AB HONGE SAPNE SAKAAR",
-    images: ["/images/hero1.png", "/images/hero2.png"],
+    images: ["/images/hero1.png"],
     mediaUrl: "/images/hero1.png",
     altText: "Bhagyashree Real Estate Development Showcase 1",
     ctaText: "View Property",
@@ -27,9 +27,27 @@ const DEFAULT_SLIDES: SlideItem[] = [
     id: 2,
     title: "BHAGYASHREE REAL ESTATE",
     subTitle: "AB HONGE SAPNE SAKAAR",
-    images: ["/images/hero3.png", "/images/hero4.png"],
-    mediaUrl: "/images/hero3.png",
+    images: ["/images/hero2.png"],
+    mediaUrl: "/images/hero2.png",
     altText: "Bhagyashree Real Estate Development Showcase 2",
+    ctaText: "View Property",
+  },
+  {
+    id: 3,
+    title: "BHAGYASHREE REAL ESTATE",
+    subTitle: "AB HONGE SAPNE SAKAAR",
+    images: ["/images/hero3.png"],
+    mediaUrl: "/images/hero3.png",
+    altText: "Bhagyashree Real Estate Development Showcase 3",
+    ctaText: "View Property",
+  },
+  {
+    id: 4,
+    title: "BHAGYASHREE REAL ESTATE",
+    subTitle: "AB HONGE SAPNE SAKAAR",
+    images: ["/images/hero4.png"],
+    mediaUrl: "/images/hero4.png",
+    altText: "Bhagyashree Real Estate Development Showcase 4",
     ctaText: "View Property",
   },
 ];
@@ -88,8 +106,8 @@ export default function HeroSlider() {
           style={{ transform: `translateX(-${currentSlideIndex * 100}%)` }}
         >
           {DEFAULT_SLIDES.map((slide, idx) => {
-            const slideImages = slide.images && slide.images.length > 0 
-              ? slide.images 
+            const slideImages = slide.images && slide.images.length > 0
+              ? slide.images
               : [slide.mediaUrl || "/images/hero1.png"];
 
             return (
@@ -102,9 +120,8 @@ export default function HeroSlider() {
                   <img
                     src={slideImages[0]}
                     alt={slide.altText}
-                    className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${
-                      currentSlideIndex === idx ? "scale-105" : "scale-100"
-                    }`}
+                    className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${currentSlideIndex === idx ? "scale-105" : "scale-100"
+                      }`}
                   />
                 </div>
 
@@ -116,9 +133,8 @@ export default function HeroSlider() {
                         <img
                           src={imgUrl}
                           alt={`${slide.altText} - Part ${imgIdx + 1}`}
-                          className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${
-                            currentSlideIndex === idx ? "scale-105" : "scale-100"
-                          }`}
+                          className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${currentSlideIndex === idx ? "scale-105" : "scale-100"
+                            }`}
                         />
                         {/* Soft edge gradient fade on individual image edges */}
                         {slideImages.length > 1 && imgIdx === 0 && (
@@ -200,11 +216,10 @@ export default function HeroSlider() {
             <button
               key={idx}
               onClick={() => setCurrentSlideIndex(idx)}
-              className={`rounded-full transition-all duration-300 cursor-pointer ${
-                currentSlideIndex === idx
+              className={`rounded-full transition-all duration-300 cursor-pointer ${currentSlideIndex === idx
                   ? "w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#D4AF37] shadow-md shadow-[#D4AF37]/50 scale-110"
                   : "w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white/50 hover:bg-white/90"
-              }`}
+                }`}
               aria-label={`Go to slide ${idx + 1}`}
             />
           ))}

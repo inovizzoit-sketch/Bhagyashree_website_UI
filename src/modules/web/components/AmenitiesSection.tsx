@@ -267,7 +267,7 @@ export default function AmenitiesSection() {
         <div className="mt-8 sm:mt-10 text-center">
           <Link
             href="/amenities"
-            className="inline-flex items-center gap-2 rounded-full border border-[#8C6D23]/40 bg-[#FAF4E8] hover:bg-[#8C6D23] hover:text-white px-8 py-3.5 text-xs font-bold uppercase tracking-widest text-[#8C6D23] transition-all duration-300 cursor-pointer no-underline group"
+            className="inline-flex items-center gap-2.5 px-8 py-3.5 rounded-full bg-gradient-to-r from-[#D4AF37] via-[#C5A028] to-[#997A15] hover:from-[#EADBB4] hover:to-[#D4AF37] text-[#1A150C] hover:text-[#1A150C] text-xs font-extrabold uppercase tracking-widest transition-all duration-300 shadow-xl shadow-[#D4AF37]/20 hover:scale-105 active:scale-95 no-underline cursor-pointer border-none group"
           >
             <span>Explore All Amenities ({amenities.length})</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1">➔</span>

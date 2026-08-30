@@ -152,17 +152,38 @@ export function EnquiryProvider({ children }: { children: React.ReactNode }) {
       project: projectName || formData.project || "General Project Inquiry",
     };
 
+    // Prepare WhatsApp URL beforehand to capture values
+    const isBooking = modalTitle.toLowerCase().includes("book") || modalTitle.toLowerCase().includes("appointment");
+    let whatsappUrl = "";
+    if (isBooking) {
+      let messageText = `*New Appointment Booking Request*\n\n`;
+      messageText += `*Project/Property*: ${projectName || formData.project || "General Project Inquiry"}\n`;
+      Object.entries(formData).forEach(([key, val]) => {
+        if (val && key !== "project") {
+          const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+          messageText += `*${capitalizedKey}*: ${val}\n`;
+        }
+      });
+      whatsappUrl = `https://wa.me/917007587406?text=${encodeURIComponent(messageText)}`;
+    }
+
     try {
       // Submit dynamically to Form Builder backend API
       const slugToSubmit = dynamicForm?.slug || "quick-project-inquiry";
       await submitPublicForm(slugToSubmit, submissionPayload, pageSource);
       setSuccess(true);
+      if (whatsappUrl && typeof window !== "undefined") {
+        window.open(whatsappUrl, "_blank");
+      }
     } catch {
       // Fallback submit to quick-project-inquiry
       try {
         await submitPublicForm("quick-project-inquiry", submissionPayload, pageSource);
       } catch {}
       setSuccess(true);
+      if (whatsappUrl && typeof window !== "undefined") {
+        window.open(whatsappUrl, "_blank");
+      }
     } finally {
       setSubmitting(false);
     }

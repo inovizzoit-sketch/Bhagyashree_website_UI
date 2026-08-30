@@ -84,13 +84,15 @@ export default function ProjectsPage() {
       ? projects.filter(p => p.projectType === "DEVELOPER" || p.projectType === "CONSTRUCTION")
       : projects.filter(p => p.projectType === activeFilter);
 
+  const uniqueTypes = new Set(projects.map(p => p.projectType));
+
   const filterTabs = [
     { label: "All Works", value: "ALL" },
-    { label: "Apartments", value: "APARTMENT" },
-    { label: "Villas", value: "VILLA" },
-    { label: "Plots", value: "PLOT" },
-    { label: "Commercial", value: "COMMERCIAL" },
-    { label: "Developer / Construction", value: "DEVELOPER" }
+    ...(uniqueTypes.has("APARTMENT") ? [{ label: "Apartments", value: "APARTMENT" }] : []),
+    ...(uniqueTypes.has("VILLA") ? [{ label: "Villas", value: "VILLA" }] : []),
+    ...(uniqueTypes.has("PLOT") ? [{ label: "Plots", value: "PLOT" }] : []),
+    ...(uniqueTypes.has("COMMERCIAL") ? [{ label: "Commercial", value: "COMMERCIAL" }] : []),
+    ...(uniqueTypes.has("DEVELOPER") || uniqueTypes.has("CONSTRUCTION") ? [{ label: "Developer / Construction", value: "DEVELOPER" }] : [])
   ];
 
   return (

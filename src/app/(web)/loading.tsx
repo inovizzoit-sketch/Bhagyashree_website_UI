@@ -4,9 +4,9 @@ import React from "react";
 
 export default function Loading() {
   return (
-    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-[#010314] text-white font-sans">
+    <div className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-background text-foreground font-sans">
       {/* Ambient background glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-gold-solid/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-gold-solid/10 rounded-full blur-[100px] pointer-events-none" />
       
       {/* Brand logo container */}
       <div className="relative flex flex-col items-center gap-6">
@@ -14,15 +14,15 @@ export default function Loading() {
           {/* Outer golden rotating border */}
           <div className="absolute inset-0 rounded-full border-2 border-gold-solid/10 border-t-gold-solid animate-spin" style={{ animationDuration: "1s" }} />
           {/* Inner counter-rotating border */}
-          <div className="absolute inset-2 rounded-full border border-white/5 border-b-gold-solid/35 animate-spin" style={{ animationDuration: "1.5s", animationDirection: "reverse" }} />
+          <div className="absolute inset-2 rounded-full border border-foreground/10 border-b-gold-solid/35 animate-spin" style={{ animationDuration: "1.5s", animationDirection: "reverse" }} />
           
           {/* Logo mark */}
-          <span className="text-xl font-serif font-bold text-gold-solid tracking-wider">N</span>
+          <span className="text-xl font-serif font-bold text-gold-solid tracking-wider">B</span>
         </div>
         
         {/* Loading indicators */}
         <div className="space-y-2 text-center">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-[#8E90A2]">
+          <p className="text-[10px] font-bold uppercase tracking-widest text-foreground/60">
             Loading Space
           </p>
           <div className="flex justify-center gap-1.5">
