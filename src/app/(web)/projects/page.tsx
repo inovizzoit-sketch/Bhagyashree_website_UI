@@ -91,13 +91,13 @@ export default function ProjectsPage() {
   ];
 
   return (
-    <div className="min-h-screen pb-32 overflow-hidden relative">
+    <div className="min-h-screen bg-[#FBF8F2] pb-32 overflow-hidden relative font-sans text-slate-800 border-t border-[#EADBB4]/60">
       {/* Decorative Background Glows */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[40vh] -left-[200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[40vh] -left-[200px] w-[500px] h-[500px] bg-[#8C6D23]/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Hero Header Banner */}
-      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
+      <div className="relative pt-24 pb-6 md:pt-32 md:pb-8 z-10">
         <SectionHeading
           badge="Exquisite Developments"
           plainText="Our Architectural"
@@ -105,21 +105,21 @@ export default function ProjectsPage() {
           align="center"
           className="!mb-4"
         />
-        <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+        <p className="mx-auto max-w-2xl px-6 text-center text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-normal">
           Discover a curated collection of landmark premium residences, ultra-modern luxury apartments, and signature villa plotting projects designed for contemporary living.
         </p>
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 space-y-12">
         {/* Filtering Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 border-b border-card-border pb-8">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 border-b border-[#EADBB4]/60 pb-8">
           {filterTabs.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveFilter(tab.value)}
-              className={`px-5 py-2.5 text-[11px] font-bold uppercase tracking-wider rounded-xl transition-all duration-300 cursor-pointer border ${activeFilter === tab.value
-                ? "bg-gold-solid text-white border-gold-solid shadow-lg shadow-gold-solid/10 font-extrabold scale-[1.03]"
-                : "bg-card-bg border-card-border text-text-gray-muted hover:text-foreground hover:border-gold-solid/35"
+              className={`px-5 py-2.5 text-[11px] font-extrabold uppercase tracking-wider rounded-full transition-all duration-300 cursor-pointer border outline-none ${activeFilter === tab.value
+                ? "bg-[#1A150C] text-white border-[#1A150C] shadow-md scale-105"
+                : "bg-white border-[#EADBB4] text-[#8C6D23] hover:text-[#1A150C] hover:bg-[#FAF4E8]"
                 }`}
             >
               {tab.label}
@@ -130,8 +130,8 @@ export default function ProjectsPage() {
         {/* Loading Spinner */}
         {loading && (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-10 h-10 border-2 border-gold-solid/20 border-t-gold-solid rounded-full animate-spin" />
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Fetching projects...</p>
+            <div className="w-10 h-10 border-2 border-[#D4AF37]/20 border-t-[#D4AF37] rounded-full animate-spin" />
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Fetching projects...</p>
           </div>
         )}
 
@@ -139,22 +139,22 @@ export default function ProjectsPage() {
         {error && (
           <div className="max-w-md mx-auto p-6 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
-            <h3 className="text-base font-bold text-foreground">Unable to Load Portfolio</h3>
-            <p className="text-xs text-text-gray-muted">{error}</p>
+            <h3 className="text-base font-bold text-[#1A150C]">Unable to Load Portfolio</h3>
+            <p className="text-xs text-slate-600">{error}</p>
           </div>
         )}
 
         {/* Empty State */}
         {!loading && !error && filteredProjects.length === 0 && (
-          <div className="text-center py-20 bg-card-bg rounded-3xl border border-card-border p-8 space-y-4 max-w-xl mx-auto backdrop-blur-sm">
-            <div className="text-3xl text-gold-solid/50">📂</div>
-            <h3 className="text-lg font-bold text-foreground">No Developments Found</h3>
-            <p className="text-xs text-text-gray-muted">
+          <div className="text-center py-20 bg-white rounded-3xl border border-[#EADBB4] p-8 space-y-4 max-w-xl mx-auto shadow-sm">
+            <div className="text-3xl text-[#D4AF37]">📂</div>
+            <h3 className="text-lg font-extrabold text-[#1A150C]">No Developments Found</h3>
+            <p className="text-xs text-slate-600">
               We currently don&apos;t have active listings in this category. Check back later or view our general collection.
             </p>
             <button
               onClick={() => setActiveFilter("ALL")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-6 py-3 bg-[#1A150C] hover:bg-[#8C6D23] text-white font-extrabold text-xs rounded-full uppercase tracking-wider transition-all cursor-pointer border-none"
             >
               Show All Developments
             </button>
@@ -167,42 +167,42 @@ export default function ProjectsPage() {
             {filteredProjects.map((project) => (
               <div
                 key={project.id}
-                className="group flex flex-col justify-between overflow-hidden rounded-2xl border border-card-border bg-card-bg hover:border-gold-solid/35 transition-all duration-300 shadow-md relative backdrop-blur-sm"
+                className="group flex flex-col justify-between overflow-hidden rounded-3xl border border-[#EADBB4] bg-white hover:border-[#D4AF37] transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-2xl hover:shadow-[#D4AF37]/15 relative"
               >
                 {/* Media Wrapper */}
                 <Link
                   href={`/projects/${project.slug}`}
-                  className="aspect-[16/10] w-full relative overflow-hidden bg-background block"
+                  className="aspect-[16/10] w-full relative overflow-hidden bg-slate-900 block"
                 >
                   {project.thumbnailImage ? (
                     <img
                       src={project.thumbnailImage}
                       alt={project.name}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-tr from-background to-card-bg flex items-center justify-center">
-                      <span className="text-gold-solid/25 font-extrabold text-2xl uppercase tracking-widest font-mono">
+                    <div className="w-full h-full bg-gradient-to-tr from-slate-900 to-[#1A150C] flex items-center justify-center">
+                      <span className="text-[#D4AF37]/30 font-extrabold text-2xl uppercase tracking-widest font-mono">
                         {project.projectType}
                       </span>
                     </div>
                   )}
 
                   {/* Glass Backdrop Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent opacity-70" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-70" />
 
                   {/* Status Badge */}
-                  <span className={`absolute top-4 left-4 text-[9px] font-bold tracking-wider uppercase px-2.5 py-1 rounded-md border backdrop-blur-md ${project.projectStatus === "COMPLETED"
-                    ? "bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                  <span className={`absolute top-4 left-4 text-[9px] font-extrabold tracking-wider uppercase px-3 py-1 rounded-full border backdrop-blur-md shadow-md ${project.projectStatus === "COMPLETED"
+                    ? "bg-emerald-950/80 text-emerald-300 border-emerald-500/40"
                     : project.projectStatus === "ONGOING"
-                      ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                      : "bg-blue-500/10 text-blue-600 border-blue-500/20"
+                      ? "bg-amber-950/80 text-amber-300 border-amber-500/40"
+                      : "bg-blue-950/80 text-blue-300 border-blue-500/40"
                     }`}>
                     {project.projectStatus}
                   </span>
 
                   {/* Project Type Badge */}
-                  <span className="absolute top-4 right-4 text-[9px] font-bold tracking-wider uppercase bg-[#0f172a]/85 text-gold-solid border border-gold-solid/25 px-2.5 py-1 rounded-md backdrop-blur-md">
+                  <span className="absolute top-4 right-4 text-[9px] font-extrabold tracking-wider uppercase bg-[#1A150C]/90 text-[#D4AF37] border border-[#D4AF37]/40 px-3 py-1 rounded-full backdrop-blur-md shadow-md">
                     {project.projectType}
                   </span>
                 </Link>
@@ -210,53 +210,53 @@ export default function ProjectsPage() {
                 {/* Details Wrapper */}
                 <div className="p-6 flex-1 flex flex-col justify-between space-y-5">
                   <div className="space-y-2.5">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid flex items-center gap-1.5">
-                      <span>📍</span> {project.location}, {project.city}
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#8C6D23] bg-[#FAF4E8] border border-[#EADBB4] px-2.5 py-0.5 rounded-full inline-block">
+                      📍 {project.location}, {project.city}
                     </span>
-                    <Link href={`/projects/${project.slug}`} className="block no-underline group-hover:text-gold-solid transition-colors">
-                      <h3 className="text-lg font-bold text-foreground tracking-tight font-sans transition-colors duration-250">
+                    <Link href={`/projects/${project.slug}`} className="block no-underline group-hover:text-[#8C6D23] transition-colors">
+                      <h3 className="text-xl font-extrabold text-[#1A150C] tracking-tight font-sans transition-colors duration-250 line-clamp-1">
                         {project.name}
                       </h3>
                     </Link>
-                    <p className="text-xs text-text-gray-muted leading-relaxed line-clamp-3 font-light">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3 font-normal">
                       {project.shortDescription || project.description}
                     </p>
                   </div>
 
                   {/* Info Row & Price */}
-                  <div className="border-t border-border-muted pt-4 flex items-center justify-between">
+                  <div className="border-t border-[#EADBB4]/60 pt-4 flex items-center justify-between">
                     <div>
-                      <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
+                      <span className="text-[9px] font-extrabold text-slate-400 uppercase tracking-wider block">
                         Starting From
                       </span>
-                      <span className="text-base font-extrabold text-gold-solid">
+                      <span className="text-base font-extrabold text-[#8C6D23]">
                         {formatPrice(project.startingPrice)}
                       </span>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[9px] font-bold text-text-gray-muted uppercase tracking-wider block">
+                    <div className="text-right bg-[#FAF4E8] border border-[#EADBB4] px-3 py-1 rounded-xl">
+                      <span className="text-[9px] font-extrabold text-slate-500 uppercase tracking-wider block">
                         Price Per Sqft
                       </span>
-                      <span className="text-xs font-semibold text-foreground">
+                      <span className="text-xs font-extrabold text-[#8C6D23]">
                         ₹{parseFloat(project.pricePerSqft).toLocaleString()}/sqft
                       </span>
                     </div>
                   </div>
 
                   {/* Actions Grid */}
-                  <div className="pt-3 border-t border-border-muted flex gap-2">
+                  <div className="pt-3 border-t border-[#EADBB4]/60 flex gap-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="flex-1 py-2.5 bg-gold-solid hover:bg-gold-hover text-white text-center rounded-xl text-xs font-bold transition-all duration-300 no-underline cursor-pointer shadow-md hover:shadow-lg hover:shadow-gold-solid/5 active:scale-[0.98]"
+                      className="flex-1 py-3 bg-[#1A150C] hover:bg-[#8C6D23] text-white text-center rounded-xl text-xs font-extrabold uppercase tracking-wider transition-all duration-300 no-underline cursor-pointer shadow-md hover:scale-[1.02] active:scale-95 border-none"
                     >
-                      Explore Project
+                      Explore Project ➔
                     </Link>
                     {project.brochureFile && (
                       <a
                         href={project.brochureFile}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="px-3.5 py-2.5 bg-card-bg hover:bg-slate-100 text-foreground border border-card-border hover:border-gold-solid rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer no-underline flex items-center justify-center active:scale-[0.98]"
+                        className="px-3.5 py-3 bg-[#FAF4E8] hover:bg-[#EADBB4] text-[#1A150C] border border-[#EADBB4] rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer no-underline flex items-center justify-center active:scale-95"
                         title="Download Brochure"
                       >
                         📄

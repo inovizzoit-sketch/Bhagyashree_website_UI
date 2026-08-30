@@ -129,7 +129,7 @@ export default function AnnouncementPopup() {
         }
       })
       .catch((err) => {
-        console.error("Error fetching active popups:", err);
+        console.warn("Could not fetch active popups:", err?.message || err);
       });
   }, [pathname]);
 

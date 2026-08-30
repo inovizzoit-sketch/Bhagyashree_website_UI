@@ -51,7 +51,7 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="w-full py-10 md:py-14 bg-surface font-sans">
+    <section className="w-full py-10 md:py-14 bg-[#FAF4E8]/50 border-t border-[#EADBB4]/60 font-sans">
       {/* FAQ Schema Markup for AEO */}
       <script
         type="application/ld+json"

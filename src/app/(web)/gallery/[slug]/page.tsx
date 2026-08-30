@@ -166,65 +166,32 @@ export default function CategoryGalleryPage() {
   const activeMedia = lightboxIndex !== null ? items[lightboxIndex] : null;
 
   return (
-    <div className="min-h-screen pt-28 md:pt-36 bg-background pb-32 overflow-hidden relative font-sans">
+    <div className="min-h-screen pt-24 md:pt-32 bg-[#FBF8F2] pb-32 overflow-hidden relative font-sans text-slate-800 border-t border-[#EADBB4]/60">
       {/* Background Decorative Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-[#8C6D23]/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Top Navigation Row */}
-      {/* <div className="mx-auto max-w-7xl px-6 md:px-8 pt-28 md:pt-36 relative z-10">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 pt-4 relative z-10">
         <Link
           href="/gallery"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-white/10 bg-[#0d153b]/40 hover:bg-gold-solid hover:border-gold-solid text-white hover:text-background text-[11px] font-bold uppercase tracking-wider transition-all duration-300 shadow-xl group hover:shadow-gold-solid/10 hover:scale-105 active:scale-95"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-[#EADBB4] bg-white hover:bg-[#FAF4E8] text-[#8C6D23] hover:text-[#1A150C] text-xs font-extrabold uppercase tracking-wider transition-all duration-300 shadow-sm active:scale-95 cursor-pointer no-underline"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={2.5}
-            stroke="currentColor"
-            className="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-x-1"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
-          </svg>
-          Back to Gallery
+          ← Back to Gallery Collections
         </Link>
-      </div> */}
+      </div>
 
       {/* Header section */}
       <div className="relative pt-6 pb-10 md:pt-8 md:pb-12 z-10">
         <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
-          <div className="flex justify-center mb-6">
-            {/* <div className="w-12 h-12 rounded-full border border-gold-solid/20 bg-gold-solid/5 flex items-center justify-center text-gold-solid shadow-lg shadow-gold-solid/5">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                strokeWidth={1.5}
-                stroke="currentColor"
-                className="w-5 h-5 animate-pulse"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"
-                />
-              </svg>
-            </div> */}
-          </div>
           <SectionHeading
             badge="Collection"
-            plainText=""
+            plainText="Visual"
             highlightText={category?.name || "Gallery"}
             align="center"
           />
           {category?.description && (
-            <p className="mx-auto max-w-2xl text-sm md:text-base text-text-gray-muted leading-relaxed font-light mt-4">
+            <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-normal mt-4">
               {category.description}
             </p>
           )}
@@ -234,34 +201,34 @@ export default function CategoryGalleryPage() {
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-10 h-10 border-2 border-gold-solid/25 border-t-gold-solid rounded-full animate-spin" />
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading Gallery...</p>
+            <div className="w-10 h-10 border-2 border-[#D4AF37]/25 border-t-[#D4AF37] rounded-full animate-spin" />
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Loading Gallery...</p>
           </div>
         ) : error ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
-            <h3 className="text-base font-bold text-white">Temporary Loading Error</h3>
-            <p className="text-xs text-text-gray-muted font-light leading-relaxed">
+            <h3 className="text-base font-bold text-[#1A150C]">Temporary Loading Error</h3>
+            <p className="text-xs text-slate-600 font-normal leading-relaxed">
               We encountered a connection check delay while fetching the gallery. Please try again later.
             </p>
           </div>
         ) : items.length === 0 ? (
-          <div className="max-w-md mx-auto p-8 rounded-2xl border border-white/5 bg-[#0d153b]/20 text-center space-y-4">
-            <span className="text-3xl">🖼</span>
-            <h3 className="text-base font-bold text-white">No images available</h3>
-            <p className="text-xs text-text-gray-muted font-light leading-relaxed">
+          <div className="max-w-md mx-auto p-8 rounded-3xl border border-[#EADBB4] bg-white text-center space-y-4 shadow-sm">
+            <span className="text-3xl text-[#D4AF37]">🖼</span>
+            <h3 className="text-base font-extrabold text-[#1A150C]">No images available</h3>
+            <p className="text-xs text-slate-600 font-normal leading-relaxed">
               No gallery items have been published for this category yet. Check back soon.
             </p>
           </div>
         ) : (
           <div className="space-y-12">
-            {/* Responsive Responsive Grid Layout */}
+            {/* Grid Layout */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-6">
               {items.map((item, idx) => (
                 <div
                   key={item.id}
                   onClick={() => openLightbox(idx)}
-                  className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-[#0d153b]/25 shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer border border-white/5 hover:border-gold-solid/35"
+                  className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-md hover:shadow-2xl hover:shadow-[#D4AF37]/15 transition-all duration-500 cursor-pointer border border-[#EADBB4] hover:border-[#D4AF37]"
                 >
                   {item.mediaType === "VIDEO" ? (
                     <video
@@ -283,19 +250,21 @@ export default function CategoryGalleryPage() {
                   )}
 
                   {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent opacity-80 group-hover:opacity-95 transition-opacity duration-300 pointer-events-none" />
 
                   {/* Title overlay on hover */}
-                  <div className="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                    <h4 className="text-base font-bold text-white tracking-tight leading-snug">
-                      {item.title || "View Image"}
-                    </h4>
-                    {item.description && (
-                      <p className="text-[11px] text-text-gray-muted font-light mt-1 line-clamp-2">
-                        {item.description}
-                      </p>
-                    )}
-                  </div>
+                  {item.title && !/^file_/i.test(item.title.trim()) && !/\.(png|jpe?g|webp|gif|svg)$/i.test(item.title.trim()) && (
+                    <div className="absolute bottom-6 left-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                      <h4 className="text-base font-extrabold text-white tracking-tight leading-snug">
+                        {item.title}
+                      </h4>
+                      {item.description && (
+                        <p className="text-[11px] text-slate-300 font-light mt-1 line-clamp-2">
+                          {item.description}
+                        </p>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -306,7 +275,7 @@ export default function CategoryGalleryPage() {
                 <button
                   onClick={() => setPage((p) => Math.max(1, p - 1))}
                   disabled={page === 1}
-                  className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-white/5 bg-[#0d153b]/40 text-text-gray-muted hover:text-white hover:bg-white/5"
+                  className="px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-[#EADBB4] bg-white text-[#8C6D23] hover:bg-[#FAF4E8]"
                 >
                   Prev
                 </button>
@@ -314,10 +283,10 @@ export default function CategoryGalleryPage() {
                   <button
                     key={p}
                     onClick={() => setPage(p)}
-                    className={`w-10 h-10 rounded-xl text-xs font-bold transition-all duration-300 cursor-pointer ${
+                    className={`w-10 h-10 rounded-full text-xs font-bold transition-all duration-300 cursor-pointer ${
                       page === p
-                        ? "bg-gold-solid text-background shadow-lg shadow-gold-solid/15 font-extrabold"
-                        : "text-text-gray-muted hover:text-white hover:bg-white/5 border border-white/5 bg-[#0d153b]/40"
+                        ? "bg-[#1A150C] text-white border border-[#1A150C] shadow-md scale-105 font-extrabold"
+                        : "text-[#8C6D23] hover:text-[#1A150C] hover:bg-[#FAF4E8] border border-[#EADBB4] bg-white"
                     }`}
                   >
                     {p}
@@ -326,7 +295,7 @@ export default function CategoryGalleryPage() {
                 <button
                   onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
                   disabled={page === totalPages}
-                  className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-white/5 bg-[#0d153b]/40 text-text-gray-muted hover:text-white hover:bg-white/5"
+                  className="px-4 py-2 rounded-full text-xs font-extrabold uppercase tracking-wider transition-all duration-300 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed border border-[#EADBB4] bg-white text-[#8C6D23] hover:bg-[#FAF4E8]"
                 >
                   Next
                 </button>
@@ -339,76 +308,65 @@ export default function CategoryGalleryPage() {
       {/* Lightbox / Popup Modal */}
       {lightboxIndex !== null && activeMedia && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl transition-all duration-300"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md transition-all duration-300 p-4 font-sans"
           onClick={closeLightbox}
         >
           {/* Close button */}
           <button
-            className="absolute top-6 right-6 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center text-xl transition-all cursor-pointer border border-white/10 z-50 hover:scale-105 active:scale-95"
+            className="absolute top-6 right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white/90 hover:bg-[#D4AF37] text-[#1A150C] flex items-center justify-center text-xl transition-all cursor-pointer border border-[#EADBB4] z-50 hover:scale-105 active:scale-95 shadow-2xl font-bold"
             onClick={closeLightbox}
+            title="Close (Esc)"
           >
             ✕
           </button>
 
           {/* Previous Button */}
-          <button
-            className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center text-xl transition-all cursor-pointer border border-white/10 z-50 hover:scale-105 active:scale-95"
-            onClick={(e) => {
-              e.stopPropagation();
-              showPrev();
-            }}
-          >
-            ‹
-          </button>
+          {items.length > 1 && (
+            <button
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1A150C]/90 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-xl font-extrabold transition-all cursor-pointer border border-[#D4AF37]/40 z-50 hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrev();
+              }}
+              title="Previous Image (←)"
+            >
+              ‹
+            </button>
+          )}
 
           {/* Next Button */}
-          <button
-            className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 text-white flex items-center justify-center text-xl transition-all cursor-pointer border border-white/10 z-50 hover:scale-105 active:scale-95"
-            onClick={(e) => {
-              e.stopPropagation();
-              showNext();
-            }}
-          >
-            ›
-          </button>
+          {items.length > 1 && (
+            <button
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1A150C]/90 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-xl font-extrabold transition-all cursor-pointer border border-[#D4AF37]/40 z-50 hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
+              title="Next Image (→)"
+            >
+              ›
+            </button>
+          )}
 
-          {/* Media Content */}
+          {/* ONLY THE MEDIA ITSELF */}
           <div
-            className="relative max-w-5xl max-h-[85vh] overflow-hidden rounded-2xl border border-white/10 flex flex-col items-center mx-4"
+            className="relative max-h-[85vh] max-w-[90vw] flex items-center justify-center z-[50]"
             onClick={(e) => e.stopPropagation()}
           >
             {activeMedia.mediaType === "VIDEO" ? (
               <video
                 src={getMediaUrl(activeMedia.mediaUrl)}
+                className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain rounded-2xl select-none shadow-2xl border border-[#EADBB4]/30"
                 controls
                 autoPlay
-                className="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-t-2xl"
               />
             ) : (
               <img
                 src={getMediaUrl(activeMedia.mediaUrl)}
-                alt={activeMedia.altText || activeMedia.title || "Gallery Preview"}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/placeholder-gallery.jpg";
-                }}
-                className="w-auto h-auto max-w-full max-h-[75vh] object-contain rounded-t-2xl select-none"
+                alt={activeMedia.title || "Gallery Item"}
+                className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain rounded-2xl select-none shadow-2xl border border-[#EADBB4]/30"
               />
             )}
-
-            {/* Info Footer */}
-            <div className="w-full bg-[#0d153b]/90 backdrop-blur-md p-5 text-center border-t border-white/10">
-              <p className="text-white font-bold text-base leading-snug">
-                {activeMedia.title || `${category?.name || "Gallery"} Item`}
-              </p>
-              {activeMedia.description && (
-                <p className="text-xs text-text-gray-muted font-light mt-1.5 max-w-2xl mx-auto leading-relaxed">
-                  {activeMedia.description}
-                </p>
-              )}
-              <span className="text-[10px] text-gold-solid font-semibold tracking-widest uppercase block mt-2">
-                {lightboxIndex + 1} / {items.length}
-              </span>
-            </div>
           </div>
         </div>
       )}

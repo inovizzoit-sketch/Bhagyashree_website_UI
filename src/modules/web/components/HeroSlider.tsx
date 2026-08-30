@@ -75,12 +75,12 @@ export default function HeroSlider() {
 
   return (
     <section
-      className="w-full h-screen min-h-[600px] pt-24 sm:pt-28 md:pt-32 pb-4 sm:pb-6 px-2 sm:px-4 md:px-6 max-w-[1650px] mx-auto font-sans select-none flex flex-col justify-center"
+      className="w-full h-[75vh] sm:h-[82vh] md:h-[88vh] lg:h-screen min-h-[480px] sm:min-h-[550px] lg:min-h-[650px] max-h-[920px] pt-20 sm:pt-24 md:pt-28 lg:pt-32 pb-4 sm:pb-6 px-3 sm:px-6 md:px-8 max-w-[1700px] mx-auto font-sans select-none flex flex-col justify-center"
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
     >
       {/* Framed Rounded Hero Banner Container matching reference screenshot */}
-      <div className="relative w-full flex-1 h-full min-h-[420px] rounded-[2rem] sm:rounded-[2.5rem] overflow-hidden border border-[#EADBB4]/60 bg-[#1A150C] shadow-2xl shadow-black/20">
+      <div className="relative w-full flex-1 h-full min-h-[380px] sm:min-h-[420px] rounded-[1.8rem] sm:rounded-[2.2rem] md:rounded-[2.5rem] lg:rounded-[3rem] overflow-hidden border border-[#EADBB4]/60 bg-[#1A150C] shadow-2xl shadow-black/30">
 
         {/* Sliding Track Viewport Container */}
         <div
@@ -97,8 +97,19 @@ export default function HeroSlider() {
                 key={slide.id}
                 className="relative w-full h-full shrink-0 overflow-hidden"
               >
-                {/* 2-Image Side-by-Side Split View with Faded Seam */}
-                <div className="relative w-full h-full">
+                {/* Mobile View (<sm): Single Cover Image */}
+                <div className="block sm:hidden w-full h-full relative overflow-hidden bg-black">
+                  <img
+                    src={slideImages[0]}
+                    alt={slide.altText}
+                    className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${
+                      currentSlideIndex === idx ? "scale-105" : "scale-100"
+                    }`}
+                  />
+                </div>
+
+                {/* Tablet & Desktop View (>=sm): 2-Image Side-by-Side Split View with Faded Seam */}
+                <div className="hidden sm:block relative w-full h-full">
                   <div className={`w-full h-full grid ${slideImages.length > 1 ? "grid-cols-2" : "grid-cols-1"} bg-black`}>
                     {slideImages.map((imgUrl, imgIdx) => (
                       <div key={imgIdx} className="relative w-full h-full overflow-hidden bg-black/60">
@@ -111,10 +122,10 @@ export default function HeroSlider() {
                         />
                         {/* Soft edge gradient fade on individual image edges */}
                         {slideImages.length > 1 && imgIdx === 0 && (
-                          <div className="absolute inset-y-0 right-0 w-28 sm:w-44 bg-gradient-to-l from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                          <div className="absolute inset-y-0 right-0 w-28 md:w-44 lg:w-56 bg-gradient-to-l from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
                         )}
                         {slideImages.length > 1 && imgIdx === 1 && (
-                          <div className="absolute inset-y-0 left-0 w-28 sm:w-44 bg-gradient-to-r from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                          <div className="absolute inset-y-0 left-0 w-28 md:w-44 lg:w-56 bg-gradient-to-r from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
                         )}
                       </div>
                     ))}
@@ -122,12 +133,12 @@ export default function HeroSlider() {
 
                   {/* Center Seam Blend Gradient & Glow */}
                   {slideImages.length > 1 && (
-                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-16 sm:w-28 bg-gradient-to-r from-black/80 via-[#D4AF37]/20 to-black/80 pointer-events-none z-10 blur-sm" />
+                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-16 md:w-28 lg:w-36 bg-gradient-to-r from-black/80 via-[#D4AF37]/20 to-black/80 pointer-events-none z-10 blur-sm" />
                   )}
                 </div>
 
                 {/* Subtle Gradient Overlay at Bottom for legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none z-10" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none z-10" />
               </div>
             );
           })}
@@ -137,7 +148,7 @@ export default function HeroSlider() {
         <button
           onClick={handlePrev}
           aria-label="Previous Slide"
-          className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
+          className="absolute left-2 sm:left-4 md:left-6 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
         >
           ‹
         </button>
@@ -146,20 +157,26 @@ export default function HeroSlider() {
         <button
           onClick={handleNext}
           aria-label="Next Slide"
-          className="absolute right-4 sm:right-6 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
+          className="absolute right-2 sm:right-4 md:right-6 top-1/2 -translate-y-1/2 w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] border border-white/20 hover:border-[#D4AF37] flex items-center justify-center text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 backdrop-blur-md cursor-pointer z-30 shadow-lg hover:scale-110 active:scale-95"
         >
           ›
         </button>
 
-        {/* Bottom-Left Overlay Content (Matching Reference Image) */}
-        <div className="absolute bottom-6 left-6 sm:bottom-10 sm:left-10 z-20 max-w-lg text-left">
-          <h1 className="text-base sm:text-xl md:text-2xl font-extrabold text-white tracking-wide uppercase leading-tight drop-shadow-md mb-3">
+        {/* Bottom-Left Overlay Content */}
+        <div className="absolute bottom-5 left-4 sm:bottom-8 sm:left-8 md:bottom-10 md:left-10 z-20 max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl text-left">
+          {DEFAULT_SLIDES[currentSlideIndex].subTitle && (
+            <span className="inline-block text-[9px] sm:text-[10px] md:text-xs font-extrabold uppercase tracking-widest text-[#D4AF37] bg-black/50 border border-[#D4AF37]/40 px-3 py-1 rounded-full mb-2 backdrop-blur-md">
+              {DEFAULT_SLIDES[currentSlideIndex].subTitle}
+            </span>
+          )}
+
+          <h1 className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-extrabold text-white tracking-wide uppercase leading-tight drop-shadow-md mb-2.5 sm:mb-4">
             {DEFAULT_SLIDES[currentSlideIndex].title}
           </h1>
 
           <button
             onClick={handleCtaClick}
-            className="inline-flex items-center justify-center border border-white/80 hover:border-[#D4AF37] bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] px-5 sm:px-6 py-2 rounded-full text-[11px] font-extrabold uppercase tracking-widest backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 active:scale-95"
+            className="inline-flex items-center justify-center border border-white/80 hover:border-[#D4AF37] bg-black/40 hover:bg-[#D4AF37] text-white hover:text-[#1A150C] px-4 sm:px-6 md:px-7 py-1.5 sm:py-2 md:py-2.5 rounded-full text-[10px] sm:text-[11px] md:text-xs font-extrabold uppercase tracking-widest backdrop-blur-md transition-all duration-300 shadow-xl cursor-pointer hover:scale-105 active:scale-95"
           >
             <span>{DEFAULT_SLIDES[currentSlideIndex].ctaText}</span>
             <span className="ml-1.5 font-bold">➔</span>
@@ -167,15 +184,15 @@ export default function HeroSlider() {
         </div>
 
         {/* Bottom Center Pagination Dots */}
-        <div className="absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-30 bg-black/30 backdrop-blur-md px-4 py-2 rounded-full border border-white/10">
+        <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 sm:gap-2.5 z-30 bg-black/40 backdrop-blur-md px-3 sm:px-4 py-1.5 sm:py-2 rounded-full border border-white/10">
           {DEFAULT_SLIDES.map((_, idx) => (
             <button
               key={idx}
               onClick={() => setCurrentSlideIndex(idx)}
               className={`rounded-full transition-all duration-300 cursor-pointer ${
                 currentSlideIndex === idx
-                  ? "w-3 h-3 bg-[#D4AF37] shadow-md shadow-[#D4AF37]/50 scale-110"
-                  : "w-2.5 h-2.5 bg-white/50 hover:bg-white/90"
+                  ? "w-2.5 h-2.5 sm:w-3 sm:h-3 bg-[#D4AF37] shadow-md shadow-[#D4AF37]/50 scale-110"
+                  : "w-2 h-2 sm:w-2.5 sm:h-2.5 bg-white/50 hover:bg-white/90"
               }`}
               aria-label={`Go to slide ${idx + 1}`}
             />

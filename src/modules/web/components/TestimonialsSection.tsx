@@ -67,7 +67,7 @@ export default function TestimonialsSection() {
           setTestimonials(fallbackTestimonials);
         }
       } catch (err) {
-        console.error("Error loading testimonials, using fallbacks:", err);
+        console.warn("Using fallback testimonials:", err);
         setTestimonials(fallbackTestimonials);
       } finally {
         setLoading(false);

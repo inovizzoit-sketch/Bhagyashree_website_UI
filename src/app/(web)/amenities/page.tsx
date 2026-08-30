@@ -27,7 +27,8 @@ export default function AmenitiesWebPage() {
   const [amenities, setAmenities] = useState<Amenity[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<string>("all");
+  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
+  const [selectedAmenityIndex, setSelectedAmenityIndex] = useState<number | null>(null);
   const { openEnquiry } = useEnquiry();
 
   useEffect(() => {
@@ -55,8 +56,6 @@ export default function AmenitiesWebPage() {
       active = false;
     };
   }, []);
-
-  const [selectedCategorySlug, setSelectedCategorySlug] = useState<string | null>(null);
 
   // Group amenities by category
   const groupedAmenities: Record<string, { category: AmenityCategory; list: Amenity[] }> = {};
@@ -90,14 +89,33 @@ export default function AmenitiesWebPage() {
     ? sortedCategories.find(cat => cat.category.slug === selectedCategorySlug)
     : null;
 
+  // Keyboard controls for Lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedAmenityIndex === null || !selectedCategoryData) return;
+      const total = selectedCategoryData.list.length;
+
+      if (e.key === "Escape") {
+        setSelectedAmenityIndex(null);
+      } else if (e.key === "ArrowRight") {
+        setSelectedAmenityIndex((prev) => (prev !== null && prev < total - 1 ? prev + 1 : 0));
+      } else if (e.key === "ArrowLeft") {
+        setSelectedAmenityIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : total - 1));
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedAmenityIndex, selectedCategoryData]);
+
   return (
-    <div className="min-h-screen bg-background pb-32 overflow-hidden relative font-sans">
+    <div className="min-h-screen bg-[#FBF8F2] pb-32 overflow-hidden relative font-sans text-slate-800 border-t border-[#EADBB4]/60">
       {/* Background Decorative Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-gradient-to-b from-gold-solid/5 to-transparent rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-gold-solid/2 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[350px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-[35vh] right-[-200px] w-[500px] h-[500px] bg-[#8C6D23]/5 rounded-full blur-[140px] pointer-events-none" />
 
       {/* Header section */}
-      <div className="relative pt-28 pb-6 md:pt-36 md:pb-8 z-10">
+      <div className="relative pt-24 pb-6 md:pt-32 md:pb-8 z-10">
         <div className="mx-auto max-w-4xl px-6 md:px-8 text-center">
           <SectionHeading
             badge="World-class standards"
@@ -106,10 +124,10 @@ export default function AmenitiesWebPage() {
             align="center"
             className="!mb-4"
           />
-          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-text-gray-muted leading-relaxed font-light">
+          <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-normal">
             {selectedCategoryData 
               ? (selectedCategoryData.category.description || "Explore curated premium offerings in this category.") 
-              : "Discover the structural perks, recreational facilities, and security configurations that set BHAGYASHREE ENTERPRISES apart."
+              : "Discover the structural perks, recreational facilities, and security configurations that set BHAGYASHREE REAL ESTATE apart."
             }
           </p>
         </div>
@@ -118,33 +136,33 @@ export default function AmenitiesWebPage() {
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
         {loading ? (
           <div className="flex flex-col items-center justify-center py-32 space-y-4">
-            <div className="w-10 h-10 border-2 border-gold-solid/25 border-t-gold-solid rounded-full animate-spin" />
-            <p className="text-xs text-text-gray-muted uppercase tracking-widest font-semibold">Loading Amenities...</p>
+            <div className="w-10 h-10 border-2 border-[#D4AF37]/25 border-t-[#D4AF37] rounded-full animate-spin" />
+            <p className="text-xs text-slate-500 uppercase tracking-widest font-semibold">Loading Amenities...</p>
           </div>
         ) : error && amenities.length === 0 ? (
           <div className="max-w-md mx-auto p-8 rounded-2xl border border-red-500/20 bg-red-500/5 text-center space-y-4">
             <span className="text-3xl">⚠️</span>
-            <h3 className="text-base font-bold text-foreground">Temporary Loading Error</h3>
-            <p className="text-xs text-text-gray-muted font-light leading-relaxed">
+            <h3 className="text-base font-bold text-[#1A150C]">Temporary Loading Error</h3>
+            <p className="text-xs text-slate-600 font-normal leading-relaxed">
               We encountered a connection check delay. Click below to contact our customer helpline directly.
             </p>
             <button
               onClick={() => openEnquiry("Amenities Details")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-6 py-3 bg-[#1A150C] hover:bg-[#8C6D23] text-white font-extrabold text-xs rounded-full uppercase tracking-wider transition-all cursor-pointer border-none"
             >
               Enquire Directly
             </button>
           </div>
         ) : amenities.length === 0 ? (
-          <div className="max-w-md mx-auto p-8 rounded-2xl border border-card-border bg-card-bg text-center space-y-4">
-            <span className="text-3xl">☘</span>
-            <h3 className="text-base font-bold text-foreground">Amenities Catalog Empty</h3>
-            <p className="text-xs text-text-gray-muted font-light leading-relaxed">
+          <div className="max-w-md mx-auto p-8 rounded-3xl border border-[#EADBB4] bg-white text-center space-y-4 shadow-sm">
+            <span className="text-3xl text-[#D4AF37]">☘</span>
+            <h3 className="text-base font-extrabold text-[#1A150C]">Amenities Catalog Empty</h3>
+            <p className="text-xs text-slate-600 font-normal leading-relaxed">
               No amenities have been published yet. Contact our desk to receive structural plans and catalogue files.
             </p>
             <button
               onClick={() => openEnquiry("Amenities Enquiry")}
-              className="px-5 py-2.5 bg-gold-solid hover:bg-gold-hover text-white font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="px-6 py-3 bg-[#1A150C] hover:bg-[#8C6D23] text-white font-extrabold text-xs rounded-full uppercase tracking-wider transition-all cursor-pointer border-none"
             >
               Enquire Details
             </button>
@@ -165,7 +183,7 @@ export default function AmenitiesWebPage() {
                 <div
                   key={cat.category.id}
                   onClick={() => setSelectedCategorySlug(cat.category.slug)}
-                  className="group relative aspect-[16/10] overflow-hidden rounded-[1.5rem] bg-card-bg shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/10 cursor-pointer border border-card-border hover:border-gold-solid/35 block"
+                  className="group relative aspect-[16/10] overflow-hidden rounded-[2rem] bg-white shadow-md hover:shadow-2xl hover:shadow-[#D4AF37]/15 transition-all duration-500 cursor-pointer border border-[#EADBB4] hover:border-[#D4AF37] block"
                 >
                   {/* Background Cover Image */}
                   <img
@@ -176,18 +194,18 @@ export default function AmenitiesWebPage() {
                   />
 
                   {/* Dark Elegant Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-black/25 opacity-85 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300 pointer-events-none" />
 
                   {/* Top Stats Tag */}
-                  <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md border border-card-border px-3 py-1 rounded-full pointer-events-none">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid">
+                  <div className="absolute top-4 right-4 bg-[#1A150C]/80 backdrop-blur-md border border-[#D4AF37]/40 px-3.5 py-1 rounded-full pointer-events-none">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#D4AF37]">
                       {totalAmenities} {totalAmenities === 1 ? "Amenity" : "Amenities"}
                     </span>
                   </div>
 
                   {/* Info Tag Footer */}
                   <div className="absolute bottom-6 left-6 right-6 pointer-events-none transition-transform duration-300 group-hover:translate-y-[-2px]">
-                    <h4 className="text-xl font-bold text-white tracking-tight leading-snug">
+                    <h4 className="text-xl font-extrabold text-white tracking-tight leading-snug">
                       {cat.category.name}
                     </h4>
                     {cat.category.description && (
@@ -207,7 +225,7 @@ export default function AmenitiesWebPage() {
             <div className="flex justify-start">
               <button
                 onClick={() => setSelectedCategorySlug(null)}
-                className="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider text-gold-solid hover:text-foreground bg-gold-solid/5 hover:bg-gold-solid/10 border border-gold-solid/25 transition-all cursor-pointer active:scale-95"
+                className="px-5 py-2.5 rounded-full text-xs font-extrabold uppercase tracking-wider text-[#8C6D23] hover:text-[#1A150C] bg-[#FAF4E8] hover:bg-[#EADBB4] border border-[#EADBB4] transition-all cursor-pointer active:scale-95"
               >
                 ← Back to Albums
               </button>
@@ -215,11 +233,11 @@ export default function AmenitiesWebPage() {
 
             {/* Grid display of amenities belonging to this category */}
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-2">
-              {selectedCategoryData?.list.map((am) => (
+              {selectedCategoryData?.list.map((am, idx) => (
                 <div
                   key={am.id}
-                  className="group relative aspect-[4/5] overflow-hidden rounded-[1.5rem] bg-card-bg shadow-xl transition-all duration-500 hover:shadow-2xl hover:shadow-gold-solid/5 cursor-pointer border border-card-border"
-                  onClick={() => openEnquiry(`${am.name} (${selectedCategoryData.category.name})`)}
+                  className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] bg-white shadow-md transition-all duration-500 hover:shadow-2xl hover:shadow-[#D4AF37]/15 cursor-pointer border border-[#EADBB4] hover:border-[#D4AF37]"
+                  onClick={() => setSelectedAmenityIndex(idx)}
                 >
                   {/* Background Visual Image Overlay */}
                   {am.icon ? (
@@ -233,20 +251,20 @@ export default function AmenitiesWebPage() {
                       className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                     />
                   ) : (
-                    <div className="absolute inset-0 h-full w-full bg-slate-200/40 flex items-center justify-center">
-                      <span className="text-3xl opacity-20">✽</span>
+                    <div className="absolute inset-0 h-full w-full bg-[#FAF4E8] flex items-center justify-center">
+                      <span className="text-3xl text-[#D4AF37]">✽</span>
                     </div>
                   )}
 
                   {/* Dark shading */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/40 to-transparent opacity-85 group-hover:opacity-90 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
 
                   {/* Info Tag Footer */}
                   <div className="absolute bottom-6 left-6 right-6">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-gold-solid block">
+                    <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D4AF37] block">
                       {selectedCategoryData.category.name}
                     </span>
-                    <h4 className="text-lg font-bold text-white tracking-tight mt-1.5 leading-snug">
+                    <h4 className="text-lg font-extrabold text-white tracking-tight mt-1.5 leading-snug">
                       {am.name}
                     </h4>
                   </div>
@@ -256,6 +274,101 @@ export default function AmenitiesWebPage() {
           </div>
         )}
       </div>
+
+      {/* Amenity Lightbox Popup Modal */}
+      {selectedAmenityIndex !== null && selectedCategoryData && (
+        <div
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 backdrop-blur-md transition-all duration-300 p-4 font-sans"
+          onClick={() => setSelectedAmenityIndex(null)}
+        >
+          {/* Close button */}
+          <button
+            className="absolute top-6 right-6 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-white hover:bg-[#D4AF37] text-[#1A150C] flex items-center justify-center text-xl transition-all cursor-pointer border border-[#EADBB4] z-50 hover:scale-105 active:scale-95 shadow-2xl font-bold"
+            onClick={() => setSelectedAmenityIndex(null)}
+            title="Close (Esc)"
+          >
+            ✕
+          </button>
+
+          {/* Previous Button */}
+          {selectedCategoryData.list.length > 1 && (
+            <button
+              className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1A150C]/90 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-xl font-extrabold transition-all cursor-pointer border border-[#D4AF37]/40 z-50 hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedAmenityIndex((prev) => (prev !== null && prev > 0 ? prev - 1 : selectedCategoryData.list.length - 1));
+              }}
+              title="Previous Amenity"
+            >
+              ‹
+            </button>
+          )}
+
+          {/* Next Button */}
+          {selectedCategoryData.list.length > 1 && (
+            <button
+              className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#1A150C]/90 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-xl font-extrabold transition-all cursor-pointer border border-[#D4AF37]/40 z-50 hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedAmenityIndex((prev) => (prev !== null && prev < selectedCategoryData.list.length - 1 ? prev + 1 : 0));
+              }}
+              title="Next Amenity"
+            >
+              ›
+            </button>
+          )}
+
+          {/* Media Modal Frame */}
+          {(() => {
+            const activeAm = selectedCategoryData.list[selectedAmenityIndex];
+            if (!activeAm) return null;
+
+            const imgUrl = activeAm.icon
+              ? (activeAm.icon.startsWith("http") ? activeAm.icon : `${API_BASE_URL.replace("/api/v1", "")}${activeAm.icon}`)
+              : "/placeholder-gallery.jpg";
+
+            return (
+              <div
+                className="relative max-w-4xl w-full max-h-[85vh] overflow-hidden rounded-3xl border border-[#EADBB4] bg-white flex flex-col items-center mx-4 shadow-2xl animate-slide-up"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {/* Image Container */}
+                <div className="relative w-full max-h-[65vh] bg-slate-900 flex items-center justify-center overflow-hidden p-3 min-h-[300px]">
+                  <img
+                    src={imgUrl}
+                    alt={activeAm.name}
+                    className="max-h-[60vh] w-auto max-w-full object-contain rounded-2xl select-none shadow-md"
+                  />
+                </div>
+
+                {/* Info & Action Footer */}
+                <div className="w-full bg-[#FAF4E8] p-5 sm:p-6 border-t border-[#EADBB4] flex flex-col sm:flex-row items-center justify-between gap-4">
+                  <div className="space-y-1 text-center sm:text-left">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8C6D23] bg-white border border-[#EADBB4] px-3 py-0.5 rounded-full inline-block">
+                      {selectedCategoryData.category.name}
+                    </span>
+                    <h4 className="text-xl md:text-2xl font-extrabold text-[#1A150C] tracking-tight">
+                      {activeAm.name}
+                    </h4>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={() => {
+                        setSelectedAmenityIndex(null);
+                        openEnquiry(`${activeAm.name} (${selectedCategoryData.category.name})`);
+                      }}
+                      className="px-6 py-3 bg-[#1A150C] hover:bg-[#8C6D23] text-white font-extrabold text-xs uppercase tracking-wider rounded-full transition-all cursor-pointer border-none shadow-md hover:scale-105 active:scale-95"
+                    >
+                      Enquire About This ➔
+                    </button>
+                  </div>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      )}
     </div>
   );
 }

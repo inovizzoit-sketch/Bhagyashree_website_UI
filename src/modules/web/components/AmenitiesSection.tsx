@@ -281,7 +281,7 @@ export default function AmenitiesSection() {
           onClick={closeLightbox}
         >
           <button
-            className="fixed top-6 right-6 w-12 h-12 rounded-full bg-white hover:bg-gold-solid text-slate-800 hover:text-dark-secondary flex items-center justify-center text-xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-105 active:scale-95 shadow-2xl"
+            className="fixed top-6 right-6 w-12 h-12 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-[#1A150C] flex items-center justify-center text-xl font-bold transition-all cursor-pointer border border-[#EADBB4] z-[1000000] hover:scale-105 active:scale-95 shadow-2xl"
             onClick={closeLightbox}
             title="Close (Esc)"
           >
@@ -289,7 +289,7 @@ export default function AmenitiesSection() {
           </button>
 
           <button
-            className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-gold-solid text-slate-800 hover:text-dark-secondary flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
+            className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-[#1A150C] flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-[#EADBB4] z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
             onClick={(e) => {
               e.stopPropagation();
               showPrev();
@@ -300,7 +300,7 @@ export default function AmenitiesSection() {
           </button>
 
           <button
-            className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-gold-solid text-slate-800 hover:text-dark-secondary flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
+            className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-[#1A150C] flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-[#EADBB4] z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
             onClick={(e) => {
               e.stopPropagation();
               showNext();
@@ -311,10 +311,10 @@ export default function AmenitiesSection() {
           </button>
 
           <div
-            className="relative max-w-6xl w-full max-h-[90vh] overflow-hidden rounded-3xl border border-[#EADBB4] bg-[#FAF8F5] flex flex-col shadow-2xl z-[999999] my-auto"
+            className="relative max-w-6xl w-full max-h-[90vh] overflow-hidden rounded-3xl border border-[#EADBB4] bg-white flex flex-col shadow-2xl z-[999999] my-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full max-h-[68vh] bg-slate-900 flex items-center justify-center overflow-hidden p-3">
+            <div className="relative w-full max-h-[68vh] bg-[#1A150C] flex items-center justify-center overflow-hidden p-3">
               {activeImgSrc ? (
                 <img
                   src={activeImgSrc}
@@ -322,17 +322,17 @@ export default function AmenitiesSection() {
                   className="max-h-[64vh] w-auto max-w-full object-contain rounded-2xl select-none shadow-md"
                 />
               ) : (
-                <div className="w-full h-64 bg-slate-100 flex items-center justify-center">
-                  <span className="text-5xl text-gold-solid">☘</span>
+                <div className="w-full h-64 bg-[#FAF4E8] flex items-center justify-center">
+                  <span className="text-5xl text-[#D4AF37]">☘</span>
                 </div>
               )}
             </div>
 
-            <div className="w-full bg-[#F3EFE6] p-6 border-t border-[#E2D8C3] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="w-full bg-[#FAF4E8] p-6 border-t border-[#EADBB4] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
               <div className="space-y-1 text-left">
                 <div className="flex items-center gap-2">
                   {activeAmenity.category?.name && (
-                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8C6D23] bg-gold-solid/20 border border-gold-solid/40 px-3 py-0.5 rounded-full">
+                    <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8C6D23] bg-[#D4AF37]/20 border border-[#D4AF37]/40 px-3 py-0.5 rounded-full">
                       {activeAmenity.category.name}
                     </span>
                   )}
@@ -340,11 +340,11 @@ export default function AmenitiesSection() {
                     {lightboxIndex + 1} / {displayedAmenities.length}
                   </span>
                 </div>
-                <h4 className="text-xl md:text-2xl font-extrabold text-[#1A1A24] tracking-tight">
+                <h4 className="text-xl md:text-2xl font-extrabold text-[#1A150C] tracking-tight">
                   {activeAmenity.name}
                 </h4>
                 {(activeAmenity.category?.description || (activeAmenity as any).description) && (
-                  <p className="text-xs md:text-sm text-[#5A5A6E] font-medium max-w-2xl line-clamp-2 leading-relaxed">
+                  <p className="text-xs md:text-sm text-slate-600 font-medium max-w-2xl line-clamp-2 leading-relaxed">
                     {activeAmenity.category?.description || (activeAmenity as any).description}
                   </p>
                 )}
@@ -355,7 +355,7 @@ export default function AmenitiesSection() {
                   closeLightbox();
                   openEnquiry(`${activeAmenity.name} (Amenity)`);
                 }}
-                className="px-8 py-3 rounded-full bg-gold-solid hover:bg-gold-hover text-dark-secondary font-bold text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 shadow-md shadow-gold-solid/30"
+                className="px-8 py-3 rounded-full bg-[#1A150C] hover:bg-[#8C6D23] text-white font-extrabold text-xs uppercase tracking-wider transition-all cursor-pointer shrink-0 shadow-md border-none"
               >
                 Enquire Now
               </button>

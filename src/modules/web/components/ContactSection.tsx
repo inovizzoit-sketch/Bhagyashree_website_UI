@@ -31,7 +31,7 @@ export default function ContactSection() {
     setError("");
 
     try {
-      const res = await fetch(`${API_BASE_URL}/enquiries`, {
+      const res = await fetch(`${API_BASE_URL}/inquiries`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

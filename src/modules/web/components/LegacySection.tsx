@@ -70,7 +70,7 @@ export default function LegacySection() {
   const { openEnquiry } = useEnquiry();
 
   return (
-    <section className="w-full min-h-screen flex items-center justify-center py-10 md:py-14 relative overflow-hidden font-sans bg-surface">
+    <section className="w-full min-h-screen flex items-center justify-center py-10 md:py-14 relative overflow-hidden font-sans bg-[#FBF8F2] border-t border-b border-[#EADBB4]/60">
       <DecorativeCircles
         theme="light"
         circles={[

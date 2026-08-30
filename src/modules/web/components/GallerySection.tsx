@@ -209,64 +209,56 @@ export default function GallerySection() {
       {/* Lightbox Modal Mounted via Portal */}
       {mounted && lightboxIndex !== null && activeItem && createPortal(
         <div
-          className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-6 md:p-10 font-sans"
+          className="fixed inset-0 z-[999999] flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6 md:p-10 font-sans"
           onClick={closeLightbox}
         >
+          {/* Close button */}
           <button
-            className="fixed top-6 right-6 w-12 h-12 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-white flex items-center justify-center text-xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-105 active:scale-95 shadow-2xl"
+            className="fixed top-6 right-6 w-12 h-12 rounded-full bg-white/90 hover:bg-[#D4AF37] text-slate-800 hover:text-white flex items-center justify-center text-xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-105 active:scale-95 shadow-2xl"
             onClick={closeLightbox}
             title="Close (Esc)"
           >
             ✕
           </button>
 
-          <button
-            className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-white flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
-            onClick={(e) => {
-              e.stopPropagation();
-              showPrev();
-            }}
-            title="Previous Image (←)"
-          >
-            ‹
-          </button>
+          {/* Previous Button */}
+          {items.length > 1 && (
+            <button
+              className="fixed left-4 md:left-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#1A150C]/80 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-[#D4AF37]/40 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                showPrev();
+              }}
+              title="Previous Image (←)"
+            >
+              ‹
+            </button>
+          )}
 
-          <button
-            className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-white hover:bg-[#D4AF37] text-slate-800 hover:text-white flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-slate-200 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
-            onClick={(e) => {
-              e.stopPropagation();
-              showNext();
-            }}
-            title="Next Image (→)"
-          >
-            ›
-          </button>
+          {/* Next Button */}
+          {items.length > 1 && (
+            <button
+              className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#1A150C]/80 hover:bg-[#8C6D23] text-[#D4AF37] hover:text-white flex items-center justify-center text-2xl font-bold transition-all cursor-pointer border border-[#D4AF37]/40 z-[1000000] hover:scale-110 active:scale-95 shadow-2xl"
+              onClick={(e) => {
+                e.stopPropagation();
+                showNext();
+              }}
+              title="Next Image (→)"
+            >
+              ›
+            </button>
+          )}
 
+          {/* ONLY THE IMAGE ITSELF */}
           <div
-            className="relative max-w-6xl w-full max-h-[90vh] overflow-hidden rounded-3xl border border-[#EADBB4] bg-[#FAF8F5] flex flex-col shadow-2xl z-[999999] my-auto"
+            className="relative max-h-[85vh] max-w-[90vw] flex items-center justify-center z-[999999]"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative w-full max-h-[70vh] bg-slate-900 flex items-center justify-center overflow-hidden p-3 min-h-[300px]">
-              <img
-                src={getImageUrl(activeItem.image)}
-                alt={activeItem.title || "Gallery Showcase"}
-                className="max-h-[66vh] w-auto max-w-full object-contain rounded-2xl select-none shadow-md"
-              />
-            </div>
-
-            <div className="w-full bg-[#F3EFE6] p-5 sm:p-6 border-t border-[#E2D8C3] flex items-center justify-between gap-4">
-              <div className="space-y-1 text-left">
-                <span className="text-[10px] font-extrabold uppercase tracking-widest text-[#8C6D23] bg-white/50 border border-[#8C6D23]/20 px-3 py-0.5 rounded-full inline-block mb-1">
-                  {activeItem.tag}
-                </span>
-                <h4 className="text-xl md:text-2xl font-extrabold text-[#1A1A24] tracking-tight">
-                  {activeItem.title}
-                </h4>
-              </div>
-              <span className="text-xs text-slate-500 font-mono font-bold shrink-0">
-                {lightboxIndex + 1} / {items.length}
-              </span>
-            </div>
+            <img
+              src={getImageUrl(activeItem.image)}
+              alt={activeItem.title || "Gallery Showcase"}
+              className="max-h-[85vh] max-w-[90vw] w-auto h-auto object-contain rounded-2xl select-none shadow-2xl border border-[#EADBB4]/30"
+            />
           </div>
         </div>,
         document.body
