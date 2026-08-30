@@ -47,8 +47,8 @@ const defaultSettings: FooterSettings = {
   companyName: "BhagyaShree Real Estate",
   description: "Bhagya Shree Real Estate is a trusted real estate company based in Mirzapur, Varanasi — offering premium commercial and residential spaces built for modern living and business success. Discover transparent deals, prime locations, and a legacy of trust.",
   address: "Bathua Gandhi Ghat, Mirzapur, Uttar Pradesh 221108",
-  phone: "+91 6307274881, 91981 76509",
-  email: "info@mirzapur.com",
+  phone: "+91 7007587406",
+  email: "bhagyashreerealestate1@gmail.com",
   copyrightText: "Bhagya Shree Real Estate. All rights reserved.",
   privacyPolicyUrl: "",
   termsOfServiceUrl: "",
@@ -232,7 +232,7 @@ export default function Footer() {
     <footer
       className="bg-[#1A150C] border-t border-[#D4AF37]/30 py-14 md:py-16 text-[13px] md:text-sm text-slate-300 mt-auto z-10 relative font-sans"
     >
-      <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10">
+      <div className="mx-auto max-w-7xl px-6 md:px-8 grid grid-cols-1 md:grid-cols-9 gap-8 lg:gap-10">
         {/* Column 1: Brand Info */}
         <div className="md:col-span-4 space-y-4">
           <Link href="/" className="flex items-center transition-opacity hover:opacity-90">
@@ -338,20 +338,7 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Column 4: Right Side Location Map */}
-        <div className="md:col-span-3 space-y-3.5">
-          <span className="text-[11px] font-extrabold uppercase tracking-widest block text-[#D4AF37]">Location Map</span>
-          <div className="w-full h-36 rounded-2xl overflow-hidden border border-[#D4AF37]/30 shadow-md shadow-black/40">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.2905943566298!2d82.55798177516111!3d25.125864577756943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398feb5644b65f1b%3A0x7a474bec0b37de9f!2sGandhi%20Ghat%2C%20Bathua!5e0!3m2!1sen!2sin!4v1788002082281!5m2!1sen!2sin"
-              className="w-full h-full border-0"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="strict-origin-when-cross-origin"
-              title="Bhagyashree Real Estate Location Map"
-            />
-          </div>
-        </div>
+
       </div>
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 mt-10 pt-6 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-400">

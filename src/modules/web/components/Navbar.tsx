@@ -14,8 +14,8 @@ export default function Navbar() {
   const { openEnquiry } = useEnquiry();
   const { theme } = useTheme();
 
-  const [email, setEmail] = useState("bhagyashreeenterprises@gmail.com");
-  const [phone, setPhone] = useState("+91 9198176509");
+  const [email, setEmail] = useState("bhagyashreerealestate1@gmail.com");
+  const [phone, setPhone] = useState("+91 7007587406");
 
   useEffect(() => {
     const handleScroll = () => {

@@ -14,20 +14,19 @@ export default function AboutOverviewSection() {
 
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
+
           {/* Left Column: Image with Experience Badge */}
           <div className="lg:col-span-6 relative">
-            {/* Clean Image Container */}
-            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden rounded-[2rem] shadow-xl">
+            {/* Clean Image Container showing natural transparent edges */}
+            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full bg-transparent">
               <Image
-                src="/images/abouthero.png"
+                src="/images/bhagyashree-transparent.png"
                 alt="Bhagyashree Real Estate Dream Developments"
                 fill
                 sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover object-[20%_center] transition-transform duration-700 hover:scale-105"
+                className="object-contain object-center transition-transform duration-700 hover:scale-105"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
             </div>
 
             {/* Floating Experience Badge (Bottom-Left) */}

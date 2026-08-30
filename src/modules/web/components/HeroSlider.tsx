@@ -122,18 +122,29 @@ export default function HeroSlider() {
                         />
                         {/* Soft edge gradient fade on individual image edges */}
                         {slideImages.length > 1 && imgIdx === 0 && (
-                          <div className="absolute inset-y-0 right-0 w-28 md:w-44 lg:w-56 bg-gradient-to-l from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                          <div className="absolute inset-y-0 right-0 w-32 md:w-52 lg:w-64 bg-gradient-to-l from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
                         )}
                         {slideImages.length > 1 && imgIdx === 1 && (
-                          <div className="absolute inset-y-0 left-0 w-28 md:w-44 lg:w-56 bg-gradient-to-r from-black/90 via-black/50 to-transparent pointer-events-none z-10" />
+                          <div className="absolute inset-y-0 left-0 w-32 md:w-52 lg:w-64 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none z-10" />
                         )}
                       </div>
                     ))}
                   </div>
 
-                  {/* Center Seam Blend Gradient & Glow */}
+                  {/* Center Seam — Warm Golden Radiant Glow (matching reference) */}
                   {slideImages.length > 1 && (
-                    <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-16 md:w-28 lg:w-36 bg-gradient-to-r from-black/80 via-[#D4AF37]/20 to-black/80 pointer-events-none z-10 blur-sm" />
+                    <>
+                      {/* Dark fade layers from each side */}
+                      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-2 md:w-3 bg-black/90 pointer-events-none z-20" />
+                      {/* Warm amber glow radiating from center */}
+                      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-20 md:w-32 lg:w-40 pointer-events-none z-20"
+                        style={{
+                          background: "radial-gradient(ellipse 50% 100% at 50% 50%, rgba(255,160,40,0.45) 0%, rgba(210,120,0,0.18) 40%, transparent 75%)"
+                        }}
+                      />
+                      {/* Thin bright center light streak */}
+                      <div className="absolute inset-y-0 left-1/2 -translate-x-1/2 w-px md:w-0.5 bg-gradient-to-b from-transparent via-amber-300/60 to-transparent pointer-events-none z-20" />
+                    </>
                   )}
                 </div>
 

@@ -10,7 +10,7 @@ interface CallToActionProps {
 
 export default function CallToAction({
   locationName = "Mirzapur & Prayagraj",
-  phone = "+91 6307274881, 91981 76509"
+  phone = "+91 7007587406"
 }: CallToActionProps) {
   const { openEnquiry } = useEnquiry();
 

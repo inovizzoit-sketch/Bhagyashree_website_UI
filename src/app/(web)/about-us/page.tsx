@@ -49,7 +49,7 @@ export default function AboutUsPage() {
 
   return (
     <div className="min-h-screen bg-[#FBF8F2] pb-24 overflow-hidden relative text-slate-800 font-sans border-t border-[#EADBB4]/60">
-      
+
       {/* Decorative ambient background glows */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-[#D4AF37]/10 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute top-[40%] right-[-100px] w-[500px] h-[500px] bg-[#8C6D23]/5 rounded-full blur-[140px] pointer-events-none" />
@@ -73,34 +73,31 @@ export default function AboutUsPage() {
       {/* Narrative Section - Split Columns matching Home Screen style */}
       <div className="mx-auto max-w-7xl px-6 md:px-8 relative z-10 mb-20 md:mb-28">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-          
+
           {/* Left Column: Media Frame with Floating Badge */}
           <div className="lg:col-span-6 relative">
-            <div className="relative rounded-[2.5rem] border border-[#EADBB4] bg-white p-2.5 shadow-xl shadow-[#D4AF37]/10">
-              <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full overflow-hidden rounded-[2rem]">
-                <img
-                  src="/images/abouthero.png"
-                  alt="Bhagyashree Real Estate Dream Developments"
-                  className="w-full h-full object-cover object-[20%_center] transition-transform duration-700 hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-              </div>
+            <div className="relative aspect-[4/3] sm:aspect-[16/11] w-full bg-transparent">
+              <img
+                src="/images/bhagyashree-transparent.png"
+                alt="Bhagyashree Real Estate Dream Developments"
+                className="w-full h-full object-contain object-center transition-transform duration-700 hover:scale-105"
+              />
+            </div>
 
-              {/* Floating Experience Badge (Bottom-Left) */}
-              <div className="absolute -bottom-5 -left-4 sm:-left-6 z-20 flex items-center gap-3 bg-[#1A150C] border border-[#D4AF37]/50 px-5 py-3.5 rounded-2xl shadow-2xl shadow-black/40 backdrop-blur-md">
-                <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] font-serif font-bold text-xl shrink-0">
-                  7+
-                </div>
-                <div className="flex flex-col text-left">
-                  <span className="text-xs sm:text-sm font-extrabold text-white tracking-tight">Years Experience</span>
-                  <span className="text-[10px] text-[#D4AF37] font-semibold uppercase tracking-wider">Real Estate Mastery</span>
-                </div>
+            {/* Floating Experience Badge (Bottom-Left) */}
+            <div className="absolute -bottom-5 -left-4 sm:-left-6 z-20 flex items-center gap-3 bg-[#1A150C] border border-[#D4AF37]/50 px-5 py-3.5 rounded-2xl shadow-2xl shadow-black/40 backdrop-blur-md">
+              <div className="w-10 h-10 rounded-xl bg-[#D4AF37]/20 border border-[#D4AF37]/40 flex items-center justify-center text-[#D4AF37] font-serif font-bold text-xl shrink-0">
+                7+
               </div>
+              <div className="flex flex-col text-left">
+                <span className="text-xs sm:text-sm font-extrabold text-white tracking-tight">Years Experience</span>
+                <span className="text-[10px] text-[#D4AF37] font-semibold uppercase tracking-wider">Real Estate Mastery</span>
+              </div>
+            </div>
 
-              {/* Company Logo Overlay (Bottom-Right) */}
-              <div className="absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-md border border-[#EADBB4] px-4 py-2 rounded-xl shadow-md hidden sm:flex items-center gap-2">
-                <img src="/navbarlogo.png" alt="Bhagyashree" className="h-6 w-auto object-contain" />
-              </div>
+            {/* Company Logo Overlay (Bottom-Right) */}
+            <div className="absolute bottom-4 right-4 z-20 bg-white/95 backdrop-blur-md border border-[#EADBB4] px-4 py-2 rounded-xl shadow-md hidden sm:flex items-center gap-2">
+              <img src="/navbarlogo.png" alt="Bhagyashree" className="h-6 w-auto object-contain" />
             </div>
           </div>
 
