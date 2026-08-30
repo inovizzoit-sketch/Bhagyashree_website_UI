@@ -54,7 +54,7 @@ export default function Navbar() {
       {/* Top Header Contact Bar (Full Width Edge-to-Edge) - Smoothly hides on scroll */}
       <div className={`w-full bg-[#0D0A06]/90 border-[#D4AF37]/20 px-4 sm:px-8 text-xs text-slate-200 transition-all duration-300 overflow-hidden ${scrolled
           ? "max-h-0 opacity-0 py-0 border-b-0 pointer-events-none"
-          : "max-h-24 sm:max-h-12 opacity-100 py-2 sm:py-1.5 border-b"
+          : "max-h-36 sm:max-h-12 opacity-100 py-2 sm:py-1.5 border-b"
         }`}>
         <div className="w-full flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1.5 sm:gap-2">
           {/* Email and Phone Buttons -> Click opens Enquiry Modal */}
@@ -81,12 +81,11 @@ export default function Navbar() {
           </div>
 
           {/* Top Bar Quick Action */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="flex items-center gap-3">
             <button
               onClick={() => openEnquiry("Book an Appointment")}
               className="flex items-center gap-2 text-[10px] sm:text-[11px] font-extrabold uppercase tracking-widest bg-gradient-to-r from-[#D4AF37] via-[#C5A028] to-[#997A15] hover:from-[#EADBB4] hover:to-[#D4AF37] text-[#1A150C] px-4 py-1.5 rounded-full transition-all duration-300 shadow-md shadow-[#D4AF37]/25 hover:shadow-lg hover:shadow-[#D4AF37]/40 hover:scale-105 active:scale-95 cursor-pointer border border-[#EADBB4]/60"
             >
-
               <span>Book an Appointment</span>
               <span className="text-[10px] font-bold">➔</span>
             </button>
