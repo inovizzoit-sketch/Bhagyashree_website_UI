@@ -54,11 +54,11 @@ export default function Navbar() {
       {/* Top Header Contact Bar (Full Width Edge-to-Edge) - Smoothly hides on scroll */}
       <div className={`w-full bg-[#0D0A06]/90 border-[#D4AF37]/20 px-4 sm:px-8 text-xs text-slate-200 transition-all duration-300 overflow-hidden ${scrolled
           ? "max-h-0 opacity-0 py-0 border-b-0 pointer-events-none"
-          : "max-h-12 opacity-100 py-1.5 border-b"
+          : "max-h-24 sm:max-h-12 opacity-100 py-2 sm:py-1.5 border-b"
         }`}>
-        <div className="w-full flex items-center justify-between flex-wrap gap-2">
+        <div className="w-full flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-1.5 sm:gap-2">
           {/* Email and Phone Buttons -> Click opens Enquiry Modal */}
-          <div className="flex items-center gap-3 sm:gap-6 flex-wrap">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-1.5 sm:gap-6 text-center sm:text-left">
             <button
               onClick={() => openEnquiry()}
               className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-200 hover:text-[#D4AF37] transition-colors cursor-pointer group bg-transparent border-none p-0 outline-none"
