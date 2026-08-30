@@ -71,7 +71,7 @@ export default function GovernancePage() {
             className="!mb-4"
           />
           <p className="mx-auto max-w-2xl text-xs sm:text-sm md:text-base text-slate-600 leading-relaxed font-light">
-            Bhagyashree Enterprises operates under standard corporate governance models, delivering legal security, structural clarity, and transparent transactions to every investor.
+            Bhagyashree Real Estate operates under standard corporate governance models, delivering legal security, structural clarity, and transparent transactions to every investor.
           </p>
         </div>
       </div>

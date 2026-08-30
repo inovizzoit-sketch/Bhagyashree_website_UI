@@ -129,19 +129,19 @@ export default function ProjectDetailsPage() {
     const shareUrl = typeof window !== "undefined" ? window.location.href : "";
 
     return `*PROPERTY SPECIFICATIONS: ${project.name.toUpperCase()}*
-
+ 
 • Location: ${project.address ? project.address.trim() + ", " : ""}${project.location}, ${project.city}
 • Starting Price: ${priceFormatted}+
 • Rate: ₹${pricePerSqftFormatted}/sqft
 • Status: ${project.projectStatus} (${project.projectType})
-
+ 
 Overview:
 ${project.shortDescription}
-
+ 
 Explore Details & Inventory:
 ${shareUrl}
-
--- BHAGYASHREE ENTERPRISES --`;
+ 
+-- BHAGYASHREE REAL ESTATE --`;
   }
 
   function handleCopyDetails() {

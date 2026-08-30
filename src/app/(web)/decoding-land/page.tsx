@@ -113,7 +113,7 @@ export default function DecodingLandPage() {
     },
     {
       question: "Can I obtain financing or bank loans for purchasing plots?",
-      answer: "Absolutely. Because BHAGYASHREE ENTERPRISES features verified clean titles and government-approved layouts, all leading national banks facilitate standard land acquisition loans for our buyers.",
+      answer: "Absolutely. Because BHAGYASHREE REAL ESTATE features verified clean titles and government-approved layouts, all leading national banks facilitate standard land acquisition loans for our buyers.",
     },
   ];
 

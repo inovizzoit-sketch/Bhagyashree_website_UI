@@ -6,17 +6,17 @@ import ScrollToTop from "@/modules/web/components/ScrollToTop";
 
 export const metadata: Metadata = {
   title: "Bhagyashree — Timeless Luxury Spaces",
-  description: "Official website of BHAGYASHREE ENTERPRISES.",
+  description: "Official website of BHAGYASHREE REAL ESTATE.",
 };
 
 function OrganizationSchema() {
   const schema = {
     "@context": "https://schema.org",
     "@type": "RealEstateAgent",
-    "name": "BHAGYASHREE ENTERPRISES",
+    "name": "BHAGYASHREE REAL ESTATE",
     "url": "https://www.bhagyashreeenterprises.com",
     "logo": "https://www.bhagyashreeenterprises.com/logo.png",
-    "description": "BHAGYASHREE ENTERPRISES offers premium plotted land layouts in Mirzapur with clear titles and complete infrastructure.",
+    "description": "BHAGYASHREE REAL ESTATE offers premium plotted land layouts in Mirzapur with clear titles and complete infrastructure.",
     "address": {
       "@type": "PostalAddress",
       "addressLocality": "Varanasi",

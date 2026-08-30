@@ -22,7 +22,7 @@ model FooterSettings {
   id                String   @id @default(uuid())
   logoUrl           String?  @map("logo_url") @db.VarChar(500)
   bottomLogoUrl     String?  @map("bottom_logo_url") @db.VarChar(500)
-  companyName       String   @default("Bhagyashree Enterprises") @map("company_name") @db.VarChar(255)
+  companyName       String   @default("Bhagyashree Real Estate") @map("company_name") @db.VarChar(255)
   description       String?  @db.Text
   address           String?  @db.Text
   phone             String?  @db.VarChar(50)
