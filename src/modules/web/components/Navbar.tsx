@@ -332,12 +332,12 @@ export default function Navbar() {
             </Link>
 
             <div className="pt-3 mt-2 border-t border-white/10 flex flex-col gap-2.5">
-              <button
+              {/* <button
                 onClick={() => { setIsOpen(false); openEnquiry("Book an Appointment"); }}
                 className="w-full text-center rounded-xl bg-gradient-to-r from-[#D4AF37] via-[#C5A028] to-[#997A15] py-3 text-xs font-extrabold uppercase tracking-widest text-[#1A150C] transition-all duration-300 cursor-pointer border-none shadow-md shadow-[#D4AF37]/20"
               >
                 Book an Appointment
-              </button>
+              </button> */}
               <button
                 onClick={() => { setIsOpen(false); openEnquiry(); }}
                 className="w-full text-center rounded-xl border border-[#D4AF37]/40 hover:border-[#D4AF37] text-slate-200 hover:text-[#D4AF37] py-3 text-xs font-extrabold uppercase tracking-widest transition-all duration-300 cursor-pointer bg-transparent"
