@@ -107,12 +107,15 @@ export default function HeroSlider() {
                 className="relative w-full h-full shrink-0 overflow-hidden"
               >
                 {/* Mobile View (<sm): Single Cover Image */}
-                <div className="block sm:hidden w-full h-full relative overflow-hidden bg-black">
+                <div className="block sm:hidden w-full h-full relative overflow-hidden bg-[#1A150C]">
                   <img
                     src={slideImages[0]}
                     alt={slide.altText}
-                    className={`w-full h-full object-cover transition-transform duration-[4500ms] ease-out ${currentSlideIndex === idx ? "scale-105" : "scale-100"
-                      }`}
+                    className={`w-full h-full transition-transform duration-[4500ms] ease-out ${
+                      slideImages.length === 1
+                        ? "object-contain object-center"
+                        : `object-cover object-top ${currentSlideIndex === idx ? "scale-105" : "scale-100"}`
+                    }`}
                   />
                 </div>
 
